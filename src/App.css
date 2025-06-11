@@ -1,0 +1,72 @@
+body{font-family: "Inter", sans-serif !important; font-size: 14px; font-weight: 500;}
+
+label{font-family: "Inter", sans-serif !important;}
+
+.auth_vector{height: 100vh; background-color: #6D36FA; padding: 0 150px; display: flex; align-items: center; justify-content: center; flex-direction: column;}
+.auth_vector .auth_vector_content h1{color: #fff; font-size: 36px; line-height: 50px; font-weight: 700; text-align: center; margin: 0;}
+.auth_vector .auth_vector_content h1 span{color: #FFAB55;}
+
+.Brand-container{display: flex; align-items: center; justify-content: center; flex-direction: column; padding: 0 65px; height: 100vh;}
+.Brandtitle{text-align: center; padding: 35px 0 30px;}
+.Brandtitle h4{font-size: 21px; font-weight: 700; color: #302B32 !important;}
+.Brandtitle h4 span{color: #FFA917 !important;}
+.Brandtitle p{font-size: 13px; font-weight: 400; color: #555A6A !important; margin: 0;}
+
+Form{width: 100%;}
+
+/* Form Feilds */
+
+.form-label{color: #101E37; font-size: 14px; font-weight: 500;}
+.form-control{color: #101E37 !important; font-size: 14px !important; font-weight: 500 !important; background-color: #fff !important; height: 42px !important; border: 1px solid #C2CDE0 !important; border-radius: 4px !important;}
+.form-control:focus{box-shadow: none !important;}
+
+.customCheckbox .form-check{display: flex; align-items: center; gap: 10px; min-height: auto; margin: 0 !important; padding: 0 !important;}
+.customCheckbox .form-check .form-check-label{font-size: 14px; color: #1B2943; font-weight: 500; line-height: 14px; display: flex;}
+.customCheckbox .form-check .form-check-input{margin: 0 !important; border-radius: 3px; border: 1px solid #C2CDE0 !important;}
+
+.forgot-password{font-size: 14px; font-weight: 500; color: #FFA917 !important; background-color: transparent; border: none; }
+
+.primary_btn{background-color: #6D36FA !important; font-size: 16px !important; font-weight: 700 !important; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 4px;}
+
+.create-account{ background-color: transparent; border: none; padding: 0 !important; display: flex; align-items: center; justify-content: center; gap: 5px;}
+.create-account p{font-size: 14px; font-weight: 500; color: #101E37 !important; text-align: center; margin: 0 !important;}
+.create-account button{background-color: transparent !important; border: none !important; padding: 0 !important; color: #6D36FA; text-transform: capitalize;}
+
+
+/* AUTHENTICATION PAGE */
+
+.main_container{display: flex;}
+.main_container .main_content{width: calc(100% - 85px); background-color: #F7F8FC; min-height: 100vh;}
+
+/* SIDEBAR */
+
+.main_container .sidebar{width: 85px; background-color: #6D36FA; height: 100vh; padding: 20px 0;}
+.main_container .sidebar .sidebar_content{width: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 20px;}
+.main_container .sidebar .Innerlogo{width: 60px; height: 50px; display: flex; align-items: center; justify-content: center; background-color: #ffffff; border-radius: 4px !important;}
+.main_container .sidebar .Innerlogo img{width: 40px;}
+.main_container .sidebar .sidebar_menu{display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 0; padding: 0; margin: 0; width: 100%;}
+.main_container .sidebar .sidebar_menu li{display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 5px; padding: 10px 0; cursor: pointer; height: 70px; width: 100%;}
+.main_container .sidebar .sidebar_menu li i{display: flex;}
+.main_container .sidebar .sidebar_menu li span{font-size: 12px; color: #fff; font-weight: 500; list-style: none;}
+.main_container .sidebar .sidebar_menu li.active{background-color: #FFA917 !important;}
+
+/* TOPMENU */
+
+.main_container .main_content .topmenu{width: 100%; background-color: #fff; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #EAE2FF; height: 50px; padding: 0 20px;}
+.main_container .main_content .topmenu .topmenu_content{display: flex; align-items: center; justify-content: space-between; gap: 10px;}
+.main_container .main_content .topmenu .topmenu_content h1{font-size: 18px; font-weight: 600; color: #2D2B32 !important; margin: 0 !important;}
+.main_container .main_content .topmenu .topmenu_content span{display: flex; align-items: center; gap: 3px;}
+.main_container .main_content .topmenu .topmenu_search{display: flex; align-items: center; justify-content: center; gap: 10px;}
+.main_container .main_content .topmenu .topmenu_search input{width: 100%; height: 30px; border-radius: 6px; border: 1px solid #C2CDE0 !important; padding: 0 10px; font-size: 14px; font-weight: 500; color: #101E37 !important;}
+.main_container .main_content .topmenu .topmenu_search input:focus{box-shadow: none !important;}
+.main_container .main_content .topmenu .topmenu_search input::placeholder{color: #C2CDE0 !important;}
+.main_container .main_content .topmenu .topmenu_search input::placeholder{font-size: 14px !important; font-weight: 500 !important;}
+
+
+.main_container .main_content .content{padding: 20px 5px;}
+
+.primary_card{border: 1px solid #E7DEFF; background-color: #fff; border-radius: 15px; box-shadow: none; overflow: hidden;}
+.primary_card .card-header{background-color: #fff; border: none !important; display: flex; align-items: center; justify-content: space-between;}
+.primary_card .card-header h3{font-size: 16px; font-weight: 600; color: #2A2731; line-height: 20px; margin: 0 !important;}
+.primary_card .card-header .heading_elements{display: flex; align-items: center; gap: 7px;}
+.primary_card .card-header .heading_elements .square{display: flex; align-items: center; justify-content: center; border: 1px solid #E7DEFF; border-radius: 3px; padding: 6px;}
