@@ -28,7 +28,26 @@ const Dashboard = () => {
             </Card.Body>
           </Card>
         </Col>
-        <Col md={12} lg={5} xl={5} xxl={5}></Col>
+        <Col md={12} lg={5} xl={5} xxl={5}>
+          <Card className='primary_card'>
+            <Card.Header>
+              <div className='heading_group'>
+                <h3>Employee Statistics</h3>
+                <p>Sep 04, 2024 - Oct 04, 2024</p>
+              </div>
+              <div className="heading_elements">
+                <ul className='day_filter'>
+                  <li><a className='day_filter_item active' href="">7d</a></li>
+                  <li><a className='day_filter_item' href="">30d</a></li>
+                  <li><a className='day_filter_item' href="">All</a></li>
+                </ul>
+              </div>
+            </Card.Header>
+            <Card.Body>
+              <TaskReminder/>
+            </Card.Body>
+          </Card>
+        </Col>
       </Row>
     </Container>
   )

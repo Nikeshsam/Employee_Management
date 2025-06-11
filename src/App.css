@@ -1,5 +1,9 @@
 body{font-family: "Inter", sans-serif !important; font-size: 14px; font-weight: 500;}
 
+ul,li{list-style: none; margin: 0; padding: 0;}
+
+p{margin: 0;}
+
 label{font-family: "Inter", sans-serif !important;}
 
 .auth_vector{height: 100vh; background-color: #6D36FA; padding: 0 150px; display: flex; align-items: center; justify-content: center; flex-direction: column;}
@@ -70,3 +74,7 @@ Form{width: 100%;}
 .primary_card .card-header h3{font-size: 16px; font-weight: 600; color: #2A2731; line-height: 20px; margin: 0 !important;}
 .primary_card .card-header .heading_elements{display: flex; align-items: center; gap: 7px;}
 .primary_card .card-header .heading_elements .square{display: flex; align-items: center; justify-content: center; border: 1px solid #E7DEFF; border-radius: 3px; padding: 6px;}
+
+.day_filter{display: flex; align-items: center; justify-content: center; gap: 3px; padding: 2px; border: 1px solid #E7DEFF; border-radius: 4px;}
+.day_filter .day_filter_item{display: flex; align-items: center; justify-content: center; gap: 5px; padding: 5px 10px;  cursor: pointer; font-size: 12px; font-weight: 500; color: #2A2731 !important; text-decoration: none; border-radius: 2px; }
+.day_filter .day_filter_item.active{background-color: #E7DEFF;}
