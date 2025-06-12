@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 
 const TaskList = ()=> {
-    const tasks = [
+
+    // ARRAY STRUCTURE FOR TASKS
+    // Each task has an id, title, description, duration, and notification
+
+    const [tasks, setTask] = useState( [
         { 
             id: 1, 
             title: 'Schedule Performance Reviews', 
@@ -31,14 +35,16 @@ const TaskList = ()=> {
             duration: 'ASAP', 
             notification: 'Due next week' 
         }
-    ];
+    ]);
 
     return(
         <div className="task_reminder_container">
             {tasks.map(task => (
-                <div className="task_reminder_container" key={task.id}>
+                <div className="task_reminder_content" key={task.id}>
                     <div className="task_rem_left">
-                        <div className="task_rem_icon"></div>
+                        <div className="task_rem_icon">
+                            <i></i>
+                        </div>
                         <div className="task_rem_content">
                             <h5>{task.title}</h5>
                             <p>{task.description}</p>

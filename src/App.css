@@ -70,11 +70,35 @@ Form{width: 100%;}
 .main_container .main_content .content{padding: 20px 5px;}
 
 .primary_card{border: 1px solid #E7DEFF; background-color: #fff; border-radius: 15px; box-shadow: none; overflow: hidden;}
-.primary_card .card-header{background-color: #fff; border: none !important; display: flex; align-items: center; justify-content: space-between;}
+.primary_card .card-header{background-color: #fff; border: none !important; display: flex; align-items: center; justify-content: space-between; padding: 18px 15px;}
 .primary_card .card-header h3{font-size: 16px; font-weight: 600; color: #2A2731; line-height: 20px; margin: 0 !important;}
 .primary_card .card-header .heading_elements{display: flex; align-items: center; gap: 7px;}
 .primary_card .card-header .heading_elements .square{display: flex; align-items: center; justify-content: center; border: 1px solid #E7DEFF; border-radius: 3px; padding: 6px;}
 
-.day_filter{display: flex; align-items: center; justify-content: center; gap: 3px; padding: 2px; border: 1px solid #E7DEFF; border-radius: 4px;}
-.day_filter .day_filter_item{display: flex; align-items: center; justify-content: center; gap: 5px; padding: 5px 10px;  cursor: pointer; font-size: 12px; font-weight: 500; color: #2A2731 !important; text-decoration: none; border-radius: 2px; }
+.day_filter{display: flex; align-items: center; justify-content: center; gap: 3px; padding: 3px; border: 1px solid #E7DEFF; border-radius: 4px;}
+.day_filter .day_filter_item{display: flex; align-items: center; justify-content: center; gap: 5px; padding: 3px 8px;  cursor: pointer; font-size: 12px; font-weight: 600; color: #2A2731 !important; text-decoration: none; border-radius: 3px;}
 .day_filter .day_filter_item.active{background-color: #E7DEFF;}
+
+.employeestate_container{display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; padding: 0; grid-gap: 16px;}
+.employeestate_container .employee_content{width: 48.8%; border: 1px solid #E7DEFF; border-bottom: 3px solid #E7DEFF; background-color: #fff; padding: 15px; display: flex; align-items: flex-start; flex-direction: column; border-radius: 12px; gap: 12px;}
+.employeestate_container .employee_content h5{font-size: 14px; font-weight: 500; color: #5A5762; margin: 0;}
+.employeestate_container .employee_content .employee_count{display: flex; align-items: center; gap: 10px;}
+.employeestate_container .employee_content .employee_count .count{font-size: 24px; font-weight: 700; color: #454545; line-height: 27px;}
+.employeestate_container .employee_content .employee_count .count-text{font-size: 14px; font-weight: 500; color: #5A5762; margin: 0;}
+.employeestate_container .employee_content .employee_count .count-percentage{border: 1px solid rgb(57 148 134 / 35%); background-color: rgb(57 148 134 / 10%); border-radius: 5px; padding: 2px 4px; font-size: 10px; font-weight: 600; color: #399486; display: flex; align-items: center; gap: 3px; line-height: 12px;}
+.employeestate_container .employee_content .employee_count .count-percentage i{display: flex;}
+
+
+.task_reminder_container{display: flex; align-items: flex-start; flex-direction: column; gap: 15.5px;}
+.task_reminder_container .task_reminder_content{display: flex; align-items: center; justify-content: space-between; width: 100%;}
+.task_reminder_container .task_reminder_content .task_rem_left{display: flex; align-items: center; gap: 10px; }
+.task_reminder_container .task_reminder_content .task_rem_left .task_rem_icon{display: flex; align-items: center;}
+.task_reminder_container .task_reminder_content .task_rem_left .task_rem_icon i{display: flex; align-items: center; width: 40px; height: 40px; border-radius: 8px; border: 1px solid #E7DEFF;}
+.task_reminder_container .task_reminder_content .task_rem_left .task_rem_content h5{color: #454053; font-size: 14px; font-weight: 600; line-height: 20px; margin: 0 !important;}
+.task_reminder_container .task_reminder_content .task_rem_left .task_rem_content p{color: #7E7B87; font-size: 12px; font-weight: 500; line-height: 20px; margin: 0 !important;}
+
+.task_reminder_container .task_reminder_content .task_rem_right{display: flex; align-items: center; }
+.task_reminder_container .task_reminder_content .task_rem_right .task_noti_dur{display: flex; align-items: center;  gap: 10px;}
+.task_reminder_container .task_reminder_content .task_rem_right .task_noti_dur .task_dur{color: #4D4D4D; font-size: 12px; font-weight: 600; line-height: 14px; margin: 0 !important; border: 1px solid #CDD0D0; border-radius: 100px; padding: 5px 10px 5px 25px; background-color: #FBF9FF; position: relative;}
+.task_reminder_container .task_reminder_content .task_rem_right .task_noti_dur .task_dur::before{content: ""; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 6px; height: 6px; border-radius: 100px; background-color: #6D36FA;}
+.task_reminder_container .task_reminder_content .task_rem_right .task_noti_dur .task_noti{color: #949398; font-size: 12px; font-weight: 500; line-height: 20px; margin: 0 !important;}

@@ -5,8 +5,10 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import TaskReminder from '../Common/Task_Reminder.jsx';
 import Refresh from '../../assets/Images/refresh.svg';
+import TaskReminder from '../Common/Task_Reminder.jsx';
+import EmployeeStatistics from '../Common/EmployeeStatistics.jsx';
+
 
 const Dashboard = () => {
 
@@ -23,7 +25,7 @@ const Dashboard = () => {
                 </i>
               </div>
             </Card.Header>
-            <Card.Body>
+            <Card.Body className='pt-1'>
               <TaskReminder/>
             </Card.Body>
           </Card>
@@ -43,8 +45,8 @@ const Dashboard = () => {
                 </ul>
               </div>
             </Card.Header>
-            <Card.Body>
-              <TaskReminder/>
+            <Card.Body className='pt-0'>
+              <EmployeeStatistics/>
             </Card.Body>
           </Card>
         </Col>
