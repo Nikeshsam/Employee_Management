@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
+import TaskReminder from '../../assets/Images/task_remi.svg';
 
 const TaskList = ()=> {
 
@@ -43,7 +44,7 @@ const TaskList = ()=> {
                 <div className="task_reminder_content" key={task.id}>
                     <div className="task_rem_left">
                         <div className="task_rem_icon">
-                            <i></i>
+                            <i><img src={TaskReminder} alt="" /></i>
                         </div>
                         <div className="task_rem_content">
                             <h5>{task.title}</h5>

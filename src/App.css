@@ -71,6 +71,9 @@ Form{width: 100%;}
 
 .primary_card{border: 1px solid #E7DEFF; background-color: #fff; border-radius: 15px; box-shadow: none; overflow: hidden;}
 .primary_card .card-header{background-color: #fff; border: none !important; display: flex; align-items: center; justify-content: space-between; padding: 18px 15px;}
+.primary_card .card-header .heading_group{display: flex; flex-direction: column; gap: 7px;}
+.primary_card .card-header .heading_group h3{font-size: 16px; font-weight: 600; color: #2A2731; line-height: 20px; margin: 0 !important;}
+.primary_card .card-header .heading_group p{font-size: 12px; font-weight: 500; color: #757479; line-height: 16px; margin: 0 !important;}
 .primary_card .card-header h3{font-size: 16px; font-weight: 600; color: #2A2731; line-height: 20px; margin: 0 !important;}
 .primary_card .card-header .heading_elements{display: flex; align-items: center; gap: 7px;}
 .primary_card .card-header .heading_elements .square{display: flex; align-items: center; justify-content: center; border: 1px solid #E7DEFF; border-radius: 3px; padding: 6px;}
@@ -93,7 +96,7 @@ Form{width: 100%;}
 .task_reminder_container .task_reminder_content{display: flex; align-items: center; justify-content: space-between; width: 100%;}
 .task_reminder_container .task_reminder_content .task_rem_left{display: flex; align-items: center; gap: 10px; }
 .task_reminder_container .task_reminder_content .task_rem_left .task_rem_icon{display: flex; align-items: center;}
-.task_reminder_container .task_reminder_content .task_rem_left .task_rem_icon i{display: flex; align-items: center; width: 40px; height: 40px; border-radius: 8px; border: 1px solid #E7DEFF;}
+.task_reminder_container .task_reminder_content .task_rem_left .task_rem_icon i{display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 8px; border: 1px solid #E7DEFF;}
 .task_reminder_container .task_reminder_content .task_rem_left .task_rem_content h5{color: #454053; font-size: 14px; font-weight: 600; line-height: 20px; margin: 0 !important;}
 .task_reminder_container .task_reminder_content .task_rem_left .task_rem_content p{color: #7E7B87; font-size: 12px; font-weight: 500; line-height: 20px; margin: 0 !important;}
 
@@ -102,3 +105,5 @@ Form{width: 100%;}
 .task_reminder_container .task_reminder_content .task_rem_right .task_noti_dur .task_dur{color: #4D4D4D; font-size: 12px; font-weight: 600; line-height: 14px; margin: 0 !important; border: 1px solid #CDD0D0; border-radius: 100px; padding: 5px 10px 5px 25px; background-color: #FBF9FF; position: relative;}
 .task_reminder_container .task_reminder_content .task_rem_right .task_noti_dur .task_dur::before{content: ""; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 6px; height: 6px; border-radius: 100px; background-color: #6D36FA;}
 .task_reminder_container .task_reminder_content .task_rem_right .task_noti_dur .task_noti{color: #949398; font-size: 12px; font-weight: 500; line-height: 20px; margin: 0 !important;}
+
+.my_calendar{display: flex; align-items: center; justify-content: center; gap: 10px; padding: 5px 10px; background-color: #fff; border: 1px solid #E7DEFF; border-radius: 100px; font-size: 12px; font-weight: 600; color: #2A2731; cursor: pointer;}
