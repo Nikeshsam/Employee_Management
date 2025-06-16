@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import EventUser from '../../assets/Images/event_user.svg';
 
-function UpcomingEvents() {
-
-  // Sample data for upcoming events
+const UpcomingEvents = ()=> {
+  
+  // Sample data for upcoming events.
+  
   const [events, setEvents] = useState([
     {
       id: 1,

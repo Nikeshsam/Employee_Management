@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import UpArrow from '../../assets/Images/up-arrow.svg';
 
 function EmployeeStatistics() {

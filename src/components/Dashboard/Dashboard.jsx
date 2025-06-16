@@ -5,11 +5,15 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+
 import Refresh from '../../assets/Images/refresh.svg';
+import Calendar from '../../assets/Images/calendar.svg';
+
 import TaskReminder from '../Common/Task_Reminder.jsx';
 import EmployeeStatistics from '../Common/EmployeeStatistics.jsx';
-import Calendar from '../../assets/Images/calendar.svg';
 import UpcomingEvents from '../Common/UpcomingEvents.jsx';
+import AttendanceSummary from '../Common/AttendanceSummary.jsx';
+import EmployeeList from '../Common/EmployeeList.jsx';
 
 
 const Dashboard = () => {
@@ -28,7 +32,7 @@ const Dashboard = () => {
               </div>
             </Card.Header>
             <Card.Body className='pt-1'>
-              <TaskReminder/>
+              <TaskReminder />
             </Card.Body>
           </Card>
         </Col>
@@ -48,7 +52,7 @@ const Dashboard = () => {
               </div>
             </Card.Header>
             <Card.Body className='pt-0'>
-              <EmployeeStatistics/>
+              <EmployeeStatistics />
             </Card.Body>
           </Card>
         </Col>
@@ -74,7 +78,7 @@ const Dashboard = () => {
           </Card>
         </Col>
         <Col md={12} lg={4} xl={4} xxl={4}>
-          <Card className='primary_card'>
+          <Card className='primary_card mb-4'>
             <Card.Header>
               <h3>Upcoming Events</h3>
               <div className="heading_elements">
@@ -82,7 +86,32 @@ const Dashboard = () => {
               </div>
             </Card.Header>
             <Card.Body className='pt-0'>
-              <UpcomingEvents/>
+              <UpcomingEvents />
+            </Card.Body>
+          </Card>
+          <Card className='primary_card'>
+            <Card.Header>
+              <h3>Attendance Summary</h3>
+              <div className="heading_elements">
+                <i className='square'>
+                  <img src={Refresh} alt="" />
+                </i>
+              </div>
+            </Card.Header>
+            <Card.Body className='pt-0'>
+              <AttendanceSummary />
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+      <Row className='mt-4'>
+        <Col md={12} lg={12} xl={12} xxl={12}>
+          <Card className='primary_card'>
+            <Card.Header>
+              <h3>Employee</h3>
+            </Card.Header>
+            <Card.Body className='pt-1'>
+              <EmployeeList/>
             </Card.Body>
           </Card>
         </Col>

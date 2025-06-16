@@ -126,3 +126,15 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .UPC_event_container .UPC_event .event_actions .event_user_icons{display: flex; align-items: center;}
 .UPC_event_container .UPC_event .event_actions .event_user_icons li{margin-left: -4px;}
 
+
+.AttendanceSummary{display: flex; align-items: center; justify-content: flex-start; gap: 50px;}
+.AttendanceSummary .flex{position: relative;}
+.AttendanceSummary .flex .att_dot{width: 5px; height: 5px; border-radius: 50%; position: absolute; left: 0; top: 6px;}
+
+.AttendanceSummary .flex .att_dot.absent{background-color: #3E01DC;}
+.AttendanceSummary .flex .att_dot.present{background-color: #10C076;}
+.AttendanceSummary .flex .att_dot.on-leave{background-color: #ADE69D;}
+.AttendanceSummary .flex .att_dot.sick-leave{background-color: #E89CFE;}
+
+.AttendanceSummary .flex .att_data{padding-left: 15px; font-size: 11px; font-weight: 500; color: #656565;}
+.AttendanceSummary .flex .att_value{padding-left: 15px; font-size: 14px; font-weight: 700; color: #454545;}
