@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import Nav from 'react-bootstrap/Nav';
 
 import Refresh from '../../assets/Images/refresh.svg';
 import Calendar from '../../assets/Images/calendar.svg';
@@ -20,7 +21,7 @@ const Dashboard = () => {
 
   return (
     <Container fluid>
-      <Row>
+      <Row className='mt-0 gx-3'>
         <Col md={12} lg={7} xl={7} xxl={7}>
           <Card className='primary_card'>
             <Card.Header>
@@ -57,7 +58,7 @@ const Dashboard = () => {
           </Card>
         </Col>
       </Row>
-      <Row className='mt-4'>
+      <Row className='mt-3 gx-3'>
         <Col md={12} lg={8} xl={8} xxl={8}>
           <Card className='primary_card'>
             <Card.Header>
@@ -74,11 +75,25 @@ const Dashboard = () => {
               </div>
             </Card.Header>
             <Card.Body className='pt-1'>
+              <Nav className='Primary_tab' variant="tabs" defaultActiveKey="/home">
+                <Nav.Item>
+                  <Nav.Link href="/home">Turnover Rate</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey="link-1">Absence Rate</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey="link-2">Employee Satisfaction</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey="link-3">Training Completion Rate</Nav.Link>
+                </Nav.Item>
+              </Nav>
             </Card.Body>
           </Card>
         </Col>
         <Col md={12} lg={4} xl={4} xxl={4}>
-          <Card className='primary_card mb-4'>
+          <Card className='primary_card mb-3'>
             <Card.Header>
               <h3>Upcoming Events</h3>
               <div className="heading_elements">
@@ -104,14 +119,14 @@ const Dashboard = () => {
           </Card>
         </Col>
       </Row>
-      <Row className='mt-4'>
+      <Row className='mt-3 gx-3'>
         <Col md={12} lg={12} xl={12} xxl={12}>
           <Card className='primary_card'>
             <Card.Header>
-              <h3>Employee</h3>
+              <h3>Recent Employee</h3>
             </Card.Header>
-            <Card.Body className='pt-1'>
-              <EmployeeList/>
+            <Card.Body className='p-0'>
+              <EmployeeList />
             </Card.Body>
           </Card>
         </Col>

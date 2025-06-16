@@ -67,7 +67,7 @@ Form{width: 100%;}
 .main_container .main_content .topmenu .topmenu_search input::placeholder{font-size: 14px !important; font-weight: 500 !important;}
 
 
-.main_container .main_content .content{padding: 20px 5px;}
+.main_container .main_content .content{padding: 20px 5px; height: calc(100vh - 50px); overflow: auto;}
 
 .primary_card{border: 1px solid #E7DEFF; background-color: #fff; border-radius: 15px; box-shadow: none; overflow: hidden;}
 .primary_card .card-header{background-color: #fff; border: none !important; display: flex; align-items: center; justify-content: space-between; padding: 18px 15px;}
@@ -136,5 +136,23 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .AttendanceSummary .flex .att_dot.on-leave{background-color: #ADE69D;}
 .AttendanceSummary .flex .att_dot.sick-leave{background-color: #E89CFE;}
 
-.AttendanceSummary .flex .att_data{padding-left: 15px; font-size: 11px; font-weight: 500; color: #656565;}
-.AttendanceSummary .flex .att_value{padding-left: 15px; font-size: 14px; font-weight: 700; color: #454545;}
+.AttendanceSummary .flex .att_data{padding-left: 15px; font-size: 12px; font-weight: 500; color: #656565;}
+.AttendanceSummary .flex .att_value{padding-left: 15px; font-size: 15px; font-weight: 700; color: #454545;}
+
+.primary_table{width: 100%; border-collapse: collapse; margin: 0;}
+.primary_table thead tr th{background-color: #EBE4FF;box-shadow: none; overflow: hidden; font-size: 12px; text-transform: uppercase; font-weight: 700; color: #2C2C2C; padding: 10px 15px; border: none !important;}
+.primary_table tbody tr td{background-color: transparent;box-shadow: none; overflow: hidden; font-size: 14px; font-weight: 500; color: #343434; padding: 9px 15px; border: none !important;}
+.primary_table tbody tr:nth-child(even){background-color: #f3f3f3 !important;}
+.primary_table tbody tr,
+.primary_table tbody tr td{vertical-align: middle;}
+.primary_table tbody tr td .status{display: inline-flex; align-items: center; font-size: 12px; font-weight: 600; color: #2B2B2B; padding: 4.5px 18px 5px 24px; border: 1px solid #E0E0E0 !important; background-color: #fff; border-radius: 100px; position: relative;}
+.primary_table tbody tr td .status::before{content: ""; position: absolute; left: 9px; top: 50%; transform: translateY(-50%); width: 6px; height: 6px; border-radius: 100px; background-color: #6D36FA;}
+.primary_table tbody tr td .emp-name{display: flex; align-items: center; gap: 7px;}
+
+.primary_table tbody tr td .status.active::before{background-color: #10C076;}
+.primary_table tbody tr td .status.Onboarding::before{background-color: #E89CFE;}
+
+.Primary_tab .nav-item .nav-link{border: none !important; background-color: transparent; font-size: 14px; font-weight: 500; color: #757479; }
+.Primary_tab .nav-item:first-child .nav-link{padding-left: 0 !important;}
+.Primary_tab .nav-item .nav-link.active{color: #6D36FA !important; border-bottom: 2px solid #6D36FA !important; font-weight: 600 !important;}
+.Primary_tab .nav-item .nav-link:hover{color: #6D36FA !important; border-bottom: 2px solid #6D36FA !important;}
