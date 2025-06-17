@@ -73,7 +73,12 @@ function Employee() {
           {employeeData.map(employee => (
             <tr key={employee.id}>
               <td><a href="">{employee.employeeId}</a></td>
-              <td><div className='emp-name'><i><img src={EventUser} alt="" /></i>{employee.name}</div></td>
+              <td>
+                <div className='emp-name'>
+                  <i><img src={EventUser} alt="" /></i>
+                  {employee.name}
+                </div>
+              </td>
               <td>{employee.position}</td>
               <td>{employee.department}</td>
               <td>{employee.email}</td>

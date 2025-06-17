@@ -75,7 +75,8 @@ const Dashboard = () => {
               </div>
             </Card.Header>
             <Card.Body className='pt-1'>
-              <Nav className='Primary_tab' variant="tabs" defaultActiveKey="/home">
+              <Nav className='Primary_tab
+              ' variant="tabs" defaultActiveKey="/home">
                 <Nav.Item>
                   <Nav.Link href="/home">Turnover Rate</Nav.Link>
                 </Nav.Item>

@@ -1,11 +1,11 @@
 import React from 'react'
+import { Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+
 import Sidebar from '../components/MenuSidebar/Sidebar.jsx';
 import TopMenu from '../components/MenuSidebar/TopMenu.jsx';
 import Dashboard from '../components/Dashboard/Dashboard.jsx';
+import OnBoarding from '../components/Dashboard/OnBoarding.jsx';
 
 const Home = () => {
     return (
@@ -16,7 +16,10 @@ const Home = () => {
             <div className="main_content">
                 <TopMenu />
                 <div className='content'>
-                    <Dashboard />
+                     <Routes>
+                        <Route path="/" element={<Dashboard />} />
+                        <Route path="/onboarding" element={<OnBoarding />} />
+                    </Routes>
                 </div>
             </div>
         </div>

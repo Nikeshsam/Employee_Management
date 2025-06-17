@@ -1,17 +1,30 @@
 import { useState } from 'react'
-import './App.css'
-import Authentication from './pages/Authentication.jsx'
+import { BrowserRouter as Router } from 'react-router-dom';
+import Home from './pages/Home';
 
-function App() {
+// import Authentication from './components/Authentication/Authentication.jsx';
+import './App.css'
+
+// function App() {
  
 
-  return (
-    <>
-      <div>
-        <Authentication/>
-      </div>
-    </>
-  )
-}
+//   return (
+//     <>
+//       <div>
+//         <Authentication/>
+//       </div>
+//     </>
+//   )
+// }
 
-export default App
+const App = () => {
+    return (
+        <Router>
+            <Home />
+        </Router>
+    );
+};
+
+export default App;
+
+// export default App
