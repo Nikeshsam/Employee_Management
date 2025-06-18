@@ -82,7 +82,7 @@ Form{width: 100%;}
 .day_filter .day_filter_item.active{background-color: #E7DEFF;}
 
 .employeestate_container{display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; padding: 0; grid-gap: 16px;}
-.employeestate_container .employee_content{width: 48.5%; border: 1px solid #E7DEFF; border-bottom: 3px solid #E7DEFF; background-color: #fff; padding: 15px; display: flex; align-items: flex-start; flex-direction: column; border-radius: 12px; gap: 12px;}
+.employeestate_container .employee_content{width: 48.5%; border: 1px solid #E7DEFF; border-bottom: 4px solid #E7DEFF; background-color: #fff; padding: 15px; display: flex; align-items: flex-start; flex-direction: column; border-radius: 12px; gap: 12px;}
 .employeestate_container .employee_content h5{font-size: 14px; font-weight: 500; color: #5A5762; margin: 0;}
 .employeestate_container .employee_content .employee_count{display: flex; align-items: center; gap: 10px;}
 .employeestate_container .employee_content .employee_count .count{font-size: 24px; font-weight: 700; color: #454545; line-height: 27px;}
@@ -153,3 +153,5 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .Primary_tab .nav-item:first-child .nav-link{padding-left: 0 !important;}
 .Primary_tab .nav-item .nav-link.active{color: #6D36FA !important; border-bottom: 2px solid #6D36FA !important; font-weight: 600 !important;}
 .Primary_tab .nav-item .nav-link:hover{color: #6D36FA !important; border-bottom: 2px solid #6D36FA !important;}
+
+.card_purple{background-color: #FAF8FF; border: 1px solid #DCCFFF; border-radius: 8px; border-bottom: 4px solid #DCCFFF;}
