@@ -36,7 +36,6 @@ Form{width: 100%;}
 .create-account p{font-size: 14px; font-weight: 500; color: #101E37 !important; text-align: center; margin: 0 !important;}
 .create-account button{background-color: transparent !important; border: none !important; padding: 0 !important; color: #6D36FA; text-transform: capitalize;}
 
-
 /* AUTHENTICATION PAGE */
 
 .main_container{display: flex;}
@@ -50,9 +49,9 @@ Form{width: 100%;}
 .main_container .sidebar .Innerlogo img{width: 40px;}
 .main_container .sidebar .sidebar_menu{display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 0; padding: 0; margin: 0; width: 100%;}
 .main_container .sidebar .sidebar_menu li{display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 5px; padding: 10px 0; cursor: pointer; height: 70px; width: 100%;}
-.main_container .sidebar .sidebar_menu li a{text-decoration: none;}
-.main_container .sidebar .sidebar_menu li a i{display: flex; justify-content: center;}
-.main_container .sidebar .sidebar_menu li a span{font-size: 12px; color: #fff; font-weight: 500; list-style: none;}
+.main_container .sidebar .sidebar_menu li{text-decoration: none;}
+.main_container .sidebar .sidebar_menu li i{display: flex; justify-content: center;}
+.main_container .sidebar .sidebar_menu li span{font-size: 12px; color: #fff; font-weight: 500; list-style: none;}
 .main_container .sidebar .sidebar_menu li.active{background-color: #FFA917 !important;}
 
 /* TOPMENU */
@@ -66,7 +65,6 @@ Form{width: 100%;}
 .main_container .main_content .topmenu .topmenu_search input:focus{box-shadow: none !important;}
 .main_container .main_content .topmenu .topmenu_search input::placeholder{color: #C2CDE0 !important;}
 .main_container .main_content .topmenu .topmenu_search input::placeholder{font-size: 14px !important; font-weight: 500 !important;}
-
 
 .main_container .main_content .content{padding: 20px 5px; height: calc(100vh - 50px); overflow: auto;}
 
@@ -91,7 +89,6 @@ Form{width: 100%;}
 .employeestate_container .employee_content .employee_count .count-text{font-size: 14px; font-weight: 500; color: #5A5762; margin: 0;}
 .employeestate_container .employee_content .employee_count .count-percentage{border: 1px solid rgb(57 148 134 / 35%); background-color: rgb(57 148 134 / 10%); border-radius: 5px; padding: 2px 4px; font-size: 10px; font-weight: 600; color: #399486; display: flex; align-items: center; gap: 3px; line-height: 12px;}
 .employeestate_container .employee_content .employee_count .count-percentage i{display: flex;}
-
 
 .task_reminder_container{display: flex; align-items: flex-start; flex-direction: column; gap: 15.5px;}
 .task_reminder_container .task_reminder_content{display: flex; align-items: center; justify-content: space-between; width: 100%;}
@@ -126,7 +123,6 @@ Form{width: 100%;}
 background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 100%);}
 .UPC_event_container .UPC_event .event_actions .event_user_icons{display: flex; align-items: center;}
 .UPC_event_container .UPC_event .event_actions .event_user_icons li{margin-left: -4px;}
-
 
 .AttendanceSummary{display: flex; align-items: center; justify-content: flex-start; gap: 50px;}
 .AttendanceSummary .flex{position: relative;}
