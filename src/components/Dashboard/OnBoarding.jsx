@@ -16,8 +16,7 @@ import BootstrapStyles from '../../BootstrapComponent.jsx';
 import EmployeeProfileDetails from '../EmployeeOnBoarding/EmployeeProfileDetails.jsx';
 import BasicInfo from '../EmployeeOnBoarding/BasicInfo.jsx';
 import Contact from '../EmployeeOnBoarding/Contact.jsx';
-
-
+import Family from '../EmployeeOnBoarding/Family.jsx';
 
 
 function EmployeeProfileCard() {
@@ -43,7 +42,7 @@ function EmployeeProfileCard() {
               <Contact/>
             </Tab>
             <Tab eventKey="family" title="Family">
-              {/* <Family/> */}
+              <Family/>
             </Tab>
             <Tab eventKey="education" title="Education">
               {/* <Education/> */}

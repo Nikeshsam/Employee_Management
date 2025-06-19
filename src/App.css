@@ -7,6 +7,7 @@ p{margin: 0;}
 label{font-family: "Inter", sans-serif !important;}
 
 .btn_h_30{height: 30px !important;}
+.btn_h_32{height: 32px !important;}
 .btn_h_35{height: 35px !important;}
 .btn_h_40{height: 40px !important;}
 .btn_h_45{height: 45px !important;}
@@ -150,11 +151,13 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .AttendanceSummary .flex .att_value{padding-left: 15px; font-size: 15px; font-weight: 700; color: #454545;}
 
 .primary_table{width: 100%; border-collapse: collapse; margin: 0;}
+.primary_table thead tr,
+.primary_table thead tr td{vertical-align: middle; border: none;}
 .primary_table thead tr th{background-color: #EBE4FF;box-shadow: none; overflow: hidden; font-size: 12px; text-transform: uppercase; font-weight: 700; color: #2C2C2C; padding: 10px 15px; border: none !important;}
-.primary_table tbody tr td{background-color: transparent;box-shadow: none; overflow: hidden; font-size: 14px; font-weight: 500; color: #343434; padding: 9px 15px; border: none !important;}
+.primary_table tbody tr td{background-color: transparent;box-shadow: none; overflow: hidden; font-size: 14px; font-weight: 500; color: #343434; padding: 9px 15px; border: none !important; height: 48px;}
 .primary_table tbody tr:nth-child(even){background-color: #f3f3f3 !important;}
 .primary_table tbody tr,
-.primary_table tbody tr td{vertical-align: middle;}
+.primary_table tbody tr td{vertical-align: middle; border: none;}
 .primary_table tbody tr td .status{display: inline-flex; align-items: center; font-size: 12px; font-weight: 600; color: #2B2B2B; padding: 4.5px 18px 5px 24px; border: 1px solid #E0E0E0 !important; background-color: #fff; border-radius: 100px; position: relative;}
 .primary_table tbody tr td .status::before{content: ""; position: absolute; left: 9px; top: 50%; transform: translateY(-50%); width: 6px; height: 6px; border-radius: 100px; background-color: #6D36FA;}
 .primary_table tbody tr td .emp-name{display: flex; align-items: center; gap: 7px;}
@@ -200,3 +203,17 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .form-select:focus{box-shadow: none !important; border: 1px solid #b498ff !important;}
 
 .MainTitle{background-color: #EFE9FF; border: 1px solid #DFD4FF; border-radius: 4px; height: 40px; display: flex; align-items: center; padding: 0 12px; font-size: 15px; font-weight: 600; color: #414141; margin-bottom: 20px;}
+
+
+.primary_table{border: 1px solid #E7DEFF; border-bottom: 3px solid #E7DEFF; border-radius: 8px; background-color: #fff;} 
+.table_header{display: flex; align-items: center; justify-content: space-between; padding: 8px 15px;}
+.table_header h5{font-size: 15px; font-weight: 600; color: #3C3B40; margin: 0 !important;}
+.table_header .heading_elements ul{display: flex; align-items: center; gap: 10px;}
+.table_header .heading_elements ul li{display: flex;}
+.table_header .heading_elements ul .grid_search{border: 1px solid #D8D6DD; background-color: #fff; border-radius: 6px; height: 35px !important; width: 200px; outline: none; padding: 0 12px 0 30px; background-image: url(../src/assets/Images/search.svg); background-repeat: no-repeat; background-position: left 10px center;}
+
+.table_body table{margin: 0; border-bottom: none;}
+
+.table_action{display: flex; align-items: center; gap: 10px;}
+.btn_action{background-color: transparent; border: none; padding: 0; cursor: pointer; display: flex; align-items: center; gap: 10px;}
+.btn_action:hover{background-color: transparent;}

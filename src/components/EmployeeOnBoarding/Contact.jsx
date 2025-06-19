@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react';
 
 // Bootstrap imports
 
@@ -14,7 +14,59 @@ import Button from 'react-bootstrap/Button';
 
 // Bootstrap imports
 
-function BasicInfo() {
+const BasicInfo = () => {
+    const [Country, setCountry] = useState ([
+        { key: '1', label: 'Indian' },
+        { key: '2', label: 'Australian' },      
+        { key: '3', label: 'Chinese' },
+        { key: '4', label: 'Japan' },
+        { key: '5', label: 'England' },
+        { key: '6', label: 'Pakistan' },
+        { key: '7', label: 'Dubai' }
+    ])
+    const [State, setState] = useState ([
+        { key: '1', label: 'Tamil Nadu' },
+        { key: '2', label: 'Andhra Pradesh' },
+        { key: '3', label: 'Maharashtra' },
+        { key: '4', label: 'Gujarat' },
+        { key: '5', label: 'Uttar Pradesh' },
+        { key: '6', label: 'Rajasthan' },
+        { key: '7', label: 'Delhi' },
+        { key: '8', label: 'Goa' },
+        { key: '9', label: 'Karnataka' },
+        { key: '10', label: 'Kerala' },
+    ])
+    const [City, setCity] = useState ([
+        { key: '1', label: 'Chennai' },
+        { key: '2', label: 'Kanchipuram' },
+        { key: '3', label: 'Vellore' },
+        { key: '4', label: 'Tiruvannamalai' },
+        { key: '5', label: 'Chengalpattu' },
+        { key: '6', label: 'Madurai' },
+        { key: '7', label: 'Coimbatore' },
+        { key: '8', label: 'Tirupur' },
+        { key: '9', label: 'Thanjavur' },
+        { key: '10', label: 'Thoothukudi'},
+        { key: '11', label: 'Salem' },
+        { key: '12', label: 'Tiruchirappalli' },
+        { key: '13', label: 'Erode' },
+        { key: '14', label: 'Dindigul' },
+        { key: '15', label: 'Kanyakumari'},
+        { key: '16', label: 'Tirunelveli' },
+        { key: '17', label: 'Virudhunagar' },
+        { key: '18', label: 'Namakkal' },
+        { key: '19', label: 'Karur' },
+        { key: '20', label: 'Pudukkottai'},
+        { key: '21', label: 'Sivaganga' },
+        { key: '22', label: 'Ramanathapuram' },
+        { key: '23', label: 'Thiruvarur' },
+        { key: '24', label: 'Nagapattinam' },
+        { key: '25', label: 'Kallakurichi' },
+        { key: '26', label: 'Ariyalur' },
+        { key: '27', label: 'Perambalur' },
+        { key: '28', label: 'Tenkasi' },
+        { key: '29', label: 'Theni' },
+    ])
     return (
         <Card className='secondary_card'>
             <Card.Body>
@@ -39,10 +91,10 @@ function BasicInfo() {
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>Country</Form.Label>
                                 <Form.Select aria-label="Default select example">
-                                    <option>Open this select menu</option>
-                                    <option value="1">Indian</option>
-                                    <option value="2">Austraila</option>
-                                    <option value="3">China</option>
+                                    <option>Select Country</option>
+                                    {Country.map(Countrys => (
+                                        <option key={Countrys.key} value={Countrys.label}>{Countrys.label}</option>
+                                    ))}
                                 </Form.Select>
                             </Form.Group>
                         </Col>
@@ -50,10 +102,10 @@ function BasicInfo() {
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>State</Form.Label>
                                 <Form.Select aria-label="Default select example">
-                                    <option>Open this select menu</option>
-                                    <option value="1">Indian</option>
-                                    <option value="2">Austraila</option>
-                                    <option value="3">China</option>
+                                    <option>Select State</option>
+                                    {State.map(States => (
+                                        <option key={States.key} value={States.label}>{States.label}</option>
+                                    ))}
                                 </Form.Select>
                             </Form.Group>
                         </Col>
@@ -61,10 +113,10 @@ function BasicInfo() {
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>City</Form.Label>
                                 <Form.Select aria-label="Default select example">
-                                    <option>Open this select menu</option>
-                                    <option value="1">Indian</option>
-                                    <option value="2">Austraila</option>
-                                    <option value="3">China</option>
+                                    <option>Select City</option>
+                                    {City.map(Citys => (
+                                        <option key={Citys.key} value={Citys.label}>{Citys.label}</option>
+                                    ))}
                                 </Form.Select>
                             </Form.Group>
                         </Col>
@@ -95,10 +147,10 @@ function BasicInfo() {
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>Country</Form.Label>
                                 <Form.Select aria-label="Default select example">
-                                    <option>Open this select menu</option>
-                                    <option value="1">Indian</option>
-                                    <option value="2">Austraila</option>
-                                    <option value="3">China</option>
+                                    <option>Select Country</option>
+                                    {Country.map(Countrys => (
+                                        <option key={Countrys.key} value={Countrys.label}>{Countrys.label}</option>
+                                    ))}
                                 </Form.Select>
                             </Form.Group>
                         </Col>
@@ -106,10 +158,10 @@ function BasicInfo() {
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>State</Form.Label>
                                 <Form.Select aria-label="Default select example">
-                                    <option>Open this select menu</option>
-                                    <option value="1">Indian</option>
-                                    <option value="2">Austraila</option>
-                                    <option value="3">China</option>
+                                    <option>Select State</option>
+                                    {State.map(States => (
+                                        <option key={States.key} value={States.label}>{States.label}</option>
+                                    ))}
                                 </Form.Select>
                             </Form.Group>
                         </Col>
@@ -117,10 +169,10 @@ function BasicInfo() {
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>City</Form.Label>
                                 <Form.Select aria-label="Default select example">
-                                    <option>Open this select menu</option>
-                                    <option value="1">Indian</option>
-                                    <option value="2">Austraila</option>
-                                    <option value="3">China</option>
+                                    <option>Select City</option>
+                                    {City.map(Citys => (
+                                        <option key={Citys.key} value={Citys.label}>{Citys.label}</option>
+                                    ))}
                                 </Form.Select>
                             </Form.Group>
                         </Col>
