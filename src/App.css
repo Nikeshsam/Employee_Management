@@ -6,6 +6,11 @@ p{margin: 0;}
 
 label{font-family: "Inter", sans-serif !important;}
 
+.btn_h_30{height: 30px !important;}
+.btn_h_35{height: 35px !important;}
+.btn_h_40{height: 40px !important;}
+.btn_h_45{height: 45px !important;}
+
 .auth_vector{height: 100vh; background-color: #6D36FA; padding: 0 150px; display: flex; align-items: center; justify-content: center; flex-direction: column;}
 .auth_vector .auth_vector_content h1{color: #fff; font-size: 36px; line-height: 50px; font-weight: 700; text-align: center; margin: 0;}
 .auth_vector .auth_vector_content h1 span{color: #FFAB55;}
@@ -20,9 +25,9 @@ Form{width: 100%;}
 
 /* Form Feilds */
 
-.form-label{color: #101E37; font-size: 14px; font-weight: 500;}
-.form-control{color: #101E37 !important; font-size: 14px !important; font-weight: 500 !important; background-color: #fff !important; height: 42px !important; border: 1px solid #C2CDE0 !important; border-radius: 4px !important;}
-.form-control:focus{box-shadow: none !important;}
+.Brand-container .form-label{color: #101E37; font-size: 14px; font-weight: 500;}
+.Brand-container .form-control{color: #101E37 !important; font-size: 14px !important; font-weight: 500 !important; background-color: #fff !important; height: 42px !important; border: 1px solid #C2CDE0 !important; border-radius: 4px !important;}
+.Brand-container .form-control:focus{box-shadow: none !important;}
 
 .customCheckbox .form-check{display: flex; align-items: center; gap: 10px; min-height: auto; margin: 0 !important; padding: 0 !important;}
 .customCheckbox .form-check .form-check-label{font-size: 14px; color: #1B2943; font-weight: 500; line-height: 14px; display: flex;}
@@ -31,6 +36,8 @@ Form{width: 100%;}
 .forgot-password{font-size: 14px; font-weight: 500; color: #FFA917 !important; background-color: transparent; border: none; }
 
 .primary_btn{background-color: #6D36FA !important; font-size: 16px !important; font-weight: 700 !important; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 4px;}
+
+.primary_form_btn{background-color: #6D36FA !important; border: none !important; font-size: 14px !important; font-weight: 600 !important; font-family: "Inter", sans-serif !important; border-radius: 4px; padding: 7px 20px; display: flex; align-items: center; justify-content: center;}
 
 .create-account{ background-color: transparent; border: none; padding: 0 !important; display: flex; align-items: center; justify-content: center; gap: 5px;}
 .create-account p{font-size: 14px; font-weight: 500; color: #101E37 !important; text-align: center; margin: 0 !important;}
@@ -45,7 +52,7 @@ Form{width: 100%;}
 
 .main_container .sidebar{width: 85px; background-color: #6D36FA; height: 100vh; padding: 20px 0;}
 .main_container .sidebar .sidebar_content{width: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 20px;}
-.main_container .sidebar .Innerlogo{width: 60px; height: 50px; display: flex; align-items: center; justify-content: center; background-color: #ffffff; border-radius: 4px !important;}
+.main_container .sidebar .Innerlogo{width: 60px; height: 50px; display: flex; align-items: center; justify-content: center; background-color: #ffffff; border-radius: 4px !important;     --bs-btn-border-color: none;}
 .main_container .sidebar .Innerlogo img{width: 40px;}
 .main_container .sidebar .sidebar_menu{display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 0; padding: 0; margin: 0; width: 100%;}
 .main_container .sidebar .sidebar_menu li{display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 5px; padding: 10px 0; cursor: pointer; height: 70px; width: 100%;}
@@ -76,6 +83,12 @@ Form{width: 100%;}
 .primary_card .card-header h3{font-size: 16px; font-weight: 600; color: #2A2731; line-height: 20px; margin: 0 !important;}
 .primary_card .card-header .heading_elements{display: flex; align-items: center; gap: 7px;}
 .primary_card .card-header .heading_elements .square{display: flex; align-items: center; justify-content: center; border: 1px solid #E7DEFF; border-radius: 3px; padding: 6px;}
+
+
+.secondary_card{border: 1px solid #E4E3E3; border-radius: 8px; background-color: #fff;}
+.secondary_card .card-body{height: calc(100vh - 352px); overflow: auto; }
+.secondary_card .card-footer{background-color: #ECECEC; border: none !important; display: flex; align-items: center; justify-content: flex-end;}
+
 
 .day_filter{display: flex; align-items: center; justify-content: center; gap: 3px; padding: 3px; border: 1px solid #E7DEFF; border-radius: 4px;}
 .day_filter .day_filter_item{display: flex; align-items: center; justify-content: center; gap: 5px; padding: 3px 8px;  cursor: pointer; font-size: 12px; font-weight: 600; color: #2A2731 !important; text-decoration: none; border-radius: 3px;}
@@ -173,9 +186,17 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .employee_profile_container .employee_offer_letter a{display: flex; align-items: center; gap: 8px; color: #5B5766;  font-size: 14px; font-weight: 600; text-decoration: none; }
 
 .Secondary_tab.nav-tabs{border: none;}
-.Secondary_tab .nav-item .nav-link{border: 1px solid #E5DEF6 !important; background-color: transparent; font-size: 14px; font-weight: 500; color: #312E39; border-radius: 0; border-right: none !important; padding: 7px 25px; height: 40px; display: flex; align-items: center;}
+.Secondary_tab .nav-item .nav-link{border: 1px solid #E5DEF6 !important; background-color: #fff; font-size: 14px; font-weight: 500; color: #312E39; border-radius: 0; border-right: none !important; padding: 7px 25px; height: 40px; display: flex; align-items: center;}
 .Secondary_tab .nav-item:first-child .nav-link{border-radius: 6px 0 0 6px;}
 .Secondary_tab .nav-item:last-child .nav-link{border-right: 1px solid #E5DEF6 !important; border-radius: 0 6px 6px 0;}
 .Secondary_tab .nav-item .nav-link.active{color: #fff !important; background-color: #FFA917;}
 .Secondary_tab .nav-item .nav-link:hover{color: #fff !important; background-color: #FFA917;}
 
+
+.form-label{color: #707070; font-size: 14px; font-weight: 400; line-height: 16px;}
+.form-control{color: #2e2e2e !important; font-size: 14px !important; font-weight: 500 !important; background-color: #fff !important; height: 40px !important; border: 1px solid #E5DEF7 !important; border-radius: 4px !important;}
+.form-control:focus{box-shadow: none !important; border: 1px solid #b498ff !important;}
+.form-select{color: #2e2e2e !important; font-size: 14px !important; font-weight: 500 !important; background-color: #fff !important; height: 40px !important; border: 1px solid #E5DEF7 !important; border-radius: 4px !important;}
+.form-select:focus{box-shadow: none !important; border: 1px solid #b498ff !important;}
+
+.MainTitle{background-color: #EFE9FF; border: 1px solid #DFD4FF; border-radius: 4px; height: 40px; display: flex; align-items: center; padding: 0 12px; font-size: 15px; font-weight: 600; color: #414141; margin-bottom: 20px;}

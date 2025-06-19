@@ -1,20 +1,28 @@
 import React from 'react';
 
+// Bootstrap imports
+
 import 'bootstrap/dist/css/bootstrap.css';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-
+import Card from 'react-bootstrap/Card';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
-import EmployeeProfileDetails from '../EmployeeOnBoarding/EmployeeProfileDetails.jsx';
+// Bootstrap imports
 
-import Card from 'react-bootstrap/Card';
+import BootstrapStyles from '../../BootstrapComponent.jsx';
+import EmployeeProfileDetails from '../EmployeeOnBoarding/EmployeeProfileDetails.jsx';
+import BasicInfo from '../EmployeeOnBoarding/BasicInfo.jsx';
+import Contact from '../EmployeeOnBoarding/Contact.jsx';
+
+
 
 
 function EmployeeProfileCard() {
   return (
+
 
     <Container fluid>
       <Row>
@@ -27,12 +35,12 @@ function EmployeeProfileCard() {
         </Col>
         <Col md={12} lg={12} xl={12} xxl={12}>
 
-          <Tabs defaultActiveKey="home" transition={false} id="noanim-tab-example" className="mb-3 Secondary_tab">
+          <Tabs defaultActiveKey="basic_info" transition={false} id="noanim-tab-example" className="mb-3 Secondary_tab">
             <Tab eventKey="basic_info" title="Basic Info">
-              {/* <BasicInfo/> */}
+              <BasicInfo/>
             </Tab>
             <Tab eventKey="contact" title="Contact">
-              {/* <Contact/> */}
+              <Contact/>
             </Tab>
             <Tab eventKey="family" title="Family">
               {/* <Family/> */}
