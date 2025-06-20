@@ -1,27 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // Bootstrap imports
 
 import 'bootstrap/dist/css/bootstrap.css';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Card from 'react-bootstrap/Card';
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
+import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react-bootstrap';
 
 // Bootstrap imports
 
-import BootstrapStyles from '../../BootstrapComponent.jsx';
 import EmployeeProfileDetails from '../EmployeeOnBoarding/EmployeeProfileDetails.jsx';
 import BasicInfo from '../EmployeeOnBoarding/BasicInfo.jsx';
 import Contact from '../EmployeeOnBoarding/Contact.jsx';
 import Family from '../EmployeeOnBoarding/Family.jsx';
+import Education from '../EmployeeOnBoarding/Education.jsx';
+import WorkExperience from '../EmployeeOnBoarding/WorkExperience.jsx';
+import Documents from '../EmployeeOnBoarding/Documents.jsx';
+import Benefits from '../EmployeeOnBoarding/Benefits.jsx';
+import HealthRecord from '../EmployeeOnBoarding/HealthRecord.jsx';
+import Travel from '../EmployeeOnBoarding/Travel.jsx';
 
 
 function EmployeeProfileCard() {
   return (
-
 
     <Container fluid>
       <Row>
@@ -45,22 +44,22 @@ function EmployeeProfileCard() {
               <Family/>
             </Tab>
             <Tab eventKey="education" title="Education">
-              {/* <Education/> */}
+              <Education/>
             </Tab>
             <Tab eventKey="work_experience" title="Work Experience">
-              {/* <WorkExperience/> */}
+              <WorkExperience/>
             </Tab>
             <Tab eventKey="documents" title="Documents">
-              {/* <Documents/> */}
+              <Documents/>
             </Tab>
             <Tab eventKey="benefits" title="Benefits">
-              {/* <Benefits/> */}
+              <Benefits/>
             </Tab>
             <Tab eventKey="health_record" title="Health Record">
-              {/* <HealthRecord/> */}
+              <HealthRecord/>
             </Tab>
             <Tab eventKey="travel" title="Travel">
-              {/* <Travel/> */}
+              <Travel/>
             </Tab>
           </Tabs>
         </Col>

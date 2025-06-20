@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+// Bootstrap imports
+
 import 'bootstrap/dist/css/bootstrap.css';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import Nav from 'react-bootstrap/Nav';
+import { Container, Card, Form, Row, Nav, Col, Tab, Tabs, Button, Table } from 'react-bootstrap';
+
+// Bootstrap imports
 
 import Refresh from '../../assets/Images/refresh.svg';
 import Calendar from '../../assets/Images/calendar.svg';

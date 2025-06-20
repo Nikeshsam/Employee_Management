@@ -1,16 +1,10 @@
 import React, { useState } from 'react';
+import CardForm from '../../pages/Props.jsx';
 
 // Bootstrap imports
 
 import 'bootstrap/dist/css/bootstrap.css';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Card from 'react-bootstrap/Card';
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react-bootstrap';
 
 // Bootstrap imports
 
@@ -68,185 +62,170 @@ const BasicInfo = () => {
         { key: '29', label: 'Theni' },
     ])
     return (
-        <Card className='secondary_card'>
-            <Card.Body>
-                <Form>
-                    <Row>
-                        <Col md={12} lg={12} xl={12} xxl={12}>
-                            <h5 className='MainTitle'>Current Address</h5>
-                        </Col>
-                        <Col md={6} lg={6} xl={6} xxl={6}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Address Line 1</Form.Label>
-                                <Form.Control type="name" placeholder="" />
-                            </Form.Group>
-                        </Col>
-                        <Col md={6} lg={6} xl={6} xxl={6}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Address Line 2</Form.Label>
-                                <Form.Control type="name" placeholder="" />
-                            </Form.Group>
-                        </Col>
-                        <Col md={3} lg={3} xl={3} xxl={3}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Country</Form.Label>
-                                <Form.Select aria-label="Default select example">
-                                    <option>Select Country</option>
-                                    {Country.map(Countrys => (
-                                        <option key={Countrys.key} value={Countrys.label}>{Countrys.label}</option>
-                                    ))}
-                                </Form.Select>
-                            </Form.Group>
-                        </Col>
-                        <Col md={3} lg={3} xl={3} xxl={3}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>State</Form.Label>
-                                <Form.Select aria-label="Default select example">
-                                    <option>Select State</option>
-                                    {State.map(States => (
-                                        <option key={States.key} value={States.label}>{States.label}</option>
-                                    ))}
-                                </Form.Select>
-                            </Form.Group>
-                        </Col>
-                        <Col md={3} lg={3} xl={3} xxl={3}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>City</Form.Label>
-                                <Form.Select aria-label="Default select example">
-                                    <option>Select City</option>
-                                    {City.map(Citys => (
-                                        <option key={Citys.key} value={Citys.label}>{Citys.label}</option>
-                                    ))}
-                                </Form.Select>
-                            </Form.Group>
-                        </Col>
-                        <Col md={3} lg={3} xl={3} xxl={3}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Zip Code</Form.Label>
-                                <Form.Control type="name" placeholder="" />
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={12} lg={12} xl={12} xxl={12}>
-                            <h5 className='MainTitle'>Permanent Address</h5>
-                        </Col>
-                        <Col md={6} lg={6} xl={6} xxl={6}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Address Line 1</Form.Label>
-                                <Form.Control type="name" placeholder="" />
-                            </Form.Group>
-                        </Col>
-                        <Col md={6} lg={6} xl={6} xxl={6}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Address Line 2</Form.Label>
-                                <Form.Control type="name" placeholder="" />
-                            </Form.Group>
-                        </Col>
-                        <Col md={3} lg={3} xl={3} xxl={3}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Country</Form.Label>
-                                <Form.Select aria-label="Default select example">
-                                    <option>Select Country</option>
-                                    {Country.map(Countrys => (
-                                        <option key={Countrys.key} value={Countrys.label}>{Countrys.label}</option>
-                                    ))}
-                                </Form.Select>
-                            </Form.Group>
-                        </Col>
-                        <Col md={3} lg={3} xl={3} xxl={3}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>State</Form.Label>
-                                <Form.Select aria-label="Default select example">
-                                    <option>Select State</option>
-                                    {State.map(States => (
-                                        <option key={States.key} value={States.label}>{States.label}</option>
-                                    ))}
-                                </Form.Select>
-                            </Form.Group>
-                        </Col>
-                        <Col md={3} lg={3} xl={3} xxl={3}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>City</Form.Label>
-                                <Form.Select aria-label="Default select example">
-                                    <option>Select City</option>
-                                    {City.map(Citys => (
-                                        <option key={Citys.key} value={Citys.label}>{Citys.label}</option>
-                                    ))}
-                                </Form.Select>
-                            </Form.Group>
-                        </Col>
-                        <Col md={3} lg={3} xl={3} xxl={3}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Zip Code</Form.Label>
-                                <Form.Control type="name" placeholder="" />
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={12} lg={12} xl={12} xxl={12}>
-                            <h5 className='MainTitle'>Contact Details</h5>
-                        </Col>
-                        <Col md={3} lg={3} xl={3} xxl={3}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Primary Phone Number</Form.Label>
-                                <Form.Control type="name" placeholder="" />
-                            </Form.Group>
-                        </Col>
-                        <Col md={3} lg={3} xl={3} xxl={3}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Alternate Phone Number</Form.Label>
-                                <Form.Control type="name" placeholder="" />
-                            </Form.Group>
-                        </Col>
-                        <Col md={3} lg={3} xl={3} xxl={3}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Email Address</Form.Label>
-                                <Form.Control type="name" placeholder="" />
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={12} lg={12} xl={12} xxl={12}>
-                            <h5 className='MainTitle'>Contact Details</h5>
-                        </Col>
-                        <Col md={3} lg={3} xl={3} xxl={3}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Full Name</Form.Label>
-                                <Form.Control type="name" placeholder="" />
-                            </Form.Group>
-                        </Col>
-                        <Col md={3} lg={3} xl={3} xxl={3}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Relationship</Form.Label>
-                                <Form.Control type="name" placeholder="" />
-                            </Form.Group>
-                        </Col>
-                        <Col md={3} lg={3} xl={3} xxl={3}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Phone Number</Form.Label>
-                                <Form.Control type="name" placeholder="" />
-                            </Form.Group>
-                        </Col>
-                        <Col md={3} lg={3} xl={3} xxl={3}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Email Address (optional)</Form.Label>
-                                <Form.Control type="name" placeholder="" />
-                            </Form.Group>
-                        </Col>
-                        <Col md={3} lg={3} xl={3} xxl={3}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Address (optional but helpful)</Form.Label>
-                                <Form.Control type="name" placeholder="" />
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                </Form>
-            </Card.Body>
-            <Card.Footer>
-                <Button className='primary_form_btn btn_h_35'>Save</Button>
-            </Card.Footer>
-        </Card>
+        <CardForm>
+            <Col md={12} lg={12} xl={12} xxl={12}>
+                <h5 className='MainTitle'>Current Address</h5>
+            </Col>
+            <Col md={6} lg={6} xl={6} xxl={6}>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label>Address Line 1</Form.Label>
+                    <Form.Control type="name" placeholder="" />
+                </Form.Group>
+            </Col>
+            <Col md={6} lg={6} xl={6} xxl={6}>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label>Address Line 2</Form.Label>
+                    <Form.Control type="name" placeholder="" />
+                </Form.Group>
+            </Col>
+            <Col md={3} lg={3} xl={3} xxl={3}>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label>Country</Form.Label>
+                    <Form.Select aria-label="Default select example">
+                        <option>Select Country</option>
+                        {Country.map(Countrys => (
+                            <option key={Countrys.key} value={Countrys.label}>{Countrys.label}</option>
+                        ))}
+                    </Form.Select>
+                </Form.Group>
+            </Col>
+            <Col md={3} lg={3} xl={3} xxl={3}>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label>State</Form.Label>
+                    <Form.Select aria-label="Default select example">
+                        <option>Select State</option>
+                        {State.map(States => (
+                            <option key={States.key} value={States.label}>{States.label}</option>
+                        ))}
+                    </Form.Select>
+                </Form.Group>
+            </Col>
+            <Col md={3} lg={3} xl={3} xxl={3}>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label>City</Form.Label>
+                    <Form.Select aria-label="Default select example">
+                        <option>Select City</option>
+                        {City.map(Citys => (
+                            <option key={Citys.key} value={Citys.label}>{Citys.label}</option>
+                        ))}
+                    </Form.Select>
+                </Form.Group>
+            </Col>
+            <Col md={3} lg={3} xl={3} xxl={3}>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label>Zip Code</Form.Label>
+                    <Form.Control type="name" placeholder="" />
+                </Form.Group>
+            </Col>
+            <Col md={12} lg={12} xl={12} xxl={12}>
+                <h5 className='MainTitle'>Permanent Address</h5>
+            </Col>
+            <Col md={6} lg={6} xl={6} xxl={6}>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label>Address Line 1</Form.Label>
+                    <Form.Control type="name" placeholder="" />
+                </Form.Group>
+            </Col>
+            <Col md={6} lg={6} xl={6} xxl={6}>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label>Address Line 2</Form.Label>
+                    <Form.Control type="name" placeholder="" />
+                </Form.Group>
+            </Col>
+            <Col md={3} lg={3} xl={3} xxl={3}>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label>Country</Form.Label>
+                    <Form.Select aria-label="Default select example">
+                        <option>Select Country</option>
+                        {Country.map(Countrys => (
+                            <option key={Countrys.key} value={Countrys.label}>{Countrys.label}</option>
+                        ))}
+                    </Form.Select>
+                </Form.Group>
+            </Col>
+            <Col md={3} lg={3} xl={3} xxl={3}>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label>State</Form.Label>
+                    <Form.Select aria-label="Default select example">
+                        <option>Select State</option>
+                        {State.map(States => (
+                            <option key={States.key} value={States.label}>{States.label}</option>
+                        ))}
+                    </Form.Select>
+                </Form.Group>
+            </Col>
+            <Col md={3} lg={3} xl={3} xxl={3}>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label>City</Form.Label>
+                    <Form.Select aria-label="Default select example">
+                        <option>Select City</option>
+                        {City.map(Citys => (
+                            <option key={Citys.key} value={Citys.label}>{Citys.label}</option>
+                        ))}
+                    </Form.Select>
+                </Form.Group>
+            </Col>
+            <Col md={3} lg={3} xl={3} xxl={3}>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label>Zip Code</Form.Label>
+                    <Form.Control type="name" placeholder="" />
+                </Form.Group>
+            </Col>
+            <Col md={12} lg={12} xl={12} xxl={12}>
+                <h5 className='MainTitle'>Contact Details</h5>
+            </Col>
+            <Col md={3} lg={3} xl={3} xxl={3}>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label>Primary Phone Number</Form.Label>
+                    <Form.Control type="name" placeholder="" />
+                </Form.Group>
+            </Col>
+            <Col md={3} lg={3} xl={3} xxl={3}>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label>Alternate Phone Number</Form.Label>
+                    <Form.Control type="name" placeholder="" />
+                </Form.Group>
+            </Col>
+            <Col md={3} lg={3} xl={3} xxl={3}>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label>Email Address</Form.Label>
+                    <Form.Control type="name" placeholder="" />
+                </Form.Group>
+            </Col>
+            <Col md={12} lg={12} xl={12} xxl={12}>
+                <h5 className='MainTitle'>Contact Details</h5>
+            </Col>
+            <Col md={3} lg={3} xl={3} xxl={3}>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label>Full Name</Form.Label>
+                    <Form.Control type="name" placeholder="" />
+                </Form.Group>
+            </Col>
+            <Col md={3} lg={3} xl={3} xxl={3}>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label>Relationship</Form.Label>
+                    <Form.Control type="name" placeholder="" />
+                </Form.Group>
+            </Col>
+            <Col md={3} lg={3} xl={3} xxl={3}>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label>Phone Number</Form.Label>
+                    <Form.Control type="name" placeholder="" />
+                </Form.Group>
+            </Col>
+            <Col md={3} lg={3} xl={3} xxl={3}>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label>Email Address (optional)</Form.Label>
+                    <Form.Control type="name" placeholder="" />
+                </Form.Group>
+            </Col>
+            <Col md={3} lg={3} xl={3} xxl={3}>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label>Address (optional but helpful)</Form.Label>
+                    <Form.Control type="name" placeholder="" />
+                </Form.Group>
+            </Col>
+        </CardForm>
     )
 }
 

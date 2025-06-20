@@ -1,4 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react';
+
+// Bootstrap imports
+
+import 'bootstrap/dist/css/bootstrap.css';
+import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react-bootstrap';
+
+// Bootstrap imports
 
 import UserName from '../../assets/Images/user_img.svg';
 import OfferLetter from '../../assets/Images/pdf.svg';
