@@ -8,7 +8,7 @@ import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react
 
 // Bootstrap imports
 
-const BasicInfo = () => {
+const Contact = () => {
     const [Country, setCountry] = useState ([
         { key: '1', label: 'Indian' },
         { key: '2', label: 'Australian' },      
@@ -229,6 +229,6 @@ const BasicInfo = () => {
     )
 }
 
-export default BasicInfo
+export default Contact
 
 // const BootstrapStyles = () => null

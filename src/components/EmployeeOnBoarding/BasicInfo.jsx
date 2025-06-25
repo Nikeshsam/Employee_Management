@@ -10,7 +10,7 @@ import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react
 
 // import Props from 'Props.jsx';
 
-const BasicInfo = ({Children}) => {
+const BasicInfo = () => {
     const [nationality, setNationality] = useState([
         { key: '1', label: 'Indian' },
         { key: '2', label: 'Australian' },

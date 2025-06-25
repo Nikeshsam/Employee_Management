@@ -11,6 +11,16 @@ import Edit from '../../assets/Images/table_edit.svg';
 import Delete from '../../assets/Images/table_delete.svg';
 
 const WorkExperience = () => {
+    const [WorkExperience, setWorkExperience] = useState([
+        {
+            key: '1',
+            Organization: 'Accenture',
+            Location: 'Chennai',
+            JobTitle: 'UI UX Designer',
+            StartDate: '25-06-2023',
+            EndDate: '25-06-2025',
+        }
+    ])
   return (
     <Card>
       <Card.Body>
@@ -39,6 +49,21 @@ const WorkExperience = () => {
                         <th>Actions</th>
                       </tr>
                     </thead>
+                    <tbody>
+                        {WorkExperience.map((WorkExperiences) => (
+                            <tr key={WorkExperiences.key}>
+                                <td>{WorkExperiences.Organization}</td>
+                                <td>{WorkExperiences.Location}</td>
+                                <td>{WorkExperiences.JobTitle}</td>
+                                <td>{WorkExperiences.StartDate}</td>
+                                <td>{WorkExperiences.EndDate}</td>
+                                <td className='table_action'>
+                                    <Button className="btn_action"><img src={Edit} alt="" /></Button>
+                                    <Button className="btn_action"><img src={Delete} alt="" /></Button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
                   </Table>
                 </div>
               </div>
