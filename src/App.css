@@ -12,6 +12,10 @@ label{font-family: "Inter", sans-serif !important;}
 .btn_h_40{height: 40px !important;}
 .btn_h_45{height: 45px !important;}
 
+.form-switch .form-check-input{height: 1.8em; width: 4em; border: 1px solid #E5DEF7; background-color: rgb(109 54 250 / 6%);}
+.form-switch .form-check-input:focus{box-shadow: none;}
+.form-check-input:checked{background-color: #6D36FA !important; border-color: #6D36FA;}
+
 .auth_vector{height: 100vh; background-color: #6D36FA; padding: 0 150px; display: flex; align-items: center; justify-content: center; flex-direction: column;}
 .auth_vector .auth_vector_content h1{color: #fff; font-size: 36px; line-height: 50px; font-weight: 700; text-align: center; margin: 0;}
 .auth_vector .auth_vector_content h1 span{color: #FFAB55;}

@@ -40,7 +40,7 @@ const Benefits = () => {
             <div className="heading_elements">
               <ul>
                 <li><input className='grid_search' type="text" placeholder="Search" /></li>
-                <li><Button className='primary_form_btn btn_h_35'>Add Benefits</Button></li>
+                <li><Button className='primary_form_btn btn_h_35'>Add Dependents</Button></li>
               </ul>
             </div>
           </div>

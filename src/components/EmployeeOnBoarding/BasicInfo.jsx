@@ -37,7 +37,7 @@ const BasicInfo = () => {
         <>
             <CardForm>
                 <Col md={9} lg={9} xl={9} xxl={9}>
-                    <Row>
+                    <Row className='gx-3'>
                         <Col md={4} lg={4} xl={4} xxl={4}>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>First Name</Form.Label>
@@ -51,7 +51,7 @@ const BasicInfo = () => {
                             </Form.Group>
                         </Col>
                     </Row>
-                    <Row>
+                    <Row className='gx-3'>
                         <Col md={4} lg={4} xl={4} xxl={4}>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>Date of Birth</Form.Label>
@@ -76,7 +76,7 @@ const BasicInfo = () => {
                             </Form.Group>
                         </Col>
                     </Row>
-                    <Row>
+                    <Row className='gx-3'>
                         <Col md={4} lg={4} xl={4} xxl={4}>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>Gender</Form.Label>

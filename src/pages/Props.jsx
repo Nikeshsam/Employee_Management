@@ -20,7 +20,7 @@ const CardForm = ({
             <Card.Body>
                 {cardTitle && <Card.Title>{cardTitle}</Card.Title>}
                 <Form onSubmit={onSubmit}>
-                    <Row>
+                    <Row className='gx-3 row'>
                         {children}
                     </Row>
                 </Form>

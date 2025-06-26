@@ -25,7 +25,7 @@ const Educations = () => {
 
     const [Certification, setCertifications] = useState([
         {
-            key: '1',
+            key: '2',
             Name: 'Scrum Master',
             IssuedBy: 'Project Management Institute',
             IssuedDate: 'Mar 25, 2024',
