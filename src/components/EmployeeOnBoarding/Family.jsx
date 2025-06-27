@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { CardForm, PrimaryGird, InputField } from '../../pages/Props.jsx';
 
 // Bootstrap imports
 
@@ -45,63 +46,32 @@ const Family = () => {
 
     ])
     return (
-        <Card className='secondary_card'>
-            <Card.Body>
-                <Form>
-                    <Row>
-                        <Col md={12} lg={12} xl={12} xxl={12}>
-                            <div className="primary_table">
-                                <div className="table_header">
-                                    <h5>Family</h5>
-                                    <div className="heading_elements">
-                                        <ul>
-                                            <li><input className='grid_search' type="text" placeholder="Search" /></li>
-                                            <li><Button className='primary_form_btn btn_h_35'>Add Family Member</Button></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div className="table_body">
-                                    <Table striped bordered hover responsive>
-                                        <thead>
-                                            <tr>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Relationship</th>
-                                                <th>Date of Birth</th>
-                                                <th>Education</th>
-                                                <th>occupation</th>
-                                                <th>Dependent in benefits</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {Familymembers.map((member) => (
-                                                <tr key={member.key}>
-                                                    <td>{member.FirstName}</td>
-                                                    <td>{member.LastName}</td>
-                                                    <td>{member.Relationship}</td>
-                                                    <td>{member.dob}</td>
-                                                    <td>{member.Education}</td>
-                                                    <td>{member.Occupation}</td>
-                                                    <td>{member.dependentInBenefits ? 'Yes' : 'No'}</td>
-                                                    <td className='table_action'>
-                                                        <Button className="btn_action"><img src={Edit} alt="" /></Button>
-                                                        <Button className="btn_action"><img src={Delete} alt="" /></Button>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </Table>
-                                </div>
-                            </div>
-                        </Col>
-                    </Row>
-                </Form>
-            </Card.Body>
-            <Card.Footer>
-                <Button className='primary_form_btn btn_h_35'>Save</Button>
-            </Card.Footer>
-        </Card>
+        <CardForm>
+            <Col md={12} lg={12} xl={12} xxl={12}>
+                <PrimaryGird
+                    cardTitle="Family"
+                    buttonText="Add Family"
+                    onButtonClick={() => console.log('Add Visa Clicked')}
+                    tableHeaders={['First Name', 'Last Name', 'Relationship', 'Date of Birth', 'Education', 'occupation', 'Dependent in benefits', 'Actions']}
+                >
+                    {Familymembers.map((member) => (
+                        <tr key={member.key}>
+                            <td>{member.FirstName}</td>
+                            <td>{member.LastName}</td>
+                            <td>{member.Relationship}</td>
+                            <td>{member.dob}</td>
+                            <td>{member.Education}</td>
+                            <td>{member.Occupation}</td>
+                            <td>{member.dependentInBenefits ? 'Yes' : 'No'}</td>
+                            <td className='table_action'>
+                                <Button className="btn_action"><img src={Edit} alt="" /></Button>
+                                <Button className="btn_action"><img src={Delete} alt="" /></Button>
+                            </td>
+                        </tr>
+                    ))}
+                </PrimaryGird>
+            </Col>
+        </CardForm>
     )
 }
 

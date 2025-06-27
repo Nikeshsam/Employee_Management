@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import CardForm from '../../pages/Props.jsx';
+import { CardForm, PrimaryGird, InputField } from '../../pages/Props.jsx';
 
 // Bootstrap imports
 
@@ -28,6 +28,27 @@ const HealthRecord = () => {
     { key: '6', label: 'AB positive' },
     { key: '7', label: 'AB negative' },
   ])
+
+  // FORM INPUT
+
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Form submitted:', formData);
+  };
+
   return (
     <CardForm>
       <Col md={12} lg={12} xl={12} xxl={12}>
@@ -54,52 +75,47 @@ const HealthRecord = () => {
         </Form>
       </Col>
       <Col md={3} lg={3} xl={3} xxl={3}>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label>Allergy Intolerance</Form.Label>
-          <Form.Control type="name" placeholder="" />
-        </Form.Group>
+        <InputField
+            label="Allergy Intolerance"
+            type="text"
+            placeholder="Allergy Intolerance"
+            controlId="AllergyIntolerance"
+            name="AllergyIntolerance"
+            value={formData.AllergyIntolerance}
+            onChange={handleChange}
+            required
+        />
       </Col>
       <Col md={3} lg={3} xl={3} xxl={3}>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label>Pre-Existing Illness</Form.Label>
-          <Form.Control type="name" placeholder="" />
-        </Form.Group>
+        <InputField
+            label="Pre-Existing Illness"
+            type="text"
+            placeholder="Pre-Existing Illness"
+            controlId="PreExisting"
+            name="PreExisting"
+            value={formData.PreExisting}
+            onChange={handleChange}
+            required
+        />
       </Col>
       <Col md={12} lg={12} xl={12} xxl={12}>
-        <div className="primary_table mb-3">
-          <div className="table_header">
-            <h5>Vaccination</h5>
-            <div className="heading_elements">
-              <ul>
-                <li><input className='grid_search' type="text" placeholder="Search" /></li>
-                <li><Button className='primary_form_btn btn_h_35'>Add Vaccination</Button></li>
-              </ul>
-            </div>
-          </div>
-          <div className="table_body">
-            <Table striped bordered hover responsive>
-              <thead>
-                <tr>
-                  <th>Vaccination Name</th>
-                  <th>Date of Dose</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Vaccination.map((Vaccinations) => (
-                  <tr key={Vaccinations.key}>
-                    <td>{Vaccinations.VaccinationName}</td>
-                    <td>{Vaccinations.DateofDose}</td>
-                    <td className='table_action'>
-                        <Button className="btn_action"><img src={Edit} alt="" /></Button>
-                        <Button className="btn_action"><img src={Delete} alt="" /></Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          </div>
-        </div>
+        <PrimaryGird
+          cardTitle="Vaccination"
+          buttonText="Add Vaccination"
+          onButtonClick={() => console.log('Add Visa Clicked')}
+          tableHeaders={['Vaccination Name', 'Date of Dose', 'Actions']}
+        >
+          {Vaccination.map((Vaccinations) => (
+            <tr key={Vaccinations.key}>
+              <td>{Vaccinations.VaccinationName}</td>
+              <td>{Vaccinations.DateofDose}</td>
+              <td className='table_action'>
+                <Button className="btn_action"><img src={Edit} alt="" /></Button>
+                <Button className="btn_action"><img src={Delete} alt="" /></Button>
+              </td>
+            </tr>
+          ))}
+        </PrimaryGird>
       </Col>
     </CardForm>
   )

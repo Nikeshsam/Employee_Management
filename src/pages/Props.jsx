@@ -7,7 +7,9 @@ import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react
 
 // Bootstrap imports
 
-const CardForm = ({
+// Bootsrap Card.....
+
+export const CardForm = ({
     children,
     cardTitle = '',
     buttonText = 'Save',  // Button label
@@ -32,4 +34,73 @@ const CardForm = ({
     );
 };
 
-export default CardForm
+// Bootsrap Grid.....
+
+export const PrimaryGird = ({
+    children,
+    cardTitle = 'Visa',
+    buttonText = 'Add Visa',
+    onButtonClick,
+    buttonClassName = 'primary_form_btn btn_h_35',
+    showSearch = true,
+    tableHeaders = [],
+}) => {
+    return (
+        <div className="primary_table mb-3">
+            <div className="table_header">
+                <h5>{cardTitle}</h5>
+                <div className="heading_elements">
+                    <ul>
+                        {showSearch && (
+                            <li><input className='grid_search' type="text" placeholder="Search" /></li>
+                        )}
+                        {buttonText && (
+                            <li><Button className={buttonClassName} onClick={onButtonClick}>{buttonText}</Button></li>
+                        )}
+                    </ul>
+                </div>
+            </div>
+            <div className="table_body">
+                <Table striped bordered hover responsive>
+                    <thead>
+                        <tr>
+                            {tableHeaders.map((header, index) => (
+                                <th key={index}>{header}</th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {children}
+                    </tbody>
+                </Table>
+            </div>
+        </div>
+    );
+};
+
+export const InputField = ({
+    label = '',
+    type = 'text',
+    placeholder = '',
+    controlId = '',
+    value,
+    onChange,
+    name,
+    className = 'mb-3',
+    required = false
+}) => {
+    return (
+        <Form.Group className={className} controlId={controlId}>
+            <Form.Label>{label}{required && <span className="text-danger"> *</span>}</Form.Label>
+            <Form.Control
+                type={type}
+                placeholder={placeholder}
+                value={value}
+                onChange={onChange}
+                name={name}
+                required={required}
+            />
+        </Form.Group>
+    );
+};
+

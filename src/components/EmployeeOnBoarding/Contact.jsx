@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import CardForm from '../../pages/Props.jsx';
+import { CardForm, PrimaryGird, InputField } from '../../pages/Props.jsx';
 
 // Bootstrap imports
 
@@ -61,22 +61,55 @@ const Contact = () => {
         { key: '28', label: 'Tenkasi' },
         { key: '29', label: 'Theni' },
     ])
+
+    // FORM INPUT
+    
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+    });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log('Form submitted:', formData);
+    };
+
     return (
         <CardForm>
             <Col md={12} lg={12} xl={12} xxl={12}>
                 <h5 className='MainTitle'>Current Address</h5>
             </Col>
             <Col md={6} lg={6} xl={6} xxl={6}>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                    <Form.Label>Address Line 1</Form.Label>
-                    <Form.Control type="name" placeholder="" />
-                </Form.Group>
+                <InputField
+                    label="Address Line 1"
+                    type="text"
+                    placeholder="Enter your Address"
+                    controlId="Address1"
+                    name="Address1"
+                    value={formData.Address1}
+                    onChange={handleChange}
+                    required
+                />
             </Col>
             <Col md={6} lg={6} xl={6} xxl={6}>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                    <Form.Label>Address Line 2</Form.Label>
-                    <Form.Control type="name" placeholder="" />
-                </Form.Group>
+                <InputField
+                    label="Address Line 2"
+                    type="text"
+                    placeholder="Enter your Address"
+                    controlId="Address2"
+                    name="Address2"
+                    value={formData.Address2}
+                    onChange={handleChange}
+                    required
+                />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -112,25 +145,43 @@ const Contact = () => {
                 </Form.Group>
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                    <Form.Label>Zip Code</Form.Label>
-                    <Form.Control type="name" placeholder="" />
-                </Form.Group>
+                <InputField
+                    label="Zip Code"
+                    type="text"
+                    placeholder="Enter your Zip Code"
+                    controlId="ZipCode"
+                    name="ZipCode"
+                    value={formData.ZipCode}
+                    onChange={handleChange}
+                    required
+                />
             </Col>
             <Col md={12} lg={12} xl={12} xxl={12}>
                 <h5 className='MainTitle'>Permanent Address</h5>
             </Col>
             <Col md={6} lg={6} xl={6} xxl={6}>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                    <Form.Label>Address Line 1</Form.Label>
-                    <Form.Control type="name" placeholder="" />
-                </Form.Group>
+                <InputField
+                    label="Address Line 1"
+                    type="text"
+                    placeholder="Enter your Address"
+                    controlId="pAddress1"
+                    name="pAddress1"
+                    value={formData.pAddress1}
+                    onChange={handleChange}
+                    required
+                />
             </Col>
             <Col md={6} lg={6} xl={6} xxl={6}>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                    <Form.Label>Address Line 2</Form.Label>
-                    <Form.Control type="name" placeholder="" />
-                </Form.Group>
+                <InputField
+                    label="Address Line 2"
+                    type="text"
+                    placeholder="Enter your Address"
+                    controlId="pAddress2"
+                    name="pAddress2"
+                    value={formData.pAddress2}
+                    onChange={handleChange}
+                    required
+                />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -166,64 +217,118 @@ const Contact = () => {
                 </Form.Group>
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                    <Form.Label>Zip Code</Form.Label>
-                    <Form.Control type="name" placeholder="" />
-                </Form.Group>
+                <InputField
+                    label="Zip Code"
+                    type="text"
+                    placeholder="Enter your Zip Code"
+                    controlId="pZipCode"
+                    name="pZipCode"
+                    value={formData.pZipCode}
+                    onChange={handleChange}
+                    required
+                />
             </Col>
             <Col md={12} lg={12} xl={12} xxl={12}>
                 <h5 className='MainTitle'>Contact Details</h5>
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                    <Form.Label>Primary Phone Number</Form.Label>
-                    <Form.Control type="name" placeholder="" />
-                </Form.Group>
+                <InputField
+                    label="Primary Phone Number"
+                    type="number"
+                    placeholder="Enter your Phone Number"
+                    controlId="PhoneNumber"
+                    name="PhoneNumber"
+                    value={formData.PhoneNumber}
+                    onChange={handleChange}
+                    required
+                />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                    <Form.Label>Alternate Phone Number</Form.Label>
-                    <Form.Control type="name" placeholder="" />
-                </Form.Group>
+                <InputField
+                    label="Alternate Phone Number"
+                    type="number"
+                    placeholder="Enter your Phone Number"
+                    controlId="aPhoneNumber"
+                    name="aPhoneNumber"
+                    value={formData.aPhoneNumber}
+                    onChange={handleChange}
+                    required
+                />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                    <Form.Label>Email Address</Form.Label>
-                    <Form.Control type="name" placeholder="" />
-                </Form.Group>
+                <InputField
+                    label="Email Address"
+                    type="text"
+                    placeholder="Enter your Email Address"
+                    controlId="EmailAddress"
+                    name="EmailAddress"
+                    value={formData.EmailAddress}
+                    onChange={handleChange}
+                    required
+                />
             </Col>
             <Col md={12} lg={12} xl={12} xxl={12}>
                 <h5 className='MainTitle'>Contact Details</h5>
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                    <Form.Label>Full Name</Form.Label>
-                    <Form.Control type="name" placeholder="" />
-                </Form.Group>
+                <InputField
+                    label="Full Name"
+                    type="text"
+                    placeholder="Enter your Full Name"
+                    controlId="FullName"
+                    name="FullName"
+                    value={formData.FullName}
+                    onChange={handleChange}
+                    required
+                />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                    <Form.Label>Relationship</Form.Label>
-                    <Form.Control type="name" placeholder="" />
-                </Form.Group>
+                <InputField
+                    label="Relationship"
+                    type="text"
+                    placeholder="Enter your Relationship"
+                    controlId="Relationship"
+                    name="Relationship"
+                    value={formData.Relationship}
+                    onChange={handleChange}
+                    required
+                />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                    <Form.Label>Phone Number</Form.Label>
-                    <Form.Control type="name" placeholder="" />
-                </Form.Group>
+                <InputField
+                    label="Phone Number"
+                    type="text"
+                    placeholder="Enter your Phone Number"
+                    controlId="cdPhoneNumber"
+                    name="cdPhoneNumber"
+                    value={formData.cdPhoneNumber}
+                    onChange={handleChange}
+                    required
+                />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                    <Form.Label>Email Address (optional)</Form.Label>
-                    <Form.Control type="name" placeholder="" />
-                </Form.Group>
+                <InputField
+                    label="Email Number"
+                    type="text"
+                    placeholder="Enter your Email Number"
+                    controlId="EmailNumber"
+                    name="EmailNumber"
+                    value={formData.EmailNumber}
+                    onChange={handleChange}
+                    required
+                />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                    <Form.Label>Address (optional but helpful)</Form.Label>
-                    <Form.Control type="name" placeholder="" />
-                </Form.Group>
+                <InputField
+                    label="Address (optional but helpful)"
+                    type="text"
+                    placeholder="Enter your Address"
+                    controlId="cdAddress"
+                    name="cdAddress"
+                    value={formData.cdAddress}
+                    onChange={handleChange}
+                    required
+                />
             </Col>
         </CardForm>
     )

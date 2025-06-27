@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import CardForm from '../../pages/Props.jsx';
+import { CardForm, PrimaryGird, InputField } from '../../pages/Props.jsx';
 
 // Bootstrap imports
 
@@ -33,36 +33,80 @@ const BasicInfo = () => {
         { key: '2', label: 'Married' }
     ]);
 
+    // FORM INPUT
+
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+    });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log('Form submitted:', formData);
+    };
+
     return (
         <>
             <CardForm>
                 <Col md={9} lg={9} xl={9} xxl={9}>
                     <Row className='gx-3'>
                         <Col md={4} lg={4} xl={4} xxl={4}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>First Name</Form.Label>
-                                <Form.Control type="name" placeholder="" />
-                            </Form.Group>
+                            <InputField
+                                label="First Name"
+                                type="text"
+                                placeholder="Enter your first name"
+                                controlId="firstName"
+                                name="firstName"
+                                value={formData.firstName}
+                                onChange={handleChange}
+                                required
+                            />
                         </Col>
                         <Col md={4} lg={4} xl={4} xxl={4}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Last Name</Form.Label>
-                                <Form.Control type="name" placeholder="" />
-                            </Form.Group>
+                            <InputField
+                                label="Last Name"
+                                type="text"
+                                placeholder="Enter your last name"
+                                controlId="lastName"
+                                name="lastName"
+                                value={formData.lastName}
+                                onChange={handleChange}
+                                required
+                            />
                         </Col>
                     </Row>
                     <Row className='gx-3'>
                         <Col md={4} lg={4} xl={4} xxl={4}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Date of Birth</Form.Label>
-                                <Form.Control type="date" placeholder="" />
-                            </Form.Group>
+                            <InputField
+                                label="Date of Birth"
+                                type="text"
+                                placeholder="Enter your Date of Birth"
+                                controlId="DOB"
+                                name="DOB"
+                                value={formData.DOB}
+                                onChange={handleChange}
+                                required
+                            />
                         </Col>
-                        <Col md={4} lg={4} xl={4} xxl={4}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Age</Form.Label>
-                                <Form.Control type="number" placeholder="" />
-                            </Form.Group>
+                        <Col md={4} lg={4} xl={4} xxl={4}>                            
+                            <InputField
+                                label="Age"
+                                type="number"
+                                placeholder="Enter your Age"
+                                controlId="Age"
+                                name="Age"
+                                value={formData.Age}
+                                onChange={handleChange}
+                                required
+                            />
                         </Col>
                         <Col md={4} lg={4} xl={4} xxl={4}>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -100,10 +144,16 @@ const BasicInfo = () => {
                             </Form.Group>
                         </Col>
                         <Col md={4} lg={4} xl={4} xxl={4}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Date of Marriage</Form.Label>
-                                <Form.Control type="date" placeholder="" />
-                            </Form.Group>
+                            <InputField
+                                label="Date of Marriage"
+                                type="date"
+                                placeholder="Enter your Date of Marriage"
+                                controlId="DateofMarriage"
+                                name="DateofMarriage"
+                                value={formData.DateofMarriage}
+                                onChange={handleChange}
+                                required
+                            />
                         </Col>
                     </Row>
                 </Col>

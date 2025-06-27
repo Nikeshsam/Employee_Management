@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import CardForm from '../../pages/Props.jsx';
+import { CardForm, PrimaryGird, InputField } from '../../pages/Props.jsx';
 
 // Bootstrap imports
 
@@ -10,7 +10,6 @@ import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react
 
 import Edit from '../../assets/Images/table_edit.svg';
 import Delete from '../../assets/Images/table_delete.svg';
-import { Key } from 'lucide-react';
 
 const Travel = () => {
   const [Visa, setVisas] = useState([
@@ -31,79 +30,102 @@ const Travel = () => {
       Notes: 'Tourist Visa, Single Entry',
     }
   ])
+
+  // FORM INPUT
+
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Form submitted:', formData);
+  };
+
   return (
     <CardForm>
       <Col md={12} lg={12} xl={12} xxl={12}>
         <h5 className='MainTitle'>Passport Details</h5>
       </Col>
       <Col md={3} lg={3} xl={3} xxl={3}>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label>Passport No</Form.Label>
-          <Form.Control type="name" placeholder="" />
-        </Form.Group>
+        <InputField
+            label="Passport No"
+            type="text"
+            placeholder="Enter your Passport No"
+            controlId="PassportNo"
+            name="PassportNo"
+            value={formData.PassportNo}
+            onChange={handleChange}
+            required
+        />
       </Col>
       <Col md={3} lg={3} xl={3} xxl={3}>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label>Issued By</Form.Label>
-          <Form.Control type="name" placeholder="" />
-        </Form.Group>
+        <InputField
+            label="Issued By"
+            type="text"
+            placeholder="Enter your Issued By"
+            controlId="IssuedBy"
+            name="IssuedBy"
+            value={formData.IssuedBy}
+            onChange={handleChange}
+            required
+        />
       </Col>
       <Col md={3} lg={3} xl={3} xxl={3}>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label>Date of Issue</Form.Label>
-          <Form.Control type="name" placeholder="" />
-        </Form.Group>
+        <InputField
+          label="Date of Issue"
+          type="date"
+          placeholder="Enter your Date of Issue"
+          controlId="DateIssue"
+          name="DateIssue"
+          value={formData.DateIssue}
+          onChange={handleChange}
+          required
+        />
       </Col>
       <Col md={3} lg={3} xl={3} xxl={3}>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label>Date of Expiry</Form.Label>
-          <Form.Control type="name" placeholder="" />
-        </Form.Group>
+        <InputField
+          label="Date of Expiry"
+          type="date"
+          placeholder="Enter your Date of Expiry"
+          controlId="DateExpiry"
+          name="DateExpiry"
+          value={formData.DateExpiry}
+          onChange={handleChange}
+          required
+        />
       </Col>
       <Col md={12} lg={12} xl={12} xxl={12}>
-        <div className="primary_table mb-3">
-          <div className="table_header">
-            <h5>Visa</h5>
-            <div className="heading_elements">
-              <ul>
-                <li><input className='grid_search' type="text" placeholder="Search" /></li>
-                <li><Button className='primary_form_btn btn_h_35'>Add Visa</Button></li>
-              </ul>
-            </div>
-          </div>
-          <div className="table_body">
-            <Table striped bordered hover responsive>
-              <thead>
-                <tr>
-                  <th>Visa Number</th>
-                  <th>Issued Date</th>
-                  <th>Place of Issue</th>
-                  <th>Expiry Date</th>
-                  <th>Notes</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Visa.map((Visas) => (
-                  <tr key={Visas.key}>
-                  {/* <tr key={Visas.key}> */}
-                    <td>{Visas.VisaNumber}</td>
-                    <td>{Visas.IssuedDate}</td>
-                    <td>{Visas.PlaceofIssue}</td>
-                    <td>{Visas.ExpiryDate}</td>
-                    <td>{Visas.Notes}</td>
-                    <td className='table_action'>
-                      <Button className="btn_action"><img src={Edit} alt="" /></Button>
-                      <Button className="btn_action"><img src={Delete} alt="" /></Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          </div>
-        </div>
+        <PrimaryGird 
+          cardTitle="Visa Details"
+          buttonText="Add Visa"
+          onButtonClick={() => console.log('Add Visa Clicked')}
+          tableHeaders={['Visa Number', 'Issued Date', 'Place of Issue', 'Expiry Date', 'Notes', 'Action']}
+        >
+            {Visa.map((Visas) => (
+              <tr key={Visas.key}>
+                <td>{Visas.VisaNumber}</td>
+                <td>{Visas.IssuedDate}</td>
+                <td>{Visas.PlaceofIssue}</td>
+                <td>{Visas.ExpiryDate}</td>
+                <td>{Visas.Notes}</td>
+                <td className='table_action'>
+                  <Button className="btn_action"><img src={Edit} alt="" /></Button>
+                  <Button className="btn_action"><img src={Delete} alt="" /></Button>
+                </td>
+              </tr>
+            ))}
+        </PrimaryGird>
       </Col>
-
     </CardForm>
   )
 }
