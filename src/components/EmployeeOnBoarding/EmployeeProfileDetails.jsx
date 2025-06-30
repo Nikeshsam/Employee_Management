@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { CardForm, PrimaryGird, InputField } from '../../pages/Props.jsx';
+import Images from '../../pages/Images.jsx';
 
 // Bootstrap imports
 
@@ -7,9 +8,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react-bootstrap';
 
 // Bootstrap imports
-
-import UserName from '../../assets/Images/user_img.svg';
-import OfferLetter from '../../assets/Images/pdf.svg';
 
 function EmployeeProfileCard() {
   const employee = {
@@ -23,7 +21,7 @@ function EmployeeProfileCard() {
     workLocation: 'Work From Home',
     status: 'Active',
     offerLetter: '#', // Link to offer letter (PDF)
-    profilePic: UserName // Replace with actual image URL if needed
+    profilePic: Images.UserName // Replace with actual image URL if needed
   };
     return (
         <div className="employee_profile_container">
@@ -64,7 +62,7 @@ function EmployeeProfileCard() {
             </div>
             <div className="employee_offer_letter">
                 <a href={employee.offerLetter} className="">
-                    <img src={OfferLetter} alt="Offer Letter" className="offer_letter_icon" />
+                    <img src={Images.OfferLetter} alt="Offer Letter" className="offer_letter_icon" />
                     {' '}
                     Offer Letter
                 </a>

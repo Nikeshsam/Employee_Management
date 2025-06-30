@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CardForm, PrimaryGird, InputField } from '../../pages/Props.jsx';
+import { CardForm, PrimaryGird, InputField, SelectInput } from '../../pages/Props.jsx';
 
 // Bootstrap imports
 
@@ -11,6 +11,7 @@ import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react
 // import Props from 'Props.jsx';
 
 const BasicInfo = () => {
+
     const [nationality, setNationality] = useState([
         { key: '1', label: 'Indian' },
         { key: '2', label: 'Australian' },
@@ -109,39 +110,33 @@ const BasicInfo = () => {
                             />
                         </Col>
                         <Col md={4} lg={4} xl={4} xxl={4}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Nationality</Form.Label>
-                                <Form.Select aria-label="Default select example">
-                                    <option>Select Nationality</option>
-                                    {nationality.map(national => (
-                                        <option key={national.key} value={national.label}>{national.label}</option>
-                                    ))};
-                                </Form.Select>
-                            </Form.Group>
+                            <SelectInput
+                                controlId="nationalitySelect"
+                                label="Nationality"
+                                name="nationality"
+                                options={nationality}
+                                placeholder="Select Nationality"
+                            />
                         </Col>
                     </Row>
                     <Row className='gx-3'>
                         <Col md={4} lg={4} xl={4} xxl={4}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Gender</Form.Label>
-                                <Form.Select aria-label="Default select example">
-                                    <option>Select Gender</option>
-                                    {gender.map(genderList => (
-                                        <option key={genderList.key} value={genderList.label}>{genderList.label}</option>
-                                    ))};
-                                </Form.Select>
-                            </Form.Group>
+                            <SelectInput
+                                controlId="genderSelect"
+                                label="Gender"
+                                name="Gender"
+                                options={gender}
+                                placeholder="Select Gender"
+                            />
                         </Col>
                         <Col md={4} lg={4} xl={4} xxl={4}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Marital Status</Form.Label>
-                                <Form.Select aria-label="Default select example">
-                                    <option>Select Status</option>
-                                    {maritalstatus.map(status => (
-                                        <option key={status.key} value={status.label}>{status.label}</option>
-                                    ))};
-                                </Form.Select>
-                            </Form.Group>
+                            <SelectInput
+                                controlId="genderSelect"
+                                label="Marital Status"
+                                name="Marital Status"
+                                options={maritalstatus}
+                                placeholder="Marital Status"
+                            />
                         </Col>
                         <Col md={4} lg={4} xl={4} xxl={4}>
                             <InputField

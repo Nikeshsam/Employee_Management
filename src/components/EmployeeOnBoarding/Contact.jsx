@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { CardForm, PrimaryGird, InputField } from '../../pages/Props.jsx';
+import { CardForm, PrimaryGird, InputField, SelectInput } from '../../pages/Props.jsx';
+
 
 // Bootstrap imports
 
@@ -9,16 +10,16 @@ import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react
 // Bootstrap imports
 
 const Contact = () => {
-    const [Country, setCountry] = useState ([
+    const [Country, setCountry] = useState([
         { key: '1', label: 'Indian' },
-        { key: '2', label: 'Australian' },      
+        { key: '2', label: 'Australian' },
         { key: '3', label: 'Chinese' },
         { key: '4', label: 'Japan' },
         { key: '5', label: 'England' },
         { key: '6', label: 'Pakistan' },
         { key: '7', label: 'Dubai' }
     ])
-    const [State, setState] = useState ([
+    const [State, setState] = useState([
         { key: '1', label: 'Tamil Nadu' },
         { key: '2', label: 'Andhra Pradesh' },
         { key: '3', label: 'Maharashtra' },
@@ -30,7 +31,7 @@ const Contact = () => {
         { key: '9', label: 'Karnataka' },
         { key: '10', label: 'Kerala' },
     ])
-    const [City, setCity] = useState ([
+    const [City, setCity] = useState([
         { key: '1', label: 'Chennai' },
         { key: '2', label: 'Kanchipuram' },
         { key: '3', label: 'Vellore' },
@@ -40,17 +41,17 @@ const Contact = () => {
         { key: '7', label: 'Coimbatore' },
         { key: '8', label: 'Tirupur' },
         { key: '9', label: 'Thanjavur' },
-        { key: '10', label: 'Thoothukudi'},
+        { key: '10', label: 'Thoothukudi' },
         { key: '11', label: 'Salem' },
         { key: '12', label: 'Tiruchirappalli' },
         { key: '13', label: 'Erode' },
         { key: '14', label: 'Dindigul' },
-        { key: '15', label: 'Kanyakumari'},
+        { key: '15', label: 'Kanyakumari' },
         { key: '16', label: 'Tirunelveli' },
         { key: '17', label: 'Virudhunagar' },
         { key: '18', label: 'Namakkal' },
         { key: '19', label: 'Karur' },
-        { key: '20', label: 'Pudukkottai'},
+        { key: '20', label: 'Pudukkottai' },
         { key: '21', label: 'Sivaganga' },
         { key: '22', label: 'Ramanathapuram' },
         { key: '23', label: 'Thiruvarur' },
@@ -63,7 +64,7 @@ const Contact = () => {
     ])
 
     // FORM INPUT
-    
+
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -112,37 +113,31 @@ const Contact = () => {
                 />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                    <Form.Label>Country</Form.Label>
-                    <Form.Select aria-label="Default select example">
-                        <option>Select Country</option>
-                        {Country.map(Countrys => (
-                            <option key={Countrys.key} value={Countrys.label}>{Countrys.label}</option>
-                        ))}
-                    </Form.Select>
-                </Form.Group>
+                <SelectInput
+                    controlId="country"
+                    label="Country"
+                    name="country"
+                    options={Country}
+                    placeholder="Select Country"
+                />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                    <Form.Label>State</Form.Label>
-                    <Form.Select aria-label="Default select example">
-                        <option>Select State</option>
-                        {State.map(States => (
-                            <option key={States.key} value={States.label}>{States.label}</option>
-                        ))}
-                    </Form.Select>
-                </Form.Group>
+                <SelectInput
+                    controlId="State"
+                    label="State"
+                    name="State"
+                    options={State}
+                    placeholder="Select State"
+                />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                    <Form.Label>City</Form.Label>
-                    <Form.Select aria-label="Default select example">
-                        <option>Select City</option>
-                        {City.map(Citys => (
-                            <option key={Citys.key} value={Citys.label}>{Citys.label}</option>
-                        ))}
-                    </Form.Select>
-                </Form.Group>
+                <SelectInput
+                    controlId="City"
+                    label="City"
+                    name="City"
+                    options={City}
+                    placeholder="Select City"
+                />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
                 <InputField
@@ -184,37 +179,31 @@ const Contact = () => {
                 />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                    <Form.Label>Country</Form.Label>
-                    <Form.Select aria-label="Default select example">
-                        <option>Select Country</option>
-                        {Country.map(Countrys => (
-                            <option key={Countrys.key} value={Countrys.label}>{Countrys.label}</option>
-                        ))}
-                    </Form.Select>
-                </Form.Group>
+                <SelectInput
+                    controlId="Country"
+                    label="Country"
+                    name="Country"
+                    options={Country}
+                    placeholder="Select Country"
+                />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                    <Form.Label>State</Form.Label>
-                    <Form.Select aria-label="Default select example">
-                        <option>Select State</option>
-                        {State.map(States => (
-                            <option key={States.key} value={States.label}>{States.label}</option>
-                        ))}
-                    </Form.Select>
-                </Form.Group>
+                <SelectInput
+                    controlId="State"
+                    label="State"
+                    name="State"
+                    options={State}
+                    placeholder="Select State"
+                />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                    <Form.Label>City</Form.Label>
-                    <Form.Select aria-label="Default select example">
-                        <option>Select City</option>
-                        {City.map(Citys => (
-                            <option key={Citys.key} value={Citys.label}>{Citys.label}</option>
-                        ))}
-                    </Form.Select>
-                </Form.Group>
+                <SelectInput
+                    controlId="City"
+                    label="City"
+                    name="City"
+                    options={City}
+                    placeholder="Select City"
+                />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
                 <InputField

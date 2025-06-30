@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { CardForm, PrimaryGird, InputField } from '../../pages/Props.jsx';
+import Images from '../../pages/Images.jsx';
 
 // Bootstrap imports
 
@@ -7,9 +8,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react-bootstrap';
 
 // Bootstrap imports
-
-import Edit from '../../assets/Images/table_edit.svg';
-import Delete from '../../assets/Images/table_delete.svg';
 
 const WorkExperience = () => {
   const [WorkExperience, setWorkExperience] = useState([
@@ -39,8 +37,8 @@ const WorkExperience = () => {
               <td>{WorkExperiences.StartDate}</td>
               <td>{WorkExperiences.EndDate}</td>
               <td className='table_action'>
-                <Button className="btn_action"><img src={Edit} alt="" /></Button>
-                <Button className="btn_action"><img src={Delete} alt="" /></Button>
+                <Button className="btn_action"><img src={Images.Edit} alt="" /></Button>
+                <Button className="btn_action"><img src={Images.Delete} alt="" /></Button>
               </td>
             </tr>
           ))}

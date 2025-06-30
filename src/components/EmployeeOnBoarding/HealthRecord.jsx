@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { CardForm, PrimaryGird, InputField } from '../../pages/Props.jsx';
+import { CardForm, PrimaryGird, InputField, SelectInput } from '../../pages/Props.jsx';
+import Images from '../../pages/Images.jsx';
 
 // Bootstrap imports
 
@@ -7,9 +8,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react-bootstrap';
 
 // Bootstrap imports
-
-import Edit from '../../assets/Images/table_edit.svg';
-import Delete from '../../assets/Images/table_delete.svg';
 
 const HealthRecord = () => {
   const [Vaccination, setVaccination] = useState([
@@ -55,15 +53,13 @@ const HealthRecord = () => {
           <h5 className='MainTitle'>Health Details</h5>
       </Col>
       <Col md={3} lg={3} xl={3} xxl={3}>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label>Blood Group</Form.Label>
-          <Form.Select aria-label="Default select example">
-            <option>Select Blood Group</option>
-            {BloodGroup.map(BloodGroups => (
-              <option key={BloodGroups.key} value={BloodGroups.label}>{BloodGroups.label}</option>
-            ))}
-          </Form.Select>
-        </Form.Group>
+        <SelectInput
+          controlId="BloodGroup"
+          label="Blood Group"
+          name="BloodGroup"
+          options={BloodGroup}
+          placeholder="Select BloodGroup"
+        />
       </Col>
       <Col md={3} lg={3} xl={3} xxl={3}>
         <Form>
@@ -110,8 +106,8 @@ const HealthRecord = () => {
               <td>{Vaccinations.VaccinationName}</td>
               <td>{Vaccinations.DateofDose}</td>
               <td className='table_action'>
-                <Button className="btn_action"><img src={Edit} alt="" /></Button>
-                <Button className="btn_action"><img src={Delete} alt="" /></Button>
+                <Button className="btn_action"><img src={Images.Edit} alt="" /></Button>
+                <Button className="btn_action"><img src={Images.Delete} alt="" /></Button>
               </td>
             </tr>
           ))}

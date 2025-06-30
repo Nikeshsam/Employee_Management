@@ -7,7 +7,7 @@ import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react
 
 // Bootstrap imports
 
-// Bootsrap Card.....
+// Component Card.....
 
 export const CardForm = ({
     children,
@@ -34,7 +34,7 @@ export const CardForm = ({
     );
 };
 
-// Bootsrap Grid.....
+// Component Grid.....
 
 export const PrimaryGird = ({
     children,
@@ -78,6 +78,8 @@ export const PrimaryGird = ({
     );
 };
 
+// Component InputField.....
+
 export const InputField = ({
     label = '',
     type = 'text',
@@ -104,3 +106,27 @@ export const InputField = ({
     );
 };
 
+// Component SelectField.....
+
+export const SelectInput = ({ 
+    controlId, 
+    label, 
+    options, 
+    name, 
+    placeholder = "Select an option", 
+    className = "mb-3" }) => {
+        
+  return (
+    <Form.Group className={className} controlId={controlId}>
+      <Form.Label>{label}</Form.Label>
+      <Form.Select name={name} aria-label={`${label} select`}>
+        <option>{placeholder}</option>
+        {options.map((option) => (
+          <option key={option.key} value={option.value || option.label}>
+            {option.label}
+          </option>
+        ))}
+      </Form.Select>
+    </Form.Group>
+  );
+};
