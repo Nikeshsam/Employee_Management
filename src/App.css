@@ -78,7 +78,7 @@ Form{width: 100%;}
 .main_container .main_content .topmenu .topmenu_search input::placeholder{color: #C2CDE0 !important;}
 .main_container .main_content .topmenu .topmenu_search input::placeholder{font-size: 14px !important; font-weight: 500 !important;}
 
-.main_container .main_content .content{padding: 20px 5px; height: calc(100vh - 50px); overflow: auto;}
+.main_container .main_content .content{padding: 19px 5px; height: calc(100vh - 50px); overflow: auto;}
 
 .primary_card{border: 1px solid #E7DEFF; background-color: #fff; border-radius: 15px; box-shadow: none; overflow: hidden;}
 .primary_card .card-header{background-color: #fff; border: none !important; display: flex; align-items: center; justify-content: space-between; padding: 18px 15px;}
