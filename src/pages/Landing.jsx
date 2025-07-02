@@ -14,9 +14,7 @@ const Landing = () => {
     return (
         <Container fluid>
             <Row>
-                <Col>
-                    <LandingHeader></LandingHeader>
-                </Col>
+                <LandingHeader></LandingHeader>
             </Row>
         </Container>
     )
