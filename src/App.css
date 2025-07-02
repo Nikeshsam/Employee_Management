@@ -237,7 +237,7 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .MainHeader .HR_Menu .menu_parallax{font-size: 14px; font-weight: 500; color: #353535; text-decoration: none;}
 .MainHeader .HR_Action .HR_Action_btn{border: none; border-radius: 100px; padding: 8px 20px; background-color: #6D36FA; color: #fff; font-size: 14px; font-weight: 500;}
  
-.Banner_container{display: flex; flex-direction: column; gap: 30px;}
-.Banner_container span{color: #FFA917; font-size: 20px; font-weight: 500; margin: 0;}
-.Banner_container h2{color: #2B2B2B; font-size: 40px; font-weight: 700; margin: 0;}
-.Banner_container p{color: #666666; font-size: 16px; font-weight: 400; margin: 0;}
+.Banner_container{display: flex; flex-direction: column; gap: 20px;}
+.Banner_container span{color: #FFA917; font-size: 20px; font-weight: 500; margin: 0; line-height: 24px;}
+.Banner_container h2{color: #2B2B2B; font-size: 40px; font-weight: 700; margin: 0; line-height: 50px;}
+.Banner_container p{color: #666666; font-size: 16px; font-weight: 400; margin: 0; line-height: 21px}
