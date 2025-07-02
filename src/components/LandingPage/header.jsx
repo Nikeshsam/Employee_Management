@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import BrandLogo from '../../assets/Images/Logo.svg';
 
 // Bootstrap imports
