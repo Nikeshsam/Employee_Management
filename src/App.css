@@ -6,6 +6,8 @@ p{margin: 0;}
 
 label{font-family: "Inter", sans-serif !important;}
 
+.modal-backdrop{--bs-backdrop-opacity: 0.7;}
+
 .btn_h_30{height: 30px !important;}
 .btn_h_32{height: 32px !important;}
 .btn_h_35{height: 35px !important;}
@@ -56,6 +58,11 @@ Form{width: 100%;}
 .secondary_btn_rounded{background-color: #ffffff !important; border: 1px solid #FFA917; font-size: 16px !important; font-weight: 500 !important; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 100px; padding: 4px 30px; display: flex; align-items: center; color: #FFA917; justify-content: center;}
 .secondary_btn_rounded:hover{background-color: #FFA917 !important; border: 1px solid #FFA917;}
 .secondary_form_btn{background-color: #6D36FA !important; border: none !important; font-size: 14px !important; font-weight: 600 !important; font-family: "Inter", sans-serif !important; border-radius: 4px; padding: 7px 20px; display: flex; align-items: center; justify-content: center;}
+
+.modal_primary_btn{background-color: #6D36FA !important; font-size: 16px !important; font-weight: 600 !important; color: #fff; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 8px; border: none;}
+
+.modal_primary_border_btn{background-color: #fff !important; font-size: 16px !important; font-weight: 500 !important; color: #414651; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 8px; border: 1px solid #D5D7DA;}
+.modal_primary_border_btn:hover{border: 1px solid #6D36FA; color: #6D36FA;}
 
 /* ACTION BUTTON */
 
@@ -275,3 +282,16 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .About_container{display: flex; justify-content: center; flex-direction: column; gap: 15px;}
 .About_container h2{color: #fff; font-size: 36px; font-weight: 700; margin: 0; text-align: center;}
 .About_container p{color: #F4F5F5; font-size: 15px; font-weight: 300; margin: 0; text-align: center; padding: 0 50px;}
+
+.PrimaryModal .modal-header{padding: 25px; border: none !important;}
+.PrimaryModal .modal-header .modal-title{width: 100%; display: flex; flex-direction: column; gap: 25px;}
+.PrimaryModal .modal-header .modal-title .ModalTopIcon{display: flex; align-items: center; justify-content: space-between;}
+.PrimaryModal .modal-header .modal-title .ModalTopIcon .ModalIcon{display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border: 1.6px solid #dde1eb; border-radius: 10px;}
+.PrimaryModal .modal-header .modal-title .ModalTopIcon .ModalIcon img,
+.PrimaryModal .modal-header .modal-title .ModalTopIcon .CloseIcon img{display: flex;}
+.PrimaryModal .modal-header .modal-title .ModalTopIcon .CloseIcon{display: flex;}
+.PrimaryModal .modal-header .modal-title .ModalTopHeading{display: flex; flex-direction: column; gap: 8px;}
+.PrimaryModal .modal-header .modal-title .ModalTopHeading h4{font-size: 18px; line-height: 21px; font-weight: 600; color: #181D27; margin: 0;}
+.PrimaryModal .modal-header .modal-title .ModalTopHeading p{font-size: 16px; line-height: 18px; font-weight: 400; color: #535862; margin: 0;}
+.PrimaryModal .modal-body{padding: 25px; border: none !important;}
+.PrimaryModal .modal-footer{padding: 25px; border: none !important;}

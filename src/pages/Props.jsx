@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import Images from '../pages/Images.jsx';
 
 // Bootstrap imports
 
 import 'bootstrap/dist/css/bootstrap.css';
-import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react-bootstrap';
+import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table, Image, Modal } from 'react-bootstrap';
 
 // Bootstrap imports
 
@@ -130,3 +131,55 @@ export const SelectInput = ({
     </Form.Group>
   );
 };
+
+// Component Modal.....
+
+export const CustomModal = ({
+    show,
+    onSubmit,
+    onHide,
+    title = "Modal Title",
+    subtitle = "Modal Sub Title",
+    bodyContent = "",
+    size = "md",
+    centered = true,
+    footerButtonSubmit = "Submit",
+    footerButtonCancel = "Cancel",
+    footerButtonSubmitClass = "",
+    footerButtonCancelClass = ""
+}) => {
+    return (
+        <Modal
+            show={show}
+            onHide={onHide}
+            size={size}
+            aria-labelledby="contained-modal-title-vcenter"
+            centered={centered}
+            className='PrimaryModal'
+        >
+            <Modal.Header>
+                <Modal.Title id="contained-modal-title-vcenter">
+                    <div className='ModalTopIcon'>
+                        <i className='ModalIcon'>
+                            <Image src={Images.ModalIcon}/>
+                        </i>
+                        <i className='CloseIcon'>
+                            <Image src={Images.ModalClose}/>
+                        </i>
+                    </div>
+                    <div className='ModalTopHeading'>
+                        <h4>{title}</h4>
+                        <p>{subtitle}</p>
+                    </div>
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                {typeof bodyContent === "string" ? <p>{bodyContent}</p> : bodyContent}
+            </Modal.Body>
+            <Modal.Footer>
+                <Button className={footerButtonSubmitClass} onClick={onSubmit}>{footerButtonSubmit}</Button>
+                <Button className={footerButtonCancelClass} onClick={onHide}>{footerButtonCancel}</Button>
+            </Modal.Footer>
+        </Modal>
+    );
+}

@@ -15,10 +15,13 @@ import PriceCheck from '../assets/Images/PriceCheck.svg';
 import PriceArrow from '../assets/Images/PriceArrow.svg';
 import PriceArrowWhite from '../assets/Images/PriceArrowWhite.svg';
 
+import ModalIcon from '../assets/Images/Modal_Icon.svg';
+import ModalClose from '../assets/Images/Modal_Close.svg';
+
 
 
  const Images = {
-    Edit, Delete, UserName, OfferLetter, BannerImage, ProductImage, FeatureImage, FeatureDashboard, FeatureOrganize, PriceCheck, PriceArrow, PriceArrowWhite
+    Edit, Delete, UserName, OfferLetter, BannerImage, ProductImage, FeatureImage, FeatureDashboard, FeatureOrganize, PriceCheck, PriceArrow, PriceArrowWhite, ModalIcon, ModalClose
 }
 
 export default Images;
