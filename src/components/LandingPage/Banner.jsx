@@ -4,7 +4,7 @@ import Images from '../../pages/Images.jsx';
 // Bootstrap imports
 
 import 'bootstrap/dist/css/bootstrap.css';
-import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table, Stack } from 'react-bootstrap';
+import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table, Stack, Image } from 'react-bootstrap';
 
 // Bootstrap imports
 
@@ -23,7 +23,7 @@ function Banner() {
         </div>
       </Col>
       <Col md={6} lg={6} xl={6} xxl={6}>
-      <img src={Images.BannerImage} alt="" />
+        <Image src={Images.BannerImage} alt="Banner Image" />
       </Col>
     </>
   )

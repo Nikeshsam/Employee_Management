@@ -4,7 +4,7 @@ import Images from '../../pages/Images.jsx';
 // Bootstrap imports
 
 import 'bootstrap/dist/css/bootstrap.css';
-import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table, Stack } from 'react-bootstrap';
+import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table, Stack, Image } from 'react-bootstrap';
 
 // Bootstrap imports
 
@@ -16,6 +16,11 @@ function Product() {
                     <span style={{lineHeight:'20px'}}>Product</span>
                     <h2 style={{lineHeight:'42px'}}>See Our Cloud HR Solutions In Action</h2>
                     <p style={{lineHeight:'24px', textAlign:'center'}}>The best HR software for SMB companies and startup to manage employee,<br/> payroll assistance, time off, attendance tracking with single software</p>
+                </div>
+            </Col>
+            <Col className='pt-5' md={10} lg={10} xl={10} xxl={10}>
+                <div className="ProductImage">
+                    <Image src={Images.ProductImage} alt="Product Image" fluid />
                 </div>
             </Col>
         </>

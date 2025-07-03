@@ -5,10 +5,16 @@ import UserName from '../assets/Images/user_img.svg';
 import OfferLetter from '../assets/Images/pdf.svg';
 
 import BannerImage from '../assets/Images/Banner_Images.png';
+import ProductImage from '../assets/Images/Product_Dashboard.jpg';
+import FeatureImage from '../assets/Images/Feature_Image.jpg';
+
+import FeatureDashboard from '../assets/Images/PowerfulDashboard.svg';
+import FeatureOrganize from '../assets/Images/BestOrganize.svg';
+
 
 
  const Images = {
-    Edit, Delete, UserName, OfferLetter, BannerImage
+    Edit, Delete, UserName, OfferLetter, BannerImage, ProductImage, FeatureImage, FeatureDashboard, FeatureOrganize
 }
 
 export default Images;
