@@ -43,7 +43,13 @@ Form{width: 100%;}
 /* ACTION BUTTON */
 
 .primary_btn{background-color: #6D36FA !important; font-size: 16px !important; font-weight: 700 !important; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 4px;}
-.primary_btn_rounded{background-color: #6D36FA !important; border: none; font-size: 16px !important; font-weight: 500 !important; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 100px; padding: 4px 30px; display: flex; align-items: center; justify-content: center;}
+
+.primary_btn_rounded{background-color: #6D36FA !important; border: none; font-size: 16px !important; font-weight: 500 !important; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 100px; padding: 4px 30px; display: flex; align-items: center; justify-content: center; color: #fff;}
+.primary_btn_rounded:hover{background-color: #fff !important; border: 1px solid #6D36FA; color: #6D36FA;}
+
+.primary_btn_rounded_bordered{background-color: #fff !important; border: 1px solid #6D36FA; color: #6D36FA; font-size: 16px !important; font-weight: 500 !important; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 100px; padding: 4px 30px; display: flex; align-items: center; justify-content: center;}
+.primary_btn_rounded_bordered:hover{background-color: #6D36FA !important; border: 1px solid #6D36FA; color: #fff;}
+
 .primary_form_btn{background-color: #6D36FA !important; border: none !important; font-size: 14px !important; font-weight: 600 !important; font-family: "Inter", sans-serif !important; border-radius: 4px; padding: 7px 20px; display: flex; align-items: center; justify-content: center;}
 
 .secondary_btn{background-color: #FFA917 !important; font-size: 16px !important; font-weight: 700 !important; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 4px;}
@@ -253,4 +259,19 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .FeaturesCol h5{color: #2B2B2B; font-size: 18px; font-weight: 600; margin: 0; line-height: 24px; margin-bottom: 5px;}
 .FeaturesCol p{color: #666666; font-size: 13px; font-weight: 400; margin: 0; line-height: 18px;}
 
-.PricingTable{padding: 10px; border-radius: 35px; border: 1px solid #E2E1E1;}
+.PricingTable{padding: 30px 30px; border-radius: 35px; border: 1px solid #E2E1E1; display: flex; flex-direction: column; gap: 8px; background-color: #fff;}
+.PricingTable h6{font-size: 21px; color: #666666; font-weight: 500; margin: 0; line-height: 30px;}
+.PricingTable span{font-size: 28px; color: #151515; font-weight: 700; margin: 0; line-height: 36px;}
+.PricingTable p{font-size: 15px; color: #7F7F7F; font-weight: 400; margin: 0; line-height: 20px;}
+.PricingTable ul li{display: flex; align-items: flex-start; gap: 10px;padding: 13px 0;}
+.PricingTable ul li i img{width: 16px; display: flex; position: relative; top: 2.5px;}
+.PricingTable ul li span{font-size: 14px; font-weight: 500; color:#404040; line-height: 20px;}
+
+.PricingTable .btn-icon{display: flex; align-items: center; gap: 7px;}
+.PricingTable .btn-icon i {display: flex;}
+.PricingTable .btn-icon i img{width: 18px;}
+.PricingTable .btn-icon span{font-size: 16px; font-weight: 500; color:#6D36FA; line-height: 20px; display: flex;}
+
+.About_container{display: flex; justify-content: center; flex-direction: column; gap: 15px;}
+.About_container h2{color: #fff; font-size: 36px; font-weight: 700; margin: 0; text-align: center;}
+.About_container p{color: #F4F5F5; font-size: 15px; font-weight: 300; margin: 0; text-align: center; padding: 0 50px;}

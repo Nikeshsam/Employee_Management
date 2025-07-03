@@ -13,43 +13,46 @@ import { Key } from 'lucide-react';
 const Pricing = () => {
     const [PricingTable, setPricingTable] = useState([
         {
-            Key: '1',
+            id: 1,
             Title: 'Free Plan',
             Price: '$0',
             Description: 'Ideal for individual and small teams getting started with HR management',
             Features: [
-                'Basic task organization and tracking features',
-                'Single user access for personal use',
-                'Limited cloud storage for task-related data',
-                'Limited collaboration option',
+                { key: 1, Description: 'Basic task organization and tracking features' },
+                { key: 2, Description: 'Single user access for personal use' },
+                { key: 3, Description: 'Limited cloud storage for task-related data' },
+                { key: 4, Description: 'Limited collaboration option' },
             ],
-            buttonStyle: 'btn-primary text-white',
+            buttonStyle: 'primary_btn_rounded_bordered',
+            Icon: Images.PriceArrow,
         },
         {
-            Key: '2',
+            id: 2,
             Title: 'Premium',
             Price: '$200',
             Description: 'Design for growing company looking for comprehensive HR Management',
             Features: [
-                'Advanced task organization and tracking features',
-                'Multi-user access for personal use',
-                'Expanded cloud storage for task-related data and files',
-                'Real time collaboration, comments, and shared data individual',
-                'Customizable reminders and notification for deadline',
+                { key: 1, Description: 'Advanced task organization and tracking features' },
+                { key: 2, Description: 'Multi-user access for personal use' },
+                { key: 3, Description: 'Expanded cloud storage for task-related data and files' },
+                { key: 4, Description: 'Real time collaboration, comments, and shared data individual' },
+                { key: 5, Description: 'Customizable reminders and notification for deadline' },
             ],
-            buttonStyle: 'btn-primary text-white',
+            buttonStyle: 'primary_btn_rounded',
+            Icon: Images.PriceArrowWhite,
         },
         {
-            Key: '3',
+            id: 3,
             Title: 'Enterprise',
             Price: 'Custom',
             Description: 'Best solution for larger companies and organizations with complex HR needs',
             Features: [
-                'Advanced HR analytic and productivity insights for data-driven decision',
-                '24/7 priority customer support and dedicated customer success manager',
-                'Robust security and compliance measures to protect sensitive HR data',
+                { key: 1, Description: 'Advanced HR analytic and productivity insights for data-driven decision' },
+                { key: 2, Description: '24/7 priority customer support and dedicated customer success manager' },
+                { key: 3, Description: 'Robust security and compliance measures to protect sensitive HR data' },
             ],
-            buttonStyle: 'btn-primary text-white',
+            buttonStyle: 'primary_btn_rounded_bordered',
+            Icon: Images.PriceArrow,
         }
     ])
     return (
@@ -60,22 +63,24 @@ const Pricing = () => {
                     <h2 style={{ lineHeight: '42px' }}>Flexible Plants & Friendly Budget</h2>
                 </div>
             </Col>
-            <Row>
+            <Row className="align-items-center">
                 {PricingTable.map((PricingTables) => (
-                    <Col md={4} lg={4} xl={4} xxl={4}>
+                    <Col md={4} lg={4} xl={4} xxl={4} key={PricingTables.id}>
                         <div className="PricingTable mt-5">
                             <h6>{PricingTables.Title}</h6>
                             <span>{PricingTables.Price}</span>
                             <p>{PricingTables.Description}</p>
                             <ul>
-                                {PricingTables.Features.map((Features, i) => (
-                                    <li key={1}>
-                                        {Features}
+                                {PricingTables.Features.map((Feature, i) => (
+                                    <li key={Feature.key}>
+                                        <i><Image src={Images.PriceCheck} /></i>
+                                        <span>{Feature.Description}</span>
                                     </li>
                                 ))}
                             </ul>
-                            <button className={`btn w-100 ${PricingTables.buttonStyle}`}>
-                                Get started →
+                            <button className={`btn btn-icon ${PricingTables.buttonStyle}`}>
+                                Get started
+                                <i><Image src={PricingTables.Icon} /></i>
                             </button>
                         </div>
                     </Col>

@@ -11,10 +11,14 @@ import FeatureImage from '../assets/Images/Feature_Image.jpg';
 import FeatureDashboard from '../assets/Images/PowerfulDashboard.svg';
 import FeatureOrganize from '../assets/Images/BestOrganize.svg';
 
+import PriceCheck from '../assets/Images/PriceCheck.svg';
+import PriceArrow from '../assets/Images/PriceArrow.svg';
+import PriceArrowWhite from '../assets/Images/PriceArrowWhite.svg';
+
 
 
  const Images = {
-    Edit, Delete, UserName, OfferLetter, BannerImage, ProductImage, FeatureImage, FeatureDashboard, FeatureOrganize
+    Edit, Delete, UserName, OfferLetter, BannerImage, ProductImage, FeatureImage, FeatureDashboard, FeatureOrganize, PriceCheck, PriceArrow, PriceArrowWhite
 }
 
 export default Images;

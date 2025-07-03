@@ -13,6 +13,8 @@ import LandingBanner from '../components/LandingPage/Banner.jsx';
 import LandingProduct from '../components/LandingPage/Product.jsx';
 import LandingFeatures from '../components/LandingPage/Features.jsx';
 import LandingPricing from '../components/LandingPage/Pricing.jsx';
+import LandingAboutUs from '../components/LandingPage/AboutUs.jsx';
+import LandingFooter from '../components/LandingPage/Footer.jsx';
 
 const Landing = () => {
     return (
@@ -24,12 +26,12 @@ const Landing = () => {
                     </Row>
                 </Container>
             </Container>
-            <Container className='pb-5' style={{ paddingTop: '75px' }}>
+            <Container className='pb-5' style={{paddingTop: '75px'}}>
                 <Row className='pt-5 pb-5 align-items-center'>
                     <LandingBanner></LandingBanner>
                 </Row>
             </Container>
-            <Container className='pt-5 mb-5' style={{ backgroundColor: '#F6F9FF' }} fluid>
+            <Container className='pt-5 mb-5' style={{backgroundColor: '#F6F9FF'}} fluid>
                 <Container className='pt-5'>
                     <Row className="justify-content-center">
                         <LandingProduct></LandingProduct>
@@ -41,10 +43,24 @@ const Landing = () => {
                     <LandingFeatures></LandingFeatures>
                 </Row>
             </Container>
-            <Container className='pt-5 pb-5' style={{ backgroundColor: '#F6F9FF' }} fluid>
+            <Container className='pt-5 pb-5' style={{backgroundColor: '#F6F9FF'}} fluid>
                 <Container className='pt-5 pb-5'>
-                    <Row className="align-items-center">
+                    <Row>
                         <LandingPricing></LandingPricing>
+                    </Row>
+                </Container>
+            </Container>
+            <Container className='pt-5 pb-5' style={{backgroundColor: '#1A202C'}} fluid>
+                <Container className='pt-5 pb-5'>
+                    <Row>
+                        <LandingAboutUs></LandingAboutUs>
+                    </Row>
+                </Container>
+            </Container>
+            <Container className='pt-4 pb-4' fluid>
+                <Container>
+                    <Row>
+                        <LandingFooter></LandingFooter>
                     </Row>
                 </Container>
             </Container>
