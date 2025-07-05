@@ -11,17 +11,17 @@ const Sidebar = ({ handleSidebarClick, activeTab }) => {
         <img src={InnerLogo} alt="Logo" />
       </div>
       <ul className='sidebar_menu'>
-        <li onClick={() => handleSidebarClick('dashboard')} className={activeTab === 'dashboard' ? 'active' : ''}>
+        <li onClick={() => handleSidebarClick('Dashboard')} className={activeTab === 'Dashboard' ? 'active' : ''}>
           <i><img src={Dashboard} alt="Dashboard" /></i>
           <span>Dashboard</span>
         </li>
-        <li onClick={() => handleSidebarClick('onboarding')} className={activeTab === 'onboarding' ? 'active' : ''}>
+        <li onClick={() => handleSidebarClick('On-Boarding')} className={activeTab === 'On-Boarding' ? 'active' : ''}>
           <i><img src={OnBoarding} alt="OnBoarding" /></i>
           <span>On Boarding</span>
         </li>
-        <li onClick={() => handleSidebarClick('companydetails')} className={activeTab === 'companydetails' ? 'active' : ''}>
+        <li onClick={() => handleSidebarClick('Company Details')} className={activeTab === 'Company Details' ? 'active' : ''}>
           <i><img src={OnBoarding} alt="Company Details" /></i>
-          <span>Company Details</span>
+          <span>Company Profile</span>
         </li>
       </ul>
     </div>

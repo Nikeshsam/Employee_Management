@@ -26,38 +26,38 @@ const Landing = () => {
                     </Row>
                 </Container>
             </Container>
-            <Container className='pb-5' style={{paddingTop: '75px'}}>
+            <Container id='home' className='pb-5' style={{paddingTop: '75px'}}>
                 <Row className='pt-5 pb-5 align-items-center'>
                     <LandingBanner></LandingBanner>
                 </Row>
             </Container>
-            <Container className='pt-5 mb-5' style={{backgroundColor: '#F6F9FF'}} fluid>
+            <Container id='product' className='pt-5 mb-5' style={{backgroundColor: '#F6F9FF'}} fluid>
                 <Container className='pt-5'>
                     <Row className="justify-content-center">
                         <LandingProduct></LandingProduct>
                     </Row>
                 </Container>
             </Container>
-            <Container className='pt-5 pb-5 mb-5'>
+            <Container id='features' className='pt-5 pb-5 mb-5'>
                 <Row className="align-items-center">
                     <LandingFeatures></LandingFeatures>
                 </Row>
             </Container>
-            <Container className='pt-5 pb-5' style={{backgroundColor: '#F6F9FF'}} fluid>
+            <Container id='pricing' className='pt-5 pb-5' style={{backgroundColor: '#F6F9FF'}} fluid>
                 <Container className='pt-5 pb-5'>
                     <Row>
                         <LandingPricing></LandingPricing>
                     </Row>
                 </Container>
             </Container>
-            <Container className='pt-5 pb-5' style={{backgroundColor: '#1A202C'}} fluid>
+            <Container id='about' className='pt-5 pb-5' style={{backgroundColor: '#1A202C'}} fluid>
                 <Container className='pt-5 pb-5'>
                     <Row>
                         <LandingAboutUs></LandingAboutUs>
                     </Row>
                 </Container>
             </Container>
-            <Container className='pt-4 pb-4' fluid>
+            <Container id='Product' className='pt-4 pb-4' fluid>
                 <Container>
                     <Row>
                         <LandingFooter></LandingFooter>

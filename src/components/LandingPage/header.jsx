@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-scroll';
 import BrandLogo from '../../assets/Images/Logo.svg';
 
 // Bootstrap imports
@@ -8,7 +9,7 @@ import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table, Image } from
 
 // Bootstrap imports
 
-function header() {
+const header = () => {
   return (
     <div className='MainHeader'>
       <div className='HR_Brand'>
@@ -17,16 +18,61 @@ function header() {
         </a>
       </div>
       <div className='HR_Menu'>
-        <a className='menu_parallax' href="#home">Home</a>
-        <a className='menu_parallax' href="#about">About</a>
-        <a className='menu_parallax' href="#features">Features</a>
-        <a className='menu_parallax' href="#testimonial">Testimonial</a>
-        <a className='menu_parallax' href="#pricing">Pricing</a>
+        <Link
+          className="menu_parallax"
+          to="home"
+          spy={true}
+          smooth={true}
+          offset={-70}
+          duration={500}
+        >
+          Home
+        </Link>
+        <Link
+          className="menu_parallax"
+          to="product"
+          spy={true}
+          smooth={true}
+          offset={-70}
+          duration={500}
+        >
+          Product
+        </Link>
+        <Link
+          className="menu_parallax"
+          to="features"
+          spy={true}
+          smooth={true}
+          offset={-70}
+          duration={500}
+        >
+          Features
+        </Link>
+        <Link
+          className="menu_parallax"
+          to="pricing"
+          spy={true}
+          smooth={true}
+          offset={-70}
+          duration={500}
+        >
+          Pricing
+        </Link>
+        <Link
+          className="menu_parallax"
+          to="about"
+          spy={true}
+          smooth={true}
+          offset={-70}
+          duration={500}
+        >
+          About
+        </Link>
       </div>
       <div className='HR_Action'>
-        <button className="HR_Action_btn">
+        <Button className="HR_Action_btn">
           Register
-        </button>
+        </Button>
       </div>
     </div>
   )

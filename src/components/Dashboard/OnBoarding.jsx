@@ -19,7 +19,7 @@ import HealthRecord from '../EmployeeOnBoarding/HealthRecord.jsx';
 import Travel from '../EmployeeOnBoarding/Travel.jsx';
 
 
-function EmployeeProfileCard() {
+const EmployeeProfileCard = () => {
   return (
 
     <Container fluid>

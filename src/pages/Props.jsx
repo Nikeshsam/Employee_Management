@@ -157,15 +157,15 @@ export const CustomModal = ({
             centered={centered}
             className='PrimaryModal'
         >
-            <Modal.Header>
+            <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
                     <div className='ModalTopIcon'>
                         <i className='ModalIcon'>
                             <Image src={Images.ModalIcon}/>
                         </i>
-                        <i className='CloseIcon'>
+                        {/* <i className='CloseIcon'>
                             <Image src={Images.ModalClose}/>
-                        </i>
+                        </i> */}
                     </div>
                     <div className='ModalTopHeading'>
                         <h4>{title}</h4>
@@ -173,7 +173,7 @@ export const CustomModal = ({
                     </div>
                 </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body className='pb-0 pt-0'>
                 {typeof bodyContent === "string" ? <p>{bodyContent}</p> : bodyContent}
             </Modal.Body>
             <Modal.Footer>
