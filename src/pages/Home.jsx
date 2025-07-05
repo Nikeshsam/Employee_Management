@@ -14,7 +14,7 @@ const Home = () => {
         name: 'John Mathew',
     };
 
-    const [activeTab, setActiveTab] = useState('dashboard');
+    const [activeTab, setActiveTab] = useState('Dashboard');
     const handleSidebarClick = (val) => {
         setActiveTab(val);
     }

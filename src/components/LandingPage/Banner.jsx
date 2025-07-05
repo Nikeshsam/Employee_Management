@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Images from '../../pages/Images.jsx';
 import { CardForm, PrimaryGird, InputField, CustomModal } from '../../pages/Props.jsx';
 
@@ -27,10 +28,15 @@ const Banner = () => {
         }));
     };
 
+    const Navigate = useNavigate();
+
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('Form submitted:', formData);
+        Navigate ('/Home');
     };
+
+
 
   const [modalShow, setModalShow] = React.useState(false);
   return (
@@ -119,7 +125,8 @@ const Banner = () => {
             </Col>
           </>
         }
-        footerButtonSubmit="Confirm"
+        onSubmit={handleSubmit}
+        footerButtonSubmit ="Register"
         footerButtonCancel="Cancel"
         footerButtonSubmitClass="modal_primary_btn w-100"
         footerButtonCancelClass="modal_primary_border_btn w-100 mt-3"
