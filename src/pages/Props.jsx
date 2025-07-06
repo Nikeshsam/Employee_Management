@@ -4,7 +4,7 @@ import Images from '../pages/Images.jsx';
 // Bootstrap imports
 
 import 'bootstrap/dist/css/bootstrap.css';
-import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table, Image, Modal } from 'react-bootstrap';
+import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table, Image, Modal, CardHeader } from 'react-bootstrap';
 
 // Bootstrap imports
 
@@ -23,7 +23,7 @@ export const CardForm = ({
             <Card.Body>
                 {cardTitle && <Card.Title>{cardTitle}</Card.Title>}
                 <Form onSubmit={onSubmit}>
-                    <Row className='gx-3 row'>
+                    <Row className='gx-3'>
                         {children}
                     </Row>
                 </Form>
@@ -35,13 +35,53 @@ export const CardForm = ({
     );
 };
 
+// Component Card Tertiary.....
+
+export const CardFromTertiary = ({
+    children,
+    cardTitle = 'Organization Profile',
+    buttonTextSave = 'Submit',
+    buttonTextCancel = 'Cancel',
+    onButtonClick,
+    buttonClassName = 'primary_form_btn btn_h_35',
+    onSubmit = (e) => e.preventDefault()
+}) => {
+    return (
+        <Card className='Tertiary_card'>
+            <CardHeader>
+                {cardTitle && <Card.Title>{cardTitle}</Card.Title>}
+            </CardHeader>
+            <Card.Body>
+                <Form onSubmit={onSubmit}>
+                    {children}
+                </Form>
+            </Card.Body>
+            <Card.Footer>
+                <Button className={buttonClassName} onClick={onButtonClick}>{buttonTextSave}</Button>
+            </Card.Footer>
+        </Card>
+    );
+}
+
 // Component Grid.....
 
 export const PrimaryGird = ({
     children,
     cardTitle = 'Visa',
     buttonText = 'Add Visa',
+    buttonFilter = 'Filter',
+    buttonDelete = 'Delete',
+    // Visibility Toggles
+    showSearch = true,
+    showAddButton = true,
+    showFilterButton = true,
+    showDeleteButton = true,
+
+    // Actions
     onButtonClick,
+    onFilterClick,
+    onDeleteClick,
+
     buttonClassName = 'primary_form_btn btn_h_35',
     showSearch = true,
     tableHeaders = [],
@@ -53,10 +93,36 @@ export const PrimaryGird = ({
                 <div className="heading_elements">
                     <ul>
                         {showSearch && (
-                            <li><input className='grid_search' type="text" placeholder="Search" /></li>
+                            <li>
+                                <input className="grid_search" type="text" placeholder="Search" />
+                            </li>
                         )}
-                        {buttonText && (
-                            <li><Button className={buttonClassName} onClick={onButtonClick}>{buttonText}</Button></li>
+                        {showAddButton && (
+                            <li>
+                                <Button className={buttonClassName} onClick={onButtonClick}>
+                                    {buttonText}
+                                </Button>
+                            </li>
+                        )}
+                        {showFilterButton && (
+                            <li>
+                                <Button className={buttonClassName} onClick={onFilterClick}>
+                                    {buttonIcons.filter && (
+                                        <img src={buttonIcons.filter} alt="Filter" className="me-2" />
+                                    )}
+                                    {buttonFilter}
+                                </Button>
+                            </li>
+                        )}
+                        {showDeleteButton && (
+                            <li>
+                                <Button className={buttonClassName} onClick={onDeleteClick}>
+                                    {buttonIcons.delete && (
+                                        <img src={buttonIcons.delete} alt="Delete" className="me-2" />
+                                    )}
+                                    {buttonDelete}
+                                </Button>
+                            </li>
                         )}
                     </ul>
                 </div>
@@ -109,27 +175,27 @@ export const InputField = ({
 
 // Component SelectField.....
 
-export const SelectInput = ({ 
-    controlId, 
-    label, 
-    options, 
-    name, 
-    placeholder = "Select an option", 
+export const SelectInput = ({
+    controlId,
+    label,
+    options,
+    name,
+    placeholder = "Select an option",
     className = "mb-3" }) => {
-        
-  return (
-    <Form.Group className={className} controlId={controlId}>
-      <Form.Label>{label}</Form.Label>
-      <Form.Select name={name} aria-label={`${label} select`}>
-        <option>{placeholder}</option>
-        {options.map((option) => (
-          <option key={option.key} value={option.value || option.label}>
-            {option.label}
-          </option>
-        ))}
-      </Form.Select>
-    </Form.Group>
-  );
+
+    return (
+        <Form.Group className={className} controlId={controlId}>
+            <Form.Label>{label}</Form.Label>
+            <Form.Select name={name} aria-label={`${label} select`}>
+                <option>{placeholder}</option>
+                {options.map((option) => (
+                    <option key={option.key} value={option.value || option.label}>
+                        {option.label}
+                    </option>
+                ))}
+            </Form.Select>
+        </Form.Group>
+    );
 };
 
 // Component Modal.....
@@ -161,7 +227,7 @@ export const CustomModal = ({
                 <Modal.Title id="contained-modal-title-vcenter">
                     <div className='ModalTopIcon'>
                         <i className='ModalIcon'>
-                            <Image src={Images.ModalIcon}/>
+                            <Image src={Images.ModalIcon} />
                         </i>
                         {/* <i className='CloseIcon'>
                             <Image src={Images.ModalClose}/>

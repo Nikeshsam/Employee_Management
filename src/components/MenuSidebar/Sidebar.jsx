@@ -19,9 +19,13 @@ const Sidebar = ({ handleSidebarClick, activeTab }) => {
           <i><img src={OnBoarding} alt="OnBoarding" /></i>
           <span>On Boarding</span>
         </li>
-        <li onClick={() => handleSidebarClick('Company Details')} className={activeTab === 'Company Details' ? 'active' : ''}>
-          <i><img src={OnBoarding} alt="Company Details" /></i>
+        <li onClick={() => handleSidebarClick('Company Profile')} className={activeTab === 'Company Profile' ? 'active' : ''}>
+          <i><img src={OnBoarding} alt="Company Profile" /></i>
           <span>Company Profile</span>
+        </li>
+        <li onClick={() => handleSidebarClick('Add Employee')} className={activeTab === 'Add Employee' ? 'active' : ''}>
+          <i><img src={OnBoarding} alt="Add Employee" /></i>
+          <span>Add Employee</span>
         </li>
       </ul>
     </div>

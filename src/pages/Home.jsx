@@ -8,6 +8,7 @@ import TopMenu from '../components/MenuSidebar/TopMenu.jsx';
 import Dashboard from '../components/Dashboard/Dashboard.jsx';
 import OnBoarding from '../components/Dashboard/OnBoarding.jsx';
 import CompanyProfile from '../components/Dashboard/CompanyProfile.jsx';
+import AddEmployee from '../components/Dashboard/AddEmployee.jsx';
 
 const Home = () => {
     const user = {
@@ -26,7 +27,9 @@ const Home = () => {
             <div className="main_content">
                 <TopMenu activeTab={activeTab} title="Dashboard" userName={user.name} />
                 <div className='content'>
-                   {activeTab === 'Dashboard' ? <Dashboard /> : activeTab === 'On-Boarding' ? <OnBoarding /> : <CompanyProfile />}
+                   {activeTab === 'Dashboard' ? <Dashboard /> : 
+                    activeTab === 'On-Boarding' ? <OnBoarding /> : 
+                    activeTab === 'Company Profile' ?<CompanyProfile />: <AddEmployee/>}
                 </div>
             </div>
         </div>

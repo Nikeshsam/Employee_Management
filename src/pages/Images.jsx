@@ -18,6 +18,9 @@ import PriceArrowWhite from '../assets/Images/PriceArrowWhite.svg';
 import ModalIcon from '../assets/Images/Modal_Icon.svg';
 import ModalClose from '../assets/Images/Modal_Close.svg';
 
+import GirdFilter from '../assets/Images/gird_filter.svg';
+import GirdDelete from '../assets/Images/gird_delete.svg';
+
 
 
  const Images = {
