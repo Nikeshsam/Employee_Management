@@ -17,18 +17,21 @@ import LandingAboutUs from '../components/LandingPage/AboutUs.jsx';
 import LandingFooter from '../components/LandingPage/Footer.jsx';
 
 const Landing = () => {
+
+    const [modalShow, setModalShow] = React.useState(false); 
+
     return (
         <>
             <Container className='bg-white' style={{ borderBottom: '1px solid #D3D2D2', position: 'fixed', zIndex: '99' }} fluid>
                 <Container>
                     <Row>
-                        <LandingHeader></LandingHeader>
+                        <LandingHeader setModalShow={setModalShow}></LandingHeader>
                     </Row>
                 </Container>
             </Container>
             <Container id='home' className='pb-5' style={{paddingTop: '75px'}}>
                 <Row className='pt-5 pb-5 align-items-center'>
-                    <LandingBanner></LandingBanner>
+                    <LandingBanner modalShow={modalShow} setModalShow={setModalShow}></LandingBanner>
                 </Row>
             </Container>
             <Container id='product' className='pt-5 mb-5' style={{backgroundColor: '#F6F9FF'}} fluid>

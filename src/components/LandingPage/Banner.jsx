@@ -11,34 +11,87 @@ import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table, Stack, Image
 
 // Bootstrap imports
 
-const Banner = () => {
+const Banner = ({modalShow,setModalShow}) => {
 
   // FORM INPUT
 
     const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
+      name: '',
+      email: '',
+      organizationName: '',
+      password: '',
+      confirmPassword: ''
     });
 
+    const [errors, setErrors] = useState({});
+
+    const validate = () => {
+      const newErrors = {};
+
+      if (!formData.name.trim()) {
+        newErrors.name = 'Name is required';
+      }
+
+      if (!formData.email) {
+        newErrors.email = 'Email is required';
+      } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
+        newErrors.email = 'Invalid email format';
+      }
+
+      if (!formData.organizationName.trim()) {
+        newErrors.organizationName = 'Enter Your Organization Name';
+      }
+
+      if (!formData.password) {
+        newErrors.password = 'Password is required';
+      } else if (formData.password.length < 6) {
+        newErrors.password = 'Password must be at least 6 characters';
+      }
+
+      if (!formData.confirmPassword) {
+        newErrors.confirmPassword = 'Confirm password is required';
+      } else if (formData.password !== formData.confirmPassword) {
+        newErrors.confirmPassword = 'Passwords do not match';
+      }
+
+      return newErrors;
+    };
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      const validationErrors = validate();
+      if (Object.keys(validationErrors).length > 0) {
+        setErrors(validationErrors);
+      } else {
+        setErrors({});
+        Navigate('/Home')
+        console.log('Form submitted:', formData);
+        // Perform API call or other actions
+      }
+    };
+
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
+      const { name, value } = e.target;
+      setFormData(prev => ({ ...prev, [name]: value }));
     };
 
     const Navigate = useNavigate();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('Form submitted:', formData);
-        Navigate ('/Home');
-    };
 
+    // const [modalShow, setModalShow] = React.useState(false); 
 
+    const handleClearClick = () => {
+      setFormData ({
+        name: '',
+        email: '',
+        organizationName: '',
+        password: '',
+        confirmPassword: ''
+      })
+      setModalShow(false);
+      setErrors({});
+    }
 
-  const [modalShow, setModalShow] = React.useState(false);
   return (
     <>
       <Col md={6} lg={6} xl={6} xxl={6}>
@@ -58,7 +111,7 @@ const Banner = () => {
 
       <CustomModal
         show={modalShow}
-        onHide={() => setModalShow(false)}
+        onHide={handleClearClick}
         title="Register"
         subtitle='Start your 7-day free trial.'
         bodyContent={
@@ -68,10 +121,11 @@ const Banner = () => {
                 label="Name"
                 type="text"
                 placeholder="Enter your name"
-                controlId="Name"
-                name="Name"
-                value={formData.Name}
-                onChange={handleChange}
+                controlId="name"
+                name="name"
+                errors={errors.name}
+                value={formData.name}
+                handleChange={handleChange}
                 required
               />
             </Col>
@@ -80,10 +134,11 @@ const Banner = () => {
                 label="Email"
                 type="text"
                 placeholder="Enter your Email"
-                controlId="Email"
-                name="Email"
-                value={formData.Email}
-                onChange={handleChange}
+                controlId="email"
+                name="email"
+                errors={errors.email}
+                value={formData.email}
+                handleChange={handleChange}
                 required
               />
             </Col>
@@ -92,10 +147,11 @@ const Banner = () => {
                 label="Organization Name"
                 type="text"
                 placeholder="Enter Your Organization Name"
-                controlId="OrganizationName"
-                name="OrganizationName"
-                value={formData.OrganizationName}
-                onChange={handleChange}
+                controlId="organizationName"
+                name="organizationName"
+                errors={errors.organizationName}
+                value={formData.organizationName}
+                handleChange={handleChange}
                 required
               />
             </Col>
@@ -104,10 +160,11 @@ const Banner = () => {
                 label="Password"
                 type="Password"
                 placeholder="Create a password"
-                controlId="Password"
-                name="Password"
-                value={formData.Password}
-                onChange={handleChange}
+                controlId="password"
+                name="password"
+                errors={errors.password}
+                value={formData.password}
+                handleChange={handleChange}
                 required
               />
             </Col>
@@ -116,10 +173,11 @@ const Banner = () => {
                 label="Confirm Password"
                 type="Password"
                 placeholder="Re-enter your password"
-                controlId="Confirm Password"
-                name="Confirm Password"
-                value={formData.ConfirmPassword}
-                onChange={handleChange}
+                controlId="confirmPassword"
+                name="confirmPassword"
+                errors={errors.confirmPassword}
+                value={formData.confirmPassword}
+                handleChange={handleChange}
                 required
               />
             </Col>
@@ -129,7 +187,7 @@ const Banner = () => {
         footerButtonSubmit ="Register"
         footerButtonCancel="Cancel"
         footerButtonSubmitClass="modal_primary_btn w-100"
-        footerButtonCancelClass="modal_primary_border_btn w-100 mt-3"
+        footerButtonCancelClass="modal_primary_border_btn w-100"
       />
     </>
   )

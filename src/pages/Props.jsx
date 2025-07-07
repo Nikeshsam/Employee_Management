@@ -174,22 +174,35 @@ export const InputField = ({
     placeholder = '',
     controlId = '',
     value,
-    onChange,
+    handleChange,
     name,
     className = 'mb-3',
+    errors,
     required = false
 }) => {
     return (
-        <Form.Group className={className} controlId={controlId}>
-            <Form.Label>{label}{required && <span className="text-danger"> *</span>}</Form.Label>
+        <Form.Group autoComplete="off" className={`position-relative ${className}`} controlId={controlId}>
+            {label && (
+                <Form.Label>
+                    {label}
+                    {required && <span className="text-danger"> *</span>}
+                </Form.Label>
+            )}
             <Form.Control
                 type={type}
                 placeholder={placeholder}
                 value={value}
-                onChange={onChange}
+                onChange={handleChange}
                 name={name}
                 required={required}
+                isInvalid={!!errors}
+                autoComplete="off"
             />
+            {errors && (
+                <Form.Control.Feedback type="invalid" className="error_msg">
+                    {errors}
+                </Form.Control.Feedback>
+            )}
         </Form.Group>
     );
 };
