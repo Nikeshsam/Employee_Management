@@ -35,6 +35,12 @@ const Benefits = () => {
         <PrimaryGird
           cardTitle="Dependents"
           buttonText="Add Dependents"
+
+          showAddButton={true}
+          showFilterButton={false}
+          showDeleteButton={false}
+          showFooter={false}
+
           onButtonClick={() => console.log('Add Visa Clicked')}
           tableHeaders={['Name', 'Relationship', 'Gender', 'ID Number', 'Date of Birth', 'Actions']}
         >

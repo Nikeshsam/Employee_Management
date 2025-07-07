@@ -71,6 +71,8 @@ Form{width: 100%;}
 .secondary_btn_rounded:hover{background-color: #FFA917 !important; border: 1px solid #FFA917;}
 .secondary_form_btn{background-color: #6D36FA !important; border: none !important; font-size: 14px !important; font-weight: 600 !important; font-family: "Inter", sans-serif !important; border-radius: 4px; padding: 7px 20px; display: flex; align-items: center; justify-content: center;}
 
+.icon_btn{display: flex; align-items: center; justify-content: center; border: 1px solid #D8D6DD; border-radius: 5px; width: 35px; height: 35px; background-color: transparent !important;}
+
 .modal_primary_btn{background-color: #6D36FA !important; font-size: 16px !important; font-weight: 600 !important; color: #fff; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 8px; border: none; margin: 0;}
 
 .modal_primary_border_btn{background-color: #fff !important; font-size: 16px !important; font-weight: 500 !important; color: #414651; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 8px; border: 1px solid #D5D7DA; margin: 0;}
@@ -199,10 +201,16 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .primary_table thead tr,
 .primary_table thead tr td{vertical-align: middle; border: none;}
 .primary_table thead tr th{background-color: #EBE4FF;box-shadow: none; overflow: hidden; font-size: 12px; text-transform: uppercase; font-weight: 700; color: #2C2C2C; padding: 10px 15px; border: none !important;}
+.primary_table thead tr th .form-check-input,
+.primary_table tbody tr td .form-check-input{margin: 0 !important; width: 14px; height: 14px; border: 1px solid #ADADAD;}
+
 .primary_table tbody tr td{background-color: transparent;box-shadow: none; overflow: hidden; font-size: 14px; font-weight: 500; color: #343434; padding: 9px 15px; border: none !important; height: 48px;}
 .primary_table tbody tr:nth-child(even){background-color: #f3f3f3 !important;}
 .primary_table tbody tr,
 .primary_table tbody tr td{vertical-align: middle; border: none;}
+.primary_table tbody tr td .badge{border: 1px solid #E0E0E0; background-color: #fff; padding: 5px 10px; border-radius: 100px; display: inline-flex; gap: 5px; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; color: #2B2B2B;}
+.primary_table tbody tr td .badge i{background-color: #6D36FA; width: 5px; height: 5px; border-radius: 100px; }
+
 .primary_table tbody tr td .status{display: inline-flex; align-items: center; font-size: 12px; font-weight: 600; color: #2B2B2B; padding: 4.5px 18px 5px 24px; border: 1px solid #E0E0E0 !important; background-color: #fff; border-radius: 100px; position: relative;}
 .primary_table tbody tr td .status::before{content: ""; position: absolute; left: 9px; top: 50%; transform: translateY(-50%); width: 6px; height: 6px; border-radius: 100px; background-color: #6D36FA;}
 .primary_table tbody tr td .emp-name{display: flex; align-items: center; gap: 7px;}
@@ -240,7 +248,6 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .Secondary_tab .nav-item .nav-link.active{color: #fff !important; background-color: #FFA917;}
 .Secondary_tab .nav-item .nav-link:hover{color: #fff !important; background-color: #FFA917;}
 
-
 .form-label{color: #707070; font-size: 14px; font-weight: 400; line-height: 16px;}
 .form-control{color: #2e2e2e !important; font-size: 14px !important; font-weight: 500 !important; background-color: #fff !important; height: 40px !important; border: 1px solid #E5DEF7 !important; border-radius: 4px !important;}
 .form-control:focus{box-shadow: none !important; border: 1px solid #b498ff !important;}
@@ -263,6 +270,23 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .btn_action{background-color: transparent; border: none; padding: 0; cursor: pointer; display: flex; align-items: center; gap: 10px;}
 .btn_action:hover{background-color: transparent;}
 
+.table_footer{border: 1px solid #E8E0FF; background-color: rgb(235 228 255 / 40%) !important; padding: 10px 15px;}
+.table_footer .paginations{display: flex; align-items: center; justify-content: space-between;}
+.table_footer .paginations .form-select{height: 30px !important; padding: 0 1.5rem 0 0.5rem !important; font-size: 11px !important; color: #5C5865 !important; font-weight: 600 !important; border: 1px solid #E6DDFF !important; border-radius: 4px !important; background-position: right 0.25rem center;}
+.table_footer .paginations ul.pagination{gap: 7px;}
+
+.table_footer .paginations ul.pagination li:first-child .page-link,
+.table_footer .paginations ul.pagination li:nth-child(2) .page-link{width: 30px; height: 30px; border-radius: 4px; background-color: #fff; border: 1px solid #E6DDFF !important;}
+
+.table_footer .paginations ul.pagination li:nth-last-child(2) .page-link,
+.table_footer .paginations ul.pagination li:last-child .page-link{width: 30px; height: 30px; border-radius: 4px; background-color: #fff; border: 1px solid #E6DDFF !important; box-shadow: none;}
+
+.table_footer .paginations ul.pagination li .page-link{display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; color: #5C5865; border: none !important; border-radius: 4px; background-color: transparent;}
+.table_footer .paginations ul.pagination li .page-link:focus{box-shadow: none;}
+
+.table_footer .paginations .jumpTo{display: flex; align-items: center; gap: 8px;}
+.table_footer .paginations .jumpTo input.form-control{width: 30px !important; height: 30px !important; border-radius: 4px !important; border: 1px solid #E6DDFF !important; min-height: auto !important;}
+ 
 .MainHeader{display: flex; align-items: center; justify-content: space-between; padding: 10px 15px;} 
 .MainHeader .HR_Brand img{width: 60px;}
 .MainHeader .HR_Menu{display: flex; gap: 40px; align-items: center;}

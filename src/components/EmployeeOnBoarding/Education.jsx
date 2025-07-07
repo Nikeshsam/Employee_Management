@@ -37,6 +37,12 @@ const Educations = () => {
                 <PrimaryGird
                     cardTitle="Educations"
                     buttonText="Add Education"
+
+                    showAddButton={true}
+                    showFilterButton={false}
+                    showDeleteButton={false}
+                    showFooter={false}
+
                     onButtonClick={() => console.log('Add Visa Clicked')}
                     tableHeaders={['Degree', 'Major', 'University', 'Year', 'CGPA', 'Actions']}
                 >
@@ -60,6 +66,12 @@ const Educations = () => {
                 <PrimaryGird
                     cardTitle="Certifications"
                     buttonText="Add Certifications"
+
+                    showAddButton={true}
+                    showFilterButton={false}
+                    showDeleteButton={false}
+                    showFooter={false}
+
                     onButtonClick={() => console.log('Add Visa Clicked')}
                     tableHeaders={['Name', 'Issued by', 'Issued Date', 'Expiry Date', 'Additional Information', 'Actions']}
                 >

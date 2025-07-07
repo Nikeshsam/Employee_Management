@@ -50,6 +50,10 @@ const Family = () => {
                 <PrimaryGird
                     cardTitle="Family"
                     buttonText="Add Family"
+                    showAddButton={true}
+                    showFilterButton={false}
+                    showDeleteButton={false}
+                    showFooter={false}
                     onButtonClick={() => console.log('Add Visa Clicked')}
                     tableHeaders={['First Name', 'Last Name', 'Relationship', 'Date of Birth', 'Education', 'occupation', 'Dependent in benefits', 'Actions']}
                 >

@@ -4,7 +4,7 @@ import Images from '../pages/Images.jsx';
 // Bootstrap imports
 
 import 'bootstrap/dist/css/bootstrap.css';
-import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table, Image, Modal, CardHeader } from 'react-bootstrap';
+import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table, Image, Pagination, Modal, CardHeader } from 'react-bootstrap';
 
 // Bootstrap imports
 
@@ -76,6 +76,7 @@ export const PrimaryGird = ({
     showAddButton = true,
     showFilterButton = true,
     showDeleteButton = true,
+    showFooter = true,
 
     // Actions
     onButtonClick,
@@ -83,7 +84,7 @@ export const PrimaryGird = ({
     onDeleteClick,
 
     buttonClassName = 'primary_form_btn btn_h_35',
-    showSearch = true,
+    buttonClassIcon = 'primary_form_btn btn_h_35',
     tableHeaders = [],
 }) => {
     return (
@@ -106,21 +107,15 @@ export const PrimaryGird = ({
                         )}
                         {showFilterButton && (
                             <li>
-                                <Button className={buttonClassName} onClick={onFilterClick}>
-                                    {buttonIcons.filter && (
-                                        <img src={buttonIcons.filter} alt="Filter" className="me-2" />
-                                    )}
-                                    {buttonFilter}
+                                <Button className={buttonClassIcon} onClick={onFilterClick}>
+                                    <img src={Images.GirdFilter} alt="" />
                                 </Button>
                             </li>
                         )}
                         {showDeleteButton && (
                             <li>
-                                <Button className={buttonClassName} onClick={onDeleteClick}>
-                                    {buttonIcons.delete && (
-                                        <img src={buttonIcons.delete} alt="Delete" className="me-2" />
-                                    )}
-                                    {buttonDelete}
+                                <Button className={buttonClassIcon} onClick={onDeleteClick}>
+                                    <img src={Images.GirdDelete} alt="" />
                                 </Button>
                             </li>
                         )}
@@ -141,6 +136,32 @@ export const PrimaryGird = ({
                     </tbody>
                 </Table>
             </div>
+            {showFooter && (
+                <div className='table_footer'>
+                    <div className="paginations">
+                        <div>
+                            <Form.Select>
+                                <option>30 Results</option>
+                                <option>10 Results</option>
+                            </Form.Select>
+                        </div>
+                        <Pagination size="sm" className="mb-0">
+                            <Pagination.First />
+                            <Pagination.Prev />
+                            <Pagination.Item active>{1}</Pagination.Item>
+                            <Pagination.Item>{2}</Pagination.Item>
+                            <Pagination.Ellipsis />
+                            <Pagination.Item>{18}</Pagination.Item>
+                            <Pagination.Next />
+                            <Pagination.Last />
+                        </Pagination>
+                        <div className="jumpTo">
+                            Jump to:
+                            <Form.Control type="number" size="sm" className=""/>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

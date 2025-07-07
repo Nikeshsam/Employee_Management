@@ -24,7 +24,7 @@ import GirdDelete from '../assets/Images/gird_delete.svg';
 
 
  const Images = {
-    Edit, Delete, UserName, OfferLetter, BannerImage, ProductImage, FeatureImage, FeatureDashboard, FeatureOrganize, PriceCheck, PriceArrow, PriceArrowWhite, ModalIcon, ModalClose
+    Edit, Delete, UserName, OfferLetter, BannerImage, ProductImage, FeatureImage, FeatureDashboard, FeatureOrganize, PriceCheck, PriceArrow, PriceArrowWhite, ModalIcon, ModalClose, GirdFilter, GirdDelete
 }
 
 export default Images;

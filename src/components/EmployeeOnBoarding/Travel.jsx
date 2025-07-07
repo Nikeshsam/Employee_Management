@@ -106,6 +106,12 @@ const Travel = () => {
         <PrimaryGird 
           cardTitle="Visa Details"
           buttonText="Add Visa"
+
+          showAddButton={true}
+          showFilterButton={false}
+          showDeleteButton={false}
+          showFooter={false}
+
           onButtonClick={() => console.log('Add Visa Clicked')}
           tableHeaders={['Visa Number', 'Issued Date', 'Place of Issue', 'Expiry Date', 'Notes', 'Action']}
         >

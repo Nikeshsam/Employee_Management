@@ -98,6 +98,12 @@ const HealthRecord = () => {
         <PrimaryGird
           cardTitle="Vaccination"
           buttonText="Add Vaccination"
+
+          showAddButton={true}
+          showFilterButton={false}
+          showDeleteButton={false}
+          showFooter={false}          
+          
           onButtonClick={() => console.log('Add Visa Clicked')}
           tableHeaders={['Vaccination Name', 'Date of Dose', 'Actions']}
         >

@@ -26,6 +26,12 @@ const WorkExperience = () => {
         <PrimaryGird
           cardTitle="Work Experience"
           buttonText="Add Work Experience"
+
+          showAddButton={true}
+          showFilterButton={false}
+          showDeleteButton={false}
+          showFooter={false}
+
           onButtonClick={() => console.log('Add Visa Clicked')}
           tableHeaders={['Organization', 'Location', 'Job Title', 'Start Date', 'End Date', 'Actions']}
         >
