@@ -339,6 +339,6 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .PrimaryModal .modal-header .modal-title .ModalTopHeading{display: flex; flex-direction: column; gap: 8px;}
 .PrimaryModal .modal-header .modal-title .ModalTopHeading h4{font-size: 18px; line-height: 21px; font-weight: 600; color: #181D27; margin: 0;}
 .PrimaryModal .modal-header .modal-title .ModalTopHeading p{font-size: 16px; line-height: 18px; font-weight: 400; color: #535862; margin: 0;}
-.PrimaryModal .modal-body{padding: 25px; border: none !important; height: calc(100vh - 345px); overflow: auto;}
+.PrimaryModal .modal-body{padding: 25px; border: none !important; max-height: calc(100vh - 345px); overflow: auto;}
 .PrimaryModal .modal-body .form-control{border-radius: 8px !important; height: 44px !important; border: 1px solid #D5D7DA !important;}
 .PrimaryModal .modal-footer{padding: 10px 25px 25px 25px; border: none !important;}

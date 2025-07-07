@@ -257,13 +257,13 @@ const Contact = () => {
                 />
             </Col>
             <Col md={12} lg={12} xl={12} xxl={12}>
-                <h5 className='MainTitle'>Contact Details</h5>
+                <h5 className='MainTitle'>Emergency Contact Details</h5>
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
                 <InputField
-                    label="Full Name"
+                    label="Relation Name"
                     type="text"
-                    placeholder="Enter your Full Name"
+                    placeholder="Enter your Relation Name"
                     controlId="FullName"
                     name="FullName"
                     value={formData.FullName}
@@ -297,12 +297,12 @@ const Contact = () => {
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
                 <InputField
-                    label="Email Number"
+                    label="Email Address"
                     type="text"
-                    placeholder="Enter your Email Number"
-                    controlId="EmailNumber"
-                    name="EmailNumber"
-                    value={formData.EmailNumber}
+                    placeholder="Enter your Email Address"
+                    controlId="EmailAddress"
+                    name="EmailAddress"
+                    value={formData.EmailAddress}
                     onChange={handleChange}
                     required
                 />
