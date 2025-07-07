@@ -10,7 +10,7 @@ import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react
 // Bootstrap imports
 
 const Travel = () => {
-  const [Visa, setVisas] = useState([
+  const [Visas, setVisas] = useState([
     {
       key: '1',
       VisaNumber: 'VISA10024578',
@@ -115,13 +115,13 @@ const Travel = () => {
           onButtonClick={() => console.log('Add Visa Clicked')}
           tableHeaders={['Visa Number', 'Issued Date', 'Place of Issue', 'Expiry Date', 'Notes', 'Action']}
         >
-            {Visa.map((Visas) => (
-              <tr key={Visas.key}>
-                <td>{Visas.VisaNumber}</td>
-                <td>{Visas.IssuedDate}</td>
-                <td>{Visas.PlaceofIssue}</td>
-                <td>{Visas.ExpiryDate}</td>
-                <td>{Visas.Notes}</td>
+            {Visas.map((Visa) => (
+              <tr key={Visa.key}>
+                <td>{Visa.VisaNumber}</td>
+                <td>{Visa.IssuedDate}</td>
+                <td>{Visa.PlaceofIssue}</td>
+                <td>{Visa.ExpiryDate}</td>
+                <td>{Visa.Notes}</td>
                 <td className='table_action'>
                   <Button className="btn_action"><img src={Images.Edit} alt="" /></Button>
                   <Button className="btn_action"><img src={Images.Delete} alt="" /></Button>

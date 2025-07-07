@@ -142,8 +142,8 @@ Form{width: 100%;}
 .day_filter .day_filter_item{display: flex; align-items: center; justify-content: center; gap: 5px; padding: 3px 8px;  cursor: pointer; font-size: 12px; font-weight: 600; color: #2A2731 !important; text-decoration: none; border-radius: 3px;}
 .day_filter .day_filter_item.active{background-color: #E7DEFF;}
 
-.employeestate_container{display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; padding: 0; grid-gap: 16px;}
-.employeestate_container .employee_content{width: 48.5%; border: 1px solid #E7DEFF; border-bottom: 4px solid #E7DEFF; background-color: #fff; padding: 15px; display: flex; align-items: flex-start; flex-direction: column; border-radius: 12px; gap: 12px;}
+.employeestate_container{display: flex; align-items: center; flex-wrap: wrap; padding: 0; gap: 3%;}
+.employeestate_container .employee_content{width: 48.5%; border: 1px solid #E7DEFF; border-bottom: 4px solid #E7DEFF; background-color: #fff; padding: 15px; display: flex; align-items: flex-start; flex-direction: column; border-radius: 12px; gap: 12px; margin-bottom: 3%;}
 .employeestate_container .employee_content h5{font-size: 14px; font-weight: 500; color: #5A5762; margin: 0;}
 .employeestate_container .employee_content .employee_count{display: flex; align-items: center; gap: 10px;}
 .employeestate_container .employee_content .employee_count .count{font-size: 24px; font-weight: 700; color: #454545; line-height: 27px;}

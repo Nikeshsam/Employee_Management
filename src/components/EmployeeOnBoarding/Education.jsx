@@ -10,7 +10,7 @@ import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react
 // Bootstrap imports
 
 const Educations = () => {
-    const [Education, setEducation] = useState([
+    const [educations, setEducation] = useState([
         {
             key: '1',
             Degree: 'B.Tech',
@@ -21,7 +21,7 @@ const Educations = () => {
         },
     ])
 
-    const [Certification, setCertifications] = useState([
+    const [certifications, setCertifications] = useState([
         {
             key: '2',
             Name: 'Scrum Master',
@@ -46,13 +46,13 @@ const Educations = () => {
                     onButtonClick={() => console.log('Add Visa Clicked')}
                     tableHeaders={['Degree', 'Major', 'University', 'Year', 'CGPA', 'Actions']}
                 >
-                    {Education.map((Educations) => (
-                        <tr key={Educations.key}>
-                            <td>{Educations.Degree}</td>
-                            <td>{Educations.Major}</td>
-                            <td>{Educations.University}</td>
-                            <td>{Educations.Year}</td>
-                            <td>{Educations.CGPA}</td>
+                    {educations.map((education) => (
+                        <tr key={education.key}>
+                            <td>{education.Degree}</td>
+                            <td>{education.Major}</td>
+                            <td>{education.University}</td>
+                            <td>{education.Year}</td>
+                            <td>{education.CGPA}</td>
                             <td className='table_action'>
                                 <Button className="btn_action"><img src={Images.Edit} alt="" /></Button>
                                 <Button className="btn_action"><img src={Images.Delete} alt="" /></Button>
@@ -75,13 +75,13 @@ const Educations = () => {
                     onButtonClick={() => console.log('Add Visa Clicked')}
                     tableHeaders={['Name', 'Issued by', 'Issued Date', 'Expiry Date', 'Additional Information', 'Actions']}
                 >
-                    {Certification.map((Certifications) => (
-                        <tr key={Certifications.key}>
-                            <td>{Certifications.Name}</td>
-                            <td>{Certifications.IssuedBy}</td>
-                            <td>{Certifications.IssuedDate}</td>
-                            <td>{Certifications.ExpiryDate}</td>
-                            <td>{Certifications.AdditionalInformation}</td>
+                    {certifications.map((certification) => (
+                        <tr key={certification.key}>
+                            <td>{certification.Name}</td>
+                            <td>{certification.IssuedBy}</td>
+                            <td>{certification.IssuedDate}</td>
+                            <td>{certification.ExpiryDate}</td>
+                            <td>{certification.AdditionalInformation}</td>
                             <td className='table_action'>
                                 <Button className="btn_action"><img src={Images.Edit} alt="" /></Button>
                                 <Button className="btn_action"><img src={Images.Delete} alt="" /></Button>

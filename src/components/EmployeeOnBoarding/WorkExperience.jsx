@@ -10,7 +10,7 @@ import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react
 // Bootstrap imports
 
 const WorkExperience = () => {
-  const [WorkExperience, setWorkExperience] = useState([
+  const [workExperiences, setWorkExperience] = useState([
     {
       key: '1',
       Organization: 'Accenture',
@@ -35,13 +35,13 @@ const WorkExperience = () => {
           onButtonClick={() => console.log('Add Visa Clicked')}
           tableHeaders={['Organization', 'Location', 'Job Title', 'Start Date', 'End Date', 'Actions']}
         >
-          {WorkExperience.map((WorkExperiences) => (
-            <tr key={WorkExperiences.key}>
-              <td>{WorkExperiences.Organization}</td>
-              <td>{WorkExperiences.Location}</td>
-              <td>{WorkExperiences.JobTitle}</td>
-              <td>{WorkExperiences.StartDate}</td>
-              <td>{WorkExperiences.EndDate}</td>
+          {workExperiences.map((workExperience) => (
+            <tr key={workExperience.key}>
+              <td>{workExperience.Organization}</td>
+              <td>{workExperience.Location}</td>
+              <td>{workExperience.JobTitle}</td>
+              <td>{workExperience.StartDate}</td>
+              <td>{workExperience.EndDate}</td>
               <td className='table_action'>
                 <Button className="btn_action"><img src={Images.Edit} alt="" /></Button>
                 <Button className="btn_action"><img src={Images.Delete} alt="" /></Button>

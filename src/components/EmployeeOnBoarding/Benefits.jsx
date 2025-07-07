@@ -10,7 +10,7 @@ import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react
 // Bootstrap imports
 
 const Benefits = () => {
-  const [Dependents, setDependents] = useState([
+  const [dependents, setDependents] = useState([
     {
       key: '1',
       Name: 'Lonard',
@@ -44,13 +44,13 @@ const Benefits = () => {
           onButtonClick={() => console.log('Add Visa Clicked')}
           tableHeaders={['Name', 'Relationship', 'Gender', 'ID Number', 'Date of Birth', 'Actions']}
         >
-          {Dependents.map((Dependent) => (
-            <tr key={Dependent.key}>
-              <td>{Dependent.Name}</td>
-              <td>{Dependent.Relationship}</td>
-              <td>{Dependent.Gender}</td>
-              <td>{Dependent.IDNumber}</td>
-              <td>{Dependent.DateBirth}</td>
+          {dependents.map((dependent) => (
+            <tr key={dependent.key}>
+              <td>{dependent.Name}</td>
+              <td>{dependent.Relationship}</td>
+              <td>{dependent.Gender}</td>
+              <td>{dependent.IDNumber}</td>
+              <td>{dependent.DateBirth}</td>
               <td className='table_action'>
                 {/* <Button className="btn_action"><img src={Images.Edit} alt="" /></Button>
                 <Button className="btn_action"><img src={Images.Delete} alt="" /></Button> */}

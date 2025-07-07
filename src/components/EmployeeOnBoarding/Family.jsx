@@ -11,7 +11,7 @@ import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react
 
 
 const Family = () => {
-    const [Familymembers, setFamilyMembers] = useState([
+    const [familymembers, setFamilyMembers] = useState([
         {
             key: '1',
             FirstName: 'John',
@@ -57,15 +57,15 @@ const Family = () => {
                     onButtonClick={() => console.log('Add Visa Clicked')}
                     tableHeaders={['First Name', 'Last Name', 'Relationship', 'Date of Birth', 'Education', 'occupation', 'Dependent in benefits', 'Actions']}
                 >
-                    {Familymembers.map((member) => (
-                        <tr key={member.key}>
-                            <td>{member.FirstName}</td>
-                            <td>{member.LastName}</td>
-                            <td>{member.Relationship}</td>
-                            <td>{member.dob}</td>
-                            <td>{member.Education}</td>
-                            <td>{member.Occupation}</td>
-                            <td>{member.dependentInBenefits ? 'Yes' : 'No'}</td>
+                    {familymembers.map((familymember) => (
+                        <tr key={familymember.key}>
+                            <td>{familymember.FirstName}</td>
+                            <td>{familymember.LastName}</td>
+                            <td>{familymember.Relationship}</td>
+                            <td>{familymember.dob}</td>
+                            <td>{familymember.Education}</td>
+                            <td>{familymember.Occupation}</td>
+                            <td>{familymember.dependentInBenefits ? 'Yes' : 'No'}</td>
                             <td className='table_action'>
                                 <Button className="btn_action"><img src={Images.Edit} alt="" /></Button>
                                 <Button className="btn_action"><img src={Images.Delete} alt="" /></Button>

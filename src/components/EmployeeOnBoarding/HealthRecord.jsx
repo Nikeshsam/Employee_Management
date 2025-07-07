@@ -10,7 +10,7 @@ import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react
 // Bootstrap imports
 
 const HealthRecord = () => {
-  const [Vaccination, setVaccination] = useState([
+  const [vaccinations, setVaccination] = useState([
     {
       key : '1',
       VaccinationName : 'Covid',
@@ -107,10 +107,10 @@ const HealthRecord = () => {
           onButtonClick={() => console.log('Add Visa Clicked')}
           tableHeaders={['Vaccination Name', 'Date of Dose', 'Actions']}
         >
-          {Vaccination.map((Vaccinations) => (
-            <tr key={Vaccinations.key}>
-              <td>{Vaccinations.VaccinationName}</td>
-              <td>{Vaccinations.DateofDose}</td>
+          {vaccinations.map((vaccination) => (
+            <tr key={vaccination.key}>
+              <td>{vaccination.VaccinationName}</td>
+              <td>{vaccination.DateofDose}</td>
               <td className='table_action'>
                 <Button className="btn_action"><img src={Images.Edit} alt="" /></Button>
                 <Button className="btn_action"><img src={Images.Delete} alt="" /></Button>

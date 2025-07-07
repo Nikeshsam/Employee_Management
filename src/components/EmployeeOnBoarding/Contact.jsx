@@ -10,7 +10,7 @@ import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react
 // Bootstrap imports
 
 const Contact = () => {
-    const [Country, setCountry] = useState([
+    const [country, setCountry] = useState([
         { key: '1', label: 'Indian' },
         { key: '2', label: 'Australian' },
         { key: '3', label: 'Chinese' },
@@ -19,7 +19,7 @@ const Contact = () => {
         { key: '6', label: 'Pakistan' },
         { key: '7', label: 'Dubai' }
     ])
-    const [State, setState] = useState([
+    const [state, setState] = useState([
         { key: '1', label: 'Tamil Nadu' },
         { key: '2', label: 'Andhra Pradesh' },
         { key: '3', label: 'Maharashtra' },
@@ -31,7 +31,7 @@ const Contact = () => {
         { key: '9', label: 'Karnataka' },
         { key: '10', label: 'Kerala' },
     ])
-    const [City, setCity] = useState([
+    const [city, setCity] = useState([
         { key: '1', label: 'Chennai' },
         { key: '2', label: 'Kanchipuram' },
         { key: '3', label: 'Vellore' },
@@ -117,7 +117,7 @@ const Contact = () => {
                     controlId="country"
                     label="Country"
                     name="country"
-                    options={Country}
+                    options={country}
                     placeholder="Select Country"
                 />
             </Col>
@@ -126,7 +126,7 @@ const Contact = () => {
                     controlId="State"
                     label="State"
                     name="State"
-                    options={State}
+                    options={state}
                     placeholder="Select State"
                 />
             </Col>
@@ -135,7 +135,7 @@ const Contact = () => {
                     controlId="City"
                     label="City"
                     name="City"
-                    options={City}
+                    options={city}
                     placeholder="Select City"
                 />
             </Col>
@@ -183,7 +183,7 @@ const Contact = () => {
                     controlId="Country"
                     label="Country"
                     name="Country"
-                    options={Country}
+                    options={country}
                     placeholder="Select Country"
                 />
             </Col>
@@ -192,7 +192,7 @@ const Contact = () => {
                     controlId="State"
                     label="State"
                     name="State"
-                    options={State}
+                    options={state}
                     placeholder="Select State"
                 />
             </Col>
@@ -201,7 +201,7 @@ const Contact = () => {
                     controlId="City"
                     label="City"
                     name="City"
-                    options={City}
+                    options={city}
                     placeholder="Select City"
                 />
             </Col>
