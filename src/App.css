@@ -327,7 +327,7 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .About_container p{color: #F4F5F5; font-size: 15px; font-weight: 300; margin: 0; text-align: center; padding: 0 50px;}
 
 .PrimaryModal .modal-content{border-radius: 20px;}
-.PrimaryModal .modal-dialog{width: 450px;}
+.PrimaryModal .modal-dialog{width: 650px; min-width: 650px;}
 .PrimaryModal .modal-header{padding: 25px 25px 10px 25px; border: none !important; position: relative;}
 .PrimaryModal .modal-header .btn-close{position: absolute; right: 29px; top: 42px; box-shadow: none;}
 .PrimaryModal .modal-header .modal-title{width: 100%; display: flex; flex-direction: column; gap: 15px;}
