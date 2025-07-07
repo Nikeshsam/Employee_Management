@@ -116,7 +116,7 @@ const Banner = ({modalShow,setModalShow}) => {
         subtitle='Start your 7-day free trial.'
         bodyContent={
           <>
-            <Col md={12} lg={12} xl={12} xxl={12}>
+            <Col md={6} lg={6} xl={6} xxl={6}>
               <InputField
                 label="Name"
                 type="text"
@@ -129,7 +129,7 @@ const Banner = ({modalShow,setModalShow}) => {
                 required
               />
             </Col>
-            <Col md={12} lg={12} xl={12} xxl={12}>
+            <Col md={6} lg={6} xl={6} xxl={6}>
               <InputField
                 label="Email"
                 type="text"
@@ -155,7 +155,7 @@ const Banner = ({modalShow,setModalShow}) => {
                 required
               />
             </Col>
-            <Col md={12} lg={12} xl={12} xxl={12}>
+            <Col md={6} lg={6} xl={6} xxl={6}>
               <InputField
                 label="Password"
                 type="Password"
@@ -168,7 +168,7 @@ const Banner = ({modalShow,setModalShow}) => {
                 required
               />
             </Col>
-            <Col md={12} lg={12} xl={12} xxl={12}>
+            <Col md={6} lg={6} xl={6} xxl={6}>
               <InputField
                 label="Confirm Password"
                 type="Password"

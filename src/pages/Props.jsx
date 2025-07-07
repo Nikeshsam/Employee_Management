@@ -274,7 +274,9 @@ export const CustomModal = ({
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body className='pb-0 pt-0'>
-                {typeof bodyContent === "string" ? <p>{bodyContent}</p> : bodyContent}
+                <Row className='gx-3'>
+                    {typeof bodyContent === "string" ? <p>{bodyContent}</p> : bodyContent}
+                </Row>
             </Modal.Body>
             <Modal.Footer>
                 <Button className={footerButtonSubmitClass} onClick={onSubmit}>{footerButtonSubmit}</Button>
