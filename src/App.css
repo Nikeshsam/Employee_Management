@@ -133,7 +133,7 @@ Form{width: 100%;}
 .Tertiary_card{border: 1px solid #eae3fe; border-radius: 8px; background-color: #fff;}
 .Tertiary_card .card-header {height: 50px; display: flex; align-items: center; background-color: #f3efff; border: none; border-radius: 7px 7px 0 0;}
 .Tertiary_card .card-header .card-title{font-size: 18px; font-weight: 600; margin: 0; color: #4e26b4;}
-.Tertiary_card .card-body{height: calc(100vh - 190px); overflow: auto; }
+.Tertiary_card .card-body{height: calc(100vh - 191px); overflow: auto; }
 .Tertiary_card .card-footer{background-color: #ECECEC; border: none !important; display: flex; align-items: center; justify-content: flex-end;}
 
 .inlineForm .form-label{display: flex; align-items: center; justify-content: flex-end;}
@@ -342,3 +342,14 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .PrimaryModal .modal-body{padding: 25px; border: none !important; max-height: calc(100vh - 345px); overflow: auto;}
 .PrimaryModal .modal-body .form-control{border-radius: 8px !important; height: 44px !important; border: 1px solid #D5D7DA !important;}
 .PrimaryModal .modal-footer{padding: 10px 25px 25px 25px; border: none !important;}
+
+@media(min-width:1200px) and (max-width: 1365px) {
+    .employee_profile_container{gap: 20px;}
+    .employee_profile_container .employee_profile_pic_content{gap: 15px;}
+    .employee_profile_container .employee_profile_pic_content .employee_profile_pic{width: 75px; height: 75px;}
+    .Secondary_tab .nav-item .nav-link{ padding: 7px 20px;}
+}
+
+@media(min-width:1366px) and (max-width: 1425px) {
+    .employee_profile_container{gap: 35px;}
+}

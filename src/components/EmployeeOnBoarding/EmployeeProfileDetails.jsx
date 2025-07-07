@@ -27,7 +27,7 @@ function EmployeeProfileCard() {
         <div className="employee_profile_container">
             <div className='employee_profile_pic_content'>
                 <div className='employee_profile_pic'>
-                    <img src={employee.profilePic} alt="Profile" className="rounded-circle" style={{ width: '90px', height: '90px' }} />
+                    <img src={employee.profilePic} alt="Profile" className="img-fluid rounded-circle"/>
                 </div>
                 <div className='employee_profile_content'>
                     <h5 className="mb-0">
