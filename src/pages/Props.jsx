@@ -44,7 +44,8 @@ export const CardFromTertiary = ({
     buttonTextCancel = 'Cancel',
     onButtonClick,
     buttonClassName = 'primary_form_btn btn_h_35',
-    onSubmit = (e) => e.preventDefault()
+    //onSubmit = (e) => e.preventDefault()
+    onSubmit,
 }) => {
     return (
         <Card className='Tertiary_card'>
@@ -273,7 +274,7 @@ export const CustomModal = ({
                     </div>
                 </Modal.Title>
             </Modal.Header>
-            <Modal.Body className='pb-0 pt-0'>
+            <Modal.Body className=''>
                 <Row className='gx-3'>
                     {typeof bodyContent === "string" ? <p>{bodyContent}</p> : bodyContent}
                 </Row>
@@ -285,3 +286,83 @@ export const CustomModal = ({
         </Modal>
     );
 }
+
+// Component InlineInputField.....
+
+export const InlineInputField = ({
+  label,
+  name,
+  type = 'text',
+  value,
+  onChange,
+  error,
+  placeholder,
+  required = false,
+  controlId,
+  labelCol = 2,
+  inputCol = 6
+}) => {
+  return (
+    <Form.Group as={Row} className="mb-3 inlineForm" controlId={controlId || name}>
+      <Form.Label column sm={labelCol}>
+        {label}
+      </Form.Label>
+      <Col sm={inputCol}>
+        <Form.Control
+          type={type}
+          name={name}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          required={required}
+          isInvalid={!!error}
+        />
+        <Form.Control.Feedback type="invalid">
+          {error}
+        </Form.Control.Feedback>
+      </Col>
+    </Form.Group>
+  );
+};
+
+export const InlineSelectField = ({
+  label,
+  name,
+  value,
+  onChange,
+  error,
+  required = false,
+  options = [],
+  placeholder = 'Select an option',
+  controlId,
+  labelCol = 2,
+  inputCol = 6
+}) => {
+  return (
+    <Form.Group as={Row} className="mb-3 inlineForm" controlId={controlId || name}>
+      <Form.Label column sm={labelCol}>
+        {label}
+      </Form.Label>
+      <Col sm={inputCol}>
+        <Form.Select
+          name={name}
+          value={value}
+          onChange={onChange}
+          isInvalid={!!error}
+          required={required}
+          aria-label={`${label} select`}
+        >
+          <option value="">{placeholder}</option>
+          {options.map((item) => (
+            <option key={item.key} value={item.key}>
+              {item.label}
+            </option>
+          ))}
+        </Form.Select>
+        <Form.Control.Feedback type="invalid">
+          {error}
+        </Form.Control.Feedback>
+      </Col>
+    </Form.Group>
+  );
+};

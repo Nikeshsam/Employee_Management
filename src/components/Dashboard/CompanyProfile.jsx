@@ -1,30 +1,29 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // Bootstrap imports
 
 import 'bootstrap/dist/css/bootstrap.css';
 import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react-bootstrap';
-import { CardForm, CardFromTertiary } from '../../pages/Props';
+import { CardForm, CardFromTertiary, InlineInputField, InlineSelectField } from '../../pages/Props';
 
 // Bootstrap imports
-
-
 
 const CompanyProfile = () => {
 
   // Industry
 
   const [Industry, setIndustry] = useState([
-    {key: '1', label:'Agriculture'},
-    {key: '2', label:'Forestry'},
-    {key: '3', label:'Fishing'},
-    {key: '4', label:'Mining'},
-    {key: '5', label:'Oil & Gas Extraction'},
-    {key: '6', label:'Construction'},
-    {key: '7', label:'Manufacturing'},
-    {key: '8', label:'Utilities'},
-    {key: '9', label:'Insurance'},
-    {key: '10', label:'Healthcare & Pharmaceuticals'},
+    { key: '1', label: 'Agriculture' },
+    { key: '2', label: 'Forestry' },
+    { key: '3', label: 'Fishing' },
+    { key: '4', label: 'Mining' },
+    { key: '5', label: 'Oil & Gas Extraction' },
+    { key: '6', label: 'Construction' },
+    { key: '7', label: 'Manufacturing' },
+    { key: '8', label: 'Utilities' },
+    { key: '9', label: 'Insurance' },
+    { key: '10', label: 'Healthcare & Pharmaceuticals' },
   ])
 
   const [selectIndustry, setSelectIndustry] = useState('');
@@ -48,8 +47,7 @@ const CompanyProfile = () => {
     { key: '10', label: 'Holding Company' }
   ])
 
-  const [selectBusinessType, setSelectBusinessType] = useState ('');
-
+  const [selectBusinessType, setSelectBusinessType] = useState('');
   const handleBusinessChange = (e) => {
     setSelectBusinessType(e.target.value)
   };
@@ -63,8 +61,7 @@ const CompanyProfile = () => {
     { key: '4', label: 'October – September' }
   ])
 
-  const [selectFiscalYear, setSelectFiscalYear] = useState ('');
-
+  const [selectFiscalYear, setSelectFiscalYear] = useState('');
   const handleFiscalYearChange = (e) => {
     setSelectFiscalYear(e.target.value)
   };
@@ -119,188 +116,318 @@ const CompanyProfile = () => {
     setSelectDateFormat(e.target.value)
   };
 
+  // FormData useState
+
+  const [formData, setFormData] = useState({
+    organization: '',
+    industry: '',
+    businessType: '',
+    companyAddress: '',
+    street: '',
+    city: '',
+    state: '',
+    zipCode: '',
+    contury: '',
+    Phone: '',
+    fax: '',
+    website: '',
+    fiscal: '',
+    timeZone: '',
+    dateFormat: '',
+    companyID: '',
+    taxID: '',
+  });
+
+  // Error useState
+
+  const [errors, setErrors] = useState({
+    organization: '',
+    industry: '',
+    businessType: '',
+    companyAddress: '',
+    street: '',
+    city: '',
+    state: '',
+    zipCode: '',
+    contury: '',
+    Phone: '',
+    fax: '',
+    website: '',
+    fiscal: '',
+    timeZone: '',
+    dateFormat: '',
+    companyID: '',
+    taxID: '',
+  });
+
+  // Field Validations
+
+  const validateField = (name, value) => {
+    let error = '';
+
+    switch (name) {
+
+      case 'organizationName':
+        if (!value.trim()) error = 'Organization Name is required';
+        break;
+
+      case 'industry':
+        if (!value.trim()) error = 'Industry is required';
+        break;
+
+      case 'businessType':
+        if (!value.trim()) error = 'Business Type is required';
+        break;
+
+      case 'companyAddress':
+        if (!value.trim()) error = 'Company Address is required';
+        break;
+
+      case 'street':
+        if (!value.trim()) error = 'Street is required';
+        break;
+
+      case 'city':
+        if (!value.trim()) error = 'City is required';
+        break;
+
+      case 'state':
+        if (!value.trim()) error = 'State is required';
+        break;
+
+      case 'zipCode':
+        if (!value.trim()) error = 'Zip Code is required';
+        else if (!/^\d{4,10}$/.test(value)) error = 'Invalid Zip Code';
+        break;
+
+      case 'contury':
+        if (!value.trim()) error = 'Country is required';
+        break;
+
+      case 'Phone':
+        if (!value.trim()) error = 'Phone number is required';
+        else if (!/^[\d\s()+-]+$/.test(value)) error = 'Invalid phone number';
+        break;
+
+      case 'fax':
+        if (value && !/^[\d\s()+-]+$/.test(value)) error = 'Invalid fax number';
+        break;
+
+      case 'website':
+        if (value && !/^(https?:\/\/)?[\w.-]+\.[a-z]{2,}$/.test(value)) error = 'Invalid website URL';
+        break;
+
+      case 'fiscal':
+        if (!value.trim()) error = 'Fiscal year is required';
+        break;
+
+      case 'timeZone':
+        if (!value.trim()) error = 'Time zone is required';
+        break;
+
+      case 'dateFormat':
+        if (!value.trim()) error = 'Date format is required';
+        break;
+
+      case 'companyID':
+        if (!value.trim()) error = 'Company ID is required';
+        break;
+
+      case 'taxID':
+        if (!value.trim()) error = 'Tax ID is required';
+        break;
+
+      default:
+        break;
+    }
+
+    return error;
+  };
+
+  //  Validate Form with Error
+
+  const validateForm = () => {
+    const newErrors = {};
+    Object.keys(formData).forEach((field) => {
+      const error = validateField(field, formData[field]);
+      if (error) newErrors[field] = error;
+    });
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  //  Handle Submit
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      Navigate('/Home')
+      console.log('Form submitted:', formData);
+    }
+  };
+
+  //  Handle Change
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    const error = validateField(name, value);
+    setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
+  };
+
+  const Navigate = useNavigate();
+
+  const handleClearClick = () => {
+    setFormData({
+      name: '',
+      email: '',
+      organizationName: '',
+      password: '',
+      confirmPassword: ''
+    })
+    setModalShow(false);
+    setErrors({});
+  }
+
   return (
     <Container fluid>
       <Row>
         <Col md={12} lg={12} xl={12} xxl={12}>
           <CardFromTertiary>
 
-            <Form.Group as={Row} className="mb-3 inlineForm" controlId="formPlaintextPassword">
-              <Form.Label column sm="2">
-                Organization Name
-              </Form.Label>
-              <Col sm="6">
-                <Form.Control type="text" placeholder="Organization Name" />
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3 inlineForm" controlId="formPlaintextPassword">
-              <Form.Label column sm="2">
-                Industry
-              </Form.Label>
-              <Col sm="6">
-                <Form.Select aria-label="Default select example" value={selectIndustry} onChange={handleIndustryChange}>
-                  <option>Select Industry</option>
-                  {Industry.map((IndustryItem) => (
-                    <option key={IndustryItem.key} value={IndustryItem.key}>
-                      {IndustryItem.label}
-                    </option>
-                  ))}
-                </Form.Select>
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3 inlineForm" controlId="formPlaintextPassword">
-              <Form.Label column sm="2">
-                Business Type
-              </Form.Label>
-              <Col sm="6">
-                <Form.Select aria-label="Default select example" value={selectBusinessType} onChange={handleBusinessChange}>
-                  <option>Select Business Type</option>
-                  {BusinessType.map((BusinessTypeList) => (
-                    <option key={BusinessTypeList.key} value={BusinessTypeList.key}>
-                      {BusinessTypeList.label}
-                    </option>
-                  ))}
-                </Form.Select>
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3 inlineForm" controlId="formPlaintextPassword">
-              <Form.Label column sm="2">
-                Company Address
-              </Form.Label>
-              <Col sm="9">
-                <Form.Control type="text" placeholder="Street" />
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3 inlineForm" controlId="formPlaintextPassword">
-              <Form.Label column sm="2">
-              </Form.Label>
-              <Col sm="5">
-                <Form.Control type="text" placeholder="Street" />
-              </Col>
-              <Col sm="4">
-                <Form.Control type="text" placeholder="City" />
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3 inlineForm" controlId="formPlaintextPassword">
-              <Form.Label column sm="2">
-              </Form.Label>
-              <Col sm="3">
-                <Form.Control type="text" placeholder="State / Province" />
-              </Col>
-              <Col sm="3">
-                <Form.Control type="text" placeholder="Zip / Postal Code" />
-              </Col>
-              <Col sm="3">
-                <Form.Select aria-label="Default select example">
-                  <option>India</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
-                </Form.Select>
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3 inlineForm" controlId="formPlaintextPassword">
-              <Form.Label column sm="2">
-              </Form.Label>
-              <Col sm="3">
-                <Form.Control type="text" placeholder="Phone" />
-              </Col>
-              <Col sm="3">
-                <Form.Control type="text" placeholder="Fax" />
-              </Col>
-              <Col sm="3">
-                <Form.Control type="text" placeholder="Website" />
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3 inlineForm" controlId="formPlaintextPassword">
-              <Form.Label column sm="2">
-                Fiscal Year
-              </Form.Label>
-              <Col sm="6">
-                <Form.Select aria-label="Default select example" value={selectFiscalYear} onChange={handleFiscalYearChange}>
-                  <option>Select Fiscal Year</option>
-                  {FiscalYear.map((FiscalYearList) => (
-                    <option key={FiscalYearList.key} value={FiscalYearList.key}>
-                      {FiscalYearList.label}
-                    </option>
-                  ))}
-                </Form.Select>
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3 inlineForm" controlId="formPlaintextPassword">
-              <Form.Label column sm="2">
-                Tax Basis
-              </Form.Label>
-              <Col sm="6">
-                {['radio'].map((type) => (
-                  <div key={`default-${type}-accrual`} className="m-0">
-                    <Form.Check // prettier-ignore
-                      type={type}
-                      name="taxMethod"
-                      id={`accrual${type}`}
-                      label={`Accrual (you owe tax as of invoice date)`}
-                    />
-                  </div>
-                ))}
-                {['radio'].map((type) => (
-                  <div key={`default-${type}-cash`} className="m-0">
-                    <Form.Check // prettier-ignore
-                      type={type}
-                      name="taxMethod"
-                      id={`cash${type}`}
-                      label={`Cash (you owe tax upon receiving payments)`}
-                    />
-                  </div>
-                ))}
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3 inlineForm" controlId="formPlaintextPassword">
-              <Form.Label column sm="2">
-                Time Zone
-              </Form.Label>
-              <Col sm="6">
-                <Form.Select aria-label="Default select example">
-                  <option>Select Time Zone</option>
-                  {TimeZone.map((TimeZoneList) => (
-                    <option key={TimeZoneList.key} value={TimeZoneList.key}>
-                      {TimeZoneList.label}
-                    </option>
-                  ))}
-                </Form.Select>
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3 inlineForm" controlId="formPlaintextPassword">
-              <Form.Label column sm="2">
-                Date Format
-              </Form.Label>
-              <Col sm="6">
-                <Form.Select aria-label="Default select example">
-                  <option>Select Date Format</option>
-                  {DateFormat.map((DateFormatList) => (
-                    <option key={DateFormatList.key} value={DateFormatList.key}>
-                      {DateFormatList.label}
-                    </option>
-                  ))}
-                </Form.Select>
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3 inlineForm" controlId="formPlaintextPassword">
-              <Form.Label column sm="2">
-                Company ID :
-              </Form.Label>
-              <Col sm="6">
-                <Form.Control type="text" placeholder="Ex: 53 004 085 616" />
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} className="mb-3 inlineForm" controlId="formPlaintextPassword">
-              <Form.Label column sm="2">
-                Tax ID :
-              </Form.Label>
-              <Col sm="6">
-                <Form.Control type="text" placeholder="Ex: 9XX-70-XXXX" />
-              </Col>
-            </Form.Group>
+            <InlineInputField
+              label="Organization Name"
+              name="organization"
+              value={formData.organization}
+              onChange={handleChange}
+              error={errors.organization}
+              placeholder="Organization Name"
+              required
+              labelCol={2}
+              inputCol={6}
+            />
+            <InlineSelectField
+              label="Industry"
+              name="industry"
+              value={formData.industry}
+              onChange={handleIndustryChange}
+              error={errors.industry}
+              required
+              placeholder="Select Industry"
+              options={Industry} 
+              labelCol={2}
+              inputCol={6}
+            />
+            <InlineSelectField
+              label="Business Type"
+              name="businessType"
+              value={formData.businessType}
+              onChange={handleBusinessChange}
+              error={errors.businessType}
+              required
+              placeholder="Select Business Type"
+              options={BusinessType} 
+              labelCol={2}
+              inputCol={6}
+            />
+            <InlineInputField
+              label="Company Address"
+              name="companyaddress"
+              value={formData.companyAddress}
+              onChange={handleFiscalYearChange}
+              error={errors.companyAddress}
+              placeholder="Organization Name"
+              required
+              labelCol={2}
+              inputCol={9}
+            />
+            <InlineInputField
+              name="street"
+              value={formData.street}
+              onChange={handleFiscalYearChange}
+              error={errors.street}
+              placeholder="Street"
+              required
+              inputCol={6}
+            />
+            <InlineInputField
+              name="city"
+              value={formData.city}
+              onChange={handleFiscalYearChange}
+              error={errors.city}
+              placeholder="City"
+              required
+              inputCol={3}
+            />
+            <InlineInputField
+              name="state"
+              value={formData.state}
+              onChange={handleFiscalYearChange}
+              error={errors.state}
+              placeholder="State"
+              required
+              inputCol={3}
+            />
+            <InlineInputField
+              name="zipCode"
+              value={formData.zipCode}
+              onChange={handleFiscalYearChange}
+              error={errors.zipCode}
+              placeholder="Zip Code"
+              required
+              inputCol={3}
+            />
+            <InlineSelectField
+              name="businessType"
+              value={formData.contury}
+              onChange={handleBusinessChange}
+              error={errors.contury}
+              required
+              placeholder="Select Business Type"
+              // options={Contury} 
+              inputCol={3}
+            />
+            <InlineInputField
+              name="phone"
+              value={formData.phoneNumber}
+              onChange={handleFiscalYearChange}
+              error={errors.phoneNumber}
+              placeholder="Phone Number"
+              required
+              inputCol={3}
+            />
+            <InlineInputField
+              name="fax"
+              value={formData.fax}
+              onChange={handleFiscalYearChange}
+              error={errors.fax}
+              placeholder="Fax Number"
+              required
+              inputCol={3}
+            />
+            <InlineInputField
+              name="website"
+              value={formData.website}
+              onChange={handleFiscalYearChange}
+              error={errors.website}
+              placeholder="Website URL"
+              required
+              inputCol={3}
+            />
+            <InlineSelectField
+              label="Fiscal Year"
+              name="fiscal"
+              value={formData.fiscal}
+              onChange={handleBusinessChange}
+              error={errors.fiscal}
+              required
+              placeholder="Select fiscal Year"
+              options={FiscalYear}
+              labelCol={2}
+              inputCol={6}
+            />
           </CardFromTertiary>
+
         </Col>
       </Row>
     </Container>

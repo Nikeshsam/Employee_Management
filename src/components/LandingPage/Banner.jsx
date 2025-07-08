@@ -8,89 +8,108 @@ import { CardForm, PrimaryGird, InputField, CustomModal } from '../../pages/Prop
 import 'bootstrap/dist/css/bootstrap.css';
 import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table, Stack, Image } from 'react-bootstrap';
 
-
 // Bootstrap imports
 
-const Banner = ({modalShow,setModalShow}) => {
+const Banner = ({ modalShow, setModalShow }) => {
 
-  // FORM INPUT
+  // FormData useState
 
-    const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    organizationName: '',
+    password: '',
+    confirmPassword: ''
+  });
+
+  // Error useState
+
+  const [errors, setErrors] = useState({
+    name: '',
+    email: '',
+    organizationName: '',
+    password: '',
+    confirmPassword: ''
+  });
+
+  // Field Validations
+
+  const validateField = (name, value) => {
+    let error = '';
+    switch (name) {
+      case 'name':
+        if (!value.trim()) error = 'Name is required';
+        break;
+
+      case 'email':
+        if (!value) error = 'Email is required';
+        else if (!/^\S+@\S+\.\S+$/.test(value)) error = 'Invalid email format';
+        break;
+
+      case 'organizationName':
+        if (!value.trim()) error = 'Organization Name is required';
+        break;
+
+      case 'password':
+        if (!value) error = 'Password is required';
+        else if (value.length < 6) error = 'At least 6 characters';
+        break;
+
+      case 'confirmPassword':
+        if (!value) error = 'Confirm password is required';
+        else if (value !== formData.password) error = 'Passwords do not match';
+        break;
+
+      default:
+        break;
+    }
+    return error;
+  };
+
+  //  Validate Form with Error
+
+  const validateForm = () => {
+    const newErrors = {};
+    Object.keys(formData).forEach((field) => {
+      const error = validateField(field, formData[field]);
+      if (error) newErrors[field] = error;
+    });
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  //  Handle Submit
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      Navigate('/Home')
+      console.log('Form submitted:', formData);
+    }
+  };
+
+  //  Handle Change
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    const error = validateField(name, value);
+    setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
+  };
+
+  const Navigate = useNavigate();
+
+  const handleClearClick = () => {
+    setFormData({
       name: '',
       email: '',
       organizationName: '',
       password: '',
       confirmPassword: ''
-    });
-
-    const [errors, setErrors] = useState({});
-
-    const validate = () => {
-      const newErrors = {};
-
-      if (!formData.name.trim()) {
-        newErrors.name = 'Name is required';
-      }
-
-      if (!formData.email) {
-        newErrors.email = 'Email is required';
-      } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
-        newErrors.email = 'Invalid email format';
-      }
-
-      if (!formData.organizationName.trim()) {
-        newErrors.organizationName = 'Enter Your Organization Name';
-      }
-
-      if (!formData.password) {
-        newErrors.password = 'Password is required';
-      } else if (formData.password.length < 6) {
-        newErrors.password = 'Password must be at least 6 characters';
-      }
-
-      if (!formData.confirmPassword) {
-        newErrors.confirmPassword = 'Confirm password is required';
-      } else if (formData.password !== formData.confirmPassword) {
-        newErrors.confirmPassword = 'Passwords do not match';
-      }
-
-      return newErrors;
-    };
-
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      const validationErrors = validate();
-      if (Object.keys(validationErrors).length > 0) {
-        setErrors(validationErrors);
-      } else {
-        setErrors({});
-        Navigate('/Home')
-        console.log('Form submitted:', formData);
-        // Perform API call or other actions
-      }
-    };
-
-    const handleChange = (e) => {
-      const { name, value } = e.target;
-      setFormData(prev => ({ ...prev, [name]: value }));
-    };
-
-    const Navigate = useNavigate();
-
-
-    // const [modalShow, setModalShow] = React.useState(false); 
-
-    const handleClearClick = () => {
-      setFormData ({
-        name: '',
-        email: '',
-        organizationName: '',
-        password: '',
-        confirmPassword: ''
-      })
-      setModalShow(false);
-      setErrors({});
-    }
+    })
+    setModalShow(false);
+    setErrors({});
+  }
 
   return (
     <>
@@ -184,7 +203,7 @@ const Banner = ({modalShow,setModalShow}) => {
           </>
         }
         onSubmit={handleSubmit}
-        footerButtonSubmit ="Register"
+        footerButtonSubmit="Register"
         footerButtonCancel="Cancel"
         footerButtonSubmitClass="modal_primary_btn w-100"
         footerButtonCancelClass="modal_primary_border_btn w-100"
