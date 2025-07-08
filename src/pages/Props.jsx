@@ -39,13 +39,13 @@ export const CardForm = ({
 
 export const CardFromTertiary = ({
     children,
+    onSubmit,
     cardTitle = 'Organization Profile',
     buttonTextSave = 'Submit',
     buttonTextCancel = 'Cancel',
     onButtonClick,
     buttonClassName = 'primary_form_btn btn_h_35',
     //onSubmit = (e) => e.preventDefault()
-    onSubmit,
 }) => {
     return (
         <Card className='Tertiary_card'>
@@ -58,7 +58,7 @@ export const CardFromTertiary = ({
                 </Form>
             </Card.Body>
             <Card.Footer>
-                <Button className={buttonClassName} onClick={onButtonClick}>{buttonTextSave}</Button>
+                <Button className={buttonClassName} onClick={onSubmit}>{buttonTextSave}</Button>
             </Card.Footer>
         </Card>
     );
@@ -325,6 +325,8 @@ export const InlineInputField = ({
   );
 };
 
+// Component InlineSelectField.....
+
 export const InlineSelectField = ({
   label,
   name,
@@ -366,3 +368,45 @@ export const InlineSelectField = ({
     </Form.Group>
   );
 };
+
+// Component CheckboxField.....
+
+export const RadioGroupField = ({
+  label = '',
+  name,
+  options = [],
+  value,
+  onChange,
+  error,
+  controlId,
+}) => {
+  return (
+    <Form.Group as={Row} className="mb-3 inlineForm" controlId={controlId}>
+      <Form.Label column sm="2">
+        {label}
+      </Form.Label>
+      <Col sm="6">
+        {options.map((option, idx) => (
+          <div key={`${name}-${option.value}-${idx}`} className="m-0">
+            <Form.Check
+              type="radio"
+              name={name}
+              id={`${name}-${option.value}`}
+              label={option.label}
+              value={option.value}
+              checked={value === option.value}
+              onChange={onChange}
+              isInvalid={!!error}
+            />
+          </div>
+        ))}
+        {error && (
+          <Form.Control.Feedback type="invalid" className="d-block">
+            {error}
+          </Form.Control.Feedback>
+        )}
+      </Col>
+    </Form.Group>
+  );
+};
+

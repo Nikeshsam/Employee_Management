@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react-bootstrap';
-import { CardForm, CardFromTertiary, InlineInputField, InlineSelectField } from '../../pages/Props';
+import { CardForm, CardFromTertiary, InlineInputField, InlineSelectField, RadioGroupField } from '../../pages/Props';
 
 // Bootstrap imports
 
@@ -32,7 +32,7 @@ const CompanyProfile = () => {
     setSelectIndustry(e.target.value)
   };
 
-  // Business Type
+  //////////////// Business Type
 
   const [BusinessType, setBusinessType] = useState([
     { key: '1', label: 'Sole Proprietorship' },
@@ -52,7 +52,7 @@ const CompanyProfile = () => {
     setSelectBusinessType(e.target.value)
   };
 
-  // Fiscal Year
+  //////////////// Fiscal Year
 
   const [FiscalYear, setFiscalYear] = useState([
     { key: '1', label: 'January – December' },
@@ -66,7 +66,7 @@ const CompanyProfile = () => {
     setSelectFiscalYear(e.target.value)
   };
 
-  // Time Zone
+  //////////////// Time Zone
 
   const [TimeZone, setTimeZone] = useState([
     { key: '1', label: '(UTC-12:00) International Date Line West', value: 'Etc/GMT+12' },
@@ -141,7 +141,7 @@ const CompanyProfile = () => {
   // Error useState
 
   const [errors, setErrors] = useState({
-    organization: '',
+    organizationName: '',
     industry: '',
     businessType: '',
     companyAddress: '',
@@ -256,6 +256,21 @@ const CompanyProfile = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  const taxOptions = [
+    {
+      label: 'Accrual (you owe tax as of invoice date)',
+      value: 'accrual',
+    },
+    {
+      label: 'Cash (you owe tax upon receiving payments)',
+      value: 'cash',
+    },
+  ];
+
+  // const handleChange = (e) => {
+  //   setFormData({ ...formData, [e.target.name]: e.target.value });
+  // };
+
   //  Handle Submit
 
   const handleSubmit = (e) => {
@@ -279,11 +294,23 @@ const CompanyProfile = () => {
 
   const handleClearClick = () => {
     setFormData({
-      name: '',
-      email: '',
       organizationName: '',
-      password: '',
-      confirmPassword: ''
+      industry: '',
+      businessType: '',
+      companyAddress: '',
+      street: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      contury: '',
+      Phone: '',
+      fax: '',
+      website: '',
+      fiscal: '',
+      timeZone: '',
+      dateFormat: '',
+      companyID: '',
+      taxID: '',
     })
     setModalShow(false);
     setErrors({});
@@ -377,16 +404,6 @@ const CompanyProfile = () => {
               required
               inputCol={3}
             />
-            <InlineSelectField
-              name="businessType"
-              value={formData.contury}
-              onChange={handleBusinessChange}
-              error={errors.contury}
-              required
-              placeholder="Select Business Type"
-              // options={Contury} 
-              inputCol={3}
-            />
             <InlineInputField
               name="phone"
               value={formData.phoneNumber}
@@ -426,8 +443,61 @@ const CompanyProfile = () => {
               labelCol={2}
               inputCol={6}
             />
-          </CardFromTertiary>
+            <RadioGroupField
+              label="Tax Basis"
+              name="taxMethod"
+              options={taxOptions}
+              value={formData.taxMethod}
+              onChange={handleChange}
+              error={errors.taxMethod}
+              controlId="formPlaintextTaxBasis"
+            />
+            <InlineSelectField
+              label="Time Zone"
+              name="timeZone"
+              value={formData.timeZone}
+              onChange={handleBusinessChange}
+              error={errors.timeZone}
+              required
+              placeholder="Select Time Zone"
+              options={TimeZone}
+              labelCol={2}
+              inputCol={6}
+            />
+            <InlineSelectField
+              label="Date Format"
+              name="dateFormat"
+              value={formData.dateFormat}
+              onChange={handleBusinessChange}
+              error={errors.dateFormat}
+              required
+              placeholder="Select Date Format"
+              options={DateFormat}
+              labelCol={2}
+              inputCol={6}
+            />
+            <InlineInputField
+              label="Tax ID"
+              name="taxID"
+              value={formData.taxID}
+              onChange={handleFiscalYearChange}
+              error={errors.taxID}
+              placeholder="Tax ID"
+              required
+              inputCol={6}
+            />
+            <InlineInputField
+              label="Company ID"
+              name="companyID"
+              value={formData.companyID}
+              onChange={handleFiscalYearChange}
+              error={errors.companyID}
+              placeholder="Company ID"
+              required
+              inputCol={6}
+            />
 
+          </CardFromTertiary>
         </Col>
       </Row>
     </Container>
