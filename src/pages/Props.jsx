@@ -41,11 +41,8 @@ export const CardFromTertiary = ({
     children,
     onSubmit,
     cardTitle = 'Organization Profile',
-    buttonTextSave = 'Submit',
-    buttonTextCancel = 'Cancel',
-    onButtonClick,
-    buttonClassName = 'primary_form_btn btn_h_35',
-    //onSubmit = (e) => e.preventDefault()
+    footerButtonSubmit = "Submit",
+    footerButtonSubmitClass = "",
 }) => {
     return (
         <Card className='Tertiary_card'>
@@ -58,7 +55,7 @@ export const CardFromTertiary = ({
                 </Form>
             </Card.Body>
             <Card.Footer>
-                <Button className={buttonClassName} onClick={onSubmit}>{buttonTextSave}</Button>
+                <Button className={footerButtonSubmitClass} onClick={onSubmit}>{footerButtonSubmit}</Button>
             </Card.Footer>
         </Card>
     );
@@ -294,7 +291,7 @@ export const InlineInputField = ({
   name,
   type = 'text',
   value,
-  onChange,
+  handleChange,
   error,
   placeholder,
   required = false,
@@ -307,17 +304,17 @@ export const InlineInputField = ({
       <Form.Label column sm={labelCol}>
         {label}
       </Form.Label>
-      <Col sm={inputCol}>
+      <Col sm={inputCol} className="position-relative">
         <Form.Control
           type={type}
           name={name}
           value={value}
-          onChange={onChange}
+          onChange={handleChange}
           placeholder={placeholder}
           required={required}
           isInvalid={!!error}
         />
-        <Form.Control.Feedback type="invalid">
+        <Form.Control.Feedback type="invalid" className='error_msg ms-3 p-0'>
           {error}
         </Form.Control.Feedback>
       </Col>
@@ -331,7 +328,7 @@ export const InlineSelectField = ({
   label,
   name,
   value,
-  onChange,
+  handleChange,
   error,
   required = false,
   options = [],
@@ -345,11 +342,11 @@ export const InlineSelectField = ({
       <Form.Label column sm={labelCol}>
         {label}
       </Form.Label>
-      <Col sm={inputCol}>
+      <Col sm={inputCol} className="position-relative">
         <Form.Select
           name={name}
           value={value}
-          onChange={onChange}
+          onChange={handleChange}
           isInvalid={!!error}
           required={required}
           aria-label={`${label} select`}
@@ -361,7 +358,7 @@ export const InlineSelectField = ({
             </option>
           ))}
         </Form.Select>
-        <Form.Control.Feedback type="invalid">
+        <Form.Control.Feedback type="invalid" className='error_msg ms-3 p-0'>
           {error}
         </Form.Control.Feedback>
       </Col>
@@ -376,7 +373,8 @@ export const RadioGroupField = ({
   name,
   options = [],
   value,
-  onChange,
+  handleChange,
+  required = false,
   error,
   controlId,
 }) => {
@@ -385,7 +383,7 @@ export const RadioGroupField = ({
       <Form.Label column sm="2">
         {label}
       </Form.Label>
-      <Col sm="6">
+      <Col sm="6" className="position-relative">
         {options.map((option, idx) => (
           <div key={`${name}-${option.value}-${idx}`} className="m-0">
             <Form.Check
@@ -394,14 +392,15 @@ export const RadioGroupField = ({
               id={`${name}-${option.value}`}
               label={option.label}
               value={option.value}
+              required={required}
               checked={value === option.value}
-              onChange={onChange}
+              onChange={handleChange}
               isInvalid={!!error}
             />
           </div>
         ))}
         {error && (
-          <Form.Control.Feedback type="invalid" className="d-block">
+          <Form.Control.Feedback type="invalid" className="error_msg ms-3 p-0">
             {error}
           </Form.Control.Feedback>
         )}

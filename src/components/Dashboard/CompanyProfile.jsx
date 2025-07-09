@@ -28,10 +28,6 @@ const CompanyProfile = () => {
 
   const [selectIndustry, setSelectIndustry] = useState('');
 
-  const handleIndustryChange = (e) => {
-    setSelectIndustry(e.target.value)
-  };
-
   //////////////// Business Type
 
   const [BusinessType, setBusinessType] = useState([
@@ -48,9 +44,6 @@ const CompanyProfile = () => {
   ])
 
   const [selectBusinessType, setSelectBusinessType] = useState('');
-  const handleBusinessChange = (e) => {
-    setSelectBusinessType(e.target.value)
-  };
 
   //////////////// Fiscal Year
 
@@ -62,9 +55,6 @@ const CompanyProfile = () => {
   ])
 
   const [selectFiscalYear, setSelectFiscalYear] = useState('');
-  const handleFiscalYearChange = (e) => {
-    setSelectFiscalYear(e.target.value)
-  };
 
   //////////////// Time Zone
 
@@ -93,10 +83,6 @@ const CompanyProfile = () => {
 
   const [selectTimeZone, setSelectTimeZone] = useState('');
 
-  const handleTimeZoneChange = (e) => {
-    setSelectTimeZone(e.target.value)
-  };
-
   // Date Format
 
   const [DateFormat, setDateFormat] = useState([
@@ -112,14 +98,10 @@ const CompanyProfile = () => {
 
   const [selectDateFormat, setSelectDateFormat] = useState('');
 
-  const handleDateFormatChange = (e) => {
-    setSelectDateFormat(e.target.value)
-  };
-
   // FormData useState
 
   const [formData, setFormData] = useState({
-    organization: '',
+    organizationName: '',
     industry: '',
     businessType: '',
     companyAddress: '',
@@ -128,8 +110,8 @@ const CompanyProfile = () => {
     state: '',
     zipCode: '',
     contury: '',
-    Phone: '',
-    fax: '',
+    phoneNumber: '',
+    faxNumber: '',
     website: '',
     fiscal: '',
     timeZone: '',
@@ -150,8 +132,8 @@ const CompanyProfile = () => {
     state: '',
     zipCode: '',
     contury: '',
-    Phone: '',
-    fax: '',
+    phoneNumber: '',
+    faxNumber: '',
     website: '',
     fiscal: '',
     timeZone: '',
@@ -204,21 +186,27 @@ const CompanyProfile = () => {
         if (!value.trim()) error = 'Country is required';
         break;
 
-      case 'Phone':
+      case 'phoneNumber':
         if (!value.trim()) error = 'Phone number is required';
         else if (!/^[\d\s()+-]+$/.test(value)) error = 'Invalid phone number';
         break;
 
-      case 'fax':
-        if (value && !/^[\d\s()+-]+$/.test(value)) error = 'Invalid fax number';
+      case 'faxNumber':
+        if (!value.trim()) error = 'Fax number is required';
+        else if (value && !/^[\d\s()+-]+$/.test(value)) error = 'Invalid fax number';
         break;
 
       case 'website':
-        if (value && !/^(https?:\/\/)?[\w.-]+\.[a-z]{2,}$/.test(value)) error = 'Invalid website URL';
+        if (!value.trim()) error = 'Website URL is required';
+        else if (value && !/^(https?:\/\/)?[\w.-]+\.[a-z]{2,}$/.test(value)) error = 'Invalid website URL';
         break;
 
       case 'fiscal':
         if (!value.trim()) error = 'Fiscal year is required';
+        break;
+
+      case 'taxMethod':
+        if (!value.trim()) error = 'Tax Basis is required ';
         break;
 
       case 'timeZone':
@@ -267,11 +255,7 @@ const CompanyProfile = () => {
     },
   ];
 
-  // const handleChange = (e) => {
-  //   setFormData({ ...formData, [e.target.name]: e.target.value });
-  // };
 
-  //  Handle Submit
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -284,6 +268,7 @@ const CompanyProfile = () => {
   //  Handle Change
 
   const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
     const error = validateField(name, value);
@@ -303,8 +288,8 @@ const CompanyProfile = () => {
       state: '',
       zipCode: '',
       contury: '',
-      Phone: '',
-      fax: '',
+      phoneNumber: '',
+      faxNumber: '',
       website: '',
       fiscal: '',
       timeZone: '',
@@ -320,15 +305,19 @@ const CompanyProfile = () => {
     <Container fluid>
       <Row>
         <Col md={12} lg={12} xl={12} xxl={12}>
-          <CardFromTertiary>
+          <CardFromTertiary
+            onSubmit={handleSubmit}
+            footerButtonSubmit="Submit"
+            footerButtonSubmitClass="primary_form_btn btn_h_35"
+          >
 
             <InlineInputField
               label="Organization Name"
-              name="organization"
-              value={formData.organization}
-              onChange={handleChange}
-              error={errors.organization}
+              name="organizationName"
               placeholder="Organization Name"
+              error={errors.organizationName}
+              value={formData.organizationName}
+              handleChange={handleChange}
               required
               labelCol={2}
               inputCol={6}
@@ -336,109 +325,109 @@ const CompanyProfile = () => {
             <InlineSelectField
               label="Industry"
               name="industry"
-              value={formData.industry}
-              onChange={handleIndustryChange}
-              error={errors.industry}
-              required
               placeholder="Select Industry"
-              options={Industry} 
+              error={errors.industry}
+              value={formData.industry}
+              handleChange={handleChange}
+              required
+              options={Industry}
               labelCol={2}
               inputCol={6}
             />
             <InlineSelectField
               label="Business Type"
               name="businessType"
-              value={formData.businessType}
-              onChange={handleBusinessChange}
-              error={errors.businessType}
-              required
               placeholder="Select Business Type"
-              options={BusinessType} 
+              error={errors.businessType}
+              value={formData.businessType}
+              handleChange={handleChange}
+              required
+              options={BusinessType}
               labelCol={2}
               inputCol={6}
             />
             <InlineInputField
               label="Company Address"
-              name="companyaddress"
-              value={formData.companyAddress}
-              onChange={handleFiscalYearChange}
+              name="companyAddress"
+              placeholder="Company Address"
               error={errors.companyAddress}
-              placeholder="Organization Name"
+              value={formData.companyAddress}
+              handleChange={handleChange}
               required
               labelCol={2}
               inputCol={9}
             />
             <InlineInputField
               name="street"
-              value={formData.street}
-              onChange={handleFiscalYearChange}
-              error={errors.street}
               placeholder="Street"
+              error={errors.street}
+              value={formData.street}
+              handleChange={handleChange}
               required
               inputCol={6}
             />
             <InlineInputField
               name="city"
-              value={formData.city}
-              onChange={handleFiscalYearChange}
-              error={errors.city}
               placeholder="City"
+              error={errors.city}
+              value={formData.city}
+              handleChange={handleChange}
               required
               inputCol={3}
             />
             <InlineInputField
               name="state"
-              value={formData.state}
-              onChange={handleFiscalYearChange}
-              error={errors.state}
               placeholder="State"
+              error={errors.state}
+              value={formData.state}
+              handleChange={handleChange}
               required
               inputCol={3}
             />
             <InlineInputField
               name="zipCode"
-              value={formData.zipCode}
-              onChange={handleFiscalYearChange}
-              error={errors.zipCode}
               placeholder="Zip Code"
+              error={errors.zipCode}
+              value={formData.zipCode}
+              handleChange={handleChange}
               required
               inputCol={3}
             />
             <InlineInputField
-              name="phone"
-              value={formData.phoneNumber}
-              onChange={handleFiscalYearChange}
-              error={errors.phoneNumber}
+              name="phoneNumber"
               placeholder="Phone Number"
+              error={errors.phoneNumber}
+              value={formData.phoneNumber}
+              handleChange={handleChange}
               required
               inputCol={3}
             />
             <InlineInputField
-              name="fax"
-              value={formData.fax}
-              onChange={handleFiscalYearChange}
-              error={errors.fax}
+              name="faxNumber"
               placeholder="Fax Number"
+              error={errors.faxNumber}
+              value={formData.faxNumber}
+              handleChange={handleChange}
               required
               inputCol={3}
             />
             <InlineInputField
               name="website"
-              value={formData.website}
-              onChange={handleFiscalYearChange}
-              error={errors.website}
               placeholder="Website URL"
+              value={formData.website}
+              handleChange={handleChange}
+              error={errors.website}
               required
               inputCol={3}
             />
             <InlineSelectField
               label="Fiscal Year"
               name="fiscal"
+              placeholder="Select fiscal Year"
               value={formData.fiscal}
-              onChange={handleBusinessChange}
+              handleChange={handleChange}
               error={errors.fiscal}
               required
-              placeholder="Select fiscal Year"
               options={FiscalYear}
               labelCol={2}
               inputCol={6}
@@ -448,18 +437,19 @@ const CompanyProfile = () => {
               name="taxMethod"
               options={taxOptions}
               value={formData.taxMethod}
-              onChange={handleChange}
+              handleChange={handleChange}
               error={errors.taxMethod}
+              required
               controlId="formPlaintextTaxBasis"
             />
             <InlineSelectField
               label="Time Zone"
               name="timeZone"
+              placeholder="Select Time Zone"
               value={formData.timeZone}
-              onChange={handleBusinessChange}
+              handleChange={handleChange}
               error={errors.timeZone}
               required
-              placeholder="Select Time Zone"
               options={TimeZone}
               labelCol={2}
               inputCol={6}
@@ -467,11 +457,11 @@ const CompanyProfile = () => {
             <InlineSelectField
               label="Date Format"
               name="dateFormat"
+              placeholder="Select Date Format"
               value={formData.dateFormat}
-              onChange={handleBusinessChange}
+              handleChange={handleChange}
               error={errors.dateFormat}
               required
-              placeholder="Select Date Format"
               options={DateFormat}
               labelCol={2}
               inputCol={6}
@@ -479,20 +469,20 @@ const CompanyProfile = () => {
             <InlineInputField
               label="Tax ID"
               name="taxID"
-              value={formData.taxID}
-              onChange={handleFiscalYearChange}
-              error={errors.taxID}
               placeholder="Tax ID"
+              value={formData.taxID}
+              handleChange={handleChange}
+              error={errors.taxID}
               required
               inputCol={6}
             />
             <InlineInputField
               label="Company ID"
               name="companyID"
-              value={formData.companyID}
-              onChange={handleFiscalYearChange}
-              error={errors.companyID}
               placeholder="Company ID"
+              value={formData.companyID}
+              handleChange={handleChange}
+              error={errors.companyID}
               required
               inputCol={6}
             />

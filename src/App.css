@@ -256,6 +256,9 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 
 .MainTitle{background-color: #EFE9FF; border: 1px solid #DFD4FF; border-radius: 4px; height: 40px; display: flex; align-items: center; padding: 0 12px; font-size: 15px; font-weight: 600; color: #414141; margin-bottom: 20px;}
 
+.inlineForm {margin-bottom: 1.4rem !important}
+.inlineForm .form-control{height: 42px !important;}
+
 
 .primary_table{border: 1px solid #E7DEFF; border-bottom: 3px solid #E7DEFF; border-radius: 8px; background-color: #fff;} 
 .table_header{display: flex; align-items: center; justify-content: space-between; padding: 8px 15px;}
@@ -341,10 +344,16 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .PrimaryModal .modal-header .modal-title .ModalTopHeading p{font-size: 16px; line-height: 18px; font-weight: 400; color: #535862; margin: 0;}
 .PrimaryModal .modal-body{padding: 15px 25px 15px 25px; border: none !important; max-height: calc(100vh - 345px); overflow: auto;}
 .PrimaryModal .modal-body .form-control{border-radius: 8px !important; height: 44px !important; border: 1px solid #D5D7DA !important;}
-.PrimaryModal .modal-body .error_msg{font-size: 12.5px; font-weight: 500; width: auto; margin: 0; position: absolute; bottom: -6px; left: 8px; background-color: #fff; padding: 0 7px; line-height: 14px;}
 .PrimaryModal .modal-footer{padding: 25px 25px 25px 25px; border: none !important; gap: 15px; flex-direction: row-reverse;}
 
 input:-internal-autofill-selected{background-color: transparent;}
+
+/* Common Error Message */
+
+.error_msg{font-size: 12.5px; font-weight: 500; width: auto; margin: 0; position: absolute; bottom: -6px; left: 8px; background-color: #fff; padding: 0 7px; line-height: 14px;}
+
+
+/* Common Error Message */
 
 @media(min-width:1200px) and (max-width: 1365px) {
     .employee_profile_container{gap: 20px;}
