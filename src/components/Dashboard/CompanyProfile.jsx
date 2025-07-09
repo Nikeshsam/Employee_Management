@@ -114,6 +114,7 @@ const CompanyProfile = () => {
     faxNumber: '',
     website: '',
     fiscal: '',
+    taxMethod: '',
     timeZone: '',
     dateFormat: '',
     companyID: '',
@@ -136,6 +137,7 @@ const CompanyProfile = () => {
     faxNumber: '',
     website: '',
     fiscal: '',
+    taxMethod: '',
     timeZone: '',
     dateFormat: '',
     companyID: '',
@@ -188,7 +190,8 @@ const CompanyProfile = () => {
 
       case 'phoneNumber':
         if (!value.trim()) error = 'Phone number is required';
-        else if (!/^[\d\s()+-]+$/.test(value)) error = 'Invalid phone number';
+        // Indian mobile number: 10 digits, starts with 6-9
+        else if (!/^[6-9]\d{9}$/.test(value)) error = 'Invalid Indian mobile number';
         break;
 
       case 'faxNumber':
@@ -277,29 +280,6 @@ const CompanyProfile = () => {
 
   const Navigate = useNavigate();
 
-  const handleClearClick = () => {
-    setFormData({
-      organizationName: '',
-      industry: '',
-      businessType: '',
-      companyAddress: '',
-      street: '',
-      city: '',
-      state: '',
-      zipCode: '',
-      contury: '',
-      phoneNumber: '',
-      faxNumber: '',
-      website: '',
-      fiscal: '',
-      timeZone: '',
-      dateFormat: '',
-      companyID: '',
-      taxID: '',
-    })
-    setModalShow(false);
-    setErrors({});
-  }
 
   return (
     <Container fluid>

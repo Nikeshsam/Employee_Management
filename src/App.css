@@ -350,7 +350,8 @@ input:-internal-autofill-selected{background-color: transparent;}
 
 /* Common Error Message */
 
-.error_msg{font-size: 12.5px; font-weight: 500; width: auto; margin: 0; position: absolute; bottom: -6px; left: 8px; background-color: #fff; padding: 0 7px; line-height: 14px;}
+.error_msg{font-size: 12.5px; font-weight: 500; width: auto; margin: 0; position: absolute; bottom: -6px; left: 8px; background-color: #fff; padding: 0 7px; line-height: 14px; display: block;}
+.error_msg_no_input{bottom: -12px;}
 
 
 /* Common Error Message */

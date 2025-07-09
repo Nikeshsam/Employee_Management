@@ -395,12 +395,11 @@ export const RadioGroupField = ({
               required={required}
               checked={value === option.value}
               onChange={handleChange}
-              isInvalid={!!error}
             />
           </div>
         ))}
         {error && (
-          <Form.Control.Feedback type="invalid" className="error_msg ms-3 p-0">
+          <Form.Control.Feedback type="invalid" className="error_msg error_msg_no_input ms-3 p-0">
             {error}
           </Form.Control.Feedback>
         )}
