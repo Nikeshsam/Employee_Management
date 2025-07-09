@@ -12,11 +12,10 @@ import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table, Image, Pagin
 
 export const CardForm = ({
     children,
+    onSubmit,
     cardTitle = '',
-    buttonText = 'Save',  // Button label
-    onButtonClick,        // Click handler for the button
-    buttonClassName = 'primary_form_btn btn_h_35', // Optional button class
-    onSubmit = (e) => e.preventDefault()
+    footerButtonSubmit = "Submit",
+    footerButtonSubmitClass = "",
 }) => {
     return (
         <Card className='secondary_card'>
@@ -29,7 +28,10 @@ export const CardForm = ({
                 </Form>
             </Card.Body>
             <Card.Footer>
-                <Button className={buttonClassName} onClick={onButtonClick}>{buttonText}</Button>
+                {/* <Button className={footerButtonSubmitClass} onClick={onSubmit}>{footerButtonSubmit}</Button> */}
+                <Button onClick={onSubmit} type="submit" className={footerButtonSubmitClass}>
+                    {footerButtonSubmit}
+                </Button>
             </Card.Footer>
         </Card>
     );
@@ -168,15 +170,15 @@ export const PrimaryGird = ({
 
 export const InputField = ({
     label = '',
+    name,
     type = 'text',
-    placeholder = '',
-    controlId = '',
     value,
     handleChange,
-    name,
+    error,
+    placeholder = '',
+    required = false,
+    controlId = '',
     className = 'mb-3',
-    errors,
-    required = false
 }) => {
     return (
         <Form.Group autoComplete="off" className={`position-relative ${className}`} controlId={controlId}>
@@ -193,12 +195,12 @@ export const InputField = ({
                 onChange={handleChange}
                 name={name}
                 required={required}
-                isInvalid={!!errors}
+                isInvalid={!!error}
                 autoComplete="off"
             />
-            {errors && (
+            {error && (
                 <Form.Control.Feedback type="invalid" className="error_msg">
-                    {errors}
+                    {error}
                 </Form.Control.Feedback>
             )}
         </Form.Group>
@@ -297,7 +299,8 @@ export const InlineInputField = ({
   required = false,
   controlId,
   labelCol = 2,
-  inputCol = 6
+  inputCol = 6,
+
 }) => {
   return (
     <Form.Group as={Row} className="mb-3 inlineForm" controlId={controlId || name}>

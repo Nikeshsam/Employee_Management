@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { CardForm, CardFromTertiary, InlineInputField, InlineSelectField, RadioGroupField } from '../../pages/Props';
 
 // Bootstrap imports
 
 import 'bootstrap/dist/css/bootstrap.css';
 import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react-bootstrap';
-import { CardForm, CardFromTertiary, InlineInputField, InlineSelectField, RadioGroupField } from '../../pages/Props';
 
 // Bootstrap imports
 
@@ -26,8 +26,6 @@ const CompanyProfile = () => {
     { key: '10', label: 'Healthcare & Pharmaceuticals' },
   ])
 
-  const [selectIndustry, setSelectIndustry] = useState('');
-
   //////////////// Business Type
 
   const [BusinessType, setBusinessType] = useState([
@@ -43,8 +41,6 @@ const CompanyProfile = () => {
     { key: '10', label: 'Holding Company' }
   ])
 
-  const [selectBusinessType, setSelectBusinessType] = useState('');
-
   //////////////// Fiscal Year
 
   const [FiscalYear, setFiscalYear] = useState([
@@ -53,8 +49,6 @@ const CompanyProfile = () => {
     { key: '3', label: 'July – June' },
     { key: '4', label: 'October – September' }
   ])
-
-  const [selectFiscalYear, setSelectFiscalYear] = useState('');
 
   //////////////// Time Zone
 
@@ -81,8 +75,6 @@ const CompanyProfile = () => {
     { key: '20', label: '(UTC+08:00) Beijing, Perth, Singapore', value: 'Asia/Shanghai' }
   ])
 
-  const [selectTimeZone, setSelectTimeZone] = useState('');
-
   // Date Format
 
   const [DateFormat, setDateFormat] = useState([
@@ -96,9 +88,10 @@ const CompanyProfile = () => {
     { key: '8', label: 'dddd, MMMM D, YYYY', value: 'dddd, MMMM D, YYYY' }
   ])
 
-  const [selectDateFormat, setSelectDateFormat] = useState('');
-
   // FormData useState
+
+
+  // FormData Validations
 
   const [formData, setFormData] = useState({
     organizationName: '',
@@ -420,7 +413,6 @@ const CompanyProfile = () => {
               handleChange={handleChange}
               error={errors.taxMethod}
               required
-              controlId="formPlaintextTaxBasis"
             />
             <InlineSelectField
               label="Time Zone"

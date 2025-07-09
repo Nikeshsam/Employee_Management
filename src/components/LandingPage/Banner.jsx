@@ -83,7 +83,7 @@ const Banner = ({ modalShow, setModalShow }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      Navigate('/Home')
+      navigate('/Home')
       console.log('Form submitted:', formData);
     }
   };
@@ -97,7 +97,7 @@ const Banner = ({ modalShow, setModalShow }) => {
     setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
   };
 
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleClearClick = () => {
     setFormData({
