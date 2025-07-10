@@ -50,32 +50,36 @@ const Travel = () => {
   };
 
   return (
-    <CardForm>
+    <CardForm
+      //onSubmit={handleSubmit}
+      footerButtonSubmit="Submit"
+      footerButtonSubmitClass="primary_form_btn btn_h_35"
+    >
       <Col md={12} lg={12} xl={12} xxl={12}>
         <h5 className='MainTitle'>Passport Details</h5>
       </Col>
       <Col md={3} lg={3} xl={3} xxl={3}>
         <InputField
-            label="Passport No"
-            type="text"
-            placeholder="Enter your Passport No"
-            controlId="PassportNo"
-            name="PassportNo"
-            value={formData.PassportNo}
-            onChange={handleChange}
-            required
+          label="Passport No"
+          type="text"
+          placeholder="Enter your Passport No"
+          controlId="PassportNo"
+          name="PassportNo"
+          value={formData.PassportNo}
+          onChange={handleChange}
+          required
         />
       </Col>
       <Col md={3} lg={3} xl={3} xxl={3}>
         <InputField
-            label="Issued By"
-            type="text"
-            placeholder="Enter your Issued By"
-            controlId="IssuedBy"
-            name="IssuedBy"
-            value={formData.IssuedBy}
-            onChange={handleChange}
-            required
+          label="Issued By"
+          type="text"
+          placeholder="Enter your Issued By"
+          controlId="IssuedBy"
+          name="IssuedBy"
+          value={formData.IssuedBy}
+          onChange={handleChange}
+          required
         />
       </Col>
       <Col md={3} lg={3} xl={3} xxl={3}>
@@ -103,7 +107,7 @@ const Travel = () => {
         />
       </Col>
       <Col md={12} lg={12} xl={12} xxl={12}>
-        <PrimaryGird 
+        <PrimaryGird
           cardTitle="Visa Details"
           buttonText="Add Visa"
 
@@ -115,19 +119,19 @@ const Travel = () => {
           onButtonClick={() => console.log('Add Visa Clicked')}
           tableHeaders={['Visa Number', 'Issued Date', 'Place of Issue', 'Expiry Date', 'Notes', 'Action']}
         >
-            {Visas.map((Visa) => (
-              <tr key={Visa.key}>
-                <td>{Visa.VisaNumber}</td>
-                <td>{Visa.IssuedDate}</td>
-                <td>{Visa.PlaceofIssue}</td>
-                <td>{Visa.ExpiryDate}</td>
-                <td>{Visa.Notes}</td>
-                <td className='table_action'>
-                  <Button className="btn_action"><img src={Images.Edit} alt="" /></Button>
-                  <Button className="btn_action"><img src={Images.Delete} alt="" /></Button>
-                </td>
-              </tr>
-            ))}
+          {Visas.map((Visa) => (
+            <tr key={Visa.key}>
+              <td>{Visa.VisaNumber}</td>
+              <td>{Visa.IssuedDate}</td>
+              <td>{Visa.PlaceofIssue}</td>
+              <td>{Visa.ExpiryDate}</td>
+              <td>{Visa.Notes}</td>
+              <td className='table_action'>
+                <Button className="btn_action"><img src={Images.Edit} alt="" /></Button>
+                <Button className="btn_action"><img src={Images.Delete} alt="" /></Button>
+              </td>
+            </tr>
+          ))}
         </PrimaryGird>
       </Col>
     </CardForm>
