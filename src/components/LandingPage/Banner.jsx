@@ -142,7 +142,7 @@ const Banner = ({ modalShow, setModalShow }) => {
                 placeholder="Enter your name"
                 controlId="name"
                 name="name"
-                errors={errors.name}
+                error={errors.name}
                 value={formData.name}
                 handleChange={handleChange}
                 required
@@ -155,7 +155,7 @@ const Banner = ({ modalShow, setModalShow }) => {
                 placeholder="Enter your Email"
                 controlId="email"
                 name="email"
-                errors={errors.email}
+                error={errors.email}
                 value={formData.email}
                 handleChange={handleChange}
                 required
@@ -168,7 +168,7 @@ const Banner = ({ modalShow, setModalShow }) => {
                 placeholder="Enter Your Organization Name"
                 controlId="organizationName"
                 name="organizationName"
-                errors={errors.organizationName}
+                error={errors.organizationName}
                 value={formData.organizationName}
                 handleChange={handleChange}
                 required
@@ -181,7 +181,7 @@ const Banner = ({ modalShow, setModalShow }) => {
                 placeholder="Create a password"
                 controlId="password"
                 name="password"
-                errors={errors.password}
+                error={errors.password}
                 value={formData.password}
                 handleChange={handleChange}
                 required
@@ -194,7 +194,7 @@ const Banner = ({ modalShow, setModalShow }) => {
                 placeholder="Re-enter your password"
                 controlId="confirmPassword"
                 name="confirmPassword"
-                errors={errors.confirmPassword}
+                error={errors.confirmPassword}
                 value={formData.confirmPassword}
                 handleChange={handleChange}
                 required
