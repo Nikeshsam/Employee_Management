@@ -82,6 +82,9 @@ const BasicInfo = () => {
             case 'nationality':
                 if (!value.trim()) error = 'Nationality is required';
                 break;
+            case 'gender':
+                if (!value.trim()) error = 'Gender is required';
+                break;
             case 'maritalstatus':
                 if (!value.trim()) error = 'Marital Status is required';
                 break;
@@ -167,7 +170,7 @@ const BasicInfo = () => {
                             <InputField
                                 label="Date of Birth"
                                 name="dob"
-                                type="text"
+                                type="date"
                                 placeholder="Enter your Date of Birth"
                                 error={errors.dob}
                                 value={formData.dob}

@@ -157,7 +157,7 @@ export const PrimaryGird = ({
                         </Pagination>
                         <div className="jumpTo">
                             Jump to:
-                            <Form.Control type="number" size="sm" className=""/>
+                            <Form.Control type="number" size="sm" className="" />
                         </div>
                     </div>
                 </div>
@@ -210,17 +210,29 @@ export const InputField = ({
 // Component SelectField.....
 
 export const SelectInput = ({
-    controlId,
     label,
-    options,
     name,
-    placeholder = "Select an option",
-    className = "mb-3" }) => {
-
+    value,
+    handleChange,
+    error,
+    placeholder = "",
+    required = false,
+    controlId,
+    options,
+    className = 'mb-3'
+}) => {
     return (
-        <Form.Group className={className} controlId={controlId}>
+        <Form.Group className={`position-relative ${className}`} controlId={controlId}>
             <Form.Label>{label}</Form.Label>
-            <Form.Select name={name} aria-label={`${label} select`}>
+            <Form.Select 
+                placeholder={placeholder}
+                value={value}
+                onChange={handleChange}
+                name={name} 
+                required={required}
+                isInvalid={!!error}
+                aria-label={`${label} select`}
+            >
                 <option>{placeholder}</option>
                 {options.map((option) => (
                     <option key={option.key} value={option.value || option.label}>
@@ -228,6 +240,11 @@ export const SelectInput = ({
                     </option>
                 ))}
             </Form.Select>
+            {error && (
+                <Form.Control.Feedback type="invalid" className="error_msg">
+                    {error}
+                </Form.Control.Feedback>
+            )}
         </Form.Group>
     );
 };
@@ -289,125 +306,125 @@ export const CustomModal = ({
 // Component InlineInputField.....
 
 export const InlineInputField = ({
-  label,
-  name,
-  type = 'text',
-  value,
-  handleChange,
-  error,
-  placeholder,
-  required = false,
-  controlId,
-  labelCol = 2,
-  inputCol = 6,
+    label,
+    name,
+    type = 'text',
+    value,
+    handleChange,
+    error,
+    placeholder,
+    required = false,
+    controlId,
+    labelCol = 2,
+    inputCol = 6,
 
 }) => {
-  return (
-    <Form.Group as={Row} className="mb-3 inlineForm" controlId={controlId || name}>
-      <Form.Label column sm={labelCol}>
-        {label}
-      </Form.Label>
-      <Col sm={inputCol} className="position-relative">
-        <Form.Control
-          type={type}
-          name={name}
-          value={value}
-          onChange={handleChange}
-          placeholder={placeholder}
-          required={required}
-          isInvalid={!!error}
-        />
-        <Form.Control.Feedback type="invalid" className='error_msg ms-3 p-0'>
-          {error}
-        </Form.Control.Feedback>
-      </Col>
-    </Form.Group>
-  );
+    return (
+        <Form.Group as={Row} className="mb-3 inlineForm" controlId={controlId || name}>
+            <Form.Label column sm={labelCol}>
+                {label}
+            </Form.Label>
+            <Col sm={inputCol} className="position-relative">
+                <Form.Control
+                    type={type}
+                    name={name}
+                    value={value}
+                    onChange={handleChange}
+                    placeholder={placeholder}
+                    required={required}
+                    isInvalid={!!error}
+                />
+                <Form.Control.Feedback type="invalid" className='error_msg ms-3 p-0'>
+                    {error}
+                </Form.Control.Feedback>
+            </Col>
+        </Form.Group>
+    );
 };
 
 // Component InlineSelectField.....
 
 export const InlineSelectField = ({
-  label,
-  name,
-  value,
-  handleChange,
-  error,
-  required = false,
-  options = [],
-  placeholder = 'Select an option',
-  controlId,
-  labelCol = 2,
-  inputCol = 6
+    label,
+    name,
+    value,
+    handleChange,
+    error,
+    required = false,
+    options = [],
+    placeholder = 'Select an option',
+    controlId,
+    labelCol = 2,
+    inputCol = 6
 }) => {
-  return (
-    <Form.Group as={Row} className="mb-3 inlineForm" controlId={controlId || name}>
-      <Form.Label column sm={labelCol}>
-        {label}
-      </Form.Label>
-      <Col sm={inputCol} className="position-relative">
-        <Form.Select
-          name={name}
-          value={value}
-          onChange={handleChange}
-          isInvalid={!!error}
-          required={required}
-          aria-label={`${label} select`}
-        >
-          <option value="">{placeholder}</option>
-          {options.map((item) => (
-            <option key={item.key} value={item.key}>
-              {item.label}
-            </option>
-          ))}
-        </Form.Select>
-        <Form.Control.Feedback type="invalid" className='error_msg ms-3 p-0'>
-          {error}
-        </Form.Control.Feedback>
-      </Col>
-    </Form.Group>
-  );
+    return (
+        <Form.Group as={Row} className="mb-3 inlineForm" controlId={controlId || name}>
+            <Form.Label column sm={labelCol}>
+                {label}
+            </Form.Label>
+            <Col sm={inputCol} className="position-relative">
+                <Form.Select
+                    name={name}
+                    value={value}
+                    onChange={handleChange}
+                    isInvalid={!!error}
+                    required={required}
+                    aria-label={`${label} select`}
+                >
+                    <option value="">{placeholder}</option>
+                    {options.map((item) => (
+                        <option key={item.key} value={item.key}>
+                            {item.label}
+                        </option>
+                    ))}
+                </Form.Select>
+                <Form.Control.Feedback type="invalid" className='error_msg ms-3 p-0'>
+                    {error}
+                </Form.Control.Feedback>
+            </Col>
+        </Form.Group>
+    );
 };
 
 // Component CheckboxField.....
 
 export const RadioGroupField = ({
-  label = '',
-  name,
-  options = [],
-  value,
-  handleChange,
-  required = false,
-  error,
-  controlId,
+    label = '',
+    name,
+    options = [],
+    value,
+    handleChange,
+    required = false,
+    error,
+    controlId,
 }) => {
-  return (
-    <Form.Group as={Row} className="mb-3 inlineForm" controlId={controlId}>
-      <Form.Label column sm="2">
-        {label}
-      </Form.Label>
-      <Col sm="6" className="position-relative">
-        {options.map((option, idx) => (
-          <div key={`${name}-${option.value}-${idx}`} className="m-0">
-            <Form.Check
-              type="radio"
-              name={name}
-              id={`${name}-${option.value}`}
-              label={option.label}
-              value={option.value}
-              required={required}
-              checked={value === option.value}
-              onChange={handleChange}
-            />
-          </div>
-        ))}
-        {error && (
-          <Form.Control.Feedback type="invalid" className="error_msg error_msg_no_input ms-3 p-0">
-            {error}
-          </Form.Control.Feedback>
-        )}
-      </Col>
-    </Form.Group>
-  );
+    return (
+        <Form.Group as={Row} className="mb-3 inlineForm" controlId={controlId}>
+            <Form.Label column sm="2">
+                {label}
+            </Form.Label>
+            <Col sm="6" className="position-relative">
+                {options.map((option, idx) => (
+                    <div key={`${name}-${option.value}-${idx}`} className="m-0">
+                        <Form.Check
+                            type="radio"
+                            name={name}
+                            id={`${name}-${option.value}`}
+                            label={option.label}
+                            value={option.value}
+                            required={required}
+                            checked={value === option.value}
+                            onChange={handleChange}
+                        />
+                    </div>
+                ))}
+                {error && (
+                    <Form.Control.Feedback type="invalid" className="error_msg error_msg_no_input ms-3 p-0">
+                        {error}
+                    </Form.Control.Feedback>
+                )}
+            </Col>
+        </Form.Group>
+    );
 };
 
