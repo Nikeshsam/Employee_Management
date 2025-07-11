@@ -34,13 +34,9 @@ const Login = ({handleOnClick}) => {
                             </div>
                         ))}
                         {/* <a href="" onClick={()=> handleOnClick (3)} className='forgot-password'>Forgot password?</a> */}
-                        <button onClick={()=> handleOnClick (3)} type='button'className='forgot-password'>Forgot password?</button>
+                        <button onClick={()=> handleOnClick (2)} type='button'className='forgot-password'>Forgot password?</button>
                     </div>
                     <Button variant='primary' className='primary_btn w-100 mb-3'>SIGN IN</Button>
-                    <div className='create-account'>
-                        <p>Don't have an account</p> 
-                        <Button variant='primary' onClick={() => handleOnClick(2)} className=''>Sign Up</Button>
-                    </div>
                 </Form>
             </div>
 

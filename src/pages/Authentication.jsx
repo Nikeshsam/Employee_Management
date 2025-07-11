@@ -1,6 +1,5 @@
 import React from 'react';
 import Login from '../components/Authentication/Login.jsx';
-import Register from '../components/Authentication/Register.jsx';
 import ForgotPassword from '../components/Authentication/ForgotPassword.jsx';
 import AuthBG from '../assets/Images/Auth_bg.svg'
 import 'bootstrap/dist/css/bootstrap.css';
@@ -36,10 +35,6 @@ const Authentication =() => {
             )}
 
             {IsAuthenticate == 2 && (
-              <Register handleOnClick={handleOnClick} />
-            )}
-
-            {IsAuthenticate == 3 && (
               <ForgotPassword handleOnClick={handleOnClick} />
             )}
           </Col>

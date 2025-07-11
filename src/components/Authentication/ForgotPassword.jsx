@@ -19,7 +19,7 @@ const FogotPassword = ({handleOnClick}) => {
                         <Form.Label>Email address</Form.Label>
                         <Form.Control type="email" />
                     </Form.Group>
-                    <Button variant='primary' onClick={()=> handleOnClick (3)} className='primary_btn w-100'>UPDATE PASSWORD</Button>
+                    <Button variant='primary' onClick={()=> handleOnClick (1)} className='primary_btn w-100'>UPDATE PASSWORD</Button>
                 </Form>
             </div>
 
