@@ -12,9 +12,9 @@ import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react
 const HealthRecord = () => {
   const [vaccinations, setVaccination] = useState([
     {
-      key : '1',
-      VaccinationName : 'Covid',
-      DateofDose : 'Nov 24, 1999'
+      key: '1',
+      VaccinationName: 'Covid',
+      DateofDose: 'Nov 24, 1999'
     }
   ])
   const [BloodGroup, setBloodGroup] = useState([
@@ -48,9 +48,13 @@ const HealthRecord = () => {
   };
 
   return (
-    <CardForm>
+    <CardForm
+      //onSubmit={handleSubmit}
+      footerButtonSubmit="Submit"
+      footerButtonSubmitClass="primary_form_btn btn_h_35"
+    >
       <Col md={12} lg={12} xl={12} xxl={12}>
-          <h5 className='MainTitle'>Health Details</h5>
+        <h5 className='MainTitle'>Health Details</h5>
       </Col>
       <Col md={3} lg={3} xl={3} xxl={3}>
         <SelectInput
@@ -72,26 +76,26 @@ const HealthRecord = () => {
       </Col>
       <Col md={3} lg={3} xl={3} xxl={3}>
         <InputField
-            label="Allergy Intolerance"
-            type="text"
-            placeholder="Allergy Intolerance"
-            controlId="AllergyIntolerance"
-            name="AllergyIntolerance"
-            value={formData.AllergyIntolerance}
-            onChange={handleChange}
-            required
+          label="Allergy Intolerance"
+          type="text"
+          placeholder="Allergy Intolerance"
+          controlId="AllergyIntolerance"
+          name="AllergyIntolerance"
+          value={formData.AllergyIntolerance}
+          onChange={handleChange}
+          required
         />
       </Col>
       <Col md={3} lg={3} xl={3} xxl={3}>
         <InputField
-            label="Pre-Existing Illness"
-            type="text"
-            placeholder="Pre-Existing Illness"
-            controlId="PreExisting"
-            name="PreExisting"
-            value={formData.PreExisting}
-            onChange={handleChange}
-            required
+          label="Pre-Existing Illness"
+          type="text"
+          placeholder="Pre-Existing Illness"
+          controlId="PreExisting"
+          name="PreExisting"
+          value={formData.PreExisting}
+          onChange={handleChange}
+          required
         />
       </Col>
       <Col md={12} lg={12} xl={12} xxl={12}>
@@ -102,8 +106,8 @@ const HealthRecord = () => {
           showAddButton={true}
           showFilterButton={false}
           showDeleteButton={false}
-          showFooter={false}          
-          
+          showFooter={false}
+
           onButtonClick={() => console.log('Add Visa Clicked')}
           tableHeaders={['Vaccination Name', 'Date of Dose', 'Actions']}
         >

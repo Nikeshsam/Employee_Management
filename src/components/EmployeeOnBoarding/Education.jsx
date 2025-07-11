@@ -32,7 +32,11 @@ const Educations = () => {
         },
     ])
     return (
-        <CardForm>
+        <CardForm
+            //onSubmit={handleSubmit}
+            footerButtonSubmit="Submit"
+            footerButtonSubmitClass="primary_form_btn btn_h_35"
+        >
             <Col md={12} lg={12} xl={12} xxl={12}>
                 <PrimaryGird
                     cardTitle="Educations"

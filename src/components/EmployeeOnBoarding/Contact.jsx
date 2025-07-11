@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CardForm, PrimaryGird, InputField, SelectInput } from '../../pages/Props.jsx';
 
 
@@ -19,6 +20,7 @@ const Contact = () => {
         { key: '6', label: 'Pakistan' },
         { key: '7', label: 'Dubai' }
     ])
+
     const [state, setState] = useState([
         { key: '1', label: 'Tamil Nadu' },
         { key: '2', label: 'Andhra Pradesh' },
@@ -31,6 +33,7 @@ const Contact = () => {
         { key: '9', label: 'Karnataka' },
         { key: '10', label: 'Kerala' },
     ])
+
     const [city, setCity] = useState([
         { key: '1', label: 'Chennai' },
         { key: '2', label: 'Kanchipuram' },
@@ -65,89 +68,203 @@ const Contact = () => {
 
     // FORM INPUT
 
+// FormData Validations
+
     const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
+        address1: '',
+        address2: '',
+        country: '',
+        state: '',
+        city: '',
+        zipCode: '',
+        paddress1: '',
+        paddress2: '',
+        pcountry: '',
+        pstate: '',
+        pcity: '',
+        pzipCode: '',
+        phonenumber: '',
+        cdphonenumber: '',
+        cdemailaddress: '',
+        ecdrelationname: '',
+        ecdrelationship: '',
+        ecdphonenumber: '',
+        ecdemailaddress: '',
+        ecdAddress: '',
     });
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
+    // Error useState
+
+    const [errors, setErrors] = useState({
+        address1: '',
+        address2: '',
+        country: '',
+        state: '',
+        city: '',
+        zipCode: '',
+        paddress1: '',
+        paddress2: '',
+        pcountry: '',
+        pstate: '',
+        pcity: '',
+        pzipCode: '',
+        phonenumber: '',
+        cdphonenumber: '',
+        cdemailaddress: '',
+        ecdrelationname: '',
+        ecdrelationship: '',
+        ecdphonenumber: '',
+        ecdemailaddress: '',
+        ecdAddress: '',
+    });
+
+
+    const validateField = (name, value) => {
+        let error = '';
+        switch (name) {
+            case 'address1':
+            case 'paddress1':
+                if (!value.trim()) error = 'Address is required';
+                break;
+            case 'lastName':
+                if (!value.trim()) error = 'Last Name is required';
+                break;
+            case 'dob':
+                if (!value.trim()) error = 'Date of Birth is required';
+                break;
+            case 'age':
+                if (!value.trim()) error = 'Age is required';
+                break;
+            case 'nationality':
+                if (!value.trim()) error = 'Nationality is required';
+                break;
+            case 'gender':
+                if (!value.trim()) error = 'Gender is required';
+                break;
+            case 'maritalstatus':
+                if (!value.trim()) error = 'Marital Status is required';
+                break;
+            case 'dateofmarriage':
+                if (!value.trim()) error = 'Date of Marriage is required';
+                break;
+            default:
+                break;
+        }
+
+        return error;
     };
+
+    //  Validate Form with Error
+
+    const validateForm = () => {
+        const newErrors = {};
+        Object.keys(formData).forEach((field) => {
+            const error = validateField(field, formData[field]);
+            if (error) newErrors[field] = error;
+        });
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    //  Handle Submit
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Form submitted:', formData);
+        if (validateForm()) {
+            navigate('/Home'); // 
+            console.log('Form submitted:', formData);
+        }
     };
 
+    //  Handle Change
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+        const error = validateField(name, value);
+        setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
+    };
+
+    const navigate  = useNavigate();
+
     return (
-        <CardForm>
+        <CardForm
+            onSubmit={handleSubmit}
+            footerButtonSubmit="Submit"
+            footerButtonSubmitClass="primary_form_btn btn_h_35"
+        >
             <Col md={12} lg={12} xl={12} xxl={12}>
                 <h5 className='MainTitle'>Current Address</h5>
             </Col>
             <Col md={6} lg={6} xl={6} xxl={6}>
                 <InputField
                     label="Address Line 1"
+                    name="address1"
                     type="text"
                     placeholder="Enter your Address"
-                    controlId="Address1"
-                    name="Address1"
-                    value={formData.Address1}
-                    onChange={handleChange}
+                    error={errors.address1}
+                    value={formData.address1}
+                    handleChange={handleChange}
                     required
                 />
             </Col>
             <Col md={6} lg={6} xl={6} xxl={6}>
                 <InputField
                     label="Address Line 2"
+                    name="address2"
                     type="text"
                     placeholder="Enter your Address"
-                    controlId="Address2"
-                    name="Address2"
-                    value={formData.Address2}
-                    onChange={handleChange}
+                    error={errors.address2}
+                    value={formData.address2}
+                    handleChange={handleChange}
                     required
                 />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
                 <SelectInput
-                    controlId="country"
                     label="Country"
                     name="country"
                     options={country}
                     placeholder="Select Country"
+                    error={errors.country}
+                    value={formData.country}
+                    handleChange={handleChange}
+                    required
                 />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
                 <SelectInput
-                    controlId="State"
                     label="State"
-                    name="State"
+                    name="state"
                     options={state}
                     placeholder="Select State"
+                    error={errors.state}
+                    value={formData.state}
+                    handleChange={handleChange}
+                    required
                 />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
                 <SelectInput
-                    controlId="City"
                     label="City"
-                    name="City"
+                    name="city"
                     options={city}
                     placeholder="Select City"
+                    error={errors.city}
+                    value={formData.city}
+                    handleChange={handleChange}
+                    required
                 />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
                 <InputField
                     label="Zip Code"
+                    name="zipCode"
                     type="text"
                     placeholder="Enter your Zip Code"
-                    controlId="ZipCode"
-                    name="ZipCode"
-                    value={formData.ZipCode}
-                    onChange={handleChange}
+                    error={errors.zipCode}
+                    value={formData.zipCode}
+                    handleChange={handleChange}
                     required
                 />
             </Col>
@@ -157,63 +274,72 @@ const Contact = () => {
             <Col md={6} lg={6} xl={6} xxl={6}>
                 <InputField
                     label="Address Line 1"
+                    name="paddress1"
                     type="text"
                     placeholder="Enter your Address"
-                    controlId="pAddress1"
-                    name="pAddress1"
-                    value={formData.pAddress1}
-                    onChange={handleChange}
+                    error={errors.paddress1}
+                    value={formData.paddress1}
+                    handleChange={handleChange}
                     required
                 />
             </Col>
             <Col md={6} lg={6} xl={6} xxl={6}>
                 <InputField
                     label="Address Line 2"
+                    name="paddress2"
                     type="text"
                     placeholder="Enter your Address"
-                    controlId="pAddress2"
-                    name="pAddress2"
-                    value={formData.pAddress2}
-                    onChange={handleChange}
+                    error={errors.paddress2}
+                    value={formData.paddress2}
+                    handleChange={handleChange}
                     required
                 />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
                 <SelectInput
-                    controlId="Country"
                     label="Country"
-                    name="Country"
+                    name="pcountry"
                     options={country}
                     placeholder="Select Country"
+                    error={errors.pcountry}
+                    value={formData.pcountry}
+                    handleChange={handleChange}
+                    required
                 />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
                 <SelectInput
-                    controlId="State"
                     label="State"
-                    name="State"
+                    name="pstate"
                     options={state}
                     placeholder="Select State"
+                    error={errors.pstate}
+                    value={formData.pstate}
+                    handleChange={handleChange}
+                    required
                 />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
                 <SelectInput
-                    controlId="City"
                     label="City"
-                    name="City"
+                    name="pcity"
                     options={city}
                     placeholder="Select City"
+                    error={errors.pcity}
+                    value={formData.pcity}
+                    handleChange={handleChange}
+                    required
                 />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
                 <InputField
                     label="Zip Code"
+                    name="pzipCode"
                     type="text"
                     placeholder="Enter your Zip Code"
-                    controlId="pZipCode"
-                    name="pZipCode"
-                    value={formData.pZipCode}
-                    onChange={handleChange}
+                    error={errors.pzipCode}
+                    value={formData.pzipCode}
+                    handleChange={handleChange}
                     required
                 />
             </Col>
@@ -223,36 +349,36 @@ const Contact = () => {
             <Col md={3} lg={3} xl={3} xxl={3}>
                 <InputField
                     label="Primary Phone Number"
+                    name="cdphonenumber"
                     type="number"
                     placeholder="Enter your Phone Number"
-                    controlId="PhoneNumber"
-                    name="PhoneNumber"
-                    value={formData.PhoneNumber}
-                    onChange={handleChange}
+                    error={errors.cdphonenumber}
+                    value={formData.cdphonenumber}
+                    handleChange={handleChange}
                     required
                 />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
                 <InputField
                     label="Alternate Phone Number"
+                    name="cdphonenumber"
                     type="number"
                     placeholder="Enter your Phone Number"
-                    controlId="aPhoneNumber"
-                    name="aPhoneNumber"
-                    value={formData.aPhoneNumber}
-                    onChange={handleChange}
+                    error={errors.cdphonenumber}
+                    value={formData.cdphonenumber}
+                    handleChange={handleChange}
                     required
                 />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
                 <InputField
                     label="Email Address"
+                    name="cdemailaddress"
                     type="text"
                     placeholder="Enter your Email Address"
-                    controlId="EmailAddress"
-                    name="EmailAddress"
-                    value={formData.EmailAddress}
-                    onChange={handleChange}
+                    error={errors.cdemailaddress}
+                    value={formData.cdemailaddress}
+                    handleChange={handleChange}
                     required
                 />
             </Col>
@@ -262,60 +388,60 @@ const Contact = () => {
             <Col md={3} lg={3} xl={3} xxl={3}>
                 <InputField
                     label="Relation Name"
+                    name="ecdrelationname"
                     type="text"
                     placeholder="Enter your Relation Name"
-                    controlId="FullName"
-                    name="FullName"
-                    value={formData.FullName}
-                    onChange={handleChange}
+                    error={errors.ecdrelationname}
+                    value={formData.ecdrelationname}
+                    handleChange={handleChange}
                     required
                 />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
                 <InputField
                     label="Relationship"
+                    name="ecdrelationship"
                     type="text"
                     placeholder="Enter your Relationship"
-                    controlId="Relationship"
-                    name="Relationship"
-                    value={formData.Relationship}
-                    onChange={handleChange}
+                    error={errors.ecdrelationship}
+                    value={formData.ecdrelationship}
+                    handleChange={handleChange}
                     required
                 />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
                 <InputField
                     label="Phone Number"
+                    name="ecdphonenumber"
                     type="text"
                     placeholder="Enter your Phone Number"
-                    controlId="cdPhoneNumber"
-                    name="cdPhoneNumber"
-                    value={formData.cdPhoneNumber}
-                    onChange={handleChange}
+                    error={errors.ecdphonenumber}
+                    value={formData.ecdphonenumber}
+                    handleChange={handleChange}
                     required
                 />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
                 <InputField
                     label="Email Address"
+                    name="ecdemailaddress"
                     type="text"
                     placeholder="Enter your Email Address"
-                    controlId="EmailAddress"
-                    name="EmailAddress"
-                    value={formData.EmailAddress}
-                    onChange={handleChange}
+                    error={errors.ecdemailaddress}
+                    value={formData.ecdemailaddress}
+                    handleChange={handleChange}
                     required
                 />
             </Col>
             <Col md={3} lg={3} xl={3} xxl={3}>
                 <InputField
                     label="Address (optional but helpful)"
+                    name="ecdAddress"
                     type="text"
                     placeholder="Enter your Address"
-                    controlId="cdAddress"
-                    name="cdAddress"
-                    value={formData.cdAddress}
-                    onChange={handleChange}
+                    error={errors.ecdAddress}
+                    value={formData.ecdAddress}
+                    handleChange={handleChange}
                     required
                 />
             </Col>
