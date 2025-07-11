@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Images from '../../pages/Images.jsx';
 import { CardForm, PrimaryGird, InputField, CustomModal } from '../../pages/Props.jsx';
+import {registerCompany} from '../../api/index.js'
 
 // Bootstrap imports
 
 import 'bootstrap/dist/css/bootstrap.css';
 import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table, Stack, Image } from 'react-bootstrap';
+import { Import } from 'lucide-react';
 
 // Bootstrap imports
 
@@ -80,9 +82,21 @@ const Banner = ({ modalShow, setModalShow }) => {
 
   //  Handle Submit
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
+
+    // API Call
+
     if (validateForm()) {
+      try {
+        const response = await registerCompany(formData);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+
+    // API Call
+
       navigate('/Home')
       console.log('Form submitted:', formData);
     }
