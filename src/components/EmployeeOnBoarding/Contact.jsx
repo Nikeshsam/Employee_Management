@@ -83,8 +83,8 @@ const Contact = () => {
         pstate: '',
         pcity: '',
         pzipCode: '',
-        phonenumber: '',
-        cdphonenumber: '',
+        cdpphonenumber: '',
+        cdaphonenumber: '',
         cdemailaddress: '',
         ecdrelationname: '',
         ecdrelationship: '',
@@ -108,8 +108,8 @@ const Contact = () => {
         pstate: '',
         pcity: '',
         pzipCode: '',
-        phonenumber: '',
-        cdphonenumber: '',
+        cdpphonenumber: '',
+        cdaphonenumber: '',
         cdemailaddress: '',
         ecdrelationname: '',
         ecdrelationship: '',
@@ -126,27 +126,64 @@ const Contact = () => {
             case 'paddress1':
                 if (!value.trim()) error = 'Address is required';
                 break;
-            case 'lastName':
-                if (!value.trim()) error = 'Last Name is required';
+
+            case 'address2':
+            case 'paddress2':
+                if (!value.trim()) error = 'Address is required';
                 break;
-            case 'dob':
+
+            case 'country':
+            case 'pcountry':
+                if (!value.trim()) error = 'Country is required';
+                break;
+
+            case 'state':
+            case 'pstate':
                 if (!value.trim()) error = 'Date of Birth is required';
                 break;
-            case 'age':
-                if (!value.trim()) error = 'Age is required';
+
+            case 'city':    
+            case 'pcity':
+                if (!value.trim()) error = 'City is required';
                 break;
-            case 'nationality':
-                if (!value.trim()) error = 'Nationality is required';
+
+            case 'zipCode':
+            case 'pzipCode':
+                if (!value.trim()) error = 'ZipCode is required';
                 break;
-            case 'gender':
-                if (!value.trim()) error = 'Gender is required';
+
+            case 'cdpphonenumber':
+                if (!value.trim()) error = 'Primary Phone Number is required';
                 break;
-            case 'maritalstatus':
-                if (!value.trim()) error = 'Marital Status is required';
+
+            case 'cdaphonenumber':
+                if (!value.trim()) error = 'Alternate Phone Number is required';
                 break;
-            case 'dateofmarriage':
-                if (!value.trim()) error = 'Date of Marriage is required';
+
+            case 'cdemailaddress':
+                if (!value.trim()) error = 'Email Address is required';
                 break;
+
+            case 'ecdrelationname':
+                if (!value.trim()) error = 'Relation Name is required';
+                break;
+
+            case 'ecdrelationship':
+                if (!value.trim()) error = 'Relationship is required';
+                break;
+
+            case 'ecdphonenumber':
+                if (!value.trim()) error = 'Phone Number is required';
+                break; 
+                
+            case 'ecdemailaddress':
+                if (!value.trim()) error = 'Email Address is required';
+                break; 
+                
+            case 'ecdAddress':
+                if (!value.trim()) error = 'Address is required';
+                break;                 
+
             default:
                 break;
         }
@@ -349,11 +386,11 @@ const Contact = () => {
             <Col md={3} lg={3} xl={3} xxl={3}>
                 <InputField
                     label="Primary Phone Number"
-                    name="cdphonenumber"
+                    name="cdpphonenumber"
                     type="number"
                     placeholder="Enter your Phone Number"
-                    error={errors.cdphonenumber}
-                    value={formData.cdphonenumber}
+                    error={errors.cdpphonenumber}
+                    value={formData.cdpphonenumber}
                     handleChange={handleChange}
                     required
                 />
@@ -361,11 +398,11 @@ const Contact = () => {
             <Col md={3} lg={3} xl={3} xxl={3}>
                 <InputField
                     label="Alternate Phone Number"
-                    name="cdphonenumber"
+                    name="cdaphonenumber"
                     type="number"
                     placeholder="Enter your Phone Number"
-                    error={errors.cdphonenumber}
-                    value={formData.cdphonenumber}
+                    error={errors.cdaphonenumber}
+                    value={formData.cdaphonenumber}
                     handleChange={handleChange}
                     required
                 />
