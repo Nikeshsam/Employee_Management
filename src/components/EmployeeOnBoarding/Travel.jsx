@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CardForm, PrimaryGird, InputField } from '../../pages/Props.jsx';
 import Images from '../../pages/Images.jsx';
 
@@ -30,28 +31,87 @@ const Travel = () => {
   ])
 
   // FORM INPUT
+  // FormData Validations
 
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    passportno: '',
+    issuedby: '',
+    dateissue: '',
+    dateexpiry: '',
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+  // Error useState
+
+  const [errors, setErrors] = useState({
+    passportno: '',
+    issuedby: '',
+    dateissue: '',
+    dateexpiry: '',
+  });
+
+
+  const validateField = (name, value) => {
+    let error = '';
+    switch (name) {
+      case 'passportno':
+        if (!value.trim()) error = 'Passport No is required';
+        break;
+
+      case 'issuedby':
+        if (!value.trim()) error = 'Issued By is required';
+        break;
+
+      case 'dateissue':
+        if (!value.trim()) error = 'Date of Issue is required';
+        break;
+
+      case 'dateexpiry':
+        if (!value.trim()) error = 'Date Expiry is required';
+        break;
+
+      default:
+        break;
+    }
+
+    return error;
   };
+
+  //  Validate Form with Error
+
+  const validateForm = () => {
+    const newErrors = {};
+    Object.keys(formData).forEach((field) => {
+      const error = validateField(field, formData[field]);
+      if (error) newErrors[field] = error;
+    });
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  //  Handle Submit
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    if (validateForm()) {
+      navigate('/Home'); // 
+      console.log('Form submitted:', formData);
+    }
   };
+
+  //  Handle Change
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    const error = validateField(name, value);
+    setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
+  };
+
+  const navigate = useNavigate();
 
   return (
     <CardForm
-      //onSubmit={handleSubmit}
+      onSubmit={handleSubmit}
       footerButtonSubmit="Submit"
       footerButtonSubmitClass="primary_form_btn btn_h_35"
     >
@@ -61,48 +121,48 @@ const Travel = () => {
       <Col md={3} lg={3} xl={3} xxl={3}>
         <InputField
           label="Passport No"
+          name="passportno"
           type="text"
           placeholder="Enter your Passport No"
-          controlId="PassportNo"
-          name="PassportNo"
-          value={formData.PassportNo}
-          onChange={handleChange}
+          error={errors.passportno}
+          value={formData.passportno}
+          handleChange={handleChange}
           required
         />
       </Col>
       <Col md={3} lg={3} xl={3} xxl={3}>
         <InputField
           label="Issued By"
+          name="issuedby"
           type="text"
           placeholder="Enter your Issued By"
-          controlId="IssuedBy"
-          name="IssuedBy"
-          value={formData.IssuedBy}
-          onChange={handleChange}
+          error={errors.issuedby}
+          value={formData.issuedby}
+          handleChange={handleChange}
           required
         />
       </Col>
       <Col md={3} lg={3} xl={3} xxl={3}>
         <InputField
           label="Date of Issue"
+          name="dateissue"
           type="date"
           placeholder="Enter your Date of Issue"
-          controlId="DateIssue"
-          name="DateIssue"
-          value={formData.DateIssue}
-          onChange={handleChange}
+          error={errors.dateissue}
+          value={formData.dateissue}
+          handleChange={handleChange}
           required
         />
       </Col>
       <Col md={3} lg={3} xl={3} xxl={3}>
         <InputField
           label="Date of Expiry"
+          name="dateexpiry"
           type="date"
           placeholder="Enter your Date of Expiry"
-          controlId="DateExpiry"
-          name="DateExpiry"
-          value={formData.DateExpiry}
-          onChange={handleChange}
+          error={errors.dateexpiry}
+          value={formData.dateexpiry}
+          handleChange={handleChange}
           required
         />
       </Col>

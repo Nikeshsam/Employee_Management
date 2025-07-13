@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CardForm, PrimaryGird, InputField, SelectInput } from '../../pages/Props.jsx';
 import Images from '../../pages/Images.jsx';
 
@@ -17,6 +18,7 @@ const HealthRecord = () => {
       DateofDose: 'Nov 24, 1999'
     }
   ])
+
   const [BloodGroup, setBloodGroup] = useState([
     { key: '1', label: 'O positive' },
     { key: '2', label: 'O negative' },
@@ -29,27 +31,81 @@ const HealthRecord = () => {
 
   // FORM INPUT
 
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-  });
+  // FormData Validations
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
+    const [formData, setFormData] = useState({
+        bloodgroup: '',
+        allergyintolerance: '',
+        preexisting: '',
+    });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
-  };
+    // Error useState
+
+    const [errors, setErrors] = useState({
+        bloodgroup: '',
+        allergyintolerance: '',
+        preexisting: '',
+    });
+
+
+    const validateField = (name, value) => {
+        let error = '';
+        switch (name) {
+            case 'bloodgroup':
+                if (!value.trim()) error = 'Blood Group is required';
+                break;
+
+            case 'allergyintolerance':
+                if (!value.trim()) error = 'Allergy Intolerance is required';
+                break;
+
+            case 'preexisting':
+                if (!value.trim()) error = 'Pre Existing is required';
+                break;             
+
+            default:
+                break;
+        }
+
+        return error;
+    };
+
+    //  Validate Form with Error
+
+    const validateForm = () => {
+        const newErrors = {};
+        Object.keys(formData).forEach((field) => {
+            const error = validateField(field, formData[field]);
+            if (error) newErrors[field] = error;
+        });
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    //  Handle Submit
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (validateForm()) {
+            navigate('/Home'); // 
+            console.log('Form submitted:', formData);
+        }
+    };
+
+    //  Handle Change
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+        const error = validateField(name, value);
+        setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
+    };
+
+    const navigate  = useNavigate();
 
   return (
     <CardForm
-      //onSubmit={handleSubmit}
+      onSubmit={handleSubmit}
       footerButtonSubmit="Submit"
       footerButtonSubmitClass="primary_form_btn btn_h_35"
     >
@@ -58,11 +114,14 @@ const HealthRecord = () => {
       </Col>
       <Col md={3} lg={3} xl={3} xxl={3}>
         <SelectInput
-          controlId="BloodGroup"
           label="Blood Group"
-          name="BloodGroup"
+          name="bloodgroup"
           options={BloodGroup}
           placeholder="Select BloodGroup"
+          error={errors.bloodgroup}
+          value={formData.bloodgroup}
+          handleChange={handleChange}   
+          required       
         />
       </Col>
       <Col md={3} lg={3} xl={3} xxl={3}>
@@ -77,24 +136,24 @@ const HealthRecord = () => {
       <Col md={3} lg={3} xl={3} xxl={3}>
         <InputField
           label="Allergy Intolerance"
+          name="allergyintolerance"
           type="text"
           placeholder="Allergy Intolerance"
-          controlId="AllergyIntolerance"
-          name="AllergyIntolerance"
-          value={formData.AllergyIntolerance}
-          onChange={handleChange}
+          error={errors.allergyintolerance}
+          value={formData.allergyintolerance}
+          handleChange={handleChange}
           required
         />
       </Col>
       <Col md={3} lg={3} xl={3} xxl={3}>
         <InputField
           label="Pre-Existing Illness"
+          name="preexisting"
           type="text"
           placeholder="Pre-Existing Illness"
-          controlId="PreExisting"
-          name="PreExisting"
-          value={formData.PreExisting}
-          onChange={handleChange}
+          error={errors.preexisting}
+          value={formData.preexisting}
+          handleChange={handleChange}
           required
         />
       </Col>

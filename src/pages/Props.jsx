@@ -190,10 +190,10 @@ export const InputField = ({
             )}
             <Form.Control
                 type={type}
+                name={name}
                 placeholder={placeholder}
                 value={value}
                 onChange={handleChange}
-                name={name}
                 required={required}
                 isInvalid={!!error}
                 autoComplete="off"

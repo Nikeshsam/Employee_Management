@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Images from '../../pages/Images.jsx';
 import { CardForm, PrimaryGird, InputField, CustomModal } from '../../pages/Props.jsx';
-import {registerCompany} from '../../api/index.js'
+import {registerCompany} from '../../api/index.js';
 
 // Bootstrap imports
 
