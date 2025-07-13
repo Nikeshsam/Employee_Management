@@ -90,7 +90,7 @@ const Login = ({ handleOnClick }) => {
                 <h4>Welcome To <span>HR Management</span></h4>
                 <p>Your Gateway to Efficient Workforce Solutions.</p>
             </div>
-            <Form onSubmit={handleSubmit}>
+            <Form>
                 <InputField
                     label="Email address"
                     name="emailaddress"
@@ -117,7 +117,7 @@ const Login = ({ handleOnClick }) => {
                     </div>
                     <button onClick={() => handleOnClick(2)} type='button' className='forgot-password'>Forgot password?</button>
                 </div>
-                <Button variant='primary' type="submit" className='primary_btn w-100 mb-3'>SIGN IN</Button>
+                <Button variant='primary' type="submit" className='primary_btn w-100 mb-3' onClick={handleSubmit}>SIGN IN</Button>
             </Form>
         </div>
     );
