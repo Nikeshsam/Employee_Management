@@ -27,13 +27,13 @@ const useValidateUser = () => {
         } else {
             setIsValid(false);
             clearLoginUser();
-            navigate('/Login');
+            navigate('/Authentication');
         }
       } catch (err) {
             console.error("Token validation failed", err);
             setIsValid(false);
             clearLoginUser();
-            navigate('/Login');
+            navigate('/Authentication');
       }
     };
 

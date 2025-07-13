@@ -4,9 +4,11 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import SunSet from '../../assets/Images/sunset.svg';
+import { useLoginUser } from '../../context/LoginUserContext';
 
 
 const TopMenu = ({ title, username, activeTab }) => {
+  const { loginUser } = useLoginUser();
   return (
     <div className='topmenu'>
       <div className='topmenu_content'>
@@ -14,7 +16,7 @@ const TopMenu = ({ title, username, activeTab }) => {
         <span>
           <i><img src={SunSet} alt="sunset" /></i>
           Good Morning,
-          <label>{username}</label>
+          <label>{loginUser.user.name}</label>
         </span>
       </div>
       <div className='topmenu_search'>
