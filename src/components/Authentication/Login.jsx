@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { InputField } from '../../pages/Props.jsx';
 import BrandLogo from '../../assets/Images/Logo.svg';
 import {userLogin} from '../../api/index.js';
-
+import { useLoginUser } from '../../context/LoginUserContext.jsx';
+import useValidateUser from '../../hooks/useValidateUser.jsx';
 // Bootstrap imports
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -14,21 +15,22 @@ import { Import } from 'lucide-react';
 
 const Login = ({ handleOnClick }) => {
     const navigate = useNavigate();
-
+    const { saveLoginUser } = useLoginUser();
+    
     const [formData, setFormData] = useState({
-        emailaddress: '',
+        email: '',
         password: '',
     });
 
     const [errors, setErrors] = useState({
-        emailaddress: '',
+        email: '',
         password: '',
     });
-
+    const {isValid, loading} = useValidateUser();
     const validateField = (name, value) => {
         let error = '';
         switch (name) {
-            case 'emailaddress':
+            case 'email':
                 if (!value.trim()) {
                     error = 'Enter Your Email Address';
                 } else if (!/^\S+@\S+\.\S+$/.test(value)) {
@@ -63,6 +65,7 @@ const Login = ({ handleOnClick }) => {
             try {
                 const response = await userLogin(formData);
                 console.log(response);
+                saveLoginUser(response.data.data);
             } catch (error) {
                 console.log(error); 
             }
@@ -93,11 +96,11 @@ const Login = ({ handleOnClick }) => {
             <Form>
                 <InputField
                     label="Email address"
-                    name="emailaddress"
+                    name="email"
                     type="text"
                     placeholder="Enter Your Email Address"
-                    error={errors.emailaddress}
-                    value={formData.emailaddress}
+                    error={errors.email}
+                    value={formData.email}
                     handleChange={handleChange}
                     required
                 />

@@ -1,18 +1,18 @@
 import { useState } from 'react'
-import { BrowserRouter as Router } from 'react-router-dom';
+import { Routes, Route } from "react-router-dom";
 import Home from './pages/Home';
-
+import Landing from './pages/Landing';
 import Authentication from './pages/Authentication';
 import './App.css'
 
 function App() {
  
   return (
-    <>
-      <div>
-        <Landing/>
-      </div>
-    </>
+      <Routes>
+      <Route path="/" element={<Landing />} />
+      <Route path="/Home" element={<Home />} />
+      <Route path="/Authentication" element={<Authentication />} />
+    </Routes>
   )
 }
 

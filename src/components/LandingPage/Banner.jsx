@@ -94,7 +94,7 @@ const Banner = ({ modalShow, setModalShow }) => {
         const response = await registerCompany(formData);
         console.log(response.data.message);
         setSubmitMessage(response.data.message);
-        navigate('/Home')
+        navigate('/Authentication')
         console.log('Form submitted:', formData);
       } catch (error) {
         console.log(error);
