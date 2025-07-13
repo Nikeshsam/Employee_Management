@@ -34,6 +34,8 @@ const Banner = ({ modalShow, setModalShow }) => {
     confirmPassword: ''
   });
 
+
+    const [submitMessage,setSubmitMessage]=useState('');
   // Field Validations
 
   const validateField = (name, value) => {
@@ -90,15 +92,16 @@ const Banner = ({ modalShow, setModalShow }) => {
     if (validateForm()) {
       try {
         const response = await registerCompany(formData);
-        console.log(response);
+        console.log(response.data.message);
+        setSubmitMessage(response.data.message);
+        navigate('/Home')
+        console.log('Form submitted:', formData);
       } catch (error) {
         console.log(error);
+        setSubmitMessage(error.response.data.message);
       }
 
     // API Call
-
-      navigate('/Home')
-      console.log('Form submitted:', formData);
     }
   };
 
@@ -213,6 +216,7 @@ const Banner = ({ modalShow, setModalShow }) => {
                 handleChange={handleChange}
                 required
               />
+              {submitMessage&& <p>{submitMessage}</p>}
             </Col>
           </>
         }
