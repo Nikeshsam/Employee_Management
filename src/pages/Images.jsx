@@ -21,10 +21,13 @@ import ModalClose from '../assets/Images/Modal_Close.svg';
 import GirdFilter from '../assets/Images/gird_filter.svg';
 import GirdDelete from '../assets/Images/gird_delete.svg';
 
+import RepeatEmail from '../assets/Images/repeat.svg';
+import RegisterImg from '../assets/Images/register-success.svg';
+
 
 
  const Images = {
-    Edit, Delete, UserName, OfferLetter, BannerImage, ProductImage, FeatureImage, FeatureDashboard, FeatureOrganize, PriceCheck, PriceArrow, PriceArrowWhite, ModalIcon, ModalClose, GirdFilter, GirdDelete
+    Edit, Delete, UserName, OfferLetter, BannerImage, ProductImage, FeatureImage, FeatureDashboard, FeatureOrganize, PriceCheck, PriceArrow, PriceArrowWhite, ModalIcon, ModalClose, GirdFilter, GirdDelete,RepeatEmail, RegisterImg
 }
 
 export default Images;

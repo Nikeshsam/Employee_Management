@@ -94,7 +94,7 @@ const Banner = ({ modalShow, setModalShow }) => {
         const response = await registerCompany(formData);
         console.log(response.data.message);
         setSubmitMessage(response.data.message);
-        navigate('/Authentication')
+        navigate('/RegisterSuccess')
         console.log('Form submitted:', formData);
       } catch (error) {
         console.log(error);
@@ -216,7 +216,9 @@ const Banner = ({ modalShow, setModalShow }) => {
                 handleChange={handleChange}
                 required
               />
-              {submitMessage&& <p>{submitMessage}</p>}
+            </Col>
+            <Col md={12} lg={12} xl={12} xxl={12} className='text-center'>
+              {submitMessage && <p className='Email_register_mes'><i><img className='img-fluid' src={Images.RepeatEmail} alt="" /></i>{submitMessage}</p>}
             </Col>
           </>
         }
