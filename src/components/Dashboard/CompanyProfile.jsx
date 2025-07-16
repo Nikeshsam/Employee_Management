@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CardForm, CardFromTertiary, InlineInputField, InlineSelectField, RadioGroupField } from '../../pages/Props';
+import { useLoginUser } from '../../context/LoginUserContext.jsx';
+import { organizationDetails } from '../../api/index.js';
 
 // Bootstrap imports
 
@@ -10,6 +12,8 @@ import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react
 // Bootstrap imports
 
 const CompanyProfile = () => {
+
+  const { loginUser } = useLoginUser();
 
   // Industry
 
@@ -251,13 +255,19 @@ const CompanyProfile = () => {
     },
   ];
 
-
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      Navigate('/Home')
-      console.log('Form submitted:', formData);
+      try {
+        const response = await organizationDetails(formData, loginUser.token);
+        console.log(response.data.message);
+        setSubmitMessage(response.data.message);
+        navigate('/RegisterSuccess');
+        console.log('Form submitted:', formData);
+      } catch (error) {
+        console.log(error);
+        setSubmitMessage(error?.response?.data?.message || 'Submission failed');
+      }
     }
   };
 
@@ -271,7 +281,7 @@ const CompanyProfile = () => {
     setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
   };
 
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
 
 
   return (
