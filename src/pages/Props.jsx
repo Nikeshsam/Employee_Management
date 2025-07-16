@@ -4,7 +4,7 @@ import Images from '../pages/Images.jsx';
 // Bootstrap imports
 
 import 'bootstrap/dist/css/bootstrap.css';
-import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table, Image, Pagination, Modal, CardHeader } from 'react-bootstrap';
+import { Container, Card, Form, Row, Col, Tab, Tabs, Offcanvas, Button, Table, Image, Pagination, Modal, CardHeader } from 'react-bootstrap';
 
 // Bootstrap imports
 
@@ -14,7 +14,7 @@ export const CardForm = ({
     children,
     onSubmit,
     cardTitle = '',
-    footerButtonSubmit = "Submit",
+    footerButtonSubmit = "Save",
     footerButtonSubmitClass = "",
 }) => {
     return (
@@ -224,11 +224,11 @@ export const SelectInput = ({
     return (
         <Form.Group className={`position-relative ${className}`} controlId={controlId}>
             <Form.Label>{label}</Form.Label>
-            <Form.Select 
+            <Form.Select
                 placeholder={placeholder}
                 value={value}
                 onChange={handleChange}
-                name={name} 
+                name={name}
                 required={required}
                 isInvalid={!!error}
                 aria-label={`${label} select`}
@@ -427,4 +427,52 @@ export const RadioGroupField = ({
         </Form.Group>
     );
 };
+
+
+export const OffCanvas = ({
+    show,
+    onHide,
+    onSubmit,
+    placement = 'end',
+    title = 'Offcanvas Title',
+    subtitle = "Modal Sub Title",
+    name = 'Open',
+    children,
+    className='PrimaryCanvasModal',
+    footerButtonSubmit = "Submit",
+    footerButtonCancel = "Cancel",
+    footerButtonSubmitClass = "",
+    footerButtonCancelClass = "",
+}) => {
+    return (
+        <>
+            <Offcanvas show={show} onHide={onHide} placement={placement} className={className}>
+                <Offcanvas.Header closeButton>
+                    <Offcanvas.Title>
+                        <div className='ModalTopIcon'>
+                            <i className='ModalIcon'>
+                                <Image src={Images.ModalIcon} />
+                            </i>
+                        </div>
+                        <div className='ModalTopHeading'>
+                            <h4>{title}</h4>
+                            <p>{subtitle}</p>
+                        </div>
+                    </Offcanvas.Title>
+                </Offcanvas.Header>
+                <Offcanvas.Body>
+                    <Row className='gx-3'>
+                        {children}
+                    </Row>
+                </Offcanvas.Body>
+                <div className='offcanvas-footer'>
+                    <Button className={footerButtonCancelClass} onClick={onHide}>{footerButtonCancel}</Button>
+                    <Button className={footerButtonSubmitClass} onClick={onSubmit}>{footerButtonSubmit}</Button>
+                </div>
+            </Offcanvas>
+        </>
+    );
+};
+
+
 

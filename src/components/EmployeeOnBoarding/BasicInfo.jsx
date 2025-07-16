@@ -135,7 +135,7 @@ const BasicInfo = () => {
         <>
             <CardForm
                 onSubmit={handleSubmit}
-                footerButtonSubmit="Submit"
+                footerButtonSubmit="Save"
                 footerButtonSubmitClass="primary_form_btn btn_h_35"
             >
                 <Col md={9} lg={9} xl={9} xxl={9}>

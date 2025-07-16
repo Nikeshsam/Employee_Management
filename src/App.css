@@ -6,6 +6,17 @@ p{margin: 0;}
 
 label{font-family: "Inter", sans-serif !important;}
 
+.form-control::placeholder {
+  color: #909090;
+  font-weight: 400;
+  font-size: 13px;
+  opacity: 1;
+}
+
+.form-control::-ms-input-placeholder {
+  color: #909090;
+}
+
 .modal-backdrop{--bs-backdrop-opacity: 0.7;}
 
 .btn_h_30{height: 30px !important;}
@@ -70,6 +81,12 @@ Form{width: 100%;}
 .secondary_btn_rounded{background-color: #ffffff !important; border: 1px solid #FFA917; font-size: 16px !important; font-weight: 500 !important; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 100px; padding: 4px 30px; display: flex; align-items: center; color: #FFA917; justify-content: center;}
 .secondary_btn_rounded:hover{background-color: #FFA917 !important; border: 1px solid #FFA917;}
 .secondary_form_btn{background-color: #6D36FA !important; border: none !important; font-size: 14px !important; font-weight: 600 !important; font-family: "Inter", sans-serif !important; border-radius: 4px; padding: 7px 20px; display: flex; align-items: center; justify-content: center;}
+
+.form_elements{display: flex; align-items: center; justify-content: space-between; padding: 5px 0 20px;}
+.form_elements .form-label{display: none;}
+.form_elements .position-relative.mb-3{margin: 0 !important;}
+
+.blue_gradient{background: hsla(257, 99%, 43%, 1); background: linear-gradient(90deg, hsla(257, 99%, 43%, 1) 0%, hsla(257, 89%, 55%, 1) 100%); background: -moz-linear-gradient(90deg, hsla(257, 99%, 43%, 1) 0%, hsla(257, 89%, 55%, 1) 100%); background: -webkit-linear-gradient(90deg, hsla(257, 99%, 43%, 1) 0%, hsla(257, 89%, 55%, 1) 100%); font-size: 14px; font-weight: 500; border: none;}
 
 .icon_btn{display: flex; align-items: center; justify-content: center; border: 1px solid #D8D6DD; border-radius: 5px; width: 35px; height: 35px; background-color: transparent !important;}
 
@@ -255,7 +272,7 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .Secondary_tab .nav-item .nav-link.active{color: #fff !important; background-color: #FFA917;}
 .Secondary_tab .nav-item .nav-link:hover{color: #fff !important; background-color: #FFA917;}
 
-.form-label{color: #707070; font-size: 14px; font-weight: 400; line-height: 16px;}
+.form-label{color: #858585; font-size: 13.5px; font-weight: 500; line-height: 16px;}
 .form-control{color: #2e2e2e !important; font-size: 14px !important; font-weight: 500 !important; background-color: #fff !important; height: 40px !important; border: 1px solid #E5DEF7 !important; border-radius: 4px !important;}
 .form-control:focus{box-shadow: none !important; border: 1px solid #b498ff !important;}
 .form-select{color: #2e2e2e !important; font-size: 14px !important; font-weight: 500 !important; background-color: #fff !important; height: 40px !important; border: 1px solid #E5DEF7 !important; border-radius: 4px !important;}
@@ -279,6 +296,7 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .table_action{display: flex; align-items: center; gap: 10px;}
 .btn_action{background-color: transparent; border: none; padding: 0; cursor: pointer; display: flex; align-items: center; gap: 10px;}
 .btn_action:hover{background-color: transparent;}
+.btn_action:active{background-color: transparent !important;}
 
 .table_footer{border: 1px solid #E8E0FF; background-color: rgb(235 228 255 / 40%) !important; padding: 10px 15px;}
 .table_footer .paginations{display: flex; align-items: center; justify-content: space-between;}
@@ -355,6 +373,29 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 
 input:-internal-autofill-selected{background-color: transparent;}
 
+
+/* MODAL CANVAS */
+
+.PrimaryCanvasModal .offcanvas-header .offcanvas-title{display: flex; align-items: center; gap: 15px;}
+.PrimaryCanvasModal .offcanvas-header .offcanvas-title .ModalTopIcon{display: flex; align-items: center; justify-content: space-between;}
+.PrimaryCanvasModal .offcanvas-header .offcanvas-title .ModalTopIcon .ModalIcon{display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border: 1.6px solid #dde1eb; border-radius: 10px;}
+.PrimaryCanvasModal .offcanvas-header .offcanvas-title .ModalTopIcon .ModalIcon img,
+.PrimaryCanvasModal .offcanvas-header .offcanvas-title .ModalTopIcon .CloseIcon img{display: flex;}
+.PrimaryCanvasModal .offcanvas-header .offcanvas-title .ModalTopIcon .CloseIcon{display: flex;}
+.PrimaryCanvasModal .offcanvas-header .offcanvas-title .ModalTopHeading{display: flex; flex-direction: column; gap: 8px;}
+.PrimaryCanvasModal .offcanvas-header .offcanvas-title .ModalTopHeading h4{font-size: 18px; line-height: 18px; font-weight: 600; color: #181D27; margin: 0;}
+.PrimaryCanvasModal .offcanvas-header .offcanvas-title .ModalTopHeading p{font-size: 14px; line-height: 14px; font-weight: 400; color: #535862; margin: 0;}
+
+.PrimaryCanvasModal .offcanvas-body{padding: 1.2rem 1.8rem;}
+
+.PrimaryCanvasModal .offcanvas-header{padding: 1rem 1.8rem; border-bottom: 1px solid #e5def7;}
+.PrimaryCanvasModal .offcanvas-footer{padding: 1rem 1.8rem;}
+
+.PrimaryCanvasModal .offcanvas-footer{display: flex; align-items: center; gap: 20px; background-color: #f7f4ff; border-radius: 0 0 0 20px; border-top: 1px solid #ddd0ff;}
+
+/* MODAL CANVAS */
+
+
 /* Common Error Message */
 
 .error_msg{font-size: 12.5px; font-weight: 500; width: auto; margin: 0; position: absolute; bottom: -6px; left: 8px; background-color: #fff; padding: 0 7px; line-height: 14px; display: block;}
@@ -380,3 +421,12 @@ input:-internal-autofill-selected{background-color: transparent;}
 .registerContainer img{width: 375px;}
 .registerContainer h2{font-size: 24px; font-weight: 700; padding: 15px 0 20px; margin: 0;}
 .registerContainer p{font-size: 16px; font-weight: 500; margin: 0;}
+
+.offcanvas.offcanvas-end{width: 600px; border-radius: 15px 0 0 15px; border: none;}
+
+.rw-state-focus .rw-widget-picker{box-shadow: none !important; border: 1px solid #ffa917 !important;}
+.rw-widget-picker{background-color: #ffa917; border: 1px solid #ffa917; border-radius: 6px;}   
+.rw-input-addon, .rw-input-addon.rw-picker-btn{border-left: 1px solid #ffffff;}
+.rw-input-addon, .rw-input-addon.rw-picker-btn svg{fill: #fff;}
+.rw-picker-btn:hover{background-color: #ffa917 !important;}
+.rw-widget-input{color: #fff !important;}
