@@ -141,6 +141,8 @@ const CompanyProfile = () => {
     taxID: '',
   });
 
+  const [submitMessage,setSubmitMessage]=useState('');
+
   // Field Validations
 
   const validateField = (name, value) => {
@@ -293,7 +295,6 @@ const CompanyProfile = () => {
             footerButtonSubmit="Submit"
             footerButtonSubmitClass="primary_form_btn btn_h_35"
           >
-
             <InlineInputField
               label="Organization Name"
               name="organizationName"
@@ -363,6 +364,15 @@ const CompanyProfile = () => {
               placeholder="State"
               error={errors.state}
               value={formData.state}
+              handleChange={handleChange}
+              required
+              inputCol={3}
+            />
+            <InlineInputField
+              name="contury"
+              placeholder="Contury"
+              error={errors.contury}
+              value={formData.contury}
               handleChange={handleChange}
               required
               inputCol={3}
@@ -468,7 +478,6 @@ const CompanyProfile = () => {
               required
               inputCol={6}
             />
-
           </CardFromTertiary>
         </Col>
       </Row>
