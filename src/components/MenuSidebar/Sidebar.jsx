@@ -9,7 +9,6 @@ import { useLoginUser } from '../../context/LoginUserContext.jsx';
 
 const Sidebar = ({ handleSidebarClick, activeTab }) => {
    const {loginUser} = useLoginUser();
-   console.log(loginUser);
   return (
     <div className='sidebar_content'>
       <div className='Innerlogo'>

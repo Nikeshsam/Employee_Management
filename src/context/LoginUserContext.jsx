@@ -1,6 +1,7 @@
 // src/context/TokenContext.js
 import { RollerCoaster } from "lucide-react";
 import { createContext, useContext, useState } from "react";
+import CompanyProfile from "../components/Dashboard/CompanyProfile";
 
 const LoginUserContext = createContext();
 
@@ -11,10 +12,12 @@ export const LoginUserProvider = ({ children }) => {
       name: "",
       email: "",
       role: ""
-    }
+    },
+    companyProfileStatus:false,
   });
 
   const saveLoginUser = (newloginUser) => {
+    clearLoginUser();
     setLoginUser(newloginUser);
     sessionStorage.setItem("LoginUser", JSON.stringify(newloginUser));
   };

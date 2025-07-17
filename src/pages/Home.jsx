@@ -10,6 +10,10 @@ import OnBoarding from '../components/Dashboard/OnBoarding.jsx';
 import CompanyProfile from '../components/Dashboard/CompanyProfile.jsx';
 import AddEmployee from '../components/Dashboard/AddEmployee.jsx';
 import { useLoginUser } from '../context/LoginUserContext.jsx';
+
+import CompleteProfile from '../components/Common/CompleteProfile.jsx';
+
+
 const Home = () => {
     const user = {
         name: 'John Mathew',
@@ -20,6 +24,7 @@ const Home = () => {
         setActiveTab(val);
     }
     return (
+        <>
         <div className='main_container'>
             <div className='sidebar'>
                 <Sidebar handleSidebarClick={(val)=>handleSidebarClick(val)} activeTab={activeTab} />
@@ -33,6 +38,8 @@ const Home = () => {
                 </div>
             </div>
         </div>
+        {!loginUser.companyProfileStatus && <CompleteProfile setActiveTab={setActiveTab} />}
+        </>
     )
 }
 

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Images from '../../pages/Images.jsx';
 import { CardForm, CardFromTertiary, CustomModal, InlineInputField, InlineSelectField, RadioGroupField } from '../../pages/Props';
 import { useLoginUser } from '../../context/LoginUserContext.jsx';
-import { organizationDetails } from '../../api/index.js';
+import { getOrganizationDetails, organizationDetails } from '../../api/index.js';
 
 // Bootstrap imports
 
@@ -14,21 +14,23 @@ import { Container, Card, Form, Row, Col, Image, Tab, Tabs, Button, Table } from
 
 const CompanyProfile = () => {
 
-  const [modalShow, setModalShow] = useState(true); // Modal shows on initial render
-
-  const handleClearClick = () => {
-    setModalShow(false);
-  };
-
-  const handleModalSubmit = () => {
-    // Handle registration logic here
-    console.log('Register clicked');
-    setModalShow(false);
-  };
-
-  const { loginUser } = useLoginUser();
+  const { loginUser,setLoginUser,saveLoginUser } = useLoginUser();
 
   // Industry
+  useEffect(()=>{
+    if(loginUser.companyProfileStatus){
+      fetchData();
+    }
+  },[])
+
+    const fetchData = async()=>{
+      try{
+        const {data} = await getOrganizationDetails(loginUser.token);
+        setFormData(data.organization);
+      }catch(error){
+        console.log(error);
+      }
+    }
 
   const [Industry, setIndustry] = useState([
     { key: '1', label: 'Agriculture' },
@@ -129,8 +131,8 @@ const CompanyProfile = () => {
     dateFormat: '',
     companyID: '',
     taxID: '',
+    company:'',
   });
-
   // Error useState
 
   const [errors, setErrors] = useState({
@@ -277,6 +279,8 @@ const CompanyProfile = () => {
         const response = await organizationDetails(formData, loginUser.token);
         console.log(response.data.message);
         setSubmitMessage(response.data.message);
+        setLoginUser({ ...loginUser, companyProfileStatus: true });
+        saveLoginUser(loginUser);
         navigate('/RegisterSuccess');
         console.log('Form submitted:', formData);
       } catch (error) {
@@ -295,15 +299,6 @@ const CompanyProfile = () => {
     const error = validateField(name, value);
     setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
   };
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setModalShow(true);
-    }, 1000); // 1000ms = 1 second
-
-    return () => clearTimeout(timer); // cleanup
-  }, []);
-
 
   const navigate = useNavigate();
 
@@ -542,29 +537,6 @@ const CompanyProfile = () => {
           </Col>
         </Row>
       </Container>
-      <CustomModal
-        show={modalShow}
-        onHide={handleClearClick}
-        //title="Register"
-        //subtitle='Start your 7-day free trial.'
-        className='DialogueModal'
-        bodyContent={
-          <>
-          <div className='diaImg'>
-            <Image src={Images.ORGprofile}></Image>
-          </div>
-          <div className='daiContent'>
-            <h5>Complete Your Profile</h5>
-            <p>First, complete the <span>Organization Profile,</span> then proceed to the other details.</p>
-          </div>
-          </>
-        }
-        onSubmit={handleModalSubmit}
-        footerButtonSubmit="Let's Complete"
-        footerButtonCancel="Back"
-        footerButtonSubmitClass="modal_primary_btn w-100"
-        footerButtonCancelClass="modal_primary_border_btn w-100"
-      />
     </>
   )
 }

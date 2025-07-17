@@ -15,6 +15,11 @@ export const organizationDetails = (organization, token) => axios.post(`${url}/o
     Authorization: `Bearer ${token}`,
   },
 });
+export const getOrganizationDetails = (token) => axios.get(`${url}/organization`,  {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
 
 // export const updatePost = (id,post)=> axios.patch(`${url}/${id}`,post);
 // export const likePost = (id)=> axios.patch(`${url}/${id}`);
