@@ -9,12 +9,12 @@ import Dashboard from '../components/Dashboard/Dashboard.jsx';
 import OnBoarding from '../components/Dashboard/OnBoarding.jsx';
 import CompanyProfile from '../components/Dashboard/CompanyProfile.jsx';
 import AddEmployee from '../components/Dashboard/AddEmployee.jsx';
-
+import { useLoginUser } from '../context/LoginUserContext.jsx';
 const Home = () => {
     const user = {
         name: 'John Mathew',
     };
-
+    const {loginUser} = useLoginUser();
     const [activeTab, setActiveTab] = useState('Dashboard');
     const handleSidebarClick = (val) => {
         setActiveTab(val);
