@@ -263,7 +263,8 @@ export const CustomModal = ({
     footerButtonSubmit = "Submit",
     footerButtonCancel = "Cancel",
     footerButtonSubmitClass = "",
-    footerButtonCancelClass = ""
+    footerButtonCancelClass = "",
+    className = ""
 }) => {
     return (
         <Modal
@@ -272,7 +273,7 @@ export const CustomModal = ({
             size={size}
             aria-labelledby="contained-modal-title-vcenter"
             centered={centered}
-            className='PrimaryModal'
+            className={className}
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
@@ -281,7 +282,7 @@ export const CustomModal = ({
                             <Image src={Images.ModalIcon} />
                         </i>
                         {/* <i className='CloseIcon'>
-                            <Image src={Images.ModalClose}/>
+                            <Image src={Images.ModalClose</div>}/>
                         </i> */}
                     </div>
                     <div className='ModalTopHeading'>

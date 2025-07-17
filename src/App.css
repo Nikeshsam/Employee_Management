@@ -319,7 +319,8 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .MainHeader .HR_Brand img{width: 60px;}
 .MainHeader .HR_Menu{display: flex; gap: 40px; align-items: center;}
 .MainHeader .HR_Menu .menu_parallax{font-size: 15px; font-weight: 500; color: #353535; text-decoration: none; cursor: pointer;}
-.MainHeader .HR_Action .HR_Action_btn{border: none; border-radius: 100px; padding: 8px 20px; background-color: #6D36FA; color: #fff; font-size: 14px; font-weight: 500;}
+.MainHeader .HR_Action{display: flex; align-items: center; gap: 10px;}
+.MainHeader .HR_Action .HR_Action_btn{border: none; border-radius: 100px; padding: 8px 25px; background-color: #6D36FA; color: #fff; font-size: 14px; font-weight: 500;}
  
 .Banner_container{display: flex; flex-direction: column; gap: 20px;}
 .Banner_container span{color: #FFA917; font-size: 20px; font-weight: 500; margin: 0; line-height: 24px;}
@@ -430,3 +431,35 @@ input:-internal-autofill-selected{background-color: transparent;}
 .rw-input-addon, .rw-input-addon.rw-picker-btn svg{fill: #fff;}
 .rw-picker-btn:hover{background-color: #ffa917 !important;}
 .rw-widget-input{color: #fff !important;}
+
+.no_label .form-label{display: none;}
+
+.DialogueModal .modal-content{border-radius: 20px; border: none; box-shadow: none;}
+.DialogueModal .modal-dialog{width: 320px; min-width: 320px;}
+.DialogueModal .modal-header{display: none;}
+
+.DialogueModal .modal-content::before {
+  content: '';
+  position: absolute;
+  left: -4%;
+  top: 7%;
+  width: 108%;
+  background-color: rgb(255 255 255 / 20%);
+  height: 86%;
+  z-index: -1;
+  right: 0;
+  margin: 0 auto;
+  text-align: center;
+  border-radius: 20px;
+}
+
+.DialogueModal .modal-body{padding: 15px 25px 15px 25px; border: none !important; max-height: calc(100vh - 345px); overflow: auto;}
+.DialogueModal .modal-body .diaImg{padding: 20px 0; text-align: center;}
+.DialogueModal .modal-body .daiContent{display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px;}
+.DialogueModal .modal-body .daiContent h5{color: #272F3D; font-size: 21px; font-weight: 600; text-align: center; margin: 0;}
+.DialogueModal .modal-body .daiContent p{color: #7C889C; font-size: 12px; font-weight: 400; text-align: center; line-height: 20px;}
+.DialogueModal .modal-body .daiContent p span{color: #ffa917;}
+
+.DialogueModal .modal-footer{padding: 0; border: none !important; flex-direction: row-reverse;}
+.DialogueModal .modal-footer .modal_primary_btn{border-radius: 0 0 19px 0; font-size: 12px !important; text-transform: uppercase;}
+.DialogueModal .modal-footer .modal_primary_border_btn {border-radius: 0 0 0 19px; border: none; background-color: #ede7ff !important;  color: #3E3E3E !important; font-size: 12px !important; font-weight: 600 !important; text-transform: uppercase;} 

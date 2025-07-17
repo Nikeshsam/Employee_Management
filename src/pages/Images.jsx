@@ -24,10 +24,13 @@ import GirdDelete from '../assets/Images/gird_delete.svg';
 import RepeatEmail from '../assets/Images/repeat.svg';
 import RegisterImg from '../assets/Images/register-success.svg';
 
+import ORGprofile from '../assets/Images/ORGprofile.svg';
+
+
 
 
  const Images = {
-    Edit, Delete, UserName, OfferLetter, BannerImage, ProductImage, FeatureImage, FeatureDashboard, FeatureOrganize, PriceCheck, PriceArrow, PriceArrowWhite, ModalIcon, ModalClose, GirdFilter, GirdDelete,RepeatEmail, RegisterImg
+    Edit, Delete, UserName, OfferLetter, BannerImage, ProductImage, FeatureImage, FeatureDashboard, FeatureOrganize, PriceCheck, PriceArrow, PriceArrowWhite, ModalIcon, ModalClose, GirdFilter, GirdDelete,RepeatEmail, RegisterImg, ORGprofile
 }
 
 export default Images;

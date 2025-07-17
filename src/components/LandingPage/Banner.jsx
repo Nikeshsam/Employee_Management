@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Images from '../../pages/Images.jsx';
-import { CardForm, PrimaryGird, InputField, CustomModal } from '../../pages/Props.jsx';
+import { CardForm, InputField, CustomModal } from '../../pages/Props.jsx';
 import {registerCompany} from '../../api/index.js';
 
 // Bootstrap imports
@@ -34,8 +34,8 @@ const Banner = ({ modalShow, setModalShow }) => {
     confirmPassword: ''
   });
 
+  const [submitMessage,setSubmitMessage]=useState('');
 
-    const [submitMessage,setSubmitMessage]=useState('');
   // Field Validations
 
   const validateField = (name, value) => {
@@ -150,6 +150,7 @@ const Banner = ({ modalShow, setModalShow }) => {
         onHide={handleClearClick}
         title="Register"
         subtitle='Start your 7-day free trial.'
+        className='PrimaryModal'
         bodyContent={
           <>
             <Col md={6} lg={6} xl={6} xxl={6}>

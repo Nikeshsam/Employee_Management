@@ -1,17 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CardForm, CardFromTertiary, InlineInputField, InlineSelectField, RadioGroupField } from '../../pages/Props';
+import Images from '../../pages/Images.jsx';
+import { CardForm, CardFromTertiary, CustomModal, InlineInputField, InlineSelectField, RadioGroupField } from '../../pages/Props';
 import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import { organizationDetails } from '../../api/index.js';
 
 // Bootstrap imports
 
 import 'bootstrap/dist/css/bootstrap.css';
-import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react-bootstrap';
+import { Container, Card, Form, Row, Col, Image, Tab, Tabs, Button, Table } from 'react-bootstrap';
 
 // Bootstrap imports
 
 const CompanyProfile = () => {
+
+  const [modalShow, setModalShow] = useState(true); // Modal shows on initial render
+
+  const handleClearClick = () => {
+    setModalShow(false);
+  };
+
+  const handleModalSubmit = () => {
+    // Handle registration logic here
+    console.log('Register clicked');
+    setModalShow(false);
+  };
 
   const { loginUser } = useLoginUser();
 
@@ -30,7 +43,7 @@ const CompanyProfile = () => {
     { key: '10', label: 'Healthcare & Pharmaceuticals' },
   ])
 
-  //////////////// Business Type
+  // Business Type
 
   const [BusinessType, setBusinessType] = useState([
     { key: '1', label: 'Sole Proprietorship' },
@@ -45,7 +58,7 @@ const CompanyProfile = () => {
     { key: '10', label: 'Holding Company' }
   ])
 
-  //////////////// Fiscal Year
+  // Fiscal Year
 
   const [FiscalYear, setFiscalYear] = useState([
     { key: '1', label: 'January – December' },
@@ -141,7 +154,7 @@ const CompanyProfile = () => {
     taxID: '',
   });
 
-  const [submitMessage,setSubmitMessage]=useState('');
+  const [submitMessage, setSubmitMessage] = useState('');
 
   // Field Validations
 
@@ -283,205 +296,276 @@ const CompanyProfile = () => {
     setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
   };
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setModalShow(true);
+    }, 1000); // 1000ms = 1 second
+
+    return () => clearTimeout(timer); // cleanup
+  }, []);
+
+
   const navigate = useNavigate();
 
 
   return (
-    <Container fluid>
-      <Row>
-        <Col md={12} lg={12} xl={12} xxl={12}>
-          <CardFromTertiary
-            onSubmit={handleSubmit}
-            footerButtonSubmit="Submit"
-            footerButtonSubmitClass="primary_form_btn btn_h_35"
-          >
-            <InlineInputField
-              label="Organization Name"
-              name="organizationName"
-              placeholder="Organization Name"
-              error={errors.organizationName}
-              value={formData.organizationName}
-              handleChange={handleChange}
-              required
-              labelCol={2}
-              inputCol={6}
-            />
-            <InlineSelectField
-              label="Industry"
-              name="industry"
-              placeholder="Select Industry"
-              error={errors.industry}
-              value={formData.industry}
-              handleChange={handleChange}
-              required
-              options={Industry}
-              labelCol={2}
-              inputCol={6}
-            />
-            <InlineSelectField
-              label="Business Type"
-              name="businessType"
-              placeholder="Select Business Type"
-              error={errors.businessType}
-              value={formData.businessType}
-              handleChange={handleChange}
-              required
-              options={BusinessType}
-              labelCol={2}
-              inputCol={6}
-            />
-            <InlineInputField
-              label="Company Address"
-              name="companyAddress"
-              placeholder="Company Address"
-              error={errors.companyAddress}
-              value={formData.companyAddress}
-              handleChange={handleChange}
-              required
-              labelCol={2}
-              inputCol={9}
-            />
-            <InlineInputField
-              name="street"
-              placeholder="Street"
-              error={errors.street}
-              value={formData.street}
-              handleChange={handleChange}
-              required
-              inputCol={6}
-            />
-            <InlineInputField
-              name="city"
-              placeholder="City"
-              error={errors.city}
-              value={formData.city}
-              handleChange={handleChange}
-              required
-              inputCol={3}
-            />
-            <InlineInputField
-              name="state"
-              placeholder="State"
-              error={errors.state}
-              value={formData.state}
-              handleChange={handleChange}
-              required
-              inputCol={3}
-            />
-            <InlineInputField
-              name="contury"
-              placeholder="Contury"
-              error={errors.contury}
-              value={formData.contury}
-              handleChange={handleChange}
-              required
-              inputCol={3}
-            />
-            <InlineInputField
-              name="zipCode"
-              placeholder="Zip Code"
-              error={errors.zipCode}
-              value={formData.zipCode}
-              handleChange={handleChange}
-              required
-              inputCol={3}
-            />
-            <InlineInputField
-              name="phoneNumber"
-              placeholder="Phone Number"
-              error={errors.phoneNumber}
-              value={formData.phoneNumber}
-              handleChange={handleChange}
-              required
-              inputCol={3}
-            />
-            <InlineInputField
-              name="faxNumber"
-              placeholder="Fax Number"
-              error={errors.faxNumber}
-              value={formData.faxNumber}
-              handleChange={handleChange}
-              required
-              inputCol={3}
-            />
-            <InlineInputField
-              name="website"
-              placeholder="Website URL"
-              value={formData.website}
-              handleChange={handleChange}
-              error={errors.website}
-              required
-              inputCol={3}
-            />
-            <InlineSelectField
-              label="Fiscal Year"
-              name="fiscal"
-              placeholder="Select fiscal Year"
-              value={formData.fiscal}
-              handleChange={handleChange}
-              error={errors.fiscal}
-              required
-              options={FiscalYear}
-              labelCol={2}
-              inputCol={6}
-            />
-            <RadioGroupField
-              label="Tax Basis"
-              name="taxMethod"
-              options={taxOptions}
-              value={formData.taxMethod}
-              handleChange={handleChange}
-              error={errors.taxMethod}
-              required
-            />
-            <InlineSelectField
-              label="Time Zone"
-              name="timeZone"
-              placeholder="Select Time Zone"
-              value={formData.timeZone}
-              handleChange={handleChange}
-              error={errors.timeZone}
-              required
-              options={TimeZone}
-              labelCol={2}
-              inputCol={6}
-            />
-            <InlineSelectField
-              label="Date Format"
-              name="dateFormat"
-              placeholder="Select Date Format"
-              value={formData.dateFormat}
-              handleChange={handleChange}
-              error={errors.dateFormat}
-              required
-              options={DateFormat}
-              labelCol={2}
-              inputCol={6}
-            />
-            <InlineInputField
-              label="Tax ID"
-              name="taxID"
-              placeholder="Tax ID"
-              value={formData.taxID}
-              handleChange={handleChange}
-              error={errors.taxID}
-              required
-              inputCol={6}
-            />
-            <InlineInputField
-              label="Company ID"
-              name="companyID"
-              placeholder="Company ID"
-              value={formData.companyID}
-              handleChange={handleChange}
-              error={errors.companyID}
-              required
-              inputCol={6}
-            />
-          </CardFromTertiary>
-        </Col>
-      </Row>
-    </Container>
+    <>
+      <Container fluid>
+        <Row>
+          <Col md={12} lg={12} xl={12} xxl={12}>
+            <CardFromTertiary
+              onSubmit={handleSubmit}
+              footerButtonSubmit="Submit"
+              footerButtonSubmitClass="primary_form_btn btn_h_35"
+            >
+              <InlineInputField
+                label="Organization Name"
+                name="organizationName"
+                placeholder="Organization Name"
+                error={errors.organizationName}
+                value={formData.organizationName}
+                handleChange={handleChange}
+                required
+                labelCol={2}
+                inputCol={6}
+              />
+              <InlineSelectField
+                label="Industry"
+                name="industry"
+                placeholder="Select Industry"
+                error={errors.industry}
+                value={formData.industry}
+                handleChange={handleChange}
+                required
+                options={Industry}
+                labelCol={2}
+                inputCol={6}
+              />
+              <InlineSelectField
+                label="Business Type"
+                name="businessType"
+                placeholder="Select Business Type"
+                error={errors.businessType}
+                value={formData.businessType}
+                handleChange={handleChange}
+                required
+                options={BusinessType}
+                labelCol={2}
+                inputCol={6}
+              />
+              <InlineInputField
+                label="Company Address"
+                name="companyAddress"
+                placeholder="Company Address"
+                error={errors.companyAddress}
+                value={formData.companyAddress}
+                handleChange={handleChange}
+                required
+                labelCol={2}
+                inputCol={9}
+              />
+              <Row className='no_label'>
+                <Col md={2} lg={2} xl={2} xxl={2}></Col>
+                <Col md={9} lg={9} xl={9} xxl={9}>
+                  <Row>
+                    <Col md={8} lg={8} xl={8} xxl={8}>
+                      <InlineInputField
+                        name="street"
+                        placeholder="Street"
+                        error={errors.street}
+                        value={formData.street}
+                        handleChange={handleChange}
+                        required
+                        inputCol={12}
+                      />
+                    </Col>
+                    <Col md={4} lg={4} xl={4} xxl={4}>
+                      <InlineInputField
+                        name="city"
+                        placeholder="City"
+                        error={errors.city}
+                        value={formData.city}
+                        handleChange={handleChange}
+                        required
+                        inputCol={12}
+                      />
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+              <Row className='no_label'>
+                <Col md={2} lg={2} xl={2} xxl={2}></Col>
+                <Col md={9} lg={9} xl={9} xxl={9}>
+                  <Row>
+                    <Col md={4} lg={4} xl={4} xxl={4}>
+                      <InlineInputField
+                        name="state"
+                        placeholder="State"
+                        error={errors.state}
+                        value={formData.state}
+                        handleChange={handleChange}
+                        required
+                        inputCol={12}
+                      />
+                    </Col>
+                    <Col md={4} lg={4} xl={4} xxl={4}>
+                      <InlineInputField
+                        name="contury"
+                        placeholder="Contury"
+                        error={errors.contury}
+                        value={formData.contury}
+                        handleChange={handleChange}
+                        required
+                        inputCol={12}
+                      />
+                    </Col>
+                    <Col md={4} lg={4} xl={4} xxl={4}>
+                      <InlineInputField
+                        name="zipCode"
+                        placeholder="Zip Code"
+                        error={errors.zipCode}
+                        value={formData.zipCode}
+                        handleChange={handleChange}
+                        required
+                        inputCol={12}
+                      />
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+              <Row className='no_label'>
+                <Col md={2} lg={2} xl={2} xxl={2}></Col>
+                <Col md={9} lg={9} xl={9} xxl={9}>
+                  <Row>
+                    <Col md={4} lg={4} xl={4} xxl={4}>
+                      <InlineInputField
+                        name="phoneNumber"
+                        placeholder="Phone Number"
+                        error={errors.phoneNumber}
+                        value={formData.phoneNumber}
+                        handleChange={handleChange}
+                        required
+                        inputCol={12}
+                      />
+                    </Col>
+                    <Col md={4} lg={4} xl={4} xxl={4}>
+                      <InlineInputField
+                        name="faxNumber"
+                        placeholder="Fax Number"
+                        error={errors.faxNumber}
+                        value={formData.faxNumber}
+                        handleChange={handleChange}
+                        required
+                        inputCol={12}
+                      />
+                    </Col>
+                    <Col md={4} lg={4} xl={4} xxl={4}>
+                      <InlineInputField
+                        name="website"
+                        placeholder="Website URL"
+                        value={formData.website}
+                        handleChange={handleChange}
+                        error={errors.website}
+                        required
+                        inputCol={12}
+                      />
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+              <InlineSelectField
+                label="Fiscal Year"
+                name="fiscal"
+                placeholder="Select fiscal Year"
+                value={formData.fiscal}
+                handleChange={handleChange}
+                error={errors.fiscal}
+                required
+                options={FiscalYear}
+                labelCol={2}
+                inputCol={6}
+              />
+              <RadioGroupField
+                label="Tax Basis"
+                name="taxMethod"
+                options={taxOptions}
+                value={formData.taxMethod}
+                handleChange={handleChange}
+                error={errors.taxMethod}
+                required
+              />
+              <InlineSelectField
+                label="Time Zone"
+                name="timeZone"
+                placeholder="Select Time Zone"
+                value={formData.timeZone}
+                handleChange={handleChange}
+                error={errors.timeZone}
+                required
+                options={TimeZone}
+                labelCol={2}
+                inputCol={6}
+              />
+              <InlineSelectField
+                label="Date Format"
+                name="dateFormat"
+                placeholder="Select Date Format"
+                value={formData.dateFormat}
+                handleChange={handleChange}
+                error={errors.dateFormat}
+                required
+                options={DateFormat}
+                labelCol={2}
+                inputCol={6}
+              />
+              <InlineInputField
+                label="Tax ID"
+                name="taxID"
+                placeholder="Tax ID"
+                value={formData.taxID}
+                handleChange={handleChange}
+                error={errors.taxID}
+                required
+                inputCol={6}
+              />
+              <InlineInputField
+                label="Company ID"
+                name="companyID"
+                placeholder="Company ID"
+                value={formData.companyID}
+                handleChange={handleChange}
+                error={errors.companyID}
+                required
+                inputCol={6}
+              />
+            </CardFromTertiary>
+          </Col>
+        </Row>
+      </Container>
+      <CustomModal
+        show={modalShow}
+        onHide={handleClearClick}
+        //title="Register"
+        //subtitle='Start your 7-day free trial.'
+        className='DialogueModal'
+        bodyContent={
+          <>
+          <div className='diaImg'>
+            <Image src={Images.ORGprofile}></Image>
+          </div>
+          <div className='daiContent'>
+            <h5>Complete Your Profile</h5>
+            <p>First, complete the <span>Organization Profile,</span> then proceed to the other details.</p>
+          </div>
+          </>
+        }
+        onSubmit={handleModalSubmit}
+        footerButtonSubmit="Let's Complete"
+        footerButtonCancel="Back"
+        footerButtonSubmitClass="modal_primary_btn w-100"
+        footerButtonCancelClass="modal_primary_border_btn w-100"
+      />
+    </>
   )
 }
 

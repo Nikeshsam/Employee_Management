@@ -9,7 +9,7 @@ import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table, Image } from
 
 // Bootstrap imports
 
-const header = ({setModalShow}) => {
+const header = ({ setModalShow }) => {
   return (
     <div className='MainHeader'>
       <div className='HR_Brand'>
@@ -70,8 +70,11 @@ const header = ({setModalShow}) => {
         </Link>
       </div>
       <div className='HR_Action'>
-        <Button onClick={()=>setModalShow(true)} className="HR_Action_btn">
+        <Button onClick={() => setModalShow(true)} className="HR_Action_btn">
           Register
+        </Button>
+        <Button className="HR_Action_btn" onClick={() => window.location.href = '/Authentication'}>
+          Login
         </Button>
       </div>
     </div>
