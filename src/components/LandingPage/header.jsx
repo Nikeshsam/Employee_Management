@@ -70,11 +70,11 @@ const header = ({ setModalShow }) => {
         </Link>
       </div>
       <div className='HR_Action'>
-        <Button onClick={() => setModalShow(true)} className="HR_Action_btn">
-          Register
-        </Button>
-        <Button className="HR_Action_btn" onClick={() => window.location.href = '/Authentication'}>
+        <Button className="HR_Action_btn_noBg" onClick={() => window.location.href = '/Authentication'}>
           Login
+        </Button>
+        <Button onClick={() => setModalShow(true)} className="HR_Action_btn">
+          Sign up
         </Button>
       </div>
     </div>

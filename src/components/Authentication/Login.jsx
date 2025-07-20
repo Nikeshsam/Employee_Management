@@ -66,13 +66,19 @@ const Login = ({ handleOnClick }) => {
                 const response = await userLogin(formData);
                 console.log(response);
                 saveLoginUser(response.data.data);
+                navigate('/Home');
             } catch (error) {
-                console.log(error); 
+                let errorMsg = "Oops! Looks like you’re not registered.";
+                if (error?.response?.data?.message) {
+                    errorMsg = error.response.data.message;
+                }
+                setErrors(prev => ({ ...prev, email: errorMsg }));
+                setLoginError(errorMsg); // Set a separate login error state
+                console.log(error);
             }
 
         // API Call
 
-            navigate('/Home');
             console.log('Form submitted:', formData);
         }
     };
@@ -83,6 +89,8 @@ const Login = ({ handleOnClick }) => {
         const error = validateField(name, value);
         setErrors((prevErrors) => ({ ...prevErrors, [name]: error }));
     };
+
+    const [errorMsg, setLoginError] = useState('');
 
     return (
         <div className='Brand-container'>
@@ -99,7 +107,7 @@ const Login = ({ handleOnClick }) => {
                     name="email"
                     type="text"
                     placeholder="Enter Your Email Address"
-                    error={errors.email}
+                    error={errors.email && !errorMsg ? errors.email : ''}
                     value={formData.email}
                     handleChange={handleChange}
                     required
@@ -121,6 +129,8 @@ const Login = ({ handleOnClick }) => {
                     <button onClick={() => handleOnClick(2)} type='button' className='forgot-password'>Forgot password?</button>
                 </div>
                 <Button variant='primary' type="submit" className='primary_btn w-100 mb-3' onClick={handleSubmit}>SIGN IN</Button>
+                
+                {errorMsg && <div className="text-danger mb-2">{errorMsg}</div>}
             </Form>
         </div>
     );

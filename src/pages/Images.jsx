@@ -25,12 +25,18 @@ import RepeatEmail from '../assets/Images/repeat.svg';
 import RegisterImg from '../assets/Images/register-success.svg';
 
 import ORGprofile from '../assets/Images/ORGprofile.svg';
+import Logout from '../assets/Images/Logout.svg';
 
+import InnerLogo from '../assets/Images/Logo.svg';
 
+import Dashboard from '../assets/Images/Dashboard.svg';
+import OnBoarding from '../assets/Images/OnBoarding.svg';
+import CompanyProfile from '../assets/Images/CompanyProfile.svg';
+import AddEmployee from '../assets/Images/AddEmployee.svg';
 
 
  const Images = {
-    Edit, Delete, UserName, OfferLetter, BannerImage, ProductImage, FeatureImage, FeatureDashboard, FeatureOrganize, PriceCheck, PriceArrow, PriceArrowWhite, ModalIcon, ModalClose, GirdFilter, GirdDelete,RepeatEmail, RegisterImg, ORGprofile
+    Edit, Delete, UserName, OfferLetter, BannerImage, ProductImage, FeatureImage, FeatureDashboard, FeatureOrganize, PriceCheck, PriceArrow, PriceArrowWhite, ModalIcon, ModalClose, GirdFilter, GirdDelete,RepeatEmail, RegisterImg, ORGprofile, Logout, InnerLogo, Dashboard, OnBoarding, CompanyProfile, AddEmployee
 }
 
 export default Images;
