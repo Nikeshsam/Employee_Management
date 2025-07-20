@@ -279,8 +279,8 @@ const CompanyProfile = () => {
         const response = await organizationDetails(formData, loginUser.token);
         console.log(response.data.message);
         setSubmitMessage(response.data.message);
-        setLoginUser({ ...loginUser, companyProfileStatus: true });
-        saveLoginUser(loginUser);
+        // setLoginUser({ ...loginUser, companyProfileStatus: true }); // Removed because setLoginUser is not a function
+        saveLoginUser({ ...loginUser, companyProfileStatus: true });
         navigate('/RegisterSuccess');
         console.log('Form submitted:', formData);
       } catch (error) {
