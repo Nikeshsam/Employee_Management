@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CardForm, PrimaryGird, InputField, SelectInput } from '../../pages/Props.jsx';
-
+import {contactValidateField} from '../Validations/Validate.jsx';
 
 // Bootstrap imports
 
@@ -95,108 +95,15 @@ const Contact = () => {
 
     // Error useState
 
-    const [errors, setErrors] = useState({
-        address1: '',
-        address2: '',
-        country: '',
-        state: '',
-        city: '',
-        zipCode: '',
-        paddress1: '',
-        paddress2: '',
-        pcountry: '',
-        pstate: '',
-        pcity: '',
-        pzipCode: '',
-        cdpphonenumber: '',
-        cdaphonenumber: '',
-        cdemailaddress: '',
-        ecdrelationname: '',
-        ecdrelationship: '',
-        ecdphonenumber: '',
-        ecdemailaddress: '',
-        ecdAddress: '',
-    });
+    const [errors, setErrors] = useState({});
 
-
-    const validateField = (name, value) => {
-        let error = '';
-        switch (name) {
-            case 'address1':
-            case 'paddress1':
-                if (!value.trim()) error = 'Address is required';
-                break;
-
-            case 'address2':
-            case 'paddress2':
-                if (!value.trim()) error = 'Address is required';
-                break;
-
-            case 'country':
-            case 'pcountry':
-                if (!value.trim()) error = 'Country is required';
-                break;
-
-            case 'state':
-            case 'pstate':
-                if (!value.trim()) error = 'Date of Birth is required';
-                break;
-
-            case 'city':    
-            case 'pcity':
-                if (!value.trim()) error = 'City is required';
-                break;
-
-            case 'zipCode':
-            case 'pzipCode':
-                if (!value.trim()) error = 'ZipCode is required';
-                break;
-
-            case 'cdpphonenumber':
-                if (!value.trim()) error = 'Primary Phone Number is required';
-                break;
-
-            case 'cdaphonenumber':
-                if (!value.trim()) error = 'Alternate Phone Number is required';
-                break;
-
-            case 'cdemailaddress':
-                if (!value.trim()) error = 'Email Address is required';
-                break;
-
-            case 'ecdrelationname':
-                if (!value.trim()) error = 'Relation Name is required';
-                break;
-
-            case 'ecdrelationship':
-                if (!value.trim()) error = 'Relationship is required';
-                break;
-
-            case 'ecdphonenumber':
-                if (!value.trim()) error = 'Phone Number is required';
-                break; 
-                
-            case 'ecdemailaddress':
-                if (!value.trim()) error = 'Email Address is required';
-                break; 
-                
-            case 'ecdAddress':
-                if (!value.trim()) error = 'Address is required';
-                break;                 
-
-            default:
-                break;
-        }
-
-        return error;
-    };
 
     //  Validate Form with Error
 
     const validateForm = () => {
         const newErrors = {};
         Object.keys(formData).forEach((field) => {
-            const error = validateField(field, formData[field]);
+            const error = contactValidateField(field, formData[field]);
             if (error) newErrors[field] = error;
         });
         setErrors(newErrors);
@@ -218,7 +125,7 @@ const Contact = () => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
-        const error = validateField(name, value);
+        const error = contactValidateField(name, value);
         setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
     };
 

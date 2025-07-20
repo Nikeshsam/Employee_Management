@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CardForm, PrimaryGird, InputField, SelectInput } from '../../pages/Props.jsx';
+import {basicValidateField} from '../Validations/Validate.jsx';
 
 // Bootstrap imports
 
@@ -37,6 +38,7 @@ const BasicInfo = () => {
 
     // FORM INPUT
 
+
     // FormData Validations
 
     const [formData, setFormData] = useState({
@@ -53,57 +55,14 @@ const BasicInfo = () => {
     // Error useState
 
     const [errors, setErrors] = useState({
-        firstName: '',
-        lastName: '',
-        dob: '',
-        age: '',
-        nationality: '',
-        gender: '',
-        maritalstatus: '',
-        dateofmarriage: '',
     });
-
-
-    const validateField = (name, value) => {
-        let error = '';
-        switch (name) {
-            case 'firstName':
-                if (!value.trim()) error = 'First Name is required';
-                break;
-            case 'lastName':
-                if (!value.trim()) error = 'Last Name is required';
-                break;
-            case 'dob':
-                if (!value.trim()) error = 'Date of Birth is required';
-                break;
-            case 'age':
-                if (!value.trim()) error = 'Age is required';
-                break;
-            case 'nationality':
-                if (!value.trim()) error = 'Nationality is required';
-                break;
-            case 'gender':
-                if (!value.trim()) error = 'Gender is required';
-                break;
-            case 'maritalstatus':
-                if (!value.trim()) error = 'Marital Status is required';
-                break;
-            case 'dateofmarriage':
-                if (!value.trim()) error = 'Date of Marriage is required';
-                break;
-            default:
-                break;
-        }
-
-        return error;
-    };
 
     //  Validate Form with Error
 
     const validateForm = () => {
         const newErrors = {};
         Object.keys(formData).forEach((field) => {
-            const error = validateField(field, formData[field]);
+            const error = basicValidateField(field, formData[field]);
             if (error) newErrors[field] = error;
         });
         setErrors(newErrors);
@@ -125,7 +84,7 @@ const BasicInfo = () => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
-        const error = validateField(name, value);
+        const error = basicValidateField(name, value);
         setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
     };
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CardForm, PrimaryGird, InputField, OffCanvas } from '../../pages/Props.jsx';
 import Images from '../../pages/Images.jsx';
+import {benefitsValidateField} from '../Validations/Validate.jsx';
 
 // Bootstrap imports
 
@@ -48,46 +49,17 @@ const Benefits = () => {
   // Error useState
 
   const [errors, setErrors] = useState({
-    dname: '',
-    relationship: '',
-    gender: '',
-    idnumber: '',
-    dob: '',
   });
 
 
-  const validateField = (name, value) => {
-    let error = '';
-    switch (name) {
-      case 'dname':
-        if (!value.trim()) error = 'Name is required';
-        break;
-      case 'relationship':
-        if (!value.trim()) error = 'Relationship is required';
-        break;
-      case 'gender':
-        if (!value.trim()) error = 'Gender is required';
-        break;
-      case 'idnumber':
-        if (!value.trim()) error = 'ID Number is required';
-        break;
-      case 'dob':
-        if (!value.trim()) error = 'Date of Birth is required';
-        break;
 
-      default:
-        break;
-    }
-
-    return error;
-  };
 
   //  Validate Form with Error
 
   const validateForm = () => {
     const newErrors = {};
     Object.keys(formData).forEach((field) => {
-      const error = validateField(field, formData[field]);
+      const error = benefitsValidateField(field, formData[field]);
       if (error) newErrors[field] = error;
     });
     setErrors(newErrors);
@@ -109,7 +81,7 @@ const Benefits = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    const error = validateField(name, value);
+    const error = benefitsValidateField(name, value);
     setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
   };
 

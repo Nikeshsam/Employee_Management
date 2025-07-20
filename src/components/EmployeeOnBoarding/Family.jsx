@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CardForm, PrimaryGird, InputField, OffCanvas } from '../../pages/Props.jsx';
 import Images from '../../pages/Images.jsx';
+import {familyValidateField} from '../Validations/Validate.jsx';
 
 // Bootstrap imports
 
@@ -75,40 +76,14 @@ const Family = () => {
     });
 
 
-    const validateField = (name, value) => {
-        let error = '';
-        switch (name) {
-            case 'fname':
-                if (!value.trim()) error = 'First Name is required';
-                break;
-            case 'lname':
-                if (!value.trim()) error = 'Last Name is required';
-                break;
-             case 'relationship':
-                if (!value.trim()) error = 'Relationship is required';
-                break;
-            case 'dob':
-                if (!value.trim()) error = 'Date of Birth is required';
-                break;
-            case 'education':
-                if (!value.trim()) error = 'Education is required';
-                break;
-            case 'occupation':
-                if (!value.trim()) error = 'Occupation is required';
-                break;
-            default:
-                break;
-        }
 
-        return error;
-    };
 
     //  Validate Form with Error
 
     const validateForm = () => {
         const newErrors = {};
         Object.keys(formData).forEach((field) => {
-            const error = validateField(field, formData[field]);
+            const error = familyValidateField(field, formData[field]);
             if (error) newErrors[field] = error;
         });
         setErrors(newErrors);
@@ -130,7 +105,7 @@ const Family = () => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
-        const error = validateField(name, value);
+        const error = familyValidateField(name, value);
         setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
     };
 

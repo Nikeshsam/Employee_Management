@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CardForm, PrimaryGird, InputField, OffCanvas } from '../../pages/Props.jsx';
 import Images from '../../pages/Images.jsx';
+import { passportValidateField } from '../Validations/Validate.jsx';
+import { visaValidateField } from '../Validations/Validate.jsx';
 
 // Bootstrap imports
 
@@ -37,7 +39,6 @@ const Travel = () => {
 
   // FORM INPUT
 
-
   // FormData Validations
 
   const [PassportFormData, setPassportFormData] = useState({
@@ -57,84 +58,15 @@ const Travel = () => {
 
   // Error useState
 
-  const [PassportErrors, setPassportErrors] = useState({
-    passportno: '',
-    issuedby: '',
-    dateofissue: '',
-    dateexpiry: '',
-  });
-
-  const [VisaErrors, setVisaErrors] = useState({
-    visanumber: '',
-    issueddate: '',
-    placeofissue: '',
-    expirydate: '',
-    notes: '',
-  });
-
-
-  const validatePassportField = (name, value) => {
-    let error = '';
-    switch (name) {
-      case 'passportno':
-        if (!value.trim()) error = 'Passport Number is required';
-        break;
-
-      case 'issuedby':
-        if (!value.trim()) error = 'Issue By is required';
-        break;
-
-      case 'dateofissue':
-        if (!value.trim()) error = 'Date of Issue is required';
-        break;
-
-      case 'dateexpiry':
-        if (!value.trim()) error = 'Expiry Date is required';
-        break;
-
-      default:
-        break;
-    }
-
-    return error;
-  };
-
-  const validateVisaField = (name, value) => {
-    let error = '';
-    switch (name) {
-      case 'visanumber':
-        if (!value.trim()) error = 'Visa Number No is required';
-        break;
-
-      case 'issueddate':
-        if (!value.trim()) error = 'Issue Date is required';
-        break;
-
-      case 'placeofissue':
-        if (!value.trim()) error = 'Place of Issue is required';
-        break;
-
-      case 'expirydate':
-        if (!value.trim()) error = 'Expiry Date is required';
-        break;
-
-      case 'notes':
-        if (!value.trim()) error = 'Notes is required';
-        break;
-
-      default:
-        break;
-    }
-
-    return error;
-  };
+  const [PassportErrors, setPassportErrors] = useState({});
+  const [VisaErrors, setVisaErrors] = useState({});
 
   //  Validate Form with Error
 
   const validatePassportForm = () => {
     const newErrors = {};
-    Object.keys(PassportErrors).forEach((field) => {
-      const error = validatePassportField(field, PassportErrors[field]);
+    Object.keys(PassportFormData).forEach((field) => {
+      const error = passportValidateField(field, PassportFormData[field]);
       if (error) newErrors[field] = error;
     });
     setPassportErrors(newErrors);
@@ -144,7 +76,7 @@ const Travel = () => {
   const validateVisaForm = () => {
     const newErrors = {};
     Object.keys(VisaFormData).forEach((field) => {
-      const error = validateVisaField(field, VisaFormData[field]);
+      const error = visaValidateField(field, VisaFormData[field]);
       if (error) newErrors[field] = error;
     });
     setVisaErrors(newErrors);
@@ -157,7 +89,7 @@ const Travel = () => {
     e.preventDefault();
     if (validatePassportForm()) {
       navigate('/Home'); // 
-      console.log('Form submitted:', formData);
+      console.log('Form submitted:', PassportFormData);
     }
   };
 
@@ -165,7 +97,7 @@ const Travel = () => {
     e.preventDefault();
     if (validateVisaForm()) {
       navigate('/Home'); // 
-      console.log('Form submitted:', formData);
+      console.log('Form submitted:', VisaFormData);
     }
   };
 
@@ -174,15 +106,15 @@ const Travel = () => {
   const handlePassportChange = (e) => {
     const { name, value } = e.target;
     setPassportFormData(prev => ({ ...prev, [name]: value }));
-    const error = validateField(name, value);
-    setHealthErrors(prevErrors => ({ ...prevErrors, [name]: error }));
+    const error = passportValidateField(name, value);
+    setPassportErrors(prevErrors => ({ ...prevErrors, [name]: error }));
   };
 
   const handleVisaChange = (e) => {
     const { name, value } = e.target;
     setVisaFormData(prev => ({ ...prev, [name]: value }));
-    const error = validateField(name, value);
-    setVaccinationErrors(prevErrors => ({ ...prevErrors, [name]: error }));
+    const error = visaValidateField(name, value);
+    setVisaErrors(prevErrors => ({ ...prevErrors, [name]: error }));
   };
 
   const navigate = useNavigate();

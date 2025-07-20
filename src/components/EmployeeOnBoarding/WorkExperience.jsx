@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CardForm, PrimaryGird, InputField, OffCanvas } from '../../pages/Props.jsx';
 import Images from '../../pages/Images.jsx';
+import { workExperienceValidateField } from '../Validations/Validate.jsx';
 
 // Bootstrap imports
 
@@ -31,56 +32,18 @@ const WorkExperience = () => {
 
   // FormData Validations
 
-  const [formData, setFormData] = useState({
-    organization: '',
-    location: '',
-    jobtitle: '',
-    startdate: '',
-    enddate: '',
-  });
+  const [formData, setFormData] = useState({});
 
   // Error useState
 
-  const [errors, setErrors] = useState({
-    organization: '',
-    location: '',
-    jobtitle: '',
-    startdate: '',
-    enddate: '',
-  });
-
-
-  const validateField = (name, value) => {
-    let error = '';
-    switch (name) {
-      case 'organization':
-        if (!value.trim()) error = 'Organization is required';
-        break;
-      case 'location':
-        if (!value.trim()) error = 'Location is required';
-        break;
-      case 'jobtitle':
-        if (!value.trim()) error = 'Jobtitle is required';
-        break;
-      case 'startdate':
-        if (!value.trim()) error = 'Start Date is required';
-        break;
-      case 'enddate':
-        if (!value.trim()) error = 'End Date is required';
-        break;
-      default:
-        break;
-    }
-
-    return error;
-  };
+  const [errors, setErrors] = useState({});
 
   //  Validate Form with Error
 
   const validateForm = () => {
     const newErrors = {};
     Object.keys(formData).forEach((field) => {
-      const error = validateField(field, formData[field]);
+      const error = workExperienceValidateField(field, formData[field]);
       if (error) newErrors[field] = error;
     });
     setErrors(newErrors);
@@ -102,7 +65,7 @@ const WorkExperience = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    const error = validateField(name, value);
+    const error = workExperienceValidateField(name, value);
     setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
   };
 

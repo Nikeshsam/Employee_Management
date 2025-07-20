@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CardForm, PrimaryGird, InputField, SelectInput, OffCanvas } from '../../pages/Props.jsx';
 import Images from '../../pages/Images.jsx';
+import {healthValidateField} from '../Validations/Validate.jsx';
+import {vaccinationValidateField} from '../Validations/Validate.jsx';
 
 // Bootstrap imports
 
@@ -36,8 +38,6 @@ const HealthRecord = () => {
 
   // FORM INPUT
 
-  
-
   // FormData Validations
 
   const [healthFormData, sethealthFormData] = useState({
@@ -54,72 +54,18 @@ const HealthRecord = () => {
 
   // Error useState
 
-  const [healthErrors, setHealthErrors] = useState({
-    bloodgroup: '',
-    blooddonor: '',
-    allergyintolerance: '',
-    preexisting: '',
-  });
+  const [healthErrors, setHealthErrors] = useState({});
 
-  const [vaccinationErrors, setVaccinationErrors] = useState({
-    vaccinationname: '',
-    dateofdose: '',
-  });
+  const [vaccinationErrors, setVaccinationErrors] = useState({});
 
   // Validation Error Message
-
-  const validateHealthField = (name, value) => {
-    let error = '';
-    switch (name) {
-
-      case 'bloodgroup':
-        if (!value.trim()) error = 'Blood Group is required';
-        break;
-
-      case 'blooddonor':
-        if (!value.trim()) error = 'Blood Donor is required';
-        break;
-
-      case 'allergyintolerance':
-        if (!value.trim()) error = 'Allergy Intolerance is required';
-        break;
-
-      case 'preexisting':
-        if (!value.trim()) error = 'Pre Existing is required';
-        break;
-
-      default:
-        break;
-    }
-
-    return error;
-  };
-
-  const validateVaccinationField = (name, value) => {
-    let error = '';
-    switch (name) {
-
-      case 'vaccinationname':
-        if (!value.trim()) error = 'Vaccination Name is required';
-        break;
-
-      case 'dateofdose':
-        if (!value.trim()) error = 'Date of Dose is required';
-        break;
-
-      default:
-        break;
-    }
-
-    return error;
-  };
 
   // Form Validation
 
   const validateHealthForm = () => {
     const newErrors = {};
     Object.keys(healthFormData).forEach((field) => {
-      const error = validateHealthField(field, healthFormData[field]);
+      const error = healthValidateField(field, healthFormData[field]);
       if (error) newErrors[field] = error;
     });
     setHealthErrors(newErrors);
@@ -129,7 +75,7 @@ const HealthRecord = () => {
   const validateVaccinationForm = () => {
     const newErrors = {};
     Object.keys(vaccinationFormData).forEach((field) => {
-      const error = validateVaccinationField(field, vaccinationFormData[field]);
+      const error = vaccinationValidateField(field, vaccinationFormData[field]);
       if (error) newErrors[field] = error;
     });
     setVaccinationErrors(newErrors);
@@ -204,7 +150,7 @@ const HealthRecord = () => {
           />
         </Col>
         <Col md={3} lg={3} xl={3} xxl={3}>
-          <Form>
+          <div>
             <Form.Label>Blood Donor</Form.Label>
             <Form.Check // prettier-ignore
               type="switch"
@@ -214,7 +160,7 @@ const HealthRecord = () => {
               value={healthFormData.blooddonor}
               handleChange={handleHealthChange}
             />
-          </Form>
+          </div>
         </Col>
         <Col md={3} lg={3} xl={3} xxl={3}>
           <InputField

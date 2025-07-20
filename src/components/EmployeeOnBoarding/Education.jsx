@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CardForm, PrimaryGird, InputField, OffCanvas } from '../../pages/Props.jsx';
 import Images from '../../pages/Images.jsx';
+import {educationValidateField} from '../Validations/Validate.jsx';
 
 // Bootstrap imports
 
@@ -62,69 +63,15 @@ const Educations = () => {
 
     // Error useState
 
-    const [errors, setErrors] = useState({
-        degree: '',
-        major: '',
-        university: '',
-        year: '',
-        CGPA: '',
-        cname: '',
-        issuedby: '',
-        issuedate: '',
-        expirydate: '',
-        additionalinformation: '',
-    });
+    const [errors, setErrors] = useState({});
 
-
-    const validateField = (name, value) => {
-        let error = '';
-        switch (name) {
-            case 'degree':
-                if (!value.trim()) error = 'Degree is required';
-                break;
-            case 'major':
-                if (!value.trim()) error = 'Major is required';
-                break;
-            case 'university':
-                if (!value.trim()) error = 'University is required';
-                break;
-            case 'year':
-                if (!value.trim()) error = 'Year is required';
-                break;
-            case 'education':
-                if (!value.trim()) error = 'Education is required';
-                break;
-            case 'CGPA':
-                if (!value.trim()) error = 'CGPA is required';
-                break;
-            case 'cname':
-                if (!value.trim()) error = 'Name is required';
-                break;
-            case 'issuedby':
-                if (!value.trim()) error = 'Issued By is required';
-                break;
-            case 'issuedate':
-                if (!value.trim()) error = 'Issue Date is required';
-                break;
-            case 'expirydate':
-                if (!value.trim()) error = 'Expiry Date is required';
-                break;
-            case 'additionalinformation':
-                if (!value.trim()) error = 'Additional Information is required';
-                break;
-            default:
-                break;
-        }
-
-        return error;
-    };
 
     //  Validate Form with Error
 
     const validateForm = () => {
         const newErrors = {};
         Object.keys(formData).forEach((field) => {
-            const error = validateField(field, formData[field]);
+            const error = educationValidateField(field, formData[field]);
             if (error) newErrors[field] = error;
         });
         setErrors(newErrors);
@@ -146,7 +93,7 @@ const Educations = () => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
-        const error = validateField(name, value);
+        const error = educationValidateField(name, value);
         setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
     };
 
