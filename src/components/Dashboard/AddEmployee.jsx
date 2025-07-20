@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Combobox from "react-widgets/Combobox";
 import "react-widgets/styles.css";
 import Images from '../../pages/Images.jsx';
 import { CardForm, PrimaryGird, InputField, SelectInput, OffCanvas } from '../../pages/Props.jsx';
+import {addEmployeeValidateField} from '../Validations/Validate.jsx';
+import { getEmployee, addEmployee } from '../../api/index.js';
+
 
 // Bootstrap imports
 
@@ -77,6 +81,72 @@ const AddEmployee = () => {
         );
     };
 
+    // FormData Validations
+
+    const [formData, setFormData] = useState({
+        empID: '',
+        fname: '',
+        lname: '',
+        designation: '',
+        relationship: '',
+        doj: '',
+        employmentType: '',
+        worklocation: '',
+        offerletter: '',
+    });
+
+    // Error useState
+
+    const [errors, setErrors] = useState({});
+
+    const [submitMessage, setSubmitMessage] = useState('');
+
+    //  Validate Form with Error
+
+    const validateForm = () => {
+        const newErrors = {};
+        Object.keys(formData).forEach((field) => {
+            const error = addEmployeeValidateField(field, formData[field]);
+            if (error) newErrors[field] = error;
+        });
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    //  Handle Submit
+
+    const handleSubmit = async (e)  => {
+        e.preventDefault();
+
+        if (validateForm()) {
+
+            try {
+                // Assuming loginUser and setSubmitMessage are defined in your component/context
+                const response = await addEmployee(formData);
+                console.log(response.data.message);
+                setSubmitMessage(response.data.message);
+                navigate('/RegisterSuccess');
+                console.log('Form submitted:', formData);
+            } catch (error) {
+                console.log(error);
+                setSubmitMessage(error?.response?.data?.message || 'Submission failed');
+            }
+
+        }
+
+    };
+
+    //  Handle Change
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+        const error = addEmployeeValidateField(name, value);
+        setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
+    };
+
+    const navigate  = useNavigate();
+
     return (
         <>
             <Container fluid>
@@ -133,7 +203,7 @@ const AddEmployee = () => {
             <OffCanvas
                 show={showAddEmployeeCanvas}
                 placement="end"
-                //onSubmit={handleSubmit}
+                onSubmit={handleSubmit}
                 onHide={handleCloseAddEmployeeCanvas}
                 title="Add Family Member"
                 subtitle="Start your 7-day free trial."
@@ -148,11 +218,11 @@ const AddEmployee = () => {
                         label="Emp ID"
                         type="text"
                         placeholder="Employee ID"
-                        controlId="EmpID"
-                        name="EmpID"
-                        // error={errors.EmpID}
-                        value="EMP012547"
-                        // handleChange={handleChange}
+                        controlId="empID"
+                        name="empID"
+                        error={errors.empID}
+                        value={formData.empID}
+                        handleChange={handleChange}
                         required
                     />
                 </Col>
@@ -163,9 +233,9 @@ const AddEmployee = () => {
                         placeholder="Employee First Name"
                         controlId="fname"
                         name="fname"
-                        // error={errors.fname}
-                        // value={formData.fname}
-                        // handleChange={handleChange}
+                        error={errors.fname}
+                        value={formData.fname}
+                        handleChange={handleChange}
                         required
                     />
                 </Col>
@@ -176,9 +246,9 @@ const AddEmployee = () => {
                         placeholder="Employee Last Name"
                         controlId="lname"
                         name="lname"
-                        // error={errors.lname}
-                        // value={formData.lname}
-                        // handleChange={handleChange}
+                        error={errors.lname}
+                        value={formData.lname}
+                        handleChange={handleChange}
                         required
                     />
                 </Col>
@@ -189,9 +259,9 @@ const AddEmployee = () => {
                         placeholder="Enter Designation"
                         controlId="designation"
                         name="designation"
-                        // error={errors.designation}
-                        // value={formData.designation}
-                        // handleChange={handleChange}
+                        error={errors.designation}
+                        value={formData.designation}
+                        handleChange={handleChange}
                         required
                     />
                 </Col>
@@ -202,9 +272,9 @@ const AddEmployee = () => {
                         placeholder="Enter Department"
                         controlId="relationship"
                         name="relationship"
-                        // error={errors.relationship}
-                        // value={formData.relationship}
-                        // handleChange={handleChange}
+                        error={errors.relationship}
+                        value={formData.relationship}
+                        handleChange={handleChange}
                         required
                     />
                 </Col>
@@ -213,11 +283,11 @@ const AddEmployee = () => {
                         label="Joining Date"
                         type="date"
                         placeholder="Enter Joining Date"
-                        controlId="dob"
-                        name="dob"
-                        // error={errors.dob}
-                        // value={formData.dob}
-                        // handleChange={handleChange}
+                        controlId="doj"
+                        name="doj"
+                        error={errors.doj}
+                        value={formData.doj}
+                        handleChange={handleChange}
                         required
                     />
                 </Col>
@@ -227,9 +297,9 @@ const AddEmployee = () => {
                         name="employmentType"
                         options={employmentType}
                         placeholder="Employment Type"
-                        // error={errors.employmentType}
-                        // value={formData.employmentType}
-                        // handleChange={handleChange}
+                        error={errors.employmentType}
+                        value={formData.employmentType}
+                        handleChange={handleChange}
                         required
                     />
                 </Col>
@@ -239,9 +309,9 @@ const AddEmployee = () => {
                         name="worklocation"
                         options={worklocation}
                         placeholder="Work Location"
-                        // error={errors.worklocation}
-                        // value={formData.worklocation}
-                        // handleChange={handleChange}
+                        error={errors.worklocation}
+                        value={formData.worklocation}
+                        handleChange={handleChange}
                         required
                     />
                 </Col>
@@ -252,9 +322,9 @@ const AddEmployee = () => {
                         placeholder="Upload Offter Letter"
                         controlId="offerletter"
                         name="offerletter"
-                        // error={errors.offerletter}
-                        // value={formData.offerletter}
-                        // handleChange={handleChange}
+                        error={errors.offerletter}
+                        value={formData.offerletter}
+                        handleChange={handleChange}
                         required
                     />
                 </Col>

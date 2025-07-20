@@ -9,7 +9,7 @@ label{font-family: "Inter", sans-serif !important;}
 .form-control::placeholder {
   color: #909090;
   font-weight: 400;
-  font-size: 13px;
+  font-size: 12px;
   opacity: 1;
 }
 
@@ -405,7 +405,7 @@ input:-internal-autofill-selected{background-color: transparent;}
 
 /* Common Error Message */
 
-.error_msg{font-size: 12px; font-weight: 500; width: auto; margin: 0; position: absolute; bottom: -6px; left: 8px; background-color: #fff; padding: 0 7px; line-height: 14px; display: block;}
+.error_msg{font-size: 11.5px; font-weight: 500; width: auto; margin: 0; position: absolute; bottom: -6px; left: 8px; background-color: #fff; padding: 0 7px; line-height: 14px; display: block;}
 .error_msg_no_input{bottom: -12px;}
 
 
@@ -469,3 +469,6 @@ input:-internal-autofill-selected{background-color: transparent;}
 .DialogueModal .modal-footer{padding: 0; border: none !important; flex-direction: row-reverse;}
 .DialogueModal .modal-footer .modal_primary_btn{border-radius: 0 0 19px 0; font-size: 12px !important; text-transform: uppercase;}
 .DialogueModal .modal-footer .modal_primary_border_btn {border-radius: 0 0 0 19px; border: none; background-color: #ede7ff !important;  color: #3E3E3E !important; font-size: 12px !important; font-weight: 600 !important; text-transform: uppercase;} 
+
+.was-validated .form-control:invalid, .form-control.is-invalid,
+.was-validated .form-select:invalid:not([multiple]):not([size]), .was-validated .form-select:invalid:not([multiple])[size="1"], .form-select.is-invalid:not([multiple]):not([size]), .form-select.is-invalid:not([multiple])[size="1"]{background-image: none !important;}

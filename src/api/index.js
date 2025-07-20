@@ -10,12 +10,27 @@ export const validateUser = (token) => axios.get(`${url}/authentication/validate
   },
 })
 
+// ORGANIZATION
+
 export const organizationDetails = (organization, token) => axios.post(`${url}/organization`, organization, {
   headers: {
     Authorization: `Bearer ${token}`,
   },
 });
 export const getOrganizationDetails = (token) => axios.get(`${url}/organization`,  {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
+
+// EMPLOYEE
+
+export const addEmployee = (employee, token) => axios.post(`${url}/employee`, employee, {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
+export const getEmployee = (token) => axios.get(`${url}/employee`,  {
   headers: {
     Authorization: `Bearer ${token}`,
   },

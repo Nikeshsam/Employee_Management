@@ -347,3 +347,42 @@ export const workExperienceValidateField = (name, value) => {
 
     return error;
 };
+
+// Add Employee Error Message
+
+export const addEmployeeValidateField = (name, value) => {
+    let error = '';
+    switch (name) {
+        case 'empID':
+            if (!value.trim()) error = 'Employee ID is required';
+            break;
+        case 'fname':
+            if (!value.trim()) error = 'First Name is required';
+            break;
+        case 'lname':
+            if (!value.trim()) error = 'Last Name is required';
+            break;
+        case 'designation':
+            if (!value.trim()) error = 'Designation is required';
+            break;
+        case 'relationship':
+            if (!value.trim()) error = 'Department is required';
+            break;
+        case 'doj':
+            if (!value.trim()) error = 'Joining Date is required';
+            break;
+        case 'employmentType':
+            if (!value.trim()) error = 'Employment Type is required';
+            break;        
+        case 'worklocation':
+            if (!value.trim()) error = 'Work Location is required';
+            break;  
+        case 'offerletter':
+            if (!value.trim()) error = 'Offer Letter is required';
+            break;                             
+        default:
+            break;
+    }
+
+    return error;
+};
