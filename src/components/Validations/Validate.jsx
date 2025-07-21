@@ -353,28 +353,37 @@ export const workExperienceValidateField = (name, value) => {
 export const addEmployeeValidateField = (name, value) => {
     let error = '';
     switch (name) {
-        case 'empID':
+        case 'userType':
             if (!value.trim()) error = 'Employee ID is required';
             break;
-        case 'fname':
+        case 'employeeId':
+            if (!value.trim()) error = 'Employee ID is required';
+            break;
+        case 'firstName':
             if (!value.trim()) error = 'First Name is required';
             break;
-        case 'lname':
+        case 'lastName':
             if (!value.trim()) error = 'Last Name is required';
             break;
+        case 'email':
+            if (!value.trim()) error = 'Email Address is required';
+            break;
+        case 'phoneNumber':
+            if (!value.trim()) error = 'Phone Number is required';
+            break;            
         case 'designation':
             if (!value.trim()) error = 'Designation is required';
             break;
-        case 'relationship':
+        case 'department':
             if (!value.trim()) error = 'Department is required';
             break;
-        case 'doj':
+        case 'joiningDate':
             if (!value.trim()) error = 'Joining Date is required';
             break;
         case 'employmentType':
             if (!value.trim()) error = 'Employment Type is required';
             break;        
-        case 'worklocation':
+        case 'workLocation':
             if (!value.trim()) error = 'Work Location is required';
             break;  
         case 'offerletter':

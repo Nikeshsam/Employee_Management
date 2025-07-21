@@ -36,6 +36,19 @@ export const getEmployee = (token) => axios.get(`${url}/employee`,  {
   },
 });
 
+export const getEmployees = (searchTerm, page = 1, limit = 10, token) => {
+  return axios.get(`${url}/employee`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    params: {
+      searchTerm,
+      page,
+      limit,
+    },
+  });
+}; //get all employees grid load
+
 // export const updatePost = (id,post)=> axios.patch(`${url}/${id}`,post);
 // export const likePost = (id)=> axios.patch(`${url}/${id}`);
 // export const deletePost = (id)=> axios.patch(`${url}/${id}`);

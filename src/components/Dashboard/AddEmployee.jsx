@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Combobox from "react-widgets/Combobox";
 import "react-widgets/styles.css";
 import Images from '../../pages/Images.jsx';
 import { CardForm, PrimaryGird, InputField, SelectInput, OffCanvas } from '../../pages/Props.jsx';
-import {addEmployeeValidateField} from '../Validations/Validate.jsx';
-import { getEmployee, addEmployee } from '../../api/index.js';
+import { useLoginUser } from '../../context/LoginUserContext.jsx';
+import { addEmployeeValidateField } from '../Validations/Validate.jsx';
+import { getEmployees, addEmployee } from '../../api/index.js';
 
 
 // Bootstrap imports
@@ -17,82 +18,88 @@ import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Pagination, Table }
 
 const AddEmployee = () => {
 
+    const { loginUser } = useLoginUser();
+
+    const [employeeData, setEmployeeData] = useState([]);
+
     const [showAddEmployeeCanvas, setShowAddEmployeeCanvas] = useState(false);
     const handleShowAddEmployeeCanvas = () => setShowAddEmployeeCanvas(true);
     const handleCloseAddEmployeeCanvas = () => setShowAddEmployeeCanvas(false);
 
-    const employeeData = [
-        {
-            id: 'EMP012547',
-            name: 'John Mathew',
-            department: 'UI&UX',
-            status: 'Full time',
-            email: 'johnmathew@.hrmnexuscom',
-            onboarding: 'Completed',
-            avatar: '',
-        },
-        {
-            id: 'EMP012547',
-            name: 'Bob Grey',
-            department: 'React',
-            status: 'Full time',
-            email: 'bobgrey@hrmnexus.com',
-            onboarding: 'Inprogress',
-            avatar: '',
-        },
-        {
-            id: 'EMP012547',
-            name: 'Jhon Mathew',
-            department: '.Net Developement',
-            status: 'Full time',
-            email: 'johnmathew@hrmnexus.com',
-            onboarding: 'Inprogress',
-            avatar: '',
-        },
-        {
-            id: 'EMP012547',
-            name: 'Robert',
-            department: 'Testing',
-            status: 'Part time',
-            email: 'robert@hrmnexus.com',
-            onboarding: 'Completed',
-            avatar: '',
-        },
-    ];
+    // const employeeData = [
+    //     {
+    //         id: 'EMP012547',
+    //         name: 'John Mathew',
+    //         department: 'UI&UX',
+    //         status: 'Full time',
+    //         email: 'johnmathew@.hrmnexuscom',
+    //         onboarding: 'Completed',
+    //         avatar: '',
+    //     },
+    //     {
+    //         id: 'EMP012547',
+    //         name: 'Bob Grey',
+    //         department: 'React',
+    //         status: 'Full time',
+    //         email: 'bobgrey@hrmnexus.com',
+    //         onboarding: 'Inprogress',
+    //         avatar: '',
+    //     },
+    //     {
+    //         id: 'EMP012547',
+    //         name: 'Jhon Mathew',
+    //         department: '.Net Developement',
+    //         status: 'Full time',
+    //         email: 'johnmathew@hrmnexus.com',
+    //         onboarding: 'Inprogress',
+    //         avatar: '',
+    //     },
+    //     {
+    //         id: 'EMP012547',
+    //         name: 'Robert',
+    //         department: 'Testing',
+    //         status: 'Part time',
+    //         email: 'robert@hrmnexus.com',
+    //         onboarding: 'Completed',
+    //         avatar: '',
+    //     },
+    // ];
 
     const [employmentType, setemploymentType] = useState([
         { key: '1', label: 'Full Time' },
         { key: '2', label: 'Part Time' },
         { key: '3', label: 'Contracted Employee' },
+        { key: '4', label: 'Internship' },
     ])
 
-    const [worklocation, setworklocation] = useState([
+    const [employeeType, setemployeeType] = useState([
+        { key: 'admin', label: 'admin' },
+        { key: 'user', label: 'user' },
+    ])
+
+    const [workLocation, setworkLocation] = useState([
         { key: '1', label: 'Chennai' },
         { key: '2', label: 'Bangalore' },
         { key: '3', label: 'Hyderabad' },
     ])
 
-    const OnboardingBadge = ({ status }) => {
-        const isCompleted = status === 'Completed';
-        return (
-            <span className={`text-${isCompleted ? 'success' : 'danger'}`}>
-                ● {status}
-            </span>
-        );
-    };
-
     // FormData Validations
 
     const [formData, setFormData] = useState({
-        empID: '',
-        fname: '',
-        lname: '',
+
+        employeeType: '',
+        employeeId: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        phoneNumber: '',
         designation: '',
-        relationship: '',
-        doj: '',
+        department: '',
+        joiningDate: '',
         employmentType: '',
-        worklocation: '',
+        workLocation: '',
         offerletter: '',
+
     });
 
     // Error useState
@@ -115,14 +122,13 @@ const AddEmployee = () => {
 
     //  Handle Submit
 
-    const handleSubmit = async (e)  => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (validateForm()) {
 
             try {
-                // Assuming loginUser and setSubmitMessage are defined in your component/context
-                const response = await addEmployee(formData);
+                const response = await addEmployee(formData, loginUser.token);
                 console.log(response.data.message);
                 setSubmitMessage(response.data.message);
                 navigate('/RegisterSuccess');
@@ -131,9 +137,7 @@ const AddEmployee = () => {
                 console.log(error);
                 setSubmitMessage(error?.response?.data?.message || 'Submission failed');
             }
-
         }
-
     };
 
     //  Handle Change
@@ -145,7 +149,25 @@ const AddEmployee = () => {
         setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
     };
 
-    const navigate  = useNavigate();
+    // Insert Employee Data in Grid API Integration
+
+    useEffect(() => {
+        const fetchEmployees = async () => {
+            try {
+                const response = await getEmployees('', 1, 10, loginUser.token);
+                console.log(response);
+                setEmployeeData(response.data.data); // adjust based on your actual response
+            } catch (error) {
+                console.error('Failed to fetch employees:', error);
+            }
+        };
+
+        if (loginUser?.token) {
+            fetchEmployees();
+        }
+    }, [loginUser]);
+
+    const navigate = useNavigate();
 
     return (
         <>
@@ -175,21 +197,22 @@ const AddEmployee = () => {
                             showFooter={true}
                             buttonClassName='secondary_btn btn_h_35 fs_13 fw_500'
                             buttonClassIcon='icon_btn'
-                            tableHeaders={[<Form.Check />, 'Employee ID', 'Employee ID', 'Department', 'Status', 'Email', 'Onboarding Status', 'Actions']}
+                            tableHeaders={[<Form.Check />, 'Employee ID', 'Employee Name', 'Position', 'Department', 'JoiningDate', 'Email', 'Status', 'Actions']}
                         >
-                            {employeeData.map((emp, idx) => (
+                            {employeeData.map((emp, idx) => (   
                                 <tr key={idx}>
                                     <td><Form.Check /></td>
-                                    <td><a href="#">{emp.id}</a></td>
-                                    <td>{emp.avatar} {emp.name}</td>
+                                    <td><a href="#">{emp.employeeId}</a></td>
+                                    <td>{emp.avatar} {`${emp.firstName} ${emp.lastName}`}</td>
+                                    <td>{emp.designation}</td>
                                     <td>{emp.department}</td>
+                                    <td>{emp.joiningDate}</td>
+                                    <td>{emp.email}</td>
                                     <td>
                                         <span className="badge">
                                             <i></i> {emp.status}
                                         </span>
                                     </td>
-                                    <td>{emp.email}</td>
-                                    <td><OnboardingBadge status={emp.onboarding} /></td>
                                     <td className='table_action'>
                                         <Button className="btn_action"><img src={Images.Edit} alt="" /></Button>
                                         <Button className="btn_action"><img src={Images.Delete} alt="" /></Button>
@@ -213,15 +236,27 @@ const AddEmployee = () => {
                 footerButtonSubmitClass="modal_primary_btn w-100"
                 footerButtonCancelClass="modal_primary_border_btn w-100"
             >
-                <Col md={12} lg={12} xl={12} xxl={12}>
+                <Col md={6} lg={6} xl={6} xxl={6}>
+                    <SelectInput
+                        label="Employee Type"
+                        name="employeeType"
+                        options={employeeType}
+                        placeholder="Employee Type"
+                        error={errors.employeeType}
+                        value={formData.employeeType}
+                        handleChange={handleChange}
+                        required
+                    />
+                </Col>
+                <Col md={6} lg={6} xl={6} xxl={6}>
                     <InputField
                         label="Emp ID"
                         type="text"
                         placeholder="Employee ID"
-                        controlId="empID"
-                        name="empID"
-                        error={errors.empID}
-                        value={formData.empID}
+                        controlId="employeeId"
+                        name="employeeId"
+                        error={errors.employeeId}
+                        value={formData.employeeId}
                         handleChange={handleChange}
                         required
                     />
@@ -231,10 +266,10 @@ const AddEmployee = () => {
                         label="First Name"
                         type="text"
                         placeholder="Employee First Name"
-                        controlId="fname"
-                        name="fname"
-                        error={errors.fname}
-                        value={formData.fname}
+                        controlId="firstName"
+                        name="firstName"
+                        error={errors.firstName}
+                        value={formData.firstName}
                         handleChange={handleChange}
                         required
                     />
@@ -244,10 +279,36 @@ const AddEmployee = () => {
                         label="Last Name"
                         type="text"
                         placeholder="Employee Last Name"
-                        controlId="lname"
-                        name="lname"
-                        error={errors.lname}
-                        value={formData.lname}
+                        controlId="lastName"
+                        name="lastName"
+                        error={errors.lastName}
+                        value={formData.lastName}
+                        handleChange={handleChange}
+                        required
+                    />
+                </Col>
+                <Col md={6} lg={6} xl={6} xxl={6}>
+                    <InputField
+                        label="Email Address"
+                        type="text"
+                        placeholder="Employee Email Address"
+                        controlId="email"
+                        name="email"
+                        error={errors.email}
+                        value={formData.email}
+                        handleChange={handleChange}
+                        required
+                    />
+                </Col>
+                <Col md={6} lg={6} xl={6} xxl={6}>
+                    <InputField
+                        label="Phone Number"
+                        type="text"
+                        placeholder="Employee Phone Number"
+                        controlId="phoneNumber"
+                        name="phoneNumber"
+                        error={errors.phoneNumber}
+                        value={formData.phoneNumber}
                         handleChange={handleChange}
                         required
                     />
@@ -256,7 +317,7 @@ const AddEmployee = () => {
                     <InputField
                         label="Designation"
                         type="text"
-                        placeholder="Enter Designation"
+                        placeholder="Employee Designation"
                         controlId="designation"
                         name="designation"
                         error={errors.designation}
@@ -269,11 +330,11 @@ const AddEmployee = () => {
                     <InputField
                         label="Department"
                         type="text"
-                        placeholder="Enter Department"
-                        controlId="relationship"
-                        name="relationship"
-                        error={errors.relationship}
-                        value={formData.relationship}
+                        placeholder="Employee Department"
+                        controlId="department"
+                        name="department"
+                        error={errors.department}
+                        value={formData.department}
                         handleChange={handleChange}
                         required
                     />
@@ -283,10 +344,10 @@ const AddEmployee = () => {
                         label="Joining Date"
                         type="date"
                         placeholder="Enter Joining Date"
-                        controlId="doj"
-                        name="doj"
-                        error={errors.doj}
-                        value={formData.doj}
+                        controlId="joiningDate"
+                        name="joiningDate"
+                        error={errors.joiningDate}
+                        value={formData.joiningDate}
                         handleChange={handleChange}
                         required
                     />
@@ -306,11 +367,11 @@ const AddEmployee = () => {
                 <Col md={6} lg={6} xl={6} xxl={6}>
                     <SelectInput
                         label="Work Location"
-                        name="worklocation"
-                        options={worklocation}
+                        name="workLocation"
+                        options={workLocation}
                         placeholder="Work Location"
-                        error={errors.worklocation}
-                        value={formData.worklocation}
+                        error={errors.workLocation}
+                        value={formData.workLocation}
                         handleChange={handleChange}
                         required
                     />
