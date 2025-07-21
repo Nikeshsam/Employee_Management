@@ -362,7 +362,12 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .About_container p{color: #F4F5F5; font-size: 15px; font-weight: 300; margin: 0; text-align: center; padding: 0 50px;}
 
 .PrimaryModal .modal-content{border-radius: 20px;}
-.PrimaryModal .modal-dialog{width: 650px; min-width: 650px;}
+
+/* MODAL SIZE  */
+
+.PrimaryModal .modal-dialog.modal-md{width: 650px; min-width: 650px;}
+
+/* MODAL SIZE  */
 .PrimaryModal .modal-header{padding: 25px 25px 25px 25px; border: none !important; position: relative;}
 .PrimaryModal .modal-header .btn-close{position: absolute; right: 29px; top: 42px; box-shadow: none;}
 .PrimaryModal .modal-header .modal-title{width: 100%; display: flex; flex-direction: column; gap: 15px;}
@@ -472,3 +477,8 @@ input:-internal-autofill-selected{background-color: transparent;}
 
 .was-validated .form-control:invalid, .form-control.is-invalid,
 .was-validated .form-select:invalid:not([multiple]):not([size]), .was-validated .form-select:invalid:not([multiple])[size="1"], .form-select.is-invalid:not([multiple]):not([size]), .form-select.is-invalid:not([multiple])[size="1"]{background-image: none !important;}
+
+.CustomToast{background-color: #f7fff0; border: 1px solid #bce995; box-shadow: 0 .5rem 1rem rgb(0 0 0 / 5%); border-radius: 12px; overflow: hidden;}
+.CustomToast .toast-header{background-color: #f7fff0; border-bottom: 1px solid #bce995; padding: 0.75rem;}
+.CustomToast .toast-header img{width: 23px;}
+.CustomToast .toast-body{padding: 0.90rem; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600;}

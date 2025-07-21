@@ -33,10 +33,33 @@ import Dashboard from '../assets/Images/Dashboard.svg';
 import OnBoarding from '../assets/Images/OnBoarding.svg';
 import CompanyProfile from '../assets/Images/CompanyProfile.svg';
 import AddEmployee from '../assets/Images/AddEmployee.svg';
+import SuccessCheck from '../assets/Images/success-check.svg';
 
 
  const Images = {
-    Edit, Delete, UserName, OfferLetter, BannerImage, ProductImage, FeatureImage, FeatureDashboard, FeatureOrganize, PriceCheck, PriceArrow, PriceArrowWhite, ModalIcon, ModalClose, GirdFilter, GirdDelete,RepeatEmail, RegisterImg, ORGprofile, Logout, InnerLogo, Dashboard, OnBoarding, CompanyProfile, AddEmployee
+    Edit, 
+    Delete, 
+    UserName, 
+    OfferLetter, 
+    BannerImage, 
+    ProductImage, 
+    FeatureImage, 
+    FeatureDashboard, 
+    FeatureOrganize, 
+    PriceCheck, PriceArrow, 
+    PriceArrowWhite, ModalIcon, 
+    ModalClose, GirdFilter, 
+    GirdDelete,
+    RepeatEmail, 
+    RegisterImg, 
+    ORGprofile, 
+    Logout, 
+    InnerLogo, 
+    Dashboard, 
+    OnBoarding, 
+    CompanyProfile, 
+    AddEmployee,
+    SuccessCheck
 }
 
 export default Images;

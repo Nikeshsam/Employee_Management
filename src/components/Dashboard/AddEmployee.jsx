@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Combobox from "react-widgets/Combobox";
 import "react-widgets/styles.css";
 import Images from '../../pages/Images.jsx';
-import { CardForm, PrimaryGird, InputField, SelectInput, OffCanvas } from '../../pages/Props.jsx';
+import { CardForm, PrimaryGird, CustomToast, InputField, SelectInput, CustomModal, OffCanvas } from '../../pages/Props.jsx';
 import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import { addEmployeeValidateField } from '../Validations/Validate.jsx';
 import { getEmployees, addEmployee } from '../../api/index.js';
@@ -12,7 +12,7 @@ import { getEmployees, addEmployee } from '../../api/index.js';
 // Bootstrap imports
 
 import 'bootstrap/dist/css/bootstrap.css';
-import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Pagination, Table } from 'react-bootstrap';
+import { Container, Card, Form, Row, Col, Tab, ToastContainer, Tabs, Button, Pagination, Table } from 'react-bootstrap';
 
 // Bootstrap imports
 
@@ -25,6 +25,11 @@ const AddEmployee = () => {
     const [showAddEmployeeCanvas, setShowAddEmployeeCanvas] = useState(false);
     const handleShowAddEmployeeCanvas = () => setShowAddEmployeeCanvas(true);
     const handleCloseAddEmployeeCanvas = () => setShowAddEmployeeCanvas(false);
+
+    const handleToastClose = (index) => {
+        const updatedList = toastList.filter((_, i) => i !== index);
+        setToastList(updatedList);
+    };
 
     // const employeeData = [
     //     {
@@ -104,6 +109,9 @@ const AddEmployee = () => {
 
     // Error useState
 
+    const [showToast, setShowToast] = useState(true);
+    const [toastList, setToastList] = useState([]);
+
     const [errors, setErrors] = useState({});
 
     const [submitMessage, setSubmitMessage] = useState('');
@@ -131,8 +139,40 @@ const AddEmployee = () => {
                 const response = await addEmployee(formData, loginUser.token);
                 console.log(response.data.message);
                 setSubmitMessage(response.data.message);
-                navigate('/RegisterSuccess');
-                console.log('Form submitted:', formData);
+                // Add toast
+                setToastList(prev => [
+                    ...prev,
+                    {
+                        title: `${formData.firstName} ${formData.lastName}`,
+                        message: 'Employee Added Successfully',
+                        img: Images.SuccessCheck
+                    }
+                ]);
+
+                // Refresh employee list
+                const updatedEmployees = await getEmployees('', 1, 10, loginUser.token);
+                setEmployeeData(updatedEmployees.data.data);
+
+                // Optionally close the canvas
+                handleCloseAddEmployeeCanvas();
+
+                // Reset form
+                setFormData({
+                    employeeType: '',
+                    employeeId: '',
+                    firstName: '',
+                    lastName: '',
+                    email: '',
+                    phoneNumber: '',
+                    designation: '',
+                    department: '',
+                    joiningDate: '',
+                    employmentType: '',
+                    workLocation: '',
+                    offerletter: '',
+                });
+
+                setErrors({});
             } catch (error) {
                 console.log(error);
                 setSubmitMessage(error?.response?.data?.message || 'Submission failed');
@@ -390,6 +430,17 @@ const AddEmployee = () => {
                     />
                 </Col>
             </OffCanvas>
+            <ToastContainer position="top-end" className="p-3">
+                {toastList.map((toast, index) => (
+                    <CustomToast
+                        key={index}
+                        title={toast.title}
+                        message={toast.message}
+                        img={toast.img}
+                        onClose={() => handleToastClose(index)} // If your component supports this
+                    />
+                ))}
+            </ToastContainer>
         </>
     )
 };

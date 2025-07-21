@@ -4,7 +4,7 @@ import Images from '../pages/Images.jsx';
 // Bootstrap imports
 
 import 'bootstrap/dist/css/bootstrap.css';
-import { Container, Card, Form, Row, Col, Tab, Tabs, Offcanvas, Button, Table, Image, Pagination, Modal, CardHeader } from 'react-bootstrap';
+import { Container, Card, Form, Row, Col, Tab, Toast, Tabs, Offcanvas, Button, Table, Image, Pagination, Modal, CardHeader } from 'react-bootstrap';
 
 // Bootstrap imports
 
@@ -258,8 +258,8 @@ export const CustomModal = ({
     title = "Modal Title",
     subtitle = "Modal Sub Title",
     bodyContent = "",
-    size = "md",
     centered = true,
+    size = "md", // ✅ Correctly defined here
     footerButtonSubmit = "Submit",
     footerButtonCancel = "Cancel",
     footerButtonSubmitClass = "",
@@ -429,6 +429,7 @@ export const RadioGroupField = ({
     );
 };
 
+// Component OffCanvas.....
 
 export const OffCanvas = ({
     show,
@@ -473,6 +474,23 @@ export const OffCanvas = ({
             </Offcanvas>
         </>
     );
+};
+
+
+export const CustomToast = ({ 
+    title, 
+    message, 
+    img, 
+}) => {
+  return (
+    <Toast className='CustomToast'>
+      <Toast.Header>
+        <img src={img} className="rounded me-2" alt="toast icon" />
+        <strong className="me-auto">{title}</strong>
+      </Toast.Header>
+      <Toast.Body>{message}</Toast.Body>
+    </Toast>
+  );
 };
 
 

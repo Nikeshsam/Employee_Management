@@ -149,6 +149,7 @@ const Banner = ({ modalShow, setModalShow }) => {
         show={modalShow}
         onHide={handleClearClick}
         title="Register"
+        size="md"
         subtitle='Start your 7-day free trial.'
         className='PrimaryModal'
         bodyContent={
