@@ -24,6 +24,7 @@ label{font-family: "Inter", sans-serif !important;}
 .btn_h_35{height: 35px !important;}
 .btn_h_40{height: 40px !important;}
 .btn_h_45{height: 45px !important;}
+.btn_h_50{height: 50px !important;}
 
 .fs_12{font-size: 12px !important;}
 .fs_13{font-size: 13px !important;}
@@ -82,11 +83,27 @@ Form{width: 100%;}
 .secondary_btn_rounded:hover{background-color: #FFA917 !important; border: 1px solid #FFA917;}
 .secondary_form_btn{background-color: #6D36FA !important; border: none !important; font-size: 14px !important; font-weight: 600 !important; font-family: "Inter", sans-serif !important; border-radius: 4px; padding: 7px 20px; display: flex; align-items: center; justify-content: center;}
 
-.form_elements{display: flex; align-items: center; justify-content: space-between; padding: 5px 0 20px;}
+.form_elements{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 20px 20px 0;
+    border: 1px solid #e5def8;
+    border-radius: 10px 9px 0 0;
+    border-bottom: none;
+}
+.form_elements .cardHeading{display: flex; flex-direction: column; gap: 7px;}
+.form_elements .cardHeading h5{font-size: 20px; font-weight: 600; color: #181B24; margin: 0; line-height: 20px;}
+.form_elements .cardHeading p{font-size: 13px; font-weight: 400; color: #9b96a2; margin: 0; line-height: 14px;}
 .form_elements .form-label{display: none;}
 .form_elements .position-relative.mb-3{margin: 0 !important;}
 
-.blue_gradient{background: hsla(257, 99%, 43%, 1); background: linear-gradient(90deg, hsla(257, 99%, 43%, 1) 0%, hsla(257, 89%, 55%, 1) 100%); background: -moz-linear-gradient(90deg, hsla(257, 99%, 43%, 1) 0%, hsla(257, 89%, 55%, 1) 100%); background: -webkit-linear-gradient(90deg, hsla(257, 99%, 43%, 1) 0%, hsla(257, 89%, 55%, 1) 100%); font-size: 14px; font-weight: 500; border: none;}
+.blue_gradient{background: hsla(257, 99%, 43%, 1); background: linear-gradient(90deg, hsla(257, 99%, 43%, 1) 0%, hsla(257, 89%, 55%, 1) 100%); font-size: 14px; font-weight: 500; border: none; border-radius: 8px; width: 125px;}
+.blue_gradient:hover{background: linear-gradient(90deg,  hsla(257, 89%, 55%, 1) 0%, hsla(257, 99%, 43%, 1) 100%);}
+
+.blue_gradient_border{background-color: #fff; font-size: 14px; font-weight: 600; color: #4716c2; border: 2px solid #6026f2; border-radius: 8px; width: 125px;}
+.blue_gradient_border:hover{background-color: #6026f2;}
 
 .icon_btn{display: flex; align-items: center; justify-content: center; border: 1px solid #D8D6DD; border-radius: 5px; width: 35px; height: 35px; background-color: transparent !important;}
 
@@ -245,6 +262,42 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .primary_table tbody tr td .status.active::before{background-color: #10C076;}
 .primary_table tbody tr td .status.Onboarding::before{background-color: #E89CFE;}
 
+
+
+.addEmployee_table{width: 100%; border-collapse: collapse; margin: 0; border-radius: 0 0 10px 10px; background-color: #fff; border: 1px solid #e5def8; border-top: none;} 
+.addEmployee_table .table_header{padding: 15px 20px 20px 20px;}
+.addEmployee_table .table_header .heading_elements{width: 100%;}
+.addEmployee_table .table_header .heading_elements ul{display: flex; align-items: center; justify-content: space-between; width: 100%;}
+.addEmployee_table .table_header .heading_elements ul li.searchInput{width: 100%;}
+.addEmployee_table .table_header .heading_elements ul .grid_search{height: 50px !important; width: 100%;}
+.addEmployee_table thead tr,
+.addEmployee_table thead tr td{vertical-align: middle; border: none;}
+.addEmployee_table thead tr th{background-color: #EBE4FF;box-shadow: none; overflow: hidden; font-size: 12px; text-transform: uppercase; font-weight: 700; color: #2C2C2C; padding: 10px 20px; border: none !important;}
+.addEmployee_table thead tr th .form-check-input,
+.addEmployee_table tbody tr td .form-check-input{margin: 0 !important; width: 14px; height: 14px; border: 1px solid #ADADAD;}
+
+.addEmployee_table tbody tr td{background-color: transparent;box-shadow: none; overflow: hidden; font-size: 14px; font-weight: 500; color: #343434; padding: 18px 20px; border: none !important;}
+.addEmployee_table tbody tr{border-bottom: 1px solid #e5def8 !important;}
+.addEmployee_table tbody tr:last-child{border: none !important;}
+.addEmployee_table tbody tr,
+.addEmployee_table tbody tr td{vertical-align: middle; border: none;}
+
+.addEmployee_table tbody tr td.table_action{display: flex; min-height: 72px;}
+
+.addEmployee_table tbody tr td .badge{border: 1px solid #E0E0E0; background-color: #fff; padding: 5px 10px; border-radius: 100px; display: inline-flex; gap: 5px; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; color: #2B2B2B;}
+.addEmployee_table tbody tr td .badge i{background-color: #6D36FA; width: 5px; height: 5px; border-radius: 100px; }
+
+.addEmployee_table tbody tr td .status{display: inline-flex; align-items: center; font-size: 12px; font-weight: 600; color: #2B2B2B; padding: 4.5px 18px 5px 24px; border: 1px solid #E0E0E0 !important; background-color: #fff; border-radius: 100px; position: relative;}
+.addEmployee_table tbody tr td .status::before{content: ""; position: absolute; left: 9px; top: 50%; transform: translateY(-50%); width: 6px; height: 6px; border-radius: 100px; background-color: #6D36FA;}
+.addEmployee_table tbody tr td .emp-name{display: flex; align-items: center; gap: 7px;}
+
+.addEmployee_table tbody tr td .CustomCheck{display: flex; align-items: center;}
+
+.addEmployee_table tbody tr td .status.active::before{background-color: #10C076;}
+.addEmployee_table tbody tr td .status.Onboarding::before{background-color: #E89CFE;}
+
+
+
 .Primary_tab .nav-item .nav-link{border: none !important; background-color: transparent; font-size: 14px; font-weight: 500; color: #757479; }
 .Primary_tab .nav-item:first-child .nav-link{padding-left: 0 !important;}
 .Primary_tab .nav-item .nav-link.active{color: #6D36FA !important; border-bottom: 2px solid #6D36FA !important; font-weight: 600 !important;}
@@ -287,7 +340,7 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .inlineForm .form-control{height: 42px !important;}
 
 
-.primary_table{border: 1px solid #E7DEFF; border-bottom: 3px solid #E7DEFF; border-radius: 8px; background-color: #fff;} 
+.primary_table{border: 1px solid #E7DEFF; border-bottom: 4px solid #E7DEFF; border-radius: 8px; background-color: #fff;} 
 .table_header{display: flex; align-items: center; justify-content: space-between; padding: 8px 15px;}
 .table_header h5{font-size: 15px; font-weight: 600; color: #3C3B40; margin: 0 !important;}
 .table_header .heading_elements ul{display: flex; align-items: center; gap: 10px;}
@@ -301,7 +354,7 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .btn_action:hover{background-color: transparent;}
 .btn_action:active{background-color: transparent !important;}
 
-.table_footer{border: 1px solid #E8E0FF; background-color: rgb(235 228 255 / 40%) !important; padding: 10px 15px;}
+.table_footer{border-top: 1px solid #E8E0FF; background-color: rgb(235 228 255 / 40%) !important; padding: 10px 20px;}
 .table_footer .paginations{display: flex; align-items: center; justify-content: space-between;}
 .table_footer .paginations .form-select{height: 30px !important; padding: 0 1.5rem 0 0.5rem !important; font-size: 11px !important; color: #5C5865 !important; font-weight: 600 !important; border: 1px solid #E6DDFF !important; border-radius: 4px !important; background-position: right 0.25rem center;}
 .table_footer .paginations ul.pagination{gap: 7px;}
@@ -436,12 +489,14 @@ input:-internal-autofill-selected{background-color: transparent;}
 
 .offcanvas.offcanvas-end{width: 600px; border-radius: 15px 0 0 15px; border: none;}
 
-.rw-state-focus .rw-widget-picker{box-shadow: none !important; border: 1px solid #ffa917 !important;}
-.rw-widget-picker{background-color: #ffa917; border: 1px solid #ffa917; border-radius: 6px;}   
-.rw-input-addon, .rw-input-addon.rw-picker-btn{border-left: 1px solid #ffffff;}
-.rw-input-addon, .rw-input-addon.rw-picker-btn svg{fill: #fff;}
-.rw-picker-btn:hover{background-color: #ffa917 !important;}
-.rw-widget-input{color: #fff !important;}
+.rw-state-focus .rw-widget-picker{box-shadow: none !important; border: 1px solid #c4c4c4 !important;}
+.rw-widget-picker{background-color: #ffffff; border: 1px solid #d0d0d0; border-radius: 6px; min-height: 50px;}   
+.rw-input-addon, .rw-input-addon.rw-picker-btn{border-left: 1px solid #ffffff; background-image: url(assets/Images/DropDown_Arrow.svg); background-size: 12px; background-repeat: no-repeat; background-position: center right 10px;}
+.rw-input-addon.rw-picker-btn svg{fill: #fff; display: none;}
+.rw-picker-btn:hover{background-color: #fff !important;}
+.rw-widget-input{color: #1D1C21 !important; box-shadow: none !important;}
+
+.rw-list-option{font-size: 12.5px; padding: 0.5em 1em}
 
 .no_label .form-label{display: none;}
 
@@ -482,3 +537,9 @@ input:-internal-autofill-selected{background-color: transparent;}
 .CustomToast .toast-header{background-color: #f7fff0; border-bottom: 1px solid #bce995; padding: 0.75rem;}
 .CustomToast .toast-header img{width: 23px;}
 .CustomToast .toast-body{padding: 0.90rem; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600;}
+
+.employeeGroup{display: flex; align-items: center; gap: 10px;}
+.employeeGroup .employeeGroupImg img{width: 35px;}
+.employeeGroup .employeeGroupContent{display: flex; flex-direction: column; gap: 6px;}
+.employeeGroup .employeeGroupContent h5{font-size: 15px; color: #0A090E; font-weight: 500; margin: 0; line-height: 14px;}
+.employeeGroup .employeeGroupContent p{font-size: 13px; color: #898794; font-weight: 400; margin: 0; line-height: 14px;}

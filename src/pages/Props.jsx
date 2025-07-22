@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Images from '../pages/Images.jsx';
+import Combobox from "react-widgets/Combobox";
 
 // Bootstrap imports
 
@@ -117,6 +118,106 @@ export const PrimaryGird = ({
                                 <Button className={buttonClassIcon} onClick={onDeleteClick}>
                                     <img src={Images.GirdDelete} alt="" />
                                 </Button>
+                            </li>
+                        )}
+                    </ul>
+                </div>
+            </div>
+            <div className="table_body">
+                <Table striped bordered hover responsive>
+                    <thead>
+                        <tr>
+                            {tableHeaders.map((header, index) => (
+                                <th key={index}>{header}</th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {children}
+                    </tbody>
+                </Table>
+            </div>
+            {showFooter && (
+                <div className='table_footer'>
+                    <div className="paginations">
+                        <div>
+                            <Form.Select>
+                                <option>30 Results</option>
+                                <option>10 Results</option>
+                            </Form.Select>
+                        </div>
+                        <Pagination size="sm" className="mb-0">
+                            <Pagination.First />
+                            <Pagination.Prev />
+                            <Pagination.Item active>{1}</Pagination.Item>
+                            <Pagination.Item>{2}</Pagination.Item>
+                            <Pagination.Ellipsis />
+                            <Pagination.Item>{18}</Pagination.Item>
+                            <Pagination.Next />
+                            <Pagination.Last />
+                        </Pagination>
+                        <div className="jumpTo">
+                            Jump to:
+                            <Form.Control type="number" size="sm" className="" />
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+// Component Employee Grid.....
+
+export const EmployeeGird = ({
+    children,
+
+    // Visibility Toggles
+    showSearch = true,
+    showPositionButton = true,
+    showDepartmentButton = true,
+    showStatusButton = true,
+    showFooter = true,
+
+    // Actions
+    onDeleteClick,
+
+    buttonClassName = 'primary_form_btn btn_h_35',
+    buttonClassIcon = 'primary_form_btn btn_h_35',
+    tableHeaders = [],
+}) => {
+    return (
+        <div className="addEmployee_table  mb-3">
+            <div className="table_header">
+                <div className="heading_elements">
+                    <ul>
+                        {showSearch && (
+                            <li className='searchInput'>
+                                <input className="grid_search" type="text" placeholder="Search" />
+                            </li>
+                        )}
+                        {showPositionButton && (
+                            <li>
+                                <Combobox
+                                    defaultValue="All Positions"
+                                    data={["Total onboarding", "New Onboarding", "Pending Onboarding"]}
+                                />
+                            </li>
+                        )}
+                        {showDepartmentButton && (
+                            <li>
+                                <Combobox
+                                    defaultValue="All Departments"
+                                    data={["Total onboarding", "New Onboarding", "Pending Onboarding"]}
+                                />
+                            </li>
+                        )}
+                        {showStatusButton && (
+                            <li>
+                                <Combobox
+                                    defaultValue="All Status"
+                                    data={["Total onboarding", "New Onboarding", "Pending Onboarding"]}
+                                />
                             </li>
                         )}
                     </ul>

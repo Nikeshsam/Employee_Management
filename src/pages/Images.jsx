@@ -34,6 +34,8 @@ import OnBoarding from '../assets/Images/OnBoarding.svg';
 import CompanyProfile from '../assets/Images/CompanyProfile.svg';
 import AddEmployee from '../assets/Images/AddEmployee.svg';
 import SuccessCheck from '../assets/Images/success-check.svg';
+import Avatar from '../assets/Images/Avatar.svg';
+import UserAvatar from '../assets/Images/UserAvatar.svg';
 
 
  const Images = {
@@ -59,7 +61,9 @@ import SuccessCheck from '../assets/Images/success-check.svg';
     OnBoarding, 
     CompanyProfile, 
     AddEmployee,
-    SuccessCheck
+    SuccessCheck,
+    Avatar,
+    UserAvatar
 }
 
 export default Images;

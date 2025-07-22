@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Combobox from "react-widgets/Combobox";
 import "react-widgets/styles.css";
 import Images from '../../pages/Images.jsx';
-import { CardForm, PrimaryGird, CustomToast, InputField, SelectInput, CustomModal, OffCanvas } from '../../pages/Props.jsx';
+import { CardForm, PrimaryGird, CustomToast, EmployeeGird, InputField, SelectInput, CustomModal, OffCanvas } from '../../pages/Props.jsx';
 import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import { addEmployeeValidateField } from '../Validations/Validate.jsx';
 import { getEmployees, addEmployee } from '../../api/index.js';
@@ -116,6 +116,19 @@ const AddEmployee = () => {
 
     const [submitMessage, setSubmitMessage] = useState('');
 
+    const getStatusClass = (status) => {
+        switch (status?.toLowerCase()) {
+            case 'Pending':
+                return 'badge-pending';
+            case 'inprogress':
+                return 'badge-inprogress';
+            case 'completed':
+                return 'badge-completed';
+            default:
+                return 'badge-default';
+        }
+    };
+
     //  Validate Form with Error
 
     const validateForm = () => {
@@ -215,16 +228,22 @@ const AddEmployee = () => {
                 <Row>
                     <Col md={12} lg={12} xl={12} xxl={12}>
                         <div className="form_elements">
-                            <Combobox
-                                defaultValue="Total Onboarding"
-                                data={["Total onboarding", "New Onboarding", "Pending Onboarding"]}
-                            />
-                            <Button type='button' onClick={handleShowAddEmployeeCanvas} className='blue_gradient btn_h_40 pe-4 ps-4'>Add Employee</Button>
+                            <div className="cardHeading">
+                                <h5>Employee</h5>
+                                <p>Manage Your Employee</p>
+                            </div>
+                            <div className='align-items-center d-flex gap-3'>
+                                <Button type='button' onClick={handleShowAddEmployeeCanvas} className='blue_gradient_border btn_h_50'>
+                                    Download
+                                </Button>
+                                <Button type='button' onClick={handleShowAddEmployeeCanvas} className='blue_gradient btn_h_50'>
+                                    Add New
+                                </Button>
+                            </div>
                         </div>
                     </Col>
                     <Col md={12} lg={12} xl={12} xxl={12}>
-                        <PrimaryGird
-                            cardTitle="Employee"
+                        <EmployeeGird
                             buttonText="Export"
                             buttonFilter={Images.GirdFilter}
                             buttonDelete={Images.GirdDelete}
@@ -237,29 +256,40 @@ const AddEmployee = () => {
                             showFooter={true}
                             buttonClassName='secondary_btn btn_h_35 fs_13 fw_500'
                             buttonClassIcon='icon_btn'
-                            tableHeaders={[<Form.Check />, 'Employee ID', 'Employee Name', 'Position', 'Department', 'JoiningDate', 'Email', 'Status', 'Actions']}
+                            tableHeaders={[<Form.Check />, 'Employee Name', 'Job Title', 'Department', 'JoiningDate', 'Employment Type', 'Status', 'Work Location', 'Actions']}
                         >
-                            {employeeData.map((emp, idx) => (   
+                            {employeeData.map((emp, idx) => (
                                 <tr key={idx}>
-                                    <td><Form.Check /></td>
-                                    <td><a href="#">{emp.employeeId}</a></td>
-                                    <td>{emp.avatar} {`${emp.firstName} ${emp.lastName}`}</td>
+                                    <td><Form.Check className='CustomCheck' /></td>
+                                    <td>
+                                        <div className='employeeGroup'>
+                                            <div className="employeeGroupImg">
+                                                <img src={Images.UserAvatar} alt="" />
+                                            </div>
+                                            <div className='employeeGroupContent'>
+                                                <h5>{`${emp.firstName} ${emp.lastName}`}</h5>
+                                                <p>{emp.email}</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    {/* <td><a href="#">{emp.employeeId}</a></td> */}
                                     <td>{emp.designation}</td>
                                     <td>{emp.department}</td>
                                     <td>{emp.joiningDate}</td>
-                                    <td>{emp.email}</td>
+                                    <td>{emp.employmentType}</td>
                                     <td>
-                                        <span className="badge">
+                                        <span className={`badge ${getStatusClass(emp.status)}`}>
                                             <i></i> {emp.status}
                                         </span>
-                                    </td>
+                                    </td>                                    
+                                    <td>{emp.workLocation}</td>
                                     <td className='table_action'>
                                         <Button className="btn_action"><img src={Images.Edit} alt="" /></Button>
                                         <Button className="btn_action"><img src={Images.Delete} alt="" /></Button>
                                     </td>
                                 </tr>
                             ))}
-                        </PrimaryGird>
+                        </EmployeeGird>
                     </Col>
                 </Row>
             </Container>
