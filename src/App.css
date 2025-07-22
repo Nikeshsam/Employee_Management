@@ -372,7 +372,7 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .table_footer .paginations ul.pagination li .page-link:focus{box-shadow: none;}
 
 .table_footer .paginations .jumpTo{display: flex; align-items: center; gap: 8px;}
-.table_footer .paginations .jumpTo input.form-control{width: 30px !important; height: 30px !important; border-radius: 4px !important; border: 1px solid #E6DDFF !important; min-height: auto !important;}
+.table_footer .paginations .jumpTo input.form-control{width: 30px !important; height: 30px !important; border-radius: 4px !important; border: 1px solid #E6DDFF !important; min-height: auto !important; padding: 0px !important;}
  
 .MainHeader{display: flex; align-items: center; justify-content: space-between; padding: 10px 15px;} 
 .MainHeader .HR_Brand img{width: 60px;}

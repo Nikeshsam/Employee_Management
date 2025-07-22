@@ -12,7 +12,7 @@ import { getEmployees, addEmployee } from '../../api/index.js';
 // Bootstrap imports
 
 import 'bootstrap/dist/css/bootstrap.css';
-import { Container, Card, Form, Row, Col, Tab, ToastContainer, Tabs, Button, Pagination, Table } from 'react-bootstrap';
+import { Container, Card, Form, Row, Col, Tab, ToastContainer, Tabs, Button, Table } from 'react-bootstrap';
 
 // Bootstrap imports
 
@@ -25,6 +25,13 @@ const AddEmployee = () => {
     const [showAddEmployeeCanvas, setShowAddEmployeeCanvas] = useState(false);
     const handleShowAddEmployeeCanvas = () => setShowAddEmployeeCanvas(true);
     const handleCloseAddEmployeeCanvas = () => setShowAddEmployeeCanvas(false);
+
+    const [pagination,setPagination]=useState({
+        currentPage:1,
+        totalPages:0,
+        rowsPerPage:5,
+        totalRecords:0
+    });
 
     const handleToastClose = (index) => {
         const updatedList = toastList.filter((_, i) => i !== index);
@@ -202,14 +209,30 @@ const AddEmployee = () => {
         setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
     };
 
+    const handlePaginationChange = (e)=>{
+        let {name,value} = e.target;
+        if(name==='currentPage' && value>pagination.totalPages){
+            value=pagination.totalPages;
+        }
+        if(name==='rowsPerPage'){
+            setPagination(prev=>({...prev,currentPage:1}));
+        }
+        setPagination(prev=>({...prev,[name]:value}));
+    }
+
     // Insert Employee Data in Grid API Integration
 
     useEffect(() => {
         const fetchEmployees = async () => {
             try {
-                const response = await getEmployees('', 1, 10, loginUser.token);
+                const response = await getEmployees('', pagination.currentPage, pagination.rowsPerPage, loginUser.token);
                 console.log(response);
                 setEmployeeData(response.data.data); // adjust based on your actual response
+                setPagination(prev => ({ 
+                    ...prev,
+                    totalPages: response.data.totalPages || 0,
+                    totalRecords:response.data.totalRecords ||0
+                }))
             } catch (error) {
                 console.error('Failed to fetch employees:', error);
             }
@@ -218,7 +241,7 @@ const AddEmployee = () => {
         if (loginUser?.token) {
             fetchEmployees();
         }
-    }, [loginUser]);
+    }, [loginUser,pagination.rowsPerPage,pagination.currentPage]);
 
     const navigate = useNavigate();
 
@@ -247,6 +270,9 @@ const AddEmployee = () => {
                             buttonText="Export"
                             buttonFilter={Images.GirdFilter}
                             buttonDelete={Images.GirdDelete}
+                            pagination={pagination}
+                            handlePaginationChange={handlePaginationChange}
+                            setPagination={setPagination}
                             onButtonClick={() => console.log('Add clicked')}
                             onFilterClick={() => console.log('Filter clicked')}
                             onDeleteClick={() => console.log('Delete clicked')}

@@ -179,6 +179,11 @@ export const EmployeeGird = ({
     showStatusButton = true,
     showFooter = true,
 
+    //Pagination
+    pagination,
+    handlePaginationChange,
+    setPagination,
+
     // Actions
     onDeleteClick,
 
@@ -187,7 +192,7 @@ export const EmployeeGird = ({
     tableHeaders = [],
 }) => {
     return (
-        <div className="addEmployee_table  mb-3">
+        <div className="addEmployee_table mb-3">
             <div className="table_header">
                 <div className="heading_elements">
                     <ul>
@@ -241,24 +246,50 @@ export const EmployeeGird = ({
                 <div className='table_footer'>
                     <div className="paginations">
                         <div>
-                            <Form.Select>
-                                <option>30 Results</option>
-                                <option>10 Results</option>
+                            <Form.Select name="rowsPerPage" value={pagination.rowsPerPage} onChange={handlePaginationChange}>
+                                <option key={30} value={30}>30 Results</option>
+                                <option key={10} value={10}>10 Results</option>
+                                <option key={5} value={5}>5 Results</option>
                             </Form.Select>
                         </div>
                         <Pagination size="sm" className="mb-0">
-                            <Pagination.First />
-                            <Pagination.Prev />
-                            <Pagination.Item active>{1}</Pagination.Item>
-                            <Pagination.Item>{2}</Pagination.Item>
-                            <Pagination.Ellipsis />
-                            <Pagination.Item>{18}</Pagination.Item>
-                            <Pagination.Next />
-                            <Pagination.Last />
+                            <Pagination.First
+                                disabled={pagination?.currentPage === 1}
+                                onClick={() => setPagination(prev => ({ ...prev, currentPage: 1 }))}
+                            />
+                            <Pagination.Prev
+                                disabled={pagination?.currentPage === 1}
+                                onClick={() => setPagination(prev => ({ ...prev, currentPage: prev.currentPage - 1 }))}
+                            />
+                            <Pagination.Item active>{pagination?.currentPage || 1}</Pagination.Item>
+                            {pagination?.totalPages >= 2 && pagination?.totalPages !== pagination?.currentPage && (
+                                <Pagination.Item>{parseInt(pagination?.currentPage || 1) + 1}</Pagination.Item>
+                            )}
+                            {pagination?.totalPages >= 4 && <Pagination.Ellipsis />}
+                            {pagination?.totalPages >= 3 && (
+                                <Pagination.Item>{pagination?.totalPages || 3}</Pagination.Item>
+                            )}
+                            <Pagination.Next
+                                disabled={pagination?.currentPage === pagination?.totalPages}
+                                onClick={() => setPagination(prev => ({ ...prev, currentPage: prev.currentPage + 1 }))}
+                            />
+                            <Pagination.Last
+                                disabled={pagination?.currentPage === pagination?.totalPages}
+                                onClick={() => setPagination(prev => ({ ...prev, currentPage: pagination?.totalPages }))}
+                            />
                         </Pagination>
                         <div className="jumpTo">
                             Jump to:
-                            <Form.Control type="number" size="sm" className="" />
+                            <Form.Control
+                                name="currentPage"
+                                value={pagination?.currentPage || 1}
+                                onChange={handlePaginationChange}
+                                type="number"
+                                size="lg"
+                                min={1}
+                                max={pagination?.totalPages || 1}
+                                className=""
+                            />
                         </div>
                     </div>
                 </div>
