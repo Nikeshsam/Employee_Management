@@ -26,6 +26,7 @@ const CompanyProfile = () => {
     const fetchData = async()=>{
       try{
         const {data} = await getOrganizationDetails(loginUser.token);
+        console.log(data.organization);
         setFormData(data.organization);
       }catch(error){
         console.log(error);
@@ -121,7 +122,7 @@ const CompanyProfile = () => {
     city: '',
     state: '',
     zipCode: '',
-    contury: '',
+    country: '',
     phoneNumber: '',
     faxNumber: '',
     website: '',
@@ -144,7 +145,7 @@ const CompanyProfile = () => {
     city: '',
     state: '',
     zipCode: '',
-    contury: '',
+    country: '',
     phoneNumber: '',
     faxNumber: '',
     website: '',
@@ -198,7 +199,7 @@ const CompanyProfile = () => {
         else if (!/^\d{4,10}$/.test(value)) error = 'Invalid Zip Code';
         break;
 
-      case 'contury':
+      case 'country':
         if (!value.trim()) error = 'Country is required';
         break;
 
@@ -404,10 +405,10 @@ const CompanyProfile = () => {
                     </Col>
                     <Col md={4} lg={4} xl={4} xxl={4}>
                       <InlineInputField
-                        name="contury"
-                        placeholder="Contury"
-                        error={errors.contury}
-                        value={formData.contury}
+                        name="country"
+                        placeholder="country"
+                        error={errors.country}
+                        value={formData.country}
                         handleChange={handleChange}
                         required
                         inputCol={12}
