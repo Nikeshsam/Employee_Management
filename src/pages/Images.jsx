@@ -1,5 +1,6 @@
 import Edit from '../assets/Images/table_edit.svg';
 import Delete from '../assets/Images/table_delete.svg';
+import View from '../assets/Images/table_view.svg';
 
 import UserName from '../assets/Images/user_img.svg';
 import OfferLetter from '../assets/Images/pdf.svg';
@@ -41,6 +42,7 @@ import UserAvatar from '../assets/Images/UserAvatar.svg';
  const Images = {
     Edit, 
     Delete, 
+    View,
     UserName, 
     OfferLetter, 
     BannerImage, 

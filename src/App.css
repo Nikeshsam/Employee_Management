@@ -272,6 +272,7 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .addEmployee_table .table_header .heading_elements ul .grid_search{height: 50px !important; width: 100%;}
 .addEmployee_table thead tr,
 .addEmployee_table thead tr td{vertical-align: middle; border: none;}
+
 .addEmployee_table thead tr th{background-color: #EBE4FF;box-shadow: none; overflow: hidden; font-size: 12px; text-transform: uppercase; font-weight: 700; color: #2C2C2C; padding: 10px 20px; border: none !important;}
 .addEmployee_table thead tr th .form-check-input,
 .addEmployee_table tbody tr td .form-check-input{margin: 0 !important; width: 14px; height: 14px; border: 1px solid #ADADAD;}
@@ -291,6 +292,7 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .addEmployee_table tbody tr td .status::before{content: ""; position: absolute; left: 9px; top: 50%; transform: translateY(-50%); width: 6px; height: 6px; border-radius: 100px; background-color: #6D36FA;}
 .addEmployee_table tbody tr td .emp-name{display: flex; align-items: center; gap: 7px;}
 
+.addEmployee_table thead tr th .CustomCheck{display: flex; align-items: center;}
 .addEmployee_table tbody tr td .CustomCheck{display: flex; align-items: center;}
 
 .addEmployee_table tbody tr td .status.active::before{background-color: #10C076;}
@@ -351,6 +353,7 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 
 .table_action{display: flex; align-items: center; gap: 10px;}
 .btn_action{background-color: transparent; border: none; padding: 0; cursor: pointer; display: flex; align-items: center; gap: 10px;}
+.btn_action img{width: 18px;}
 .btn_action:hover{background-color: transparent;}
 .btn_action:active{background-color: transparent !important;}
 

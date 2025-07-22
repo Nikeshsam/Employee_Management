@@ -582,6 +582,7 @@ export const CustomToast = ({
     title, 
     message, 
     img, 
+    onClose,
 }) => {
   return (
     <Toast className='CustomToast'>

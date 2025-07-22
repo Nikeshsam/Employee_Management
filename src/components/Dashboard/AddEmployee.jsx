@@ -256,7 +256,7 @@ const AddEmployee = () => {
                             showFooter={true}
                             buttonClassName='secondary_btn btn_h_35 fs_13 fw_500'
                             buttonClassIcon='icon_btn'
-                            tableHeaders={[<Form.Check />, 'Employee Name', 'Job Title', 'Department', 'JoiningDate', 'Employment Type', 'Status', 'Work Location', 'Actions']}
+                            tableHeaders={[<Form.Check  className='CustomCheck' />, 'Employee Name', 'Job Title', 'Department', 'JoiningDate', 'Employment Type', 'Status', 'Work Location', 'Actions']}
                         >
                             {employeeData.map((emp, idx) => (
                                 <tr key={idx}>
@@ -275,7 +275,7 @@ const AddEmployee = () => {
                                     {/* <td><a href="#">{emp.employeeId}</a></td> */}
                                     <td>{emp.designation}</td>
                                     <td>{emp.department}</td>
-                                    <td>{emp.joiningDate}</td>
+                                    <td>{new Date(emp.joiningDate).toLocaleDateString()}</td>
                                     <td>{emp.employmentType}</td>
                                     <td>
                                         <span className={`badge ${getStatusClass(emp.status)}`}>
@@ -284,6 +284,7 @@ const AddEmployee = () => {
                                     </td>                                    
                                     <td>{emp.workLocation}</td>
                                     <td className='table_action'>
+                                        <Button className="btn_action"><img src={Images.View} alt="" /></Button>
                                         <Button className="btn_action"><img src={Images.Edit} alt="" /></Button>
                                         <Button className="btn_action"><img src={Images.Delete} alt="" /></Button>
                                     </td>
