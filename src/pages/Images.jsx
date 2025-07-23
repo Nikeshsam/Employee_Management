@@ -38,6 +38,10 @@ import SuccessCheck from '../assets/Images/success-check.svg';
 import Avatar from '../assets/Images/Avatar.svg';
 import UserAvatar from '../assets/Images/UserAvatar.svg';
 
+import GridDelete from '../assets/Images/gridDelete.svg';
+
+
+
 
  const Images = {
     Edit, 
@@ -65,7 +69,8 @@ import UserAvatar from '../assets/Images/UserAvatar.svg';
     AddEmployee,
     SuccessCheck,
     Avatar,
-    UserAvatar
+    UserAvatar,
+    GridDelete
 }
 
 export default Images;
