@@ -1,11 +1,17 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import Images from '../../pages/Images.jsx';
 import { useLoginUser } from '../../context/LoginUserContext.jsx';
-
+import { useNavigate } from 'react-router-dom';
 
 
 const Sidebar = ({ handleSidebarClick, activeTab }) => {
-  const { loginUser } = useLoginUser();
+  const { loginUser,clearLoginUser } = useLoginUser();
+
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    clearLoginUser();
+    navigate('/Authentication');
+  }
   return (
     <>
       <div className='sidebar_content'>
@@ -41,7 +47,7 @@ const Sidebar = ({ handleSidebarClick, activeTab }) => {
       </div>
       <div className="sidebar_setting">
         <ul className='sidebar_menu'>
-          <li>
+          <li onClick={handleLogout}>
             <i><img src={Images.Logout} alt="Logout" /></i>
             <span>Logout</span>
           </li>

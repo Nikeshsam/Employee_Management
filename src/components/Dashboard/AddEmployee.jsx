@@ -170,7 +170,7 @@ const AddEmployee = () => {
                 ]);
 
                 // Refresh employee list
-                const updatedEmployees = await getEmployees('', 1, 10, loginUser.token);
+                const updatedEmployees = await getEmployees('', pagination.currentPage, pagination.rowsPerPage, loginUser.token);
                 setEmployeeData(updatedEmployees.data.data);
 
                 // Optionally close the canvas

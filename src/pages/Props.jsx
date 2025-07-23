@@ -616,7 +616,7 @@ export const CustomToast = ({
     onClose,
 }) => {
   return (
-    <Toast className='CustomToast'>
+    <Toast className='CustomToast' onClose={onClose}>
       <Toast.Header>
         <img src={img} className="rounded me-2" alt="toast icon" />
         <strong className="me-auto">{title}</strong>
