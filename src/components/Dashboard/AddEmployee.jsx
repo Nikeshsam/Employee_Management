@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import Combobox from "react-widgets/Combobox";
 import "react-widgets/styles.css";
 import Images from '../../pages/Images.jsx';
-import { CardForm, PrimaryGird, CustomToast, EmployeeGird, InputField, SelectInput, CustomModal, OffCanvas } from '../../pages/Props.jsx';
+import { CardForm, PrimaryGird, CustomToast, EmployeeGird, InputField, SelectInput, CustomModal, CustomModalDeleteDialog, OffCanvas } from '../../pages/Props.jsx';
 import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import { addEmployeeValidateField } from '../Validations/Validate.jsx';
 import { getEmployees, addEmployee } from '../../api/index.js';
+import { deleteEmployee } from '../../api/index.js';
 
 
 // Bootstrap imports
@@ -18,9 +19,13 @@ import { Container, Card, Form, Row, Col, Tab, ToastContainer, Tabs, Button, Tab
 
 const AddEmployee = () => {
 
+    const [modalShow, setModalShow] = useState(false);
+
     const { loginUser } = useLoginUser();
 
     const [employeeData, setEmployeeData] = useState([]);
+
+    const [employeeToDelete, setEmployeeToDelete] = useState(null);
 
     const [showAddEmployeeCanvas, setShowAddEmployeeCanvas] = useState(false);
     const handleShowAddEmployeeCanvas = () => setShowAddEmployeeCanvas(true);
@@ -37,45 +42,6 @@ const AddEmployee = () => {
         const updatedList = toastList.filter((_, i) => i !== index);
         setToastList(updatedList);
     };
-
-    // const employeeData = [
-    //     {
-    //         id: 'EMP012547',
-    //         name: 'John Mathew',
-    //         department: 'UI&UX',
-    //         status: 'Full time',
-    //         email: 'johnmathew@.hrmnexuscom',
-    //         onboarding: 'Completed',
-    //         avatar: '',
-    //     },
-    //     {
-    //         id: 'EMP012547',
-    //         name: 'Bob Grey',
-    //         department: 'React',
-    //         status: 'Full time',
-    //         email: 'bobgrey@hrmnexus.com',
-    //         onboarding: 'Inprogress',
-    //         avatar: '',
-    //     },
-    //     {
-    //         id: 'EMP012547',
-    //         name: 'Jhon Mathew',
-    //         department: '.Net Developement',
-    //         status: 'Full time',
-    //         email: 'johnmathew@hrmnexus.com',
-    //         onboarding: 'Inprogress',
-    //         avatar: '',
-    //     },
-    //     {
-    //         id: 'EMP012547',
-    //         name: 'Robert',
-    //         department: 'Testing',
-    //         status: 'Part time',
-    //         email: 'robert@hrmnexus.com',
-    //         onboarding: 'Completed',
-    //         avatar: '',
-    //     },
-    // ];
 
     const [employmentType, setemploymentType] = useState([
         { key: '1', label: 'Full Time' },
@@ -244,6 +210,44 @@ const AddEmployee = () => {
     }, [loginUser,pagination.rowsPerPage,pagination.currentPage]);
 
     const navigate = useNavigate();
+    
+    // Delete Employee Function
+
+    const handleClearClick = () => {
+        setModalShow(false);
+        setEmployeeToDelete(null); // If you’re using employeeToDelete state
+    };
+
+    const handleDeleteEmployee = async () => {
+        try {
+            await deleteEmployee(employeeToDelete._id, loginUser.token); // or emp.id depending on your DB
+            setToastList(prev => [
+                ...prev,
+                {
+                    title: `${employeeToDelete.firstName} ${employeeToDelete.lastName}`,
+                    message: 'Employee deleted successfully',
+                    img: Images.SuccessCheck
+                }
+            ]);
+            setModalShow(false);
+            setEmployeeToDelete(null);
+
+            // Optionally refresh the employee list
+            const updatedEmployees = await getEmployees('', pagination.currentPage, pagination.rowsPerPage, loginUser.token);
+            setEmployeeData(updatedEmployees.data.data);
+
+        } catch (error) {
+            console.error("Delete failed", error);
+            setToastList(prev => [
+                ...prev,
+                {
+                    title: 'Error',
+                    message: 'Failed to delete employee',
+                    img: Images.SuccessCheck
+                }
+            ]);
+        }
+    };
 
     return (
         <>
@@ -312,7 +316,7 @@ const AddEmployee = () => {
                                     <td className='table_action'>
                                         <Button className="btn_action"><img src={Images.View} alt="" /></Button>
                                         <Button className="btn_action"><img src={Images.Edit} alt="" /></Button>
-                                        <Button className="btn_action"><img src={Images.Delete} alt="" /></Button>
+                                        <Button className="btn_action" onClick={() => {setEmployeeToDelete(emp); setModalShow(true);}}><img src={Images.Delete} alt="" /></Button>
                                     </td>
                                 </tr>
                             ))}
@@ -498,6 +502,34 @@ const AddEmployee = () => {
                     />
                 ))}
             </ToastContainer>
+            <CustomModalDeleteDialog
+                show={modalShow}
+                onHide={handleClearClick}
+                title="Delete Employee"
+                size="md"
+                subtitle='This action cannot be undone.'
+                className='DeleteDialogModal'
+                bodyContent={
+                    <>
+                        <div className='deleteContainer'>
+                            <div className='deleteIcon'>
+                                <img src={Images.GridDelete} alt="Delete" />
+                            </div>
+                            {employeeToDelete && (
+                                <div className='deleteContent'>
+                                    <h5>Delete Employee</h5>
+                                    <p>Are you sure you want to delete this employee <span>{`${employeeToDelete.firstName} ${employeeToDelete.lastName}`}</span>? This action cannot be undo.</p>
+                                </div>
+                            )}
+                        </div>
+                    </>
+                }
+                onSubmit={handleDeleteEmployee}
+                footerButtonSubmit="Delete"
+                footerButtonCancel="Cancel"
+                footerButtonSubmitClass="modal_danger_btn"
+                footerButtonCancelClass="modal_primary_border_btn"
+            />
         </>
     )
 };

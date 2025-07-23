@@ -17,6 +17,7 @@ export const organizationDetails = (organization, token) => axios.post(`${url}/o
     Authorization: `Bearer ${token}`,
   },
 });
+
 export const getOrganizationDetails = (token) => axios.get(`${url}/organization`,  {
   headers: {
     Authorization: `Bearer ${token}`,
@@ -47,7 +48,17 @@ export const getEmployees = (searchTerm, page = 1, limit = 10, token) => {
       limit,
     },
   });
-}; //get all employees grid load
+}; 
+//get all employees grid load
+
+
+// Employee Delete
+
+export const deleteEmployee = (id, token) => {
+  return axios.delete(`${url}/employee/${id}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+};
 
 // export const updatePost = (id,post)=> axios.patch(`${url}/${id}`,post);
 // export const likePost = (id)=> axios.patch(`${url}/${id}`);

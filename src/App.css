@@ -109,6 +109,8 @@ Form{width: 100%;}
 
 .modal_primary_btn{background-color: #6D36FA !important; font-size: 16px !important; font-weight: 600 !important; color: #fff; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 8px; border: none; margin: 0; display: flex; align-items: center; justify-content: center; flex: 1;}
 
+.modal_danger_btn{background-color: #D92D20 !important; font-size: 16px !important; font-weight: 600 !important; color: #fff; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 8px; border: none; margin: 0; display: flex; align-items: center; justify-content: center; flex: 1;}
+
 .modal_primary_border_btn{background-color: #fff !important; font-size: 16px !important; font-weight: 500 !important; color: #414651; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 8px; border: 1px solid #D5D7DA; margin: 0; display: flex; align-items: center; justify-content: center; flex: 1;}
 .modal_primary_border_btn:hover{border: 1px solid #6D36FA; color: #6D36FA;}
 
@@ -351,7 +353,7 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 
 .table_body table{margin: 0; border-bottom: none;}
 
-.table_action{display: flex; align-items: center; gap: 10px;}
+.table_action{display: flex; align-items: center; gap: 12px;}
 .btn_action{background-color: transparent; border: none; padding: 0; cursor: pointer; display: flex; align-items: center; gap: 10px;}
 .btn_action img{width: 18px;}
 .btn_action:hover{background-color: transparent;}
@@ -372,7 +374,7 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .table_footer .paginations ul.pagination li .page-link:focus{box-shadow: none;}
 
 .table_footer .paginations .jumpTo{display: flex; align-items: center; gap: 8px;}
-.table_footer .paginations .jumpTo input.form-control{width: 30px !important; height: 30px !important; border-radius: 4px !important; border: 1px solid #E6DDFF !important; min-height: auto !important; padding: 0px !important;}
+.table_footer .paginations .jumpTo input.form-control{width: 30px !important; height: 30px !important; border-radius: 4px !important; border: 1px solid #E6DDFF !important; min-height: auto !important; padding: 10px !important;}
  
 .MainHeader{display: flex; align-items: center; justify-content: space-between; padding: 10px 15px;} 
 .MainHeader .HR_Brand img{width: 60px;}
@@ -422,6 +424,7 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 /* MODAL SIZE  */
 
 .PrimaryModal .modal-dialog.modal-md{width: 650px; min-width: 650px;}
+.DeleteDialogModal .modal-dialog.modal-md{width: 400px; min-width: 400px;}
 
 /* MODAL SIZE  */
 .PrimaryModal .modal-header{padding: 25px 25px 25px 25px; border: none !important; position: relative;}
@@ -438,6 +441,19 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .PrimaryModal .modal-body{padding: 15px 25px 15px 25px; border: none !important; max-height: calc(100vh - 345px); overflow: auto;}
 .PrimaryModal .modal-body .form-control{border-radius: 8px !important; height: 44px !important; border: 1px solid #D5D7DA !important;}
 .PrimaryModal .modal-footer{padding: 25px 25px 25px 25px; border: none !important; gap: 15px; flex-direction: row-reverse;}
+
+.DeleteDialogModal .modal-dialog .modal-content{border-radius: 16px; border: none;}
+.DeleteDialogModal .modal-dialog .modal-content .modal-header{padding: 0; border: none; position: absolute; top: 36px; right: 15px; z-index: 99;}
+.DeleteDialogModal .modal-dialog .modal-content .modal-header button{margin: 0;}
+.DeleteDialogModal .modal-dialog .modal-content .modal-body{padding: 25px 25px 15px 25px;}
+.DeleteDialogModal .modal-dialog .modal-content .modal-footer{border: none; padding: 15px 25px 25px 25px; gap: 12px;}
+.DeleteDialogModal .modal-dialog .modal-content .deleteContainer{display: flex; align-items: flex-start; flex-direction: column; gap: 10px;}
+.DeleteDialogModal .modal-dialog .modal-content .deleteContainer .deleteIcon{min-width: 60px; height: 60px; background-color: #fff4f3; border-radius: 100px; display: flex; align-items: center; justify-content: center; z-index: 0;}
+.DeleteDialogModal .modal-dialog .modal-content .deleteContainer .deleteIcon::before{content: ''; position: absolute; width: 42px; height: 42px; border-radius: 100px; background-color: #FEE4E2; z-index: -1;} 
+.DeleteDialogModal .modal-dialog .modal-content .deleteContainer .deleteContent{display: flex; flex-direction: column; gap: 6px; padding-top: 10px;}
+.DeleteDialogModal .modal-dialog .modal-content .deleteContainer .deleteContent h5{color: #181D27; font-size: 20px; line-height: 28px; font-weight: 600; margin: 0;}
+.DeleteDialogModal .modal-dialog .modal-content .deleteContainer .deleteContent p{color: #535862; font-weight: 400; font-size: 14px; line-height: 22px;}
+.DeleteDialogModal .modal-dialog .modal-content .deleteContainer .deleteContent p span{color: #6D36FA; font-size: 16px; font-weight: 600;}
 
 input:-internal-autofill-selected{background-color: transparent;}
 

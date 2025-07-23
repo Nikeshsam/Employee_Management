@@ -284,7 +284,7 @@ export const EmployeeGird = ({
                                 name="currentPage"
                                 value={pagination?.currentPage || 1}
                                 onChange={handlePaginationChange}
-                                type="number"
+                                type="text"
                                 size="lg"
                                 min={1}
                                 max={pagination?.totalPages || 1}
@@ -431,6 +431,47 @@ export const CustomModal = ({
             <Modal.Footer>
                 <Button className={footerButtonSubmitClass} onClick={onSubmit}>{footerButtonSubmit}</Button>
                 <Button className={footerButtonCancelClass} onClick={onHide}>{footerButtonCancel}</Button>
+            </Modal.Footer>
+        </Modal>
+    );
+}
+
+// Component Modal.....
+
+export const CustomModalDeleteDialog = ({
+    show,
+    onSubmit,
+    onHide,
+    title = "Modal Title",
+    subtitle = "Modal Sub Title",
+    bodyContent = "",
+    centered = true,
+    size = "md", // ✅ Correctly defined here
+    footerButtonSubmit = "Submit",
+    footerButtonCancel = "Cancel",
+    footerButtonSubmitClass = "",
+    footerButtonCancelClass = "",
+    className = ""
+}) => {
+    return (
+        <Modal
+            show={show}
+            onHide={onHide}
+            size={size}
+            aria-labelledby="contained-modal-title-vcenter"
+            centered={centered}
+            className={className}
+        >
+            <Modal.Header closeButton>
+            </Modal.Header>
+            <Modal.Body className=''>
+                <Row className='gx-3'>
+                    {typeof bodyContent === "string" ? <p>{bodyContent}</p> : bodyContent}
+                </Row>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button className={footerButtonCancelClass} onClick={onHide}>{footerButtonCancel}</Button>
+                <Button className={footerButtonSubmitClass} onClick={onSubmit}>{footerButtonSubmit}</Button>
             </Modal.Footer>
         </Modal>
     );
@@ -616,7 +657,7 @@ export const CustomToast = ({
     onClose,
 }) => {
   return (
-    <Toast className='CustomToast' onClose={onClose}>
+    <Toast onClose={onClose} show={true} autohide delay={3000} className='CustomToast'>
       <Toast.Header>
         <img src={img} className="rounded me-2" alt="toast icon" />
         <strong className="me-auto">{title}</strong>
