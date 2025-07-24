@@ -38,7 +38,8 @@ import SuccessCheck from '../assets/Images/success-check.svg';
 import Avatar from '../assets/Images/Avatar.svg';
 import UserAvatar from '../assets/Images/UserAvatar.svg';
 
-import GridDelete from '../assets/Images/gridDelete.svg';
+import ConfirmDelete from '../assets/Images/ConfirmDelete.svg';
+import ConfirmCheck from '../assets/Images/ConfirmCheck.svg';
 
 
 
@@ -70,7 +71,8 @@ import GridDelete from '../assets/Images/gridDelete.svg';
     SuccessCheck,
     Avatar,
     UserAvatar,
-    GridDelete
+    ConfirmDelete,
+    ConfirmCheck
 }
 
 export default Images;

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Images from '../../pages/Images.jsx';
-import { CardForm, CardFromTertiary, CustomModal, InlineInputField, InlineSelectField, RadioGroupField } from '../../pages/Props';
+import { CardForm, CardFromTertiary, CustomModal, InlineInputField, CustomModalConfirmDialog, InlineSelectField, RadioGroupField } from '../../pages/Props';
 import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import { getOrganizationDetails, organizationDetails } from '../../api/index.js';
+import {organizationvalidateField} from '../Validations/Validate.jsx';
 
 // Bootstrap imports
 
@@ -15,6 +16,13 @@ import { Container, Card, Form, Row, Col, Image, Tab, Tabs, Button, Table } from
 const CompanyProfile = () => {
 
   const { loginUser,setLoginUser,saveLoginUser } = useLoginUser();
+
+  const [modalShow, setModalShow] = useState(false);
+
+  const handleClearClick = () => {
+    setModalShow(false);
+    navigate('/dashboard'); // Navigate after modal closes
+  };
 
   // Industry
   useEffect(()=>{
@@ -110,7 +118,6 @@ const CompanyProfile = () => {
 
   // FormData useState
 
-
   // FormData Validations
 
   const [formData, setFormData] = useState({
@@ -136,126 +143,19 @@ const CompanyProfile = () => {
   });
   // Error useState
 
-  const [errors, setErrors] = useState({
-    organizationName: '',
-    industry: '',
-    businessType: '',
-    companyAddress: '',
-    street: '',
-    city: '',
-    state: '',
-    zipCode: '',
-    country: '',
-    phoneNumber: '',
-    faxNumber: '',
-    website: '',
-    fiscal: '',
-    taxMethod: '',
-    timeZone: '',
-    dateFormat: '',
-    companyID: '',
-    taxID: '',
-  });
+  const [errors, setErrors] = useState({});
 
   const [submitMessage, setSubmitMessage] = useState('');
 
   // Field Validations
 
-  const validateField = (name, value) => {
-    let error = '';
-
-    switch (name) {
-
-      case 'organizationName':
-        if (!value.trim()) error = 'Organization Name is required';
-        break;
-
-      case 'industry':
-        if (!value.trim()) error = 'Industry is required';
-        break;
-
-      case 'businessType':
-        if (!value.trim()) error = 'Business Type is required';
-        break;
-
-      case 'companyAddress':
-        if (!value.trim()) error = 'Company Address is required';
-        break;
-
-      case 'street':
-        if (!value.trim()) error = 'Street is required';
-        break;
-
-      case 'city':
-        if (!value.trim()) error = 'City is required';
-        break;
-
-      case 'state':
-        if (!value.trim()) error = 'State is required';
-        break;
-
-      case 'zipCode':
-        if (!value.trim()) error = 'Zip Code is required';
-        else if (!/^\d{4,10}$/.test(value)) error = 'Invalid Zip Code';
-        break;
-
-      case 'country':
-        if (!value.trim()) error = 'Country is required';
-        break;
-
-      case 'phoneNumber':
-        if (!value.trim()) error = 'Phone number is required';
-        // Indian mobile number: 10 digits, starts with 6-9
-        else if (!/^[6-9]\d{9}$/.test(value)) error = 'Invalid Indian mobile number';
-        break;
-
-      case 'faxNumber':
-        if (!value.trim()) error = 'Fax number is required';
-        else if (value && !/^[\d\s()+-]+$/.test(value)) error = 'Invalid fax number';
-        break;
-
-      case 'website':
-        if (!value.trim()) error = 'Website URL is required';
-        else if (value && !/^(https?:\/\/)?[\w.-]+\.[a-z]{2,}$/.test(value)) error = 'Invalid website URL';
-        break;
-
-      case 'fiscal':
-        if (!value.trim()) error = 'Fiscal year is required';
-        break;
-
-      case 'taxMethod':
-        if (!value.trim()) error = 'Tax Basis is required ';
-        break;
-
-      case 'timeZone':
-        if (!value.trim()) error = 'Time zone is required';
-        break;
-
-      case 'dateFormat':
-        if (!value.trim()) error = 'Date format is required';
-        break;
-
-      case 'companyID':
-        if (!value.trim()) error = 'Company ID is required';
-        break;
-
-      case 'taxID':
-        if (!value.trim()) error = 'Tax ID is required';
-        break;
-
-      default:
-        break;
-    }
-
-    return error;
-  };
-
+  
   //  Validate Form with Error
 
   const validateForm = () => {
     const newErrors = {};
     Object.keys(formData).forEach((field) => {
-      const error = validateField(field, formData[field]);
+      const error = organizationvalidateField(field, formData[field]);
       if (error) newErrors[field] = error;
     });
     setErrors(newErrors);
@@ -281,7 +181,7 @@ const CompanyProfile = () => {
         console.log(response.data.message);
         setSubmitMessage(response.data.message);
         saveLoginUser({ ...loginUser, companyProfileStatus: true });
-        navigate('/RegisterSuccess');
+        setModalShow(true); // <-- Show modal here after success
         console.log('Form submitted:', formData);
       } catch (error) {
         console.log(error);
@@ -296,7 +196,7 @@ const CompanyProfile = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    const error = validateField(name, value);
+    const error = organizationvalidateField(name, value);
     setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
   };
 
@@ -537,6 +437,34 @@ const CompanyProfile = () => {
           </Col>
         </Row>
       </Container>
+
+      <CustomModalConfirmDialog
+        show={modalShow}
+        onHide={handleClearClick}
+        title="Organization Profile"
+        size="md"
+        subtitle='This action cannot be undone.'
+        className='ConfirmDialogModal success'
+        showSubmitButton={true}
+        showCancelButton={false}        
+        bodyContent={
+          <>
+            <div className='ConfirmContainer'>
+              <div className='ConfirmIcon'>
+                <img src={Images.ConfirmCheck} alt="Delete" />
+              </div>
+                <div className='ConfirmContent'>
+                  <h5>Organization Profile</h5>
+                  <p>Your organization details have been added successfully. You can now access our application.</p>
+                </div>
+            </div>
+          </>
+        }
+        onSubmit={handleSubmit}
+        footerButtonSubmit="Dashboard"
+        footerButtonSubmitClass="modal_success_btn"
+        footerButtonCancelClass="modal_primary_border_btn"
+      />
     </>
   )
 }

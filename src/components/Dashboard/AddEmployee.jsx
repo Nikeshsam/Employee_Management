@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Combobox from "react-widgets/Combobox";
 import "react-widgets/styles.css";
 import Images from '../../pages/Images.jsx';
-import { CardForm, PrimaryGird, CustomToast, EmployeeGird, InputField, SelectInput, CustomModal, CustomModalDeleteDialog, OffCanvas } from '../../pages/Props.jsx';
+import { CardForm, PrimaryGird, CustomToast, EmployeeGird, InputField, SelectInput, CustomModal, CustomModalConfirmDialog, OffCanvas } from '../../pages/Props.jsx';
 import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import { addEmployeeValidateField } from '../Validations/Validate.jsx';
 import { getEmployees, addEmployee } from '../../api/index.js';
@@ -502,21 +502,23 @@ const AddEmployee = () => {
                     />
                 ))}
             </ToastContainer>
-            <CustomModalDeleteDialog
+            <CustomModalConfirmDialog
                 show={modalShow}
                 onHide={handleClearClick}
                 title="Delete Employee"
                 size="md"
                 subtitle='This action cannot be undone.'
-                className='DeleteDialogModal'
+                className='ConfirmDialogModal delete'
+                showSubmitButton={true}
+                showCancelButton={true}
                 bodyContent={
                     <>
-                        <div className='deleteContainer'>
-                            <div className='deleteIcon'>
-                                <img src={Images.GridDelete} alt="Delete" />
+                        <div className='ConfirmContainer'>
+                            <div className='ConfirmIcon'>
+                                <img src={Images.ConfirmDelete} alt="Delete" />
                             </div>
                             {employeeToDelete && (
-                                <div className='deleteContent'>
+                                <div className='ConfirmContent'>
                                     <h5>Delete Employee</h5>
                                     <p>Are you sure you want to delete this employee <span>{`${employeeToDelete.firstName} ${employeeToDelete.lastName}`}</span>? This action cannot be undo.</p>
                                 </div>

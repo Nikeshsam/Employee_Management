@@ -169,9 +169,9 @@ const Banner = ({ modalShow, setModalShow }) => {
             </Col>
             <Col md={6} lg={6} xl={6} xxl={6}>
               <InputField
-                label="Email"
+                label="Organization Email"
                 type="text"
-                placeholder="Enter your Email"
+                placeholder="Enter your Organization Email"
                 controlId="email"
                 name="email"
                 error={errors.email}

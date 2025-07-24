@@ -438,7 +438,7 @@ export const CustomModal = ({
 
 // Component Modal.....
 
-export const CustomModalDeleteDialog = ({
+export const CustomModalConfirmDialog = ({
     show,
     onSubmit,
     onHide,
@@ -451,7 +451,9 @@ export const CustomModalDeleteDialog = ({
     footerButtonCancel = "Cancel",
     footerButtonSubmitClass = "",
     footerButtonCancelClass = "",
-    className = ""
+    className = "",
+    showSubmitButton = true,   // NEW
+    showCancelButton = true    // NEW
 }) => {
     return (
         <Modal
@@ -469,10 +471,17 @@ export const CustomModalDeleteDialog = ({
                     {typeof bodyContent === "string" ? <p>{bodyContent}</p> : bodyContent}
                 </Row>
             </Modal.Body>
-            <Modal.Footer>
-                <Button className={footerButtonCancelClass} onClick={onHide}>{footerButtonCancel}</Button>
-                <Button className={footerButtonSubmitClass} onClick={onSubmit}>{footerButtonSubmit}</Button>
-            </Modal.Footer>
+            {(showSubmitButton || showCancelButton) && (
+                <Modal.Footer>
+                    {showCancelButton &&(
+                        <Button className={footerButtonCancelClass} onClick={onHide}>{footerButtonCancel}</Button>
+                    )}
+                    {showSubmitButton && (
+                        <Button className={footerButtonSubmitClass} onClick={onSubmit}>{footerButtonSubmit}</Button>
+                    )}
+                </Modal.Footer>
+            )}
+            
         </Modal>
     );
 }

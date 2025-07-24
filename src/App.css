@@ -109,6 +109,8 @@ Form{width: 100%;}
 
 .modal_primary_btn{background-color: #6D36FA !important; font-size: 16px !important; font-weight: 600 !important; color: #fff; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 8px; border: none; margin: 0; display: flex; align-items: center; justify-content: center; flex: 1;}
 
+.modal_success_btn{background-color: #6ab600 !important; font-size: 16px !important; font-weight: 600 !important; color: #fff; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 8px; border: none; margin: 0; display: flex; align-items: center; justify-content: center; flex: 1;}
+
 .modal_danger_btn{background-color: #D92D20 !important; font-size: 16px !important; font-weight: 600 !important; color: #fff; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 8px; border: none; margin: 0; display: flex; align-items: center; justify-content: center; flex: 1;}
 
 .modal_primary_border_btn{background-color: #fff !important; font-size: 16px !important; font-weight: 500 !important; color: #414651; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 8px; border: 1px solid #D5D7DA; margin: 0; display: flex; align-items: center; justify-content: center; flex: 1;}
@@ -424,7 +426,7 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 /* MODAL SIZE  */
 
 .PrimaryModal .modal-dialog.modal-md{width: 650px; min-width: 650px;}
-.DeleteDialogModal .modal-dialog.modal-md{width: 400px; min-width: 400px;}
+.ConfirmDialogModal .modal-dialog.modal-md{width: 400px; min-width: 400px;}
 
 /* MODAL SIZE  */
 .PrimaryModal .modal-header{padding: 25px 25px 25px 25px; border: none !important; position: relative;}
@@ -442,18 +444,31 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .PrimaryModal .modal-body .form-control{border-radius: 8px !important; height: 44px !important; border: 1px solid #D5D7DA !important;}
 .PrimaryModal .modal-footer{padding: 25px 25px 25px 25px; border: none !important; gap: 15px; flex-direction: row-reverse;}
 
-.DeleteDialogModal .modal-dialog .modal-content{border-radius: 16px; border: none;}
-.DeleteDialogModal .modal-dialog .modal-content .modal-header{padding: 0; border: none; position: absolute; top: 36px; right: 15px; z-index: 99;}
-.DeleteDialogModal .modal-dialog .modal-content .modal-header button{margin: 0;}
-.DeleteDialogModal .modal-dialog .modal-content .modal-body{padding: 25px 25px 15px 25px;}
-.DeleteDialogModal .modal-dialog .modal-content .modal-footer{border: none; padding: 15px 25px 25px 25px; gap: 12px;}
-.DeleteDialogModal .modal-dialog .modal-content .deleteContainer{display: flex; align-items: flex-start; flex-direction: column; gap: 10px;}
-.DeleteDialogModal .modal-dialog .modal-content .deleteContainer .deleteIcon{min-width: 60px; height: 60px; background-color: #fff4f3; border-radius: 100px; display: flex; align-items: center; justify-content: center; z-index: 0;}
-.DeleteDialogModal .modal-dialog .modal-content .deleteContainer .deleteIcon::before{content: ''; position: absolute; width: 42px; height: 42px; border-radius: 100px; background-color: #FEE4E2; z-index: -1;} 
-.DeleteDialogModal .modal-dialog .modal-content .deleteContainer .deleteContent{display: flex; flex-direction: column; gap: 6px; padding-top: 10px;}
-.DeleteDialogModal .modal-dialog .modal-content .deleteContainer .deleteContent h5{color: #181D27; font-size: 20px; line-height: 28px; font-weight: 600; margin: 0;}
-.DeleteDialogModal .modal-dialog .modal-content .deleteContainer .deleteContent p{color: #535862; font-weight: 400; font-size: 14px; line-height: 22px;}
-.DeleteDialogModal .modal-dialog .modal-content .deleteContainer .deleteContent p span{color: #6D36FA; font-size: 16px; font-weight: 600;}
+.ConfirmDialogModal .modal-dialog .modal-content{border-radius: 16px; border: none;}
+.ConfirmDialogModal .modal-dialog .modal-content .modal-header{padding: 0; border: none; position: absolute; top: 36px; right: 15px; z-index: 99;}
+.ConfirmDialogModal .modal-dialog .modal-content .modal-header button{margin: 0;}
+.ConfirmDialogModal .modal-dialog .modal-content .modal-body{padding: 25px 25px 15px 25px;}
+.ConfirmDialogModal .modal-dialog .modal-content .modal-footer{border: none; padding: 15px 25px 25px 25px; gap: 12px;}
+.ConfirmDialogModal .modal-dialog .modal-content .ConfirmContainer{display: flex; align-items: flex-start; flex-direction: column; gap: 10px;}
+
+
+/* DELETE */
+.ConfirmDialogModal.delete .modal-dialog .modal-content .ConfirmContainer .ConfirmIcon{min-width: 60px; height: 60px; background-color: #fff4f3; border-radius: 100px; display: flex; align-items: center; justify-content: center; z-index: 0;}
+.ConfirmDialogModal.delete .modal-dialog .modal-content .ConfirmContainer .ConfirmIcon::before{content: ''; position: absolute; width: 42px; height: 42px; border-radius: 100px; background-color: #FEE4E2; z-index: -1;} 
+
+
+/* SUCCESS */
+.ConfirmDialogModal.success .modal-dialog .modal-content .ConfirmContainer .ConfirmIcon{min-width: 60px; height: 60px; background-color: #efffd9; border-radius: 100px; display: flex; align-items: center; justify-content: center; z-index: 0;}
+.ConfirmDialogModal.success .modal-dialog .modal-content .ConfirmContainer .ConfirmIcon::before{content: ''; position: absolute; width: 42px; height: 42px; border-radius: 100px; background-color: #dfffb3; z-index: -1;} 
+
+
+.ConfirmDialogModal .modal-dialog .modal-content .ConfirmContainer .ConfirmContent{display: flex; flex-direction: column; gap: 6px; padding-top: 10px;}
+.ConfirmDialogModal .modal-dialog .modal-content .ConfirmContainer .ConfirmContent h5{color: #181D27; font-size: 20px; line-height: 28px; font-weight: 600; margin: 0;}
+.ConfirmDialogModal .modal-dialog .modal-content .ConfirmContainer .ConfirmContent p{color: #535862; font-weight: 400; font-size: 14px; line-height: 22px;}
+.ConfirmDialogModal .modal-dialog .modal-content .ConfirmContainer .ConfirmContent p span{color: #6D36FA; font-size: 16px; font-weight: 600;}
+
+
+SuccessModal
 
 input:-internal-autofill-selected{background-color: transparent;}
 
