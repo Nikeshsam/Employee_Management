@@ -21,7 +21,7 @@ const CompanyProfile = () => {
 
   const handleClearClick = () => {
     setModalShow(false);
-    navigate('/dashboard'); // Navigate after modal closes
+    navigate('/Home'); // Navigate after modal closes
   };
 
   // Industry
@@ -460,7 +460,7 @@ const CompanyProfile = () => {
             </div>
           </>
         }
-        onSubmit={handleSubmit}
+        onSubmit={handleClearClick}
         footerButtonSubmit="Dashboard"
         footerButtonSubmitClass="modal_success_btn"
         footerButtonCancelClass="modal_primary_border_btn"
