@@ -51,10 +51,10 @@ export const CardFromTertiary = ({
     return (    // footerButtonSubmit = "Submit",
     // footerButtonSubmitClass = "",
         <Card className='Tertiary_card'>
-            <CardHeader>
+            {/* <CardHeader>
                 {cardTitle && <Card.Title>{cardTitle}</Card.Title>}
-                {/* <Button className={headerButtonEditClass} onClick={onSubmit}>{headerButtonEdit}</Button> */}
-            </CardHeader>
+                <Button className={headerButtonEditClass} onClick={onSubmit}>{headerButtonEdit}</Button>
+            </CardHeader> */}
             <Card.Body>
                 {children}
             </Card.Body>

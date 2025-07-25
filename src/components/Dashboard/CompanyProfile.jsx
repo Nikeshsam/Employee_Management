@@ -156,66 +156,66 @@ const CompanyProfile = () => {
                         </div>
                         <div className='cpViewSection'>
                           <label htmlFor="">Organization Name </label>
-                          <span>{formData.organizationName}</span>
+                          <span className='color-1 text-decoration-underline'>{formData.organizationName || '-'}</span>
                         </div>
                       </div>
-                        <div className='cpViewSection'>
-                          <label htmlFor="">Company ID</label>
-                          <span></span>
-                        </div>
-                        <div className='cpViewSection'>
-                          <label htmlFor="">Tax ID</label>
-                          <span></span>
-                        </div>
+                      <div className='cpViewSection extra_icon CID'>
+                        <label htmlFor="">Company ID</label>
+                        <span>{formData.companyID || '-'}</span>
+                      </div>
+                      <div className='cpViewSection extra_icon TID'>
+                        <label htmlFor="">Tax ID</label>
+                        <span className='color-4'>{formData.taxID || '-'}</span>
+                      </div>
                     </div>
                     <div className='cpViewcol'>
                       <div className='cpViewSection'>
                         <label htmlFor="">Industry</label>
-                        <span></span>
+                        <span>{formData.industry || '-'}</span>
                       </div>
                       <div className='cpViewSection'>
                         <label htmlFor="">Business Type</label>
-                        <span></span>
+                        <span>{formData.businessType || '-'}</span>
                       </div>
                       <div className='cpViewSection'>
                         <label htmlFor="">Country</label>
-                        <span></span>
+                        <span>{formData.country || '-'}</span>
                       </div>
                       <div className='cpViewSection'>
                         <label htmlFor="">Phone Number</label>
-                        <span></span>
+                        <span className='color-2'>{formData.phoneNumber || '-'}</span>
                       </div>
                       <div className='cpViewSection'>
                         <label htmlFor="">Fax Number</label>
-                        <span></span>
+                        <span className='color-3'>{formData.faxNumber || '-'}</span>
                       </div>
                     </div>
                     <div className='cpViewcol'>
                       <div className='cpViewSection'>
                         <label htmlFor="">Website</label>
-                        <span></span>
+                        <span>{formData.website || '-'}</span>
                       </div>
                       <div className='cpViewSection'>
                         <label htmlFor="">Fiscal</label>
-                        <span></span>
+                        <span>{formData.fiscal || '-'}</span>
                       </div>
                       <div className='cpViewSection'>
                         <label htmlFor="">Tax Method</label>
-                        <span></span>
+                        <span className='color-5'>{formData.taxMethod || '-'}</span>
                       </div>
                       <div className='cpViewSection'>
                         <label htmlFor="">Time Zone</label>
-                        <span></span>
+                        <span>{formData.timeZone || '-'}</span>
                       </div>
                       <div className='cpViewSection'>
                         <label htmlFor="">Date Format</label>
-                        <span></span>
+                        <span>{formData.dateFormat || '-'}</span>
                       </div>
                     </div>
                     <div className='cpViewcol'>
-                      <div className='cpViewSection'>
+                      <div className='cpViewSection w-100'>
                         <label htmlFor="">Company Address</label>
-                        <span></span>
+                        <span>{`${formData.companyAddress}, ${formData.street}, ${formData.city}, ${formData.state}, ${formData.zipCode || '-'}`}</span>
                       </div>
                     </div>
                   </div>

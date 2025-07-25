@@ -17,6 +17,12 @@ label{font-family: "Inter", sans-serif !important;}
   color: #909090;
 }
 
+.color-1{color: #3B63F3 !important;}
+.color-2{color: #45AB68 !important;}
+.color-3{color: #F97373 !important;}
+.color-4{color: #359724 !important;}
+.color-5{color: #7F2180 !important;}
+
 .modal-backdrop{--bs-backdrop-opacity: 0.7;}
 
 .btn_h_30{height: 30px !important;}
@@ -178,10 +184,11 @@ Form{width: 100%;}
 .secondary_card .card-body{height: calc(100vh - 352px); overflow: auto; }
 .secondary_card .card-footer{background-color: #ECECEC; border: none !important; display: flex; align-items: center; justify-content: flex-end;}
 
-.Tertiary_card{border: 1px solid #eae3fe; border-radius: 8px; background-color: #fff;}
-.Tertiary_card .card-header {height: 50px; display: flex; align-items: center; background-color: #f3efff; border: none; border-radius: 7px 7px 0 0;}
+.Tertiary_card{border: 2px dashed #eae3fe; border-radius: 15px; background-color: #fff;}
+.Tertiary_card .card-header {height: 50px; display: flex; align-items: center; background-color: #f3efff; border: none; border-radius: 14px 14px 0 0;}
 .Tertiary_card .card-header .card-title{font-size: 18px; font-weight: 600; margin: 0; color: #1e1b27;}
-.Tertiary_card .card-body{height: calc(100vh - 191px); overflow: auto; }
+.Tertiary_card .card-body{padding: 20px;}
+/* .Tertiary_card .card-body{height: calc(100vh - 191px); overflow: auto; } */
 .Tertiary_card .card-footer{background-color: #ECECEC; border: none !important; display: flex; align-items: center; justify-content: flex-end;}
 
 .inlineForm .form-label{display: flex; align-items: center; justify-content: flex-end;}
@@ -470,9 +477,6 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .ConfirmDialogModal .modal-dialog .modal-content .ConfirmContainer .ConfirmContent p{color: #535862; font-weight: 400; font-size: 14px; line-height: 22px;}
 .ConfirmDialogModal .modal-dialog .modal-content .ConfirmContainer .ConfirmContent p span{color: #6D36FA; font-size: 16px; font-weight: 600;}
 
-
-SuccessModal
-
 input:-internal-autofill-selected{background-color: transparent;}
 
 
@@ -541,20 +545,7 @@ input:-internal-autofill-selected{background-color: transparent;}
 .DialogueModal .modal-dialog{width: 320px; min-width: 320px;}
 .DialogueModal .modal-header{display: none;}
 
-.DialogueModal .modal-content::before {
-  content: '';
-  position: absolute;
-  left: -4%;
-  top: 7%;
-  width: 108%;
-  background-color: rgb(255 255 255 / 20%);
-  height: 86%;
-  z-index: -1;
-  right: 0;
-  margin: 0 auto;
-  text-align: center;
-  border-radius: 20px;
-}
+.DialogueModal .modal-content::before {content: ''; position: absolute; left: -4%; top: 7%; width: 108%; background-color: rgb(255 255 255 / 20%); height: 86%; z-index: -1; right: 0; margin: 0 auto; text-align: center; border-radius: 20px;}
 
 .DialogueModal .modal-body{padding: 15px 25px 15px 25px; border: none !important; max-height: calc(100vh - 345px); overflow: auto;}
 .DialogueModal .modal-body .diaImg{padding: 20px 0; text-align: center;}
@@ -587,11 +578,19 @@ input:-internal-autofill-selected{background-color: transparent;}
 
 
 .cpViewContainer{display: flex; gap: 20px; flex-direction: column;}
-.cpViewWrap{display: flex; justify-content: space-between; align-items: center; background-color: #F5F5FF; border-radius: 4px; padding: 10px 25px;}
+.cpViewWrap{display: flex; justify-content: space-between; align-items: center; background-color: #f5f2ff; border-radius: 10px; padding: 10px 25px; border: 1px solid #eee9ff;}
 .cpViewWrap .cpViewLogoContainer{display: flex; align-items: center; gap: 15px;}
-.cpViewWrap .cpViewLogoContainer .cpViewLogo{width: 75px; height: 75px; border-radius: 100px; border: 1px solid #e4d9ff; background-color: #fff;}
+.cpViewWrap .cpViewLogoContainer .cpViewLogo{width: 65px; height: 65px; border-radius: 100px; border: 1px solid #e4d9ff; background-color: #fff;}
+.cpViewWrap .cpViewSection,
+.cpViewcol .cpViewSection{display: flex; flex-direction: column; gap: 0px;}
+
+.cpViewWrap .cpViewSection.extra_icon{padding-left: 40px; background-size: 32px; background-repeat: no-repeat; background-position: left center;}
+.cpViewWrap .cpViewSection.extra_icon.CID{background-image: url(../src/assets/Images/company.svg);}
+.cpViewWrap .cpViewSection.extra_icon.TID{background-image: url(../src/assets/Images/tax.svg);}
 .cpViewWrap .cpViewSection label,
 .cpViewcol .cpViewSection label{color:#939396; font-size: 12.5px; font-weight: 500;}
+.cpViewWrap .cpViewSection span,
+.cpViewcol .cpViewSection span{color:#354B56; font-size: 14px; font-weight: 600;}
 
-.cpViewcol {display: flex; }
+.cpViewcol {display: flex;}
 .cpViewcol .cpViewSection{width: 20%;}
