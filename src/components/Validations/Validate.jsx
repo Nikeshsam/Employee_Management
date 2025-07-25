@@ -370,7 +370,7 @@ export const addEmployeeValidateField = (name, value) => {
             break;
         case 'phoneNumber':
             if (!value.trim()) error = 'Phone Number is required';
-            break;            
+            break;
         case 'designation':
             if (!value.trim()) error = 'Designation is required';
             break;
@@ -382,13 +382,13 @@ export const addEmployeeValidateField = (name, value) => {
             break;
         case 'employmentType':
             if (!value.trim()) error = 'Employment Type is required';
-            break;        
+            break;
         case 'workLocation':
             if (!value.trim()) error = 'Work Location is required';
-            break;  
+            break;
         case 'offerletter':
             if (!value.trim()) error = 'Offer Letter is required';
-            break;                             
+            break;
         default:
             break;
     }
@@ -402,87 +402,90 @@ export const organizationvalidateField = (name, value) => {
     let error = '';
 
     switch (name) {
+        case 'companyLogo':
+            if (!value.trim()) error = 'Company Logo is required';
+            break;
 
-      case 'organizationName':
-        if (!value.trim()) error = 'Organization Name is required';
-        break;
+        case 'organizationName':
+            if (!value.trim()) error = 'Organization Name is required';
+            break;
 
-      case 'industry':
-        if (!value.trim()) error = 'Industry is required';
-        break;
+        case 'industry':
+            if (!value.trim()) error = 'Industry is required';
+            break;
 
-      case 'businessType':
-        if (!value.trim()) error = 'Business Type is required';
-        break;
+        case 'businessType':
+            if (!value.trim()) error = 'Business Type is required';
+            break;
 
-      case 'companyAddress':
-        if (!value.trim()) error = 'Company Address is required';
-        break;
+        case 'companyAddress':
+            if (!value.trim()) error = 'Company Address is required';
+            break;
 
-      case 'street':
-        if (!value.trim()) error = 'Street is required';
-        break;
+        case 'street':
+            if (!value.trim()) error = 'Street is required';
+            break;
 
-      case 'city':
-        if (!value.trim()) error = 'City is required';
-        break;
+        case 'city':
+            if (!value.trim()) error = 'City is required';
+            break;
 
-      case 'state':
-        if (!value.trim()) error = 'State is required';
-        break;
+        case 'state':
+            if (!value.trim()) error = 'State is required';
+            break;
 
-      case 'zipCode':
-        if (!value.trim()) error = 'Zip Code is required';
-        else if (!/^\d{4,10}$/.test(value)) error = 'Invalid Zip Code';
-        break;
+        case 'zipCode':
+            if (!value.trim()) error = 'Zip Code is required';
+            else if (!/^\d{4,10}$/.test(value)) error = 'Invalid Zip Code';
+            break;
 
-      case 'country':
-        if (!value.trim()) error = 'Country is required';
-        break;
+        case 'country':
+            if (!value.trim()) error = 'Country is required';
+            break;
 
-      case 'phoneNumber':
-        if (!value.trim()) error = 'Phone number is required';
-        // Indian mobile number: 10 digits, starts with 6-9
-        else if (!/^[6-9]\d{9}$/.test(value)) error = 'Invalid Indian mobile number';
-        break;
+        case 'phoneNumber':
+            if (!value.trim()) error = 'Phone number is required';
+            // Indian mobile number: 10 digits, starts with 6-9
+            else if (!/^[6-9]\d{9}$/.test(value)) error = 'Invalid Indian mobile number';
+            break;
 
-      case 'faxNumber':
-        if (!value.trim()) error = 'Fax number is required';
-        else if (value && !/^[\d\s()+-]+$/.test(value)) error = 'Invalid fax number';
-        break;
+        case 'faxNumber':
+            if (!value.trim()) error = 'Fax number is required';
+            else if (value && !/^[\d\s()+-]+$/.test(value)) error = 'Invalid fax number';
+            break;
 
-      case 'website':
-        if (!value.trim()) error = 'Website URL is required';
-        else if (value && !/^(https?:\/\/)?[\w.-]+\.[a-z]{2,}$/.test(value)) error = 'Invalid website URL';
-        break;
+        case 'website':
+            if (!value.trim()) error = 'Website URL is required';
+            else if (value && !/^(https?:\/\/)?[\w.-]+\.[a-z]{2,}$/.test(value)) error = 'Invalid website URL';
+            break;
 
-      case 'fiscal':
-        if (!value.trim()) error = 'Fiscal year is required';
-        break;
+        case 'fiscal':
+            if (!value.trim()) error = 'Fiscal year is required';
+            break;
 
-      case 'taxMethod':
-        if (!value.trim()) error = 'Tax Basis is required ';
-        break;
+        case 'taxMethod':
+            if (!value.trim()) error = 'Tax Basis is required ';
+            break;
 
-      case 'timeZone':
-        if (!value.trim()) error = 'Time zone is required';
-        break;
+        case 'timeZone':
+            if (!value.trim()) error = 'Time zone is required';
+            break;
 
-      case 'dateFormat':
-        if (!value.trim()) error = 'Date format is required';
-        break;
+        case 'dateFormat':
+            if (!value.trim()) error = 'Date format is required';
+            break;
 
-      case 'companyID':
-        if (!value.trim()) error = 'Company ID is required';
-        break;
+        case 'companyID':
+            if (!value.trim()) error = 'Company ID is required';
+            break;
 
-      case 'taxID':
-        if (!value.trim()) error = 'Tax ID is required';
-        break;
+        case 'taxID':
+            if (!value.trim()) error = 'Tax ID is required';
+            break;
 
-      default:
-        break;
+        default:
+            break;
     }
 
     return error;
-  };
+};

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Images from '../pages/Images.jsx';
 import Combobox from "react-widgets/Combobox";
 
@@ -44,6 +44,8 @@ export const CardFromTertiary = ({
     children,
     onSubmit,
     cardTitle = 'Organization Profile',
+    // headerButtonEdit = "Edit",
+    // headerButtonEditClass = "",
     footerButtonSubmit = "Submit",
     footerButtonSubmitClass = "",
 }) => {
@@ -51,6 +53,7 @@ export const CardFromTertiary = ({
         <Card className='Tertiary_card'>
             <CardHeader>
                 {cardTitle && <Card.Title>{cardTitle}</Card.Title>}
+                {/* <Button className={headerButtonEditClass} onClick={onSubmit}>{headerButtonEdit}</Button> */}
             </CardHeader>
             <Card.Body>
                 <Form onSubmit={onSubmit}>
@@ -502,24 +505,76 @@ export const InlineInputField = ({
     inputCol = 6,
 
 }) => {
+
+    const [previewUrl, setPreviewUrl] = useState(null);
+
+    // If parent passes an existing image value (e.g., on edit form)
+    useEffect(() => {
+        if (type === 'file' && value && typeof value !== 'string') {
+            const objectUrl = URL.createObjectURL(value);
+            setPreviewUrl(objectUrl);
+
+            return () => URL.revokeObjectURL(objectUrl);
+        }
+    }, [value, type]);
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setPreviewUrl(URL.createObjectURL(file));
+            handleChange({ target: { name, value: file } });
+        }
+    };
     return (
         <Form.Group as={Row} className="mb-3 inlineForm" controlId={controlId || name}>
             <Form.Label column sm={labelCol}>
                 {label}
+                {required && <span className="text-danger"> *</span>}
             </Form.Label>
             <Col sm={inputCol} className="position-relative">
-                <Form.Control
-                    type={type}
-                    name={name}
-                    value={value}
-                    onChange={handleChange}
-                    placeholder={placeholder}
-                    required={required}
-                    isInvalid={!!error}
-                />
-                <Form.Control.Feedback type="invalid" className='error_msg ms-3 p-0'>
-                    {error}
-                </Form.Control.Feedback>
+                {type === 'file' ? (
+                    <>
+                        <label htmlFor={name} className="file-upload-box" style={{ cursor: 'pointer' }}>
+                            {previewUrl ? (
+                                <img
+                                    src={previewUrl}
+                                    alt="Preview"
+                                />
+                            ) : (
+                                <div>
+                                    Upload Your Company Logo
+                                </div>
+                            )}
+                        </label>
+                        <input
+                            type="file"
+                            name={name}
+                            id={name}
+                            onChange={handleFileChange}
+                            required={required}
+                            style={{ display: 'none' }}
+                            accept="image/*"
+                        />
+                        <Form.Control.Feedback type="invalid" className="error_msg ms-3 p-0">
+                            {error}
+                        </Form.Control.Feedback>
+                    </>
+                ) : (
+                    <>
+                        <Form.Control
+                            type={type}
+                            name={name}
+                            value={value}
+                            onChange={handleChange}
+                            placeholder={placeholder}
+                            required={required}
+                            isInvalid={!!error}
+                        />
+                        <Form.Control.Feedback type="invalid" className="error_msg ms-3 p-0">
+                            {error}
+                        </Form.Control.Feedback>
+                    </>
+                )}
             </Col>
         </Form.Group>
     );
