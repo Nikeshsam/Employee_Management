@@ -180,7 +180,7 @@ Form{width: 100%;}
 
 .Tertiary_card{border: 1px solid #eae3fe; border-radius: 8px; background-color: #fff;}
 .Tertiary_card .card-header {height: 50px; display: flex; align-items: center; background-color: #f3efff; border: none; border-radius: 7px 7px 0 0;}
-.Tertiary_card .card-header .card-title{font-size: 18px; font-weight: 600; margin: 0; color: #4e26b4;}
+.Tertiary_card .card-header .card-title{font-size: 18px; font-weight: 600; margin: 0; color: #1e1b27;}
 .Tertiary_card .card-body{height: calc(100vh - 191px); overflow: auto; }
 .Tertiary_card .card-footer{background-color: #ECECEC; border: none !important; display: flex; align-items: center; justify-content: flex-end;}
 
@@ -584,3 +584,14 @@ input:-internal-autofill-selected{background-color: transparent;}
 .employeeGroup .employeeGroupContent{display: flex; flex-direction: column; gap: 6px;}
 .employeeGroup .employeeGroupContent h5{font-size: 15px; color: #0A090E; font-weight: 500; margin: 0; line-height: 14px;}
 .employeeGroup .employeeGroupContent p{font-size: 13px; color: #898794; font-weight: 400; margin: 0; line-height: 14px;}
+
+
+.cpViewContainer{display: flex; gap: 20px; flex-direction: column;}
+.cpViewWrap{display: flex; justify-content: space-between; align-items: center; background-color: #F5F5FF; border-radius: 4px; padding: 10px 25px;}
+.cpViewWrap .cpViewLogoContainer{display: flex; align-items: center; gap: 15px;}
+.cpViewWrap .cpViewLogoContainer .cpViewLogo{width: 75px; height: 75px; border-radius: 100px; border: 1px solid #e4d9ff; background-color: #fff;}
+.cpViewWrap .cpViewSection label,
+.cpViewcol .cpViewSection label{color:#939396; font-size: 12.5px; font-weight: 500;}
+
+.cpViewcol {display: flex; }
+.cpViewcol .cpViewSection{width: 20%;}

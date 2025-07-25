@@ -29,10 +29,10 @@
 
     "FiscalYear":
     [
-        { "key": "1", "label:": "January – December" },
-        { "key": "2", "label:": "April – March" },
-        { "key": "3", "label:": "July – June" },
-        { "key": "4", "label:": "October – September" }
+        { "key": "1", "label": "January - December" },
+        { "key": "2", "label": "April - March" },
+        { "key": "3", "label": "July - June" },
+        { "key": "4", "label": "October - September" }
     ],
 
     "TimeZone":

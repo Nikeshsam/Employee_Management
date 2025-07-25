@@ -46,23 +46,21 @@ export const CardFromTertiary = ({
     cardTitle = 'Organization Profile',
     // headerButtonEdit = "Edit",
     // headerButtonEditClass = "",
-    footerButtonSubmit = "Submit",
-    footerButtonSubmitClass = "",
+
 }) => {
-    return (
+    return (    // footerButtonSubmit = "Submit",
+    // footerButtonSubmitClass = "",
         <Card className='Tertiary_card'>
             <CardHeader>
                 {cardTitle && <Card.Title>{cardTitle}</Card.Title>}
                 {/* <Button className={headerButtonEditClass} onClick={onSubmit}>{headerButtonEdit}</Button> */}
             </CardHeader>
             <Card.Body>
-                <Form onSubmit={onSubmit}>
-                    {children}
-                </Form>
+                {children}
             </Card.Body>
-            <Card.Footer>
+            {/* <Card.Footer>
                 <Button className={footerButtonSubmitClass} onClick={onSubmit}>{footerButtonSubmit}</Button>
-            </Card.Footer>
+            </Card.Footer> */}
         </Card>
     );
 }
