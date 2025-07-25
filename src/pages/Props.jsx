@@ -341,6 +341,43 @@ export const InputField = ({
         </Form.Group>
     );
 };
+export const UploadInputField = ({
+    label = '',
+    name,
+    type = 'file',
+    handleChange,
+    error,
+    placeholder = '',
+    required = false,
+    controlId = '',
+    className = 'mb-3',
+}) => {
+    return (
+        <Form.Group autoComplete="off" className={`position-relative ${className}`} controlId={controlId}>
+            {label && (
+                <Form.Label>
+                    {label}
+                    {required && <span className="text-danger"> *</span>}
+                </Form.Label>
+            )}
+            <Form.Control
+                type={type}
+                name={name}
+                placeholder={placeholder}
+                onChange={handleChange}
+                required={required}
+                isInvalid={!!error}
+                autoComplete="off"
+                accept="*/*"
+            />
+            {error && (
+                <Form.Control.Feedback type="invalid" className="error_msg">
+                    {error}
+                </Form.Control.Feedback>
+            )}
+        </Form.Group>
+    );
+};
 
 // Component SelectField.....
 

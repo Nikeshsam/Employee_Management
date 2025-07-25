@@ -29,6 +29,7 @@ export const getOrganizationDetails = (token) => axios.get(`${url}/organization`
 export const addEmployee = (employee, token) => axios.post(`${url}/employee`, employee, {
   headers: {
     Authorization: `Bearer ${token}`,
+    'Content-Type': 'multipart/form-data',
   },
 });
 export const getEmployee = (token) => axios.get(`${url}/employee`,  {
