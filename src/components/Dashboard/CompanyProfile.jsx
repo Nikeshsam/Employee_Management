@@ -5,6 +5,7 @@ import { CardForm, CardFromTertiary, CustomModal, InlineInputField, CustomModalC
 import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import { getOrganizationDetails, organizationDetails } from '../../api/index.js';
 import {organizationvalidateField} from '../Validations/Validate.jsx';
+import ComboDate from '../../data/Combo.json'
 
 // Bootstrap imports
 
@@ -16,15 +17,14 @@ import { Container, Card, Form, Row, Col, Image, Tab, Tabs, Button, Table } from
 const CompanyProfile = () => {
 
   const { loginUser,setLoginUser,saveLoginUser } = useLoginUser();
-
   const [modalShow, setModalShow] = useState(false);
-
   const handleClearClick = () => {
     setModalShow(false);
     navigate('/Home'); // Navigate after modal closes
   };
 
   // Industry
+
   useEffect(()=>{
     if(loginUser.companyProfileStatus){
       fetchData();
@@ -40,87 +40,20 @@ const CompanyProfile = () => {
         console.log(error);
       }
     }
+  // Combo List
 
-  const [Industry, setIndustry] = useState([
-    { key: '1', label: 'Agriculture' },
-    { key: '2', label: 'Forestry' },
-    { key: '3', label: 'Fishing' },
-    { key: '4', label: 'Mining' },
-    { key: '5', label: 'Oil & Gas Extraction' },
-    { key: '6', label: 'Construction' },
-    { key: '7', label: 'Manufacturing' },
-    { key: '8', label: 'Utilities' },
-    { key: '9', label: 'Insurance' },
-    { key: '10', label: 'Healthcare & Pharmaceuticals' },
-  ])
+  const [Industry, setIndustry] = useState(ComboDate.Industry)
+  const [BusinessType, setBusinessType] = useState(ComboDate.BusinessType);
+  const [FiscalYear, setFiscalYear] = useState(ComboDate.FiscalYear)
+  const [TimeZone, setTimeZone] = useState(ComboDate.TimeZone)
+  const [DateFormat, setDateFormat] = useState(ComboDate.DateFormat)
 
-  // Business Type
-
-  const [BusinessType, setBusinessType] = useState([
-    { key: '1', label: 'Sole Proprietorship' },
-    { key: '2', label: 'Partnership' },
-    { key: '3', label: 'Limited Liability Company (LLC)' },
-    { key: '4', label: 'Corporation (C-Corp or S-Corp)' },
-    { key: '5', label: 'Nonprofit Organization' },
-    { key: '6', label: 'Franchise' },
-    { key: '7', label: 'Cooperative' },
-    { key: '8', label: 'Joint Venture' },
-    { key: '9', label: 'Government-Owned Entity' },
-    { key: '10', label: 'Holding Company' }
-  ])
-
-  // Fiscal Year
-
-  const [FiscalYear, setFiscalYear] = useState([
-    { key: '1', label: 'January – December' },
-    { key: '2', label: 'April – March' },
-    { key: '3', label: 'July – June' },
-    { key: '4', label: 'October – September' }
-  ])
-
-  //////////////// Time Zone
-
-  const [TimeZone, setTimeZone] = useState([
-    { key: '1', label: '(UTC-12:00) International Date Line West', value: 'Etc/GMT+12' },
-    { key: '2', label: '(UTC-11:00) Midway Island, Samoa', value: 'Pacific/Pago_Pago' },
-    { key: '3', label: '(UTC-10:00) Hawaii', value: 'Pacific/Honolulu' },
-    { key: '4', label: '(UTC-09:00) Alaska', value: 'America/Anchorage' },
-    { key: '5', label: '(UTC-08:00) Pacific Time (US & Canada)', value: 'America/Los_Angeles' },
-    { key: '6', label: '(UTC-07:00) Mountain Time (US & Canada)', value: 'America/Denver' },
-    { key: '7', label: '(UTC-06:00) Central Time (US & Canada)', value: 'America/Chicago' },
-    { key: '8', label: '(UTC-05:00) Eastern Time (US & Canada)', value: 'America/New_York' },
-    { key: '9', label: '(UTC-04:00) Atlantic Time (Canada)', value: 'America/Halifax' },
-    { key: '10', label: '(UTC-03:00) Buenos Aires', value: 'America/Argentina/Buenos_Aires' },
-    { key: '11', label: '(UTC-02:00) Mid-Atlantic', value: 'Etc/GMT+2' },
-    { key: '12', label: '(UTC-01:00) Azores', value: 'Atlantic/Azores' },
-    { key: '13', label: '(UTC+00:00) Greenwich Mean Time: Dublin, London', value: 'Europe/London' },
-    { key: '14', label: '(UTC+01:00) Central European Time: Berlin, Paris', value: 'Europe/Berlin' },
-    { key: '15', label: '(UTC+02:00) Eastern European Time: Athens, Cairo', value: 'Europe/Athens' },
-    { key: '16', label: '(UTC+03:00) Moscow, Nairobi', value: 'Europe/Moscow' },
-    { key: '17', label: '(UTC+03:30) Tehran', value: 'Asia/Tehran' },
-    { key: '18', label: '(UTC+05:30) India Standard Time: Mumbai, New Delhi', value: 'Asia/Kolkata' },
-    { key: '19', label: '(UTC+07:00) Bangkok, Hanoi, Jakarta', value: 'Asia/Bangkok' },
-    { key: '20', label: '(UTC+08:00) Beijing, Perth, Singapore', value: 'Asia/Shanghai' }
-  ])
-
-  // Date Format
-
-  const [DateFormat, setDateFormat] = useState([
-    { key: '1', label: 'MM/DD/YYYY', value: 'MM/DD/YYYY' },
-    { key: '2', label: 'DD/MM/YYYY', value: 'DD/MM/YYYY' },
-    { key: '3', label: 'YYYY-MM-DD', value: 'YYYY-MM-DD' },
-    { key: '4', label: 'DD MMM YYYY', value: 'DD MMM YYYY' },
-    { key: '5', label: 'MMM DD, YYYY', value: 'MMM DD, YYYY' },
-    { key: '6', label: 'DD.MM.YYYY', value: 'DD.MM.YYYY' },
-    { key: '7', label: 'YYYY/MM/DD', value: 'YYYY/MM/DD' },
-    { key: '8', label: 'dddd, MMMM D, YYYY', value: 'dddd, MMMM D, YYYY' }
-  ])
-
-  // FormData useState
+  // Combo List
 
   // FormData Validations
 
   const [formData, setFormData] = useState({
+    companyLogo: '',
     organizationName: '',
     industry: '',
     businessType: '',
@@ -213,6 +146,18 @@ const CompanyProfile = () => {
               footerButtonSubmit="Submit"
               footerButtonSubmitClass="primary_form_btn btn_h_35"
             >
+              <InlineInputField
+                label="Your Logo"
+                name="companyLogo"
+                placeholder="Your Logo"
+                error={errors.companyLogo}
+                value={formData.companyLogo}
+                handleChange={handleChange}
+                type='file'
+                required
+                labelCol={2}
+                inputCol={2}
+              />
               <InlineInputField
                 label="Organization Name"
                 name="organizationName"

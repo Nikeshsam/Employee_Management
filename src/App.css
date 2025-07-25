@@ -340,6 +340,9 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .form-select{color: #2e2e2e !important; font-size: 14px !important; font-weight: 500 !important; background-color: #fff !important; height: 40px !important; border: 1px solid #E5DEF7 !important; border-radius: 4px !important;}
 .form-select:focus{box-shadow: none !important; border: 1px solid #b498ff !important;}
 
+.file-upload-box{height: 80px !important; border: 2px dashed #E5DEF7 !important; width: 100%; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 12.5px; font-weight: 600; color: #6d36f9; overflow: hidden;}
+.file-upload-box img{width: 110px;}
+
 .MainTitle{background-color: #EFE9FF; border: 1px solid #DFD4FF; border-radius: 4px; height: 40px; display: flex; align-items: center; padding: 0 12px; font-size: 15px; font-weight: 600; color: #414141; margin-bottom: 20px;}
 
 .inlineForm {margin-bottom: 1.4rem !important}
@@ -564,8 +567,12 @@ input:-internal-autofill-selected{background-color: transparent;}
 .DialogueModal .modal-footer .modal_primary_btn{border-radius: 0 0 19px 0; font-size: 12px !important; text-transform: uppercase;}
 .DialogueModal .modal-footer .modal_primary_border_btn {border-radius: 0 0 0 19px; border: none; background-color: #ede7ff !important;  color: #3E3E3E !important; font-size: 12px !important; font-weight: 600 !important; text-transform: uppercase;} 
 
-.was-validated .form-control:invalid, .form-control.is-invalid,
-.was-validated .form-select:invalid:not([multiple]):not([size]), .was-validated .form-select:invalid:not([multiple])[size="1"], .form-select.is-invalid:not([multiple]):not([size]), .form-select.is-invalid:not([multiple])[size="1"]{background-image: none !important;}
+.was-validated .form-control:invalid, 
+.form-control.is-invalid{background-image: none;}
+.was-validated .form-select:invalid:not([multiple]):not([size]), 
+.was-validated .form-select:invalid:not([multiple])[size="1"], 
+.form-select.is-invalid:not([multiple]):not([size]), 
+.form-select.is-invalid:not([multiple])[size="1"]{--bs-form-select-bg-icon: none !important;}
 
 .CustomToast{background-color: #f7fff0; border: 1px solid #bce995; box-shadow: 0 .5rem 1rem rgb(0 0 0 / 5%); border-radius: 12px; overflow: hidden;}
 .CustomToast .toast-header{background-color: #f7fff0; border-bottom: 1px solid #bce995; padding: 0.75rem;}
