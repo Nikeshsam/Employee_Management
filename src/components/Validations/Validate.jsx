@@ -385,10 +385,7 @@ export const addEmployeeValidateField = (name, value) => {
             break;        
         case 'workLocation':
             if (!value.trim()) error = 'Work Location is required';
-            break;  
-        case 'offerletter':
-            if (!value.trim()) error = 'Offer Letter is required';
-            break;                             
+            break;                              
         default:
             break;
     }

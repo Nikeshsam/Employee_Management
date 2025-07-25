@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Combobox from "react-widgets/Combobox";
 import "react-widgets/styles.css";
 import Images from '../../pages/Images.jsx';
-import { CardForm, PrimaryGird, CustomToast, EmployeeGird, InputField, SelectInput, CustomModal, CustomModalConfirmDialog, OffCanvas } from '../../pages/Props.jsx';
+import { CardForm, PrimaryGird, CustomToast, EmployeeGird, InputField, SelectInput, CustomModal, CustomModalConfirmDialog, OffCanvas,UploadInputField } from '../../pages/Props.jsx';
 import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import { addEmployeeValidateField } from '../Validations/Validate.jsx';
 import { getEmployees, addEmployee } from '../../api/index.js';
@@ -169,10 +169,23 @@ const AddEmployee = () => {
     //  Handle Change
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-        const error = addEmployeeValidateField(name, value);
-        setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
+        const { name, type, files, value } = e.target;
+        if(type==='file'){
+            const fileData = files?.[0];
+            if(fileData){
+                setFormData(prev => ({ ...prev, [name]: fileData }));
+                setErrors(prevErrors => ({ ...prevErrors, [name]: '' })); // Clear error for file input
+                return;
+            }else{
+                setErrors(prevErrors => ({ ...prevErrors, [name]: 'Offer Letter is required' })); // Set error for file input
+                return;
+            }
+        }
+        else{
+            setFormData(prev => ({ ...prev, [name]: value }));
+            const error = addEmployeeValidateField(name, value);
+            setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
+        }
     };
 
     const handlePaginationChange = (e)=>{
@@ -478,7 +491,7 @@ const AddEmployee = () => {
                     />
                 </Col>
                 <Col md={6} lg={6} xl={6} xxl={6}>
-                    <InputField
+                    <UploadInputField
                         label="Offer Letter"
                         type="file"
                         placeholder="Upload Offter Letter"
