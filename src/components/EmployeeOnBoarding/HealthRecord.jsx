@@ -218,6 +218,7 @@ const HealthRecord = () => {
         onHide={handleCloseVaccinationCanvas}
         title="Add Vaccination"
         subtitle="Start your 7-day free trial."
+        className='PrimaryCanvasModal'
         name="Add Vaccination"
         footerButtonSubmit="Add Vaccination"
         footerButtonCancel="Cancel"

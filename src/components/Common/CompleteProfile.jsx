@@ -1,5 +1,6 @@
 import { CustomModal } from "../../pages/Props";
 import { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import Images from '../../pages/Images.jsx';
 
 // Bootstrap imports
@@ -11,6 +12,8 @@ import { Container, Card, Form, Row, Col, Image, Tab, Tabs, Button, Table } from
 
 const CompleteProfile = ({ setActiveTab }) => {
 
+  const navigate = useNavigate();
+
   const [modalShow, setModalShow] = useState(true); // Modal shows on initial render
 
 
@@ -19,11 +22,16 @@ const CompleteProfile = ({ setActiveTab }) => {
   };
 
   const handleModalSubmit = () => {
-    // Handle registration logic here
-    setActiveTab('Company Profile');
+
     console.log('Register clicked');
+
+    // Close modal
     setModalShow(false);
+
+    // Navigate to target page and pass a flag
+    navigate('/home', { state: { tab: 'Company Profile', openCanvas: true } });
   };
+
 
   useEffect(() => {
     const timer = setTimeout(() => {

@@ -114,6 +114,7 @@ const WorkExperience = () => {
         onHide={handleCloseWorkExperienceCanvas}
         title="Add Work Experience"
         subtitle="Start your 7-day free trial."
+        className='PrimaryCanvasModal'
         name="Add Work Experience"
         footerButtonSubmit="Add Work Experience"
         footerButtonCancel="Cancel"

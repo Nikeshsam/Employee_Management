@@ -344,6 +344,7 @@ const AddEmployee = () => {
                 onHide={handleCloseAddEmployeeCanvas}
                 title="Add Family Member"
                 subtitle="Start your 7-day free trial."
+                className='PrimaryCanvasModal'
                 name="Add Family"
                 footerButtonSubmit="Add Member"
                 footerButtonCancel="Cancel"

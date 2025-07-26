@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Images from '../../pages/Images.jsx';
 import { CardFromTertiary, OffCanvas, InlineInputField, CustomModalConfirmDialog, InlineSelectField, RadioGroupField } from '../../pages/Props';
 import { useLoginUser } from '../../context/LoginUserContext.jsx';
@@ -14,7 +14,7 @@ import { Container, Card, Form, Row, Col, Image, Tab, Tabs, Button, Table } from
 
 // Bootstrap imports
 
-const CompanyProfile = () => {
+const CompanyProfile = ({ openCanvas }) => {
 
   const { loginUser, setLoginUser, saveLoginUser } = useLoginUser();
   const [modalShow, setModalShow] = useState(false);
@@ -22,6 +22,17 @@ const CompanyProfile = () => {
     setModalShow(false);
     navigate('/Home'); // Navigate after modal closes
   };
+
+  // Company Profile Canvas
+
+  const location  = useLocation();
+  const [showCompanyProfileCanvas, setShowCompanyProfileCanvas] = useState(false);
+
+useEffect(() => {
+    if (openCanvas) {
+      setShowCompanyProfileCanvas(true);
+    }
+  }, [openCanvas]);
 
   // Industry
 
@@ -53,7 +64,7 @@ const CompanyProfile = () => {
   // FormData Validations
 
   const [formData, setFormData] = useState({
-    companyLogo: '',
+    //companyLogo: '',
     organizationName: '',
     industry: '',
     businessType: '',
@@ -77,7 +88,6 @@ const CompanyProfile = () => {
   // Error useState
 
   const [errors, setErrors] = useState({});
-
   const [submitMessage, setSubmitMessage] = useState('');
 
   // Field Validations
@@ -142,7 +152,6 @@ const CompanyProfile = () => {
         <Row>
           <Col md={12} lg={12} xl={12} xxl={12}>
             <CardFromTertiary
-              onSubmit={handleSubmit}
               footerButtonSubmit="Submit"
               footerButtonSubmitClass="primary_form_btn btn_h_35"
             >
@@ -227,12 +236,13 @@ const CompanyProfile = () => {
       </Container>
 
       <OffCanvas
-        //show={showAddEmployeeCanvas}
+        onSubmit={handleSubmit}
+        show={showCompanyProfileCanvas}
+        onHide={() => setShowCompanyProfileCanvas(false)}
         placement="end"
-        //onSubmit={handleSubmit}
-        //onHide={handleCloseAddEmployeeCanvas}
         title="Add Organization Profile"
         subtitle="Complete the profile to get started"
+        className='PrimaryCanvasModal CPProfile'
         name="Add Family"
         footerButtonSubmit="Add Member"
         footerButtonCancel="Cancel"
@@ -248,8 +258,8 @@ const CompanyProfile = () => {
           handleChange={handleChange}
           type='file'
           required
-          labelCol={2}
-          inputCol={2}
+          labelCol={4}
+          inputCol={8}
         />
         <InlineInputField
           label="Organization Name"
@@ -259,8 +269,8 @@ const CompanyProfile = () => {
           value={formData.organizationName}
           handleChange={handleChange}
           required
-          labelCol={2}
-          inputCol={6}
+          labelCol={4}
+          inputCol={8}
         />
         <InlineSelectField
           label="Industry"
@@ -271,8 +281,8 @@ const CompanyProfile = () => {
           handleChange={handleChange}
           required
           options={Industry}
-          labelCol={2}
-          inputCol={6}
+          labelCol={4}
+          inputCol={8}
         />
         <InlineSelectField
           label="Business Type"
@@ -283,8 +293,8 @@ const CompanyProfile = () => {
           handleChange={handleChange}
           required
           options={BusinessType}
-          labelCol={2}
-          inputCol={6}
+          labelCol={4}
+          inputCol={8}
         />
         <InlineInputField
           label="Company Address"
@@ -294,14 +304,14 @@ const CompanyProfile = () => {
           value={formData.companyAddress}
           handleChange={handleChange}
           required
-          labelCol={2}
-          inputCol={9}
+          labelCol={4}
+          inputCol={8}
         />
         <Row className='no_label'>
-          <Col md={2} lg={2} xl={2} xxl={2}></Col>
-          <Col md={9} lg={9} xl={9} xxl={9}>
+          <Col md={4} lg={4} xl={4} xxl={4}></Col>
+          <Col md={8} lg={8} xl={8} xxl={8}>
             <Row>
-              <Col md={8} lg={8} xl={8} xxl={8}>
+              <Col md={6} lg={6} xl={6} xxl={6}>
                 <InlineInputField
                   name="street"
                   placeholder="Street"
@@ -312,7 +322,7 @@ const CompanyProfile = () => {
                   inputCol={12}
                 />
               </Col>
-              <Col md={4} lg={4} xl={4} xxl={4}>
+              <Col md={6} lg={6} xl={6} xxl={6}>
                 <InlineInputField
                   name="city"
                   placeholder="City"
@@ -327,10 +337,10 @@ const CompanyProfile = () => {
           </Col>
         </Row>
         <Row className='no_label'>
-          <Col md={2} lg={2} xl={2} xxl={2}></Col>
-          <Col md={9} lg={9} xl={9} xxl={9}>
+          <Col md={4} lg={4} xl={4} xxl={4}></Col>
+          <Col md={8} lg={8} xl={8} xxl={8}>
             <Row>
-              <Col md={4} lg={4} xl={4} xxl={4}>
+              <Col md={6} lg={6} xl={6} xxl={6}>
                 <InlineInputField
                   name="state"
                   placeholder="State"
@@ -341,7 +351,7 @@ const CompanyProfile = () => {
                   inputCol={12}
                 />
               </Col>
-              <Col md={4} lg={4} xl={4} xxl={4}>
+              <Col md={6} lg={6} xl={6} xxl={6}>
                 <InlineInputField
                   name="country"
                   placeholder="country"
@@ -352,7 +362,14 @@ const CompanyProfile = () => {
                   inputCol={12}
                 />
               </Col>
-              <Col md={4} lg={4} xl={4} xxl={4}>
+            </Row>
+          </Col>
+        </Row>
+        <Row className='no_label'>
+          <Col md={4} lg={4} xl={4} xxl={4}></Col>
+          <Col md={8} lg={8} xl={8} xxl={8}>
+            <Row>
+              <Col md={6} lg={6} xl={6} xxl={6}>
                 <InlineInputField
                   name="zipCode"
                   placeholder="Zip Code"
@@ -363,14 +380,7 @@ const CompanyProfile = () => {
                   inputCol={12}
                 />
               </Col>
-            </Row>
-          </Col>
-        </Row>
-        <Row className='no_label'>
-          <Col md={2} lg={2} xl={2} xxl={2}></Col>
-          <Col md={9} lg={9} xl={9} xxl={9}>
-            <Row>
-              <Col md={4} lg={4} xl={4} xxl={4}>
+              <Col md={6} lg={6} xl={6} xxl={6}>
                 <InlineInputField
                   name="phoneNumber"
                   placeholder="Phone Number"
@@ -381,7 +391,14 @@ const CompanyProfile = () => {
                   inputCol={12}
                 />
               </Col>
-              <Col md={4} lg={4} xl={4} xxl={4}>
+            </Row>
+          </Col>
+        </Row>
+        <Row className='no_label'>
+          <Col md={4} lg={4} xl={4} xxl={4}></Col>
+          <Col md={8} lg={8} xl={8} xxl={8}>
+            <Row>
+              <Col md={6} lg={6} xl={6} xxl={6}>
                 <InlineInputField
                   name="faxNumber"
                   placeholder="Fax Number"
@@ -392,7 +409,7 @@ const CompanyProfile = () => {
                   inputCol={12}
                 />
               </Col>
-              <Col md={4} lg={4} xl={4} xxl={4}>
+              <Col md={6} lg={6} xl={6} xxl={6}>
                 <InlineInputField
                   name="website"
                   placeholder="Website URL"
@@ -415,8 +432,8 @@ const CompanyProfile = () => {
           error={errors.fiscal}
           required
           options={FiscalYear}
-          labelCol={2}
-          inputCol={6}
+          labelCol={4}
+          inputCol={8}
         />
         <RadioGroupField
           label="Tax Basis"
@@ -436,8 +453,8 @@ const CompanyProfile = () => {
           error={errors.timeZone}
           required
           options={TimeZone}
-          labelCol={2}
-          inputCol={6}
+          labelCol={4}
+          inputCol={8}
         />
         <InlineSelectField
           label="Date Format"
@@ -448,8 +465,8 @@ const CompanyProfile = () => {
           error={errors.dateFormat}
           required
           options={DateFormat}
-          labelCol={2}
-          inputCol={6}
+          labelCol={4}
+          inputCol={8}
         />
         <InlineInputField
           label="Tax ID"
@@ -459,7 +476,8 @@ const CompanyProfile = () => {
           handleChange={handleChange}
           error={errors.taxID}
           required
-          inputCol={6}
+          labelCol={4}
+          inputCol={8}
         />
         <InlineInputField
           label="Company ID"
@@ -469,7 +487,8 @@ const CompanyProfile = () => {
           handleChange={handleChange}
           error={errors.companyID}
           required
-          inputCol={6}
+          labelCol={4}
+          inputCol={8}
         />
       </OffCanvas>
 

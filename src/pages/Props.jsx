@@ -673,10 +673,10 @@ export const RadioGroupField = ({
 }) => {
     return (
         <Form.Group as={Row} className="mb-3 inlineForm" controlId={controlId}>
-            <Form.Label column sm="2">
+            <Form.Label column sm="4">
                 {label}
             </Form.Label>
-            <Col sm="6" className="position-relative">
+            <Col sm="8" className="position-relative">
                 {options.map((option, idx) => (
                     <div key={`${name}-${option.value}-${idx}`} className="m-0">
                         <Form.Check
@@ -712,7 +712,7 @@ export const OffCanvas = ({
     subtitle = "Modal Sub Title",
     name = 'Open',
     children,
-    className='PrimaryCanvasModal',
+    className="",
     footerButtonSubmit = "Submit",
     footerButtonCancel = "Cancel",
     footerButtonSubmitClass = "",
@@ -720,7 +720,7 @@ export const OffCanvas = ({
 }) => {
     return (
         <>
-            <Offcanvas show={show} onHide={onHide} placement={placement} className={className}>
+            <Offcanvas show={show} onHide={onHide} placement={placement} backdrop="static" className={className}>
                 <Offcanvas.Header closeButton>
                     <Offcanvas.Title>
                         <div className='ModalTopIcon'>

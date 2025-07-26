@@ -129,6 +129,7 @@ const Benefits = () => {
         onHide={handleCloseBenefitsCanvas}
         title="Add Benefits"
         subtitle="Start your 7-day free trial."
+        className='PrimaryCanvasModal'
         name="Add Benefits"
         footerButtonSubmit="Add Benefits"
         footerButtonCancel="Cancel"

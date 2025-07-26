@@ -154,6 +154,7 @@ const Family = () => {
                 onHide={handleCloseFamilyCanvas}
                 title="Add Family Member"
                 subtitle="Start your 7-day free trial."
+                className='PrimaryCanvasModal'
                 name="Add Family"
                 footerButtonSubmit="Add Member"
                 footerButtonCancel="Cancel"

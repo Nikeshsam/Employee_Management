@@ -167,6 +167,7 @@ const Educations = () => {
                 onHide={handleCloseEducationCanvas}
                 title="Add Education"
                 subtitle="Start your 7-day free trial."
+                className='PrimaryCanvasModal'
                 name="Add Education"
                 footerButtonSubmit="Add Education"
                 footerButtonCancel="Cancel"
@@ -247,6 +248,7 @@ const Educations = () => {
                 onHide={handleCloseCertificationCanvas}
                 title="Add Certification"
                 subtitle="Start your 7-day free trial."
+                className='PrimaryCanvasModal'
                 name="Add Certification"
                 footerButtonSubmit="Add Certification"
                 footerButtonCancel="Cancel"

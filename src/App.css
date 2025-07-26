@@ -529,6 +529,7 @@ input:-internal-autofill-selected{background-color: transparent;}
 .registerContainer p{font-size: 16px; font-weight: 500; margin: 0;}
 
 .offcanvas.offcanvas-end{width: 600px; border-radius: 15px 0 0 15px; border: none;}
+.offcanvas.offcanvas-end.CPProfile{width: 700px; border-radius: 15px 0 0 15px; border: none;}
 
 .rw-state-focus .rw-widget-picker{box-shadow: none !important; border: 1px solid #c4c4c4 !important;}
 .rw-widget-picker{background-color: #ffffff; border: 1px solid #d0d0d0; border-radius: 6px; min-height: 50px;}   
@@ -588,7 +589,7 @@ input:-internal-autofill-selected{background-color: transparent;}
 .cpViewWrap .cpViewSection.extra_icon.CID{background-image: url(../src/assets/Images/company.svg);}
 .cpViewWrap .cpViewSection.extra_icon.TID{background-image: url(../src/assets/Images/tax.svg);}
 .cpViewWrap .cpViewSection label,
-.cpViewcol .cpViewSection label{color:#939396; font-size: 12.5px; font-weight: 500;}
+.cpViewcol .cpViewSection label{color:#939396; font-size: 12px; font-weight: 500;}
 .cpViewWrap .cpViewSection span,
 .cpViewcol .cpViewSection span{color:#354B56; font-size: 14px; font-weight: 600;}
 
