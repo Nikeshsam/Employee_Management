@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Images from '../pages/Images.jsx';
 import Combobox from "react-widgets/Combobox";
+import ComboDate from '../data/Combo.json';
 
 // Bootstrap imports
 
@@ -765,6 +766,15 @@ export const CustomToast = ({
       <Toast.Body>{message}</Toast.Body>
     </Toast>
   );
+};
+
+
+export const getComboLabel = (comboName, key) => {
+    const comboArray = ComboDate[comboName];
+    if (!comboArray) return 'Nil';
+
+    const item = comboArray.find(entry => entry.key === String(key));
+    return item ? item.label : 'Nil';
 };
 
 

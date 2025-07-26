@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Images from '../../pages/Images.jsx';
-import { CardFromTertiary, OffCanvas, InlineInputField, CustomModalConfirmDialog, InlineSelectField, RadioGroupField } from '../../pages/Props';
+import { CardFromTertiary, OffCanvas, InlineInputField, getComboLabel, CustomModalConfirmDialog, InlineSelectField, RadioGroupField } from '../../pages/Props';
 import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import { getOrganizationDetails, organizationDetails } from '../../api/index.js';
 import { organizationvalidateField } from '../Validations/Validate.jsx';
-import ComboDate from '../../data/Combo.json'
+import ComboDate from '../../data/Combo.json';
+
 
 // Bootstrap imports
 
@@ -28,7 +29,7 @@ const CompanyProfile = ({ openCanvas }) => {
   const location  = useLocation();
   const [showCompanyProfileCanvas, setShowCompanyProfileCanvas] = useState(false);
 
-useEffect(() => {
+  useEffect(() => {
     if (openCanvas) {
       setShowCompanyProfileCanvas(true);
     }
@@ -196,11 +197,11 @@ useEffect(() => {
                     <div className='cpViewcol'>
                       <div className='cpViewSection'>
                         <label htmlFor="">Industry</label>
-                        <span>{viewData.industry || 'Nil'}</span>
+                        <span>{getComboLabel('Industry', viewData.industry) || 'Nil'}</span>
                       </div>
                       <div className='cpViewSection'>
                         <label htmlFor="">Business Type</label>
-                        <span>{viewData.businessType || 'Nil'}</span>
+                        <span>{getComboLabel('BusinessType', viewData.businessType) || 'Nil'}</span>
                       </div>
                       <div className='cpViewSection'>
                         <label htmlFor="">Country</label>
@@ -222,7 +223,7 @@ useEffect(() => {
                       </div>
                       <div className='cpViewSection'>
                         <label htmlFor="">Fiscal</label>
-                        <span>{viewData.fiscal || 'Nil'}</span>
+                        <span>{getComboLabel('FiscalYear', viewData.fiscal) || 'Nil'}</span>
                       </div>
                       <div className='cpViewSection'>
                         <label htmlFor="">Tax Method</label>
@@ -230,11 +231,11 @@ useEffect(() => {
                       </div>
                       <div className='cpViewSection'>
                         <label htmlFor="">Time Zone</label>
-                        <span>{viewData.timeZone || 'Nil'}</span>
+                        <span>{getComboLabel('TimeZone', viewData.timeZone) || 'Nil'}</span>
                       </div>
                       <div className='cpViewSection'>
                         <label htmlFor="">Date Format</label>
-                        <span>{viewData.dateFormat || 'Nil'}</span>
+                        <span>{getComboLabel('DateFormat', viewData.dateFormat) || 'Nil'}</span>
                       </div>
                     </div>
                     <div className='cpViewcol'>
