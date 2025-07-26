@@ -47,6 +47,7 @@ useEffect(() => {
       const { data } = await getOrganizationDetails(loginUser.token);
       console.log(data.organization);
       setFormData(data.organization);
+      setViewData(data.organization);
     } catch (error) {
       console.log(error);
     }
@@ -64,7 +65,7 @@ useEffect(() => {
   // FormData Validations
 
   const [formData, setFormData] = useState({
-    //companyLogo: '',
+    companyLogo: '',
     organizationName: '',
     industry: '',
     businessType: '',
@@ -86,6 +87,8 @@ useEffect(() => {
     company: '',
   });
   // Error useState
+
+  const [viewData, setViewData] = useState({});
 
   const [errors, setErrors] = useState({});
   const [submitMessage, setSubmitMessage] = useState('');
@@ -125,7 +128,9 @@ useEffect(() => {
         setSubmitMessage(response.data.message);
         saveLoginUser({ ...loginUser, companyProfileStatus: true });
         setModalShow(true); // <-- Show modal here after success
+        setShowCompanyProfileCanvas(false);
         console.log('Form submitted:', formData);
+        fetchData();
       } catch (error) {
         console.log(error);
         setSubmitMessage(error?.response?.data?.message || 'Submission failed');
@@ -136,15 +141,26 @@ useEffect(() => {
   //  Handle Change
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    const error = organizationvalidateField(name, value);
-    setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
+  const { name, value, type, files } = e.target;
+    if (type === 'file') {
+      const fileData = files?.[0];
+      if (fileData) {
+        setFormData(prev => ({ ...prev, [name]: fileData }));
+        setErrors(prevErrors => ({ ...prevErrors, [name]: '' })); // Clear error for file input
+        return;
+      } else {
+        setErrors(prevErrors => ({ ...prevErrors, [name]: 'Company Logo is required' })); // Set error for file input
+        return;
+      }
+    }
+    else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+      const error = organizationvalidateField(name, value);
+      setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
+    }
   };
 
   const navigate = useNavigate();
-
 
   return (
     <>
@@ -152,8 +168,8 @@ useEffect(() => {
         <Row>
           <Col md={12} lg={12} xl={12} xxl={12}>
             <CardFromTertiary
-              footerButtonSubmit="Submit"
-              footerButtonSubmitClass="primary_form_btn btn_h_35"
+              footerButtonSubmit="Edit"
+              footerButtonSubmitClass="btn btn-primary btn_h_35 mb-2 pe-4 ps-4 secondary_btn"
             >
               <Row>
                 <Col md={12} lg={12} xl={12} xxl={12}>
@@ -161,70 +177,70 @@ useEffect(() => {
                     <div className='cpViewWrap'>
                       <div className='cpViewLogoContainer'>
                         <div className='cpViewLogo'>
-
+                          <img className='img-fluid' src={`data:image/png;base64,${viewData.companyLogo}`} alt="" />
                         </div>
                         <div className='cpViewSection'>
                           <label htmlFor="">Organization Name </label>
-                          <span className='color-1 text-decoration-underline'>{formData.organizationName || '-'}</span>
+                          <span className='color-1 text-decoration-underline'>{viewData.organizationName || 'Nil'}</span>
                         </div>
                       </div>
                       <div className='cpViewSection extra_icon CID'>
                         <label htmlFor="">Company ID</label>
-                        <span>{formData.companyID || '-'}</span>
+                        <span>{viewData.companyID || 'Nil'}</span>
                       </div>
                       <div className='cpViewSection extra_icon TID'>
                         <label htmlFor="">Tax ID</label>
-                        <span className='color-4'>{formData.taxID || '-'}</span>
+                        <span className='color-4'>{viewData.taxID || 'Nil'}</span>
                       </div>
                     </div>
                     <div className='cpViewcol'>
                       <div className='cpViewSection'>
                         <label htmlFor="">Industry</label>
-                        <span>{formData.industry || '-'}</span>
+                        <span>{viewData.industry || 'Nil'}</span>
                       </div>
                       <div className='cpViewSection'>
                         <label htmlFor="">Business Type</label>
-                        <span>{formData.businessType || '-'}</span>
+                        <span>{viewData.businessType || 'Nil'}</span>
                       </div>
                       <div className='cpViewSection'>
                         <label htmlFor="">Country</label>
-                        <span>{formData.country || '-'}</span>
+                        <span>{viewData.country || 'Nil'}</span>
                       </div>
                       <div className='cpViewSection'>
                         <label htmlFor="">Phone Number</label>
-                        <span className='color-2'>{formData.phoneNumber || '-'}</span>
+                        <span className='color-2'>{viewData.phoneNumber || 'Nil'}</span>
                       </div>
                       <div className='cpViewSection'>
                         <label htmlFor="">Fax Number</label>
-                        <span className='color-3'>{formData.faxNumber || '-'}</span>
+                        <span className='color-3'>{viewData.faxNumber || 'Nil'}</span>
                       </div>
                     </div>
                     <div className='cpViewcol'>
                       <div className='cpViewSection'>
                         <label htmlFor="">Website</label>
-                        <span>{formData.website || '-'}</span>
+                        <span>{viewData.website || 'Nil'}</span>
                       </div>
                       <div className='cpViewSection'>
                         <label htmlFor="">Fiscal</label>
-                        <span>{formData.fiscal || '-'}</span>
+                        <span>{viewData.fiscal || 'Nil'}</span>
                       </div>
                       <div className='cpViewSection'>
                         <label htmlFor="">Tax Method</label>
-                        <span className='color-5'>{formData.taxMethod || '-'}</span>
+                        <span className='color-5'>{viewData.taxMethod || 'Nil'}</span>
                       </div>
                       <div className='cpViewSection'>
                         <label htmlFor="">Time Zone</label>
-                        <span>{formData.timeZone || '-'}</span>
+                        <span>{viewData.timeZone || 'Nil'}</span>
                       </div>
                       <div className='cpViewSection'>
                         <label htmlFor="">Date Format</label>
-                        <span>{formData.dateFormat || '-'}</span>
+                        <span>{viewData.dateFormat || 'Nil'}</span>
                       </div>
                     </div>
                     <div className='cpViewcol'>
                       <div className='cpViewSection w-100'>
                         <label htmlFor="">Company Address</label>
-                        <span>{`${formData.companyAddress}, ${formData.street}, ${formData.city}, ${formData.state}, ${formData.zipCode || '-'}`}</span>
+                        <span>{`${viewData.companyAddress} ${viewData.street} ${viewData.city} ${viewData.state} ${viewData.zipCode || 'Nil'}`}</span>
                       </div>
                     </div>
                   </div>

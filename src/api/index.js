@@ -15,6 +15,7 @@ export const validateUser = (token) => axios.get(`${url}/authentication/validate
 export const organizationDetails = (organization, token) => axios.post(`${url}/organization`, organization, {
   headers: {
     Authorization: `Bearer ${token}`,
+    'Content-Type': 'multipart/form-data',
   },
 });
 

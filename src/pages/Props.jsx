@@ -46,10 +46,11 @@ export const CardFromTertiary = ({
     cardTitle = 'Organization Profile',
     // headerButtonEdit = "Edit",
     // headerButtonEditClass = "",
+    footerButtonSubmitClass = "",
+    footerButtonSubmit = "Submit",
 
 }) => {
-    return (    // footerButtonSubmit = "Submit",
-    // footerButtonSubmitClass = "",
+    return (
         <Card className='Tertiary_card'>
             {/* <CardHeader>
                 {cardTitle && <Card.Title>{cardTitle}</Card.Title>}
@@ -58,9 +59,9 @@ export const CardFromTertiary = ({
             <Card.Body>
                 {children}
             </Card.Body>
-            {/* <Card.Footer>
+            <Card.Footer>
                 <Button className={footerButtonSubmitClass} onClick={onSubmit}>{footerButtonSubmit}</Button>
-            </Card.Footer> */}
+            </Card.Footer>
         </Card>
     );
 }

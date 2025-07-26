@@ -399,10 +399,6 @@ export const organizationvalidateField = (name, value) => {
     let error = '';
 
     switch (name) {
-        case 'companyLogo':
-            if (!value.trim()) error = 'Company Logo is required';
-            break;
-
         case 'organizationName':
             if (!value.trim()) error = 'Organization Name is required';
             break;

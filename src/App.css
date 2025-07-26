@@ -184,12 +184,12 @@ Form{width: 100%;}
 .secondary_card .card-body{height: calc(100vh - 352px); overflow: auto; }
 .secondary_card .card-footer{background-color: #ECECEC; border: none !important; display: flex; align-items: center; justify-content: flex-end;}
 
-.Tertiary_card{border: 2px dashed #eae3fe; border-radius: 15px; background-color: #fff;}
+.Tertiary_card{border: 2px dashed #eae3fe; border-radius: 15px; background-color: #fff; overflow: hidden;}
 .Tertiary_card .card-header {height: 50px; display: flex; align-items: center; background-color: #f3efff; border: none; border-radius: 14px 14px 0 0;}
 .Tertiary_card .card-header .card-title{font-size: 18px; font-weight: 600; margin: 0; color: #1e1b27;}
 .Tertiary_card .card-body{padding: 20px;}
 /* .Tertiary_card .card-body{height: calc(100vh - 191px); overflow: auto; } */
-.Tertiary_card .card-footer{background-color: #ECECEC; border: none !important; display: flex; align-items: center; justify-content: flex-end;}
+.Tertiary_card .card-footer{background-color: #fff; border: none !important; display: flex; align-items: center; justify-content: flex-end;}
 
 .inlineForm .form-label{display: flex; align-items: center; justify-content: flex-end;}
 
