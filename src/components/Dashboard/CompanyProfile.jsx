@@ -39,7 +39,6 @@ const CompanyProfile = ({ openCanvas }) => {
   // Company Profile Edit
   const [isEditing, setIsEditing] = useState(false);
 
-
   // Industry
 
   useEffect(() => {

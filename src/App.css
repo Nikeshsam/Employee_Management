@@ -581,7 +581,7 @@ input:-internal-autofill-selected{background-color: transparent;}
 .cpViewContainer{display: flex; gap: 20px; flex-direction: column;}
 .cpViewWrap{display: flex; justify-content: space-between; align-items: center; background-color: #f5f2ff; border-radius: 10px; padding: 10px 25px; border: 1px solid #eee9ff;}
 .cpViewWrap .cpViewLogoContainer{display: flex; align-items: center; gap: 15px;}
-.cpViewWrap .cpViewLogoContainer .cpViewLogo{width: 65px; height: 65px; border-radius: 100px; border: 1px solid #e4d9ff; background-color: #fff;}
+.cpViewWrap .cpViewLogoContainer .cpViewLogo{width: 70px; height: 70px; padding: 6px; border-radius: 100px; border: 1px solid #e4d9ff; background-color: #fff; display: flex; align-items: center; justify-content: center;}
 .cpViewWrap .cpViewSection,
 .cpViewcol .cpViewSection{display: flex; flex-direction: column; gap: 0px;}
 

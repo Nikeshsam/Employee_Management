@@ -3,17 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import Combobox from "react-widgets/Combobox";
 import "react-widgets/styles.css";
 import Images from '../../pages/Images.jsx';
-import { CardForm, PrimaryGird, CustomToast, EmployeeGird, InputField, SelectInput, CustomModal, CustomModalConfirmDialog, OffCanvas,UploadInputField } from '../../pages/Props.jsx';
+import { CustomToast, EmployeeGird, InputField, SelectInput, CustomModalConfirmDialog, OffCanvas,UploadInputField } from '../../pages/Props.jsx';
 import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import { addEmployeeValidateField } from '../Validations/Validate.jsx';
 import { getEmployees, addEmployee } from '../../api/index.js';
 import { deleteEmployee } from '../../api/index.js';
+import ComboDate from '../../data/Combo.json';
 
 
 // Bootstrap imports
 
 import 'bootstrap/dist/css/bootstrap.css';
-import { Container, Card, Form, Row, Col, Tab, ToastContainer, Tabs, Button, Table } from 'react-bootstrap';
+import { Container, Form, Row, Col, ToastContainer, Button } from 'react-bootstrap';
 
 // Bootstrap imports
 
@@ -43,23 +44,11 @@ const AddEmployee = () => {
         setToastList(updatedList);
     };
 
-    const [employmentType, setemploymentType] = useState([
-        { key: '1', label: 'Full Time' },
-        { key: '2', label: 'Part Time' },
-        { key: '3', label: 'Contracted Employee' },
-        { key: '4', label: 'Internship' },
-    ])
-
-    const [employeeType, setemployeeType] = useState([
-        { key: 'admin', label: 'admin' },
-        { key: 'user', label: 'user' },
-    ])
-
-    const [workLocation, setworkLocation] = useState([
-        { key: '1', label: 'Chennai' },
-        { key: '2', label: 'Bangalore' },
-        { key: '3', label: 'Hyderabad' },
-    ])
+    const [EmploymentType, setEmploymentType] = useState(ComboDate.EmploymentType)
+    const [EmployeeType, setEmployeeType] = useState(ComboDate.EmployeeType)
+    const [WorkLocation, setWorkLocation] = useState(ComboDate.WorkLocation)
+    const [Designation, setDesignation] = useState(ComboDate.Designation)
+    const [Department, setDepartment] = useState(ComboDate.Department)
 
     // FormData Validations
 
@@ -355,7 +344,7 @@ const AddEmployee = () => {
                     <SelectInput
                         label="Employee Type"
                         name="employeeType"
-                        options={employeeType}
+                        options={EmployeeType}
                         placeholder="Employee Type"
                         error={errors.employeeType}
                         value={formData.employeeType}
@@ -429,27 +418,25 @@ const AddEmployee = () => {
                     />
                 </Col>
                 <Col md={6} lg={6} xl={6} xxl={6}>
-                    <InputField
-                        label="Designation"
-                        type="text"
-                        placeholder="Employee Designation"
-                        controlId="designation"
-                        name="designation"
-                        error={errors.designation}
-                        value={formData.designation}
+                    <SelectInput
+                        label="Department"
+                        name="department"
+                        options={Department}
+                        placeholder="Choose Department"
+                        error={errors.department}
+                        value={formData.department}
                         handleChange={handleChange}
                         required
                     />
                 </Col>
                 <Col md={6} lg={6} xl={6} xxl={6}>
-                    <InputField
-                        label="Department"
-                        type="text"
-                        placeholder="Employee Department"
-                        controlId="department"
-                        name="department"
-                        error={errors.department}
-                        value={formData.department}
+                    <SelectInput
+                        label="Designation"
+                        name="designation"
+                        options={Designation}
+                        placeholder="Choose Designation"
+                        error={errors.designation}
+                        value={formData.designation}
                         handleChange={handleChange}
                         required
                     />
@@ -471,7 +458,7 @@ const AddEmployee = () => {
                     <SelectInput
                         label="Employment Type"
                         name="employmentType"
-                        options={employmentType}
+                        options={EmploymentType}
                         placeholder="Employment Type"
                         error={errors.employmentType}
                         value={formData.employmentType}
@@ -483,7 +470,7 @@ const AddEmployee = () => {
                     <SelectInput
                         label="Work Location"
                         name="workLocation"
-                        options={workLocation}
+                        options={WorkLocation}
                         placeholder="Work Location"
                         error={errors.workLocation}
                         value={formData.workLocation}

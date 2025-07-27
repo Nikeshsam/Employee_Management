@@ -69,5 +69,63 @@
         { "key": "6", "label": "DD.MM.YYYY", "value": "DD.MM.YYYY" },
         { "key": "7", "label": "YYYY/MM/DD", "value": "YYYY/MM/DD" },
         { "key": "8", "label": "dddd, MMMM D, YYYY", "value": "dddd, MMMM D, YYYY" }
+    ],
+
+    "Department":
+    [
+        { "key": "1", "label": "Technical / Development Department" },
+        { "key": "2", "label": "UI/UX & Design" },
+        { "key": "3", "label": "Quality Assurance (QA)" },
+        { "key": "4", "label": "Product & Project Management" },
+        { "key": "5", "label": "Human Resources (HR)" },
+        { "key": "6", "label": "Sales & Marketing" },
+        { "key": "7", "label": "IT Support & DevOps" },
+        { "key": "8", "label": "Others (Admin, Finance, Legal)" }
+    ],
+
+    "Designation":
+    [
+        { "key": "1", "label": "Junior Software Developer / Trainee Developer" },
+        { "key": "2", "label": "Software Developer / Frontend Developer / Backend Developer" },
+        { "key": "3", "label": "Tech Lead / Module Lead" },
+        { "key": "4", "label": "UI/UX Intern / Junior UI Designer" },
+        { "key": "5", "label": "Senior UI/UX Designer" },
+        { "key": "6", "label": "Design Lead" },
+        { "key": "7", "label": "QA Intern / Junior QA Engineer" },
+        { "key": "8", "label": "Senior QA Engineer / Automation Tester" },
+        { "key": "9", "label": "QA Lead / Test Manager" },
+        { "key": "10", "label": "Product Coordinator / Junior Business Analyst" },
+        { "key": "11", "label": "Senior Product Manager / Senior Project Manager" },
+        { "key": "12", "label": "Program Manager" },
+        { "key": "13", "label": "HR Intern / HR Executive" },
+        { "key": "14", "label": "Senior HR Manager" },
+        { "key": "15", "label": "HR Director / VP of HR / CHRO (Chief HR Officer)" },
+        { "key": "16", "label": "Marketing Executive / Sales Associate" },
+        { "key": "17", "label": "Senior Marketing Manager / BDM" },
+        { "key": "18", "label": "Director of Marketing / CMO (Chief Marketing Officer)" },
+        { "key": "19", "label": "IT Support Technician" },
+        { "key": "20", "label": "Senior DevOps Engineer / Cloud Engineer" },
+        { "key": "21", "label": "IT Manager / Director of Infrastructure" }
+    ],
+    
+    "EmploymentType":
+    [
+        { "key": "1", "label": "Full Time" },
+        { "key": "2", "label": "Part Time" },
+        { "key": "3", "label": "Contracted Employee" },
+        { "key": "4", "label": "Internship" }
+    ],
+
+    "EmployeeType":
+    [
+        { "key": "admin", "label": "admin" },
+        { "key": "user", "label": "user" }
+    ],
+
+    "WorkLocation":
+    [
+        { "key": "1", "label": "Chennai" },
+        { "key": "2", "label": "Bangalore" },
+        { "key": "3", "label": "Hyderabad" }
     ]
 }
