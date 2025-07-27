@@ -62,12 +62,22 @@ export const deleteEmployee = (id, token) => {
   });
 };
 
+// Employee Edit Organization
+
 export const editOrganization = (organization, token, id) => axios.patch(`${url}/organization/${id}`, organization, {
   headers: {
     Authorization: `Bearer ${token}`,
     'Content-Type': 'multipart/form-data',
   },
 });
+
+// Employee Export Employees Excel
+
+export const exportEmployeesExcel = (id, token) => {
+  return axios.delete(`${url}/employee/${id}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+};
 
 // export const updatePost = (id,post)=> axios.patch(`${url}/${id}`,post);
 // export const likePost = (id)=> axios.patch(`${url}/${id}`);

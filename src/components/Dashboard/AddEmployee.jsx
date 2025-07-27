@@ -262,7 +262,7 @@ const AddEmployee = () => {
                                 <p>Manage Your Employee</p>
                             </div>
                             <div className='align-items-center d-flex gap-3'>
-                                <Button type='button' onClick={handleShowAddEmployeeCanvas} className='blue_gradient_border btn_h_50'>
+                                <Button type='button' className='blue_gradient_border btn_h_50'>
                                     Download
                                 </Button>
                                 <Button type='button' onClick={handleShowAddEmployeeCanvas} className='blue_gradient btn_h_50'>
