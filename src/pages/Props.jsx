@@ -264,13 +264,26 @@ export const EmployeeGird = ({
                                 disabled={pagination?.currentPage === 1}
                                 onClick={() => setPagination(prev => ({ ...prev, currentPage: prev.currentPage - 1 }))}
                             />
-                            <Pagination.Item active>{pagination?.currentPage || 1}</Pagination.Item>
-                            {pagination?.totalPages >= 2 && pagination?.totalPages !== pagination?.currentPage && (
-                                <Pagination.Item>{parseInt(pagination?.currentPage || 1) + 1}</Pagination.Item>
+                            {   pagination.currentPage !== 1 && (
+                                <Pagination.Item onClick={()=>setPagination(prev=>({...prev,currentPage:1}))}>{1}</Pagination.Item>
                             )}
-                            {pagination?.totalPages >= 4 && <Pagination.Ellipsis />}
-                            {pagination?.totalPages >= 3 && (
-                                <Pagination.Item>{pagination?.totalPages || 3}</Pagination.Item>
+
+                            {parseInt(pagination?.currentPage) - 1 > 1 && <Pagination.Ellipsis />}
+                            
+                            <Pagination.Item active>{pagination?.currentPage || 1}</Pagination.Item>
+
+                            {parseInt(pagination?.currentPage) + 1 < pagination.totalPages && (
+                                <Pagination.Item onClick={()=>setPagination(prev=>({...prev,currentPage:parseInt(pagination?.currentPage) + 1}))}>
+                                    {parseInt(pagination?.currentPage) + 1}
+                                </Pagination.Item>
+                            )}
+
+                            {parseInt(pagination?.totalPages) - parseInt(pagination?.currentPage) > 1 && <Pagination.Ellipsis />}
+
+                            {pagination.currentPage !== pagination?.totalPages && (
+                                <Pagination.Item onClick={()=>setPagination(prev=>({...prev,currentPage:pagination.totalPages}))}>
+                                    {pagination?.totalPages}
+                                </Pagination.Item>
                             )}
                             <Pagination.Next
                                 disabled={pagination?.currentPage === pagination?.totalPages}
@@ -540,10 +553,10 @@ export const InlineInputField = ({
     controlId,
     labelCol = 2,
     inputCol = 6,
-
+    previewUrl,
+    setPreviewUrl,
 }) => {
 
-    const [previewUrl, setPreviewUrl] = useState(null);
 
     // If parent passes an existing image value (e.g., on edit form)
     useEffect(() => {

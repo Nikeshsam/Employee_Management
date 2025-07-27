@@ -28,6 +28,7 @@ const CompanyProfile = ({ openCanvas }) => {
 
   const location  = useLocation();
   const [showCompanyProfileCanvas, setShowCompanyProfileCanvas] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState(null);
 
   useEffect(() => {
     if (openCanvas) {
@@ -199,6 +200,15 @@ const CompanyProfile = ({ openCanvas }) => {
     }
   };
 
+  const handlEdit = () =>{
+    setFormData(viewData);
+    setShowCompanyProfileCanvas(true);
+    setIsEditing(true); // set to edit mode
+    setPreviewUrl(`data:image/png;base64,${viewData.companyLogo}`);
+  }
+
+
+
   const navigate = useNavigate();
 
   return (
@@ -209,11 +219,7 @@ const CompanyProfile = ({ openCanvas }) => {
             <CardFromTertiary
               footerButtonSubmit="Edit"
               footerButtonSubmitClass="btn btn-primary btn_h_35 mb-2 pe-4 ps-4 secondary_btn"
-              footerButtonSubmitOnClick={() => {
-                setFormData(viewData);
-                setShowCompanyProfileCanvas(true);
-                setIsEditing(true); // set to edit mode
-              }}
+              footerButtonSubmitOnClick={handlEdit}
             >
               <Row>
                 <Col md={12} lg={12} xl={12} xxl={12}>
@@ -221,7 +227,7 @@ const CompanyProfile = ({ openCanvas }) => {
                     <div className='cpViewWrap'>
                       <div className='cpViewLogoContainer'>
                         <div className='cpViewLogo'>
-                          <img className='img-fluid' src={`data:image/png;base64,${viewData.companyLogo}`} alt="" />
+                          <img className='img-fluid' src={viewData.companyLogo?`data:image/png;base64,${viewData.companyLogo}`:null} alt="" />
                         </div>
                         <div className='cpViewSection'>
                           <label htmlFor="">Organization Name </label>
@@ -313,6 +319,8 @@ const CompanyProfile = ({ openCanvas }) => {
           label="Your Logo"
           name="companyLogo"
           placeholder="Your Logo"
+          previewUrl={previewUrl}
+          setPreviewUrl={setPreviewUrl}
           error={errors.companyLogo}
           value={formData.companyLogo}
           handleChange={handleChange}
