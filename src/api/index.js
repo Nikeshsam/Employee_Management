@@ -62,7 +62,7 @@ export const deleteEmployee = (id, token) => {
   });
 };
 
-export const editOrganization = (organization, token) => axios.post(`${url}/organization/${organization._id}`, organization, {
+export const editOrganization = (organization, token, id) => axios.patch(`${url}/organization/${id}`, organization, {
   headers: {
     Authorization: `Bearer ${token}`,
     'Content-Type': 'multipart/form-data',

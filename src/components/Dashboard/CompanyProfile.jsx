@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import Images from '../../pages/Images.jsx';
 import { CardFromTertiary, OffCanvas, InlineInputField, getComboLabel, CustomModalConfirmDialog, InlineSelectField, RadioGroupField } from '../../pages/Props';
 import { useLoginUser } from '../../context/LoginUserContext.jsx';
-import { getOrganizationDetails, organizationDetails } from '../../api/index.js';
+import { getOrganizationDetails, organizationDetails, editOrganization } from '../../api/index.js';
 import { organizationvalidateField } from '../Validations/Validate.jsx';
 import ComboDate from '../../data/Combo.json';
 
@@ -35,6 +35,11 @@ const CompanyProfile = ({ openCanvas }) => {
     }
   }, [openCanvas]);
 
+
+  // Company Profile Edit
+  const [isEditing, setIsEditing] = useState(false);
+
+
   // Industry
 
   useEffect(() => {
@@ -55,11 +60,11 @@ const CompanyProfile = ({ openCanvas }) => {
   }
   // Combo List
 
-  const [Industry, setIndustry] = useState(ComboDate.Industry)
+  const [Industry, setIndustry] = useState(ComboDate.Industry);
   const [BusinessType, setBusinessType] = useState(ComboDate.BusinessType);
-  const [FiscalYear, setFiscalYear] = useState(ComboDate.FiscalYear)
-  const [TimeZone, setTimeZone] = useState(ComboDate.TimeZone)
-  const [DateFormat, setDateFormat] = useState(ComboDate.DateFormat)
+  const [FiscalYear, setFiscalYear] = useState(ComboDate.FiscalYear);
+  const [TimeZone, setTimeZone] = useState(ComboDate.TimeZone);
+  const [DateFormat, setDateFormat] = useState(ComboDate.DateFormat);
 
   // Combo List
 
@@ -120,18 +125,52 @@ const CompanyProfile = ({ openCanvas }) => {
     },
   ];
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (validateForm()) {
+  //     try {
+  //       const response = await organizationDetails(formData, loginUser.token);
+  //       console.log(response.data.message);
+  //       setSubmitMessage(response.data.message);
+  //       saveLoginUser({ ...loginUser, companyProfileStatus: true });
+  //       setModalShow(true); // <-- Show modal here after success
+  //       setShowCompanyProfileCanvas(false);
+  //       console.log('Form submitted:', formData);
+  //       fetchData();
+  //     } catch (error) {
+  //       console.log(error);
+  //       setSubmitMessage(error?.response?.data?.message || 'Submission failed');
+  //     }
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
       try {
-        const response = await organizationDetails(formData, loginUser.token);
+        let response;
+
+        // let formToSend = new FormData();
+        // Object.keys(formData).forEach(key => {
+        //   formToSend.append(key, formData[key]);
+        // });
+
+        if (isEditing) {
+          // Add _id to formData if not already
+          //formToSend.append('_id', viewData._id);
+          console.log(formData)
+          response = await editOrganization(formData, loginUser.token, viewData._id);
+        } else {
+          response = await organizationDetails(formData, loginUser.token);
+        }
+
         console.log(response.data.message);
         setSubmitMessage(response.data.message);
         saveLoginUser({ ...loginUser, companyProfileStatus: true });
-        setModalShow(true); // <-- Show modal here after success
+        setModalShow(true);
         setShowCompanyProfileCanvas(false);
-        console.log('Form submitted:', formData);
-        fetchData();
+        setIsEditing(false); // Reset edit mode
+        fetchData(); // Refresh view
       } catch (error) {
         console.log(error);
         setSubmitMessage(error?.response?.data?.message || 'Submission failed');
@@ -171,6 +210,11 @@ const CompanyProfile = ({ openCanvas }) => {
             <CardFromTertiary
               footerButtonSubmit="Edit"
               footerButtonSubmitClass="btn btn-primary btn_h_35 mb-2 pe-4 ps-4 secondary_btn"
+              footerButtonSubmitOnClick={() => {
+                setFormData(viewData);
+                setShowCompanyProfileCanvas(true);
+                setIsEditing(true); // set to edit mode
+              }}
             >
               <Row>
                 <Col md={12} lg={12} xl={12} xxl={12}>
@@ -255,13 +299,13 @@ const CompanyProfile = ({ openCanvas }) => {
       <OffCanvas
         onSubmit={handleSubmit}
         show={showCompanyProfileCanvas}
-        onHide={() => setShowCompanyProfileCanvas(false)}
+        onHide={() => {setShowCompanyProfileCanvas(false); setIsEditing(false);}}
         placement="end"
         title="Add Organization Profile"
         subtitle="Complete the profile to get started"
         className='PrimaryCanvasModal CPProfile'
         name="Add Family"
-        footerButtonSubmit="Add Member"
+        footerButtonSubmit={isEditing ? "Update Profile" : "Add Profile"}
         footerButtonCancel="Cancel"
         footerButtonSubmitClass="modal_primary_btn w-100"
         footerButtonCancelClass="modal_primary_border_btn w-100"

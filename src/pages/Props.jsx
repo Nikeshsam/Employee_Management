@@ -43,7 +43,7 @@ export const CardForm = ({
 
 export const CardFromTertiary = ({
     children,
-    onSubmit,
+    footerButtonSubmitOnClick,
     cardTitle = 'Organization Profile',
     // headerButtonEdit = "Edit",
     // headerButtonEditClass = "",
@@ -61,7 +61,7 @@ export const CardFromTertiary = ({
                 {children}
             </Card.Body>
             <Card.Footer>
-                <Button className={footerButtonSubmitClass} onClick={onSubmit}>{footerButtonSubmit}</Button>
+                <Button className={footerButtonSubmitClass} onClick={footerButtonSubmitOnClick}>{footerButtonSubmit}</Button>
             </Card.Footer>
         </Card>
     );
