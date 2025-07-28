@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Combobox from "react-widgets/Combobox";
 import "react-widgets/styles.css";
 import Images from '../../pages/Images.jsx';
-import { CustomToast, EmployeeGird, InputField, SelectInput, CustomModalConfirmDialog, OffCanvas,UploadInputField } from '../../pages/Props.jsx';
+import { CustomToast, EmployeeGird, InputField, SelectInput, CustomModalConfirmDialog, OffCanvas, UploadInputField } from '../../pages/Props.jsx';
 import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import { addEmployeeValidateField } from '../Validations/Validate.jsx';
 import { getEmployees, addEmployee } from '../../api/index.js';
@@ -23,7 +23,7 @@ const AddEmployee = () => {
 
     const [modalShow, setModalShow] = useState(false);
 
-    const {loginUser } = useLoginUser();
+    const { loginUser } = useLoginUser();
 
     const [employeeData, setEmployeeData] = useState([]);
 
@@ -35,11 +35,11 @@ const AddEmployee = () => {
     const handleShowAddEmployeeCanvas = () => setShowAddEmployeeCanvas(true);
     const handleCloseAddEmployeeCanvas = () => setShowAddEmployeeCanvas(false);
 
-    const [pagination,setPagination]=useState({
-        currentPage:1,
-        totalPages:0,
-        rowsPerPage:5,
-        totalRecords:0
+    const [pagination, setPagination] = useState({
+        currentPage: 1,
+        totalPages: 0,
+        rowsPerPage: 5,
+        totalRecords: 0
     });
 
     const handleToastClose = (index) => {
@@ -162,33 +162,33 @@ const AddEmployee = () => {
 
     const handleChange = (e) => {
         const { name, type, files, value } = e.target;
-        if(type==='file'){
+        if (type === 'file') {
             const fileData = files?.[0];
-            if(fileData){
+            if (fileData) {
                 setFormData(prev => ({ ...prev, [name]: fileData }));
                 setErrors(prevErrors => ({ ...prevErrors, [name]: '' })); // Clear error for file input
                 return;
-            }else{
+            } else {
                 setErrors(prevErrors => ({ ...prevErrors, [name]: 'Offer Letter is required' })); // Set error for file input
                 return;
             }
         }
-        else{
+        else {
             setFormData(prev => ({ ...prev, [name]: value }));
             const error = addEmployeeValidateField(name, value);
             setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
         }
     };
 
-    const handlePaginationChange = (e)=>{
-        let {name,value} = e.target;
-        if(name==='currentPage' && value>pagination.totalPages){
-            value=pagination.totalPages;
+    const handlePaginationChange = (e) => {
+        let { name, value } = e.target;
+        if (name === 'currentPage' && value > pagination.totalPages) {
+            value = pagination.totalPages;
         }
-        if(name==='rowsPerPage'){
-            setPagination(prev=>({...prev,currentPage:1}));
+        if (name === 'rowsPerPage') {
+            setPagination(prev => ({ ...prev, currentPage: 1 }));
         }
-        setPagination(prev=>({...prev,[name]:value}));
+        setPagination(prev => ({ ...prev, [name]: value }));
     }
 
     // Insert Employee Data in Grid API Integration
@@ -219,15 +219,13 @@ const AddEmployee = () => {
             };
 
             fetchEmployees();
-        }, 500); // ⏱️ Wait 500ms after typing
+        }, 200); // ⏱️ Wait 500ms after typing
 
         return () => clearTimeout(delayDebounce); // ✅ cancel previous timer
     }, [searchTerm, pagination.currentPage, pagination.rowsPerPage, loginUser]);
 
-
-
     const navigate = useNavigate();
-    
+
     // Delete Employee Function
 
     const handleClearClick = () => {
@@ -328,7 +326,7 @@ const AddEmployee = () => {
                             showFooter={true}
                             buttonClassName='secondary_btn btn_h_35 fs_13 fw_500'
                             buttonClassIcon='icon_btn'
-                            tableHeaders={[<Form.Check  className='CustomCheck' />, 'Employee Name', 'Job Title', 'Department', 'JoiningDate', 'Employment Type', 'Status', 'Work Location', 'Actions']}
+                            tableHeaders={[<Form.Check className='CustomCheck' />, 'Employee Name', 'Job Title', 'Department', 'JoiningDate', 'Employment Type', 'Status', 'Work Location', 'Actions']}
                         >
                             {employeeData.map((emp, idx) => (
                                 <tr key={idx}>
@@ -353,12 +351,12 @@ const AddEmployee = () => {
                                         <span className={`badge ${getStatusClass(emp.status)}`}>
                                             <i></i> {emp.status}
                                         </span>
-                                    </td>                                    
+                                    </td>
                                     <td>{emp.workLocation}</td>
                                     <td className='table_action'>
                                         <Button className="btn_action"><img src={Images.View} alt="" /></Button>
                                         <Button className="btn_action"><img src={Images.Edit} alt="" /></Button>
-                                        <Button className="btn_action" onClick={() => {setEmployeeToDelete(emp); setModalShow(true);}}><img src={Images.Delete} alt="" /></Button>
+                                        <Button className="btn_action" onClick={() => { setEmployeeToDelete(emp); setModalShow(true); }}><img src={Images.Delete} alt="" /></Button>
                                     </td>
                                 </tr>
                             ))}

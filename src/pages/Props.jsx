@@ -173,6 +173,7 @@ export const PrimaryGird = ({
 // Component Employee Grid.....
 
 export const EmployeeGird = ({
+
     children,
 
     // Visibility Toggles
@@ -196,6 +197,11 @@ export const EmployeeGird = ({
     buttonClassIcon = 'primary_form_btn btn_h_35',
     tableHeaders = [],
 }) => {
+
+    const designationOptions = ComboDate.Designation.map(dep => dep.label);
+    const departmentOptions = ComboDate.Department.map(dep => dep.label);
+    //const statusOptions = ComboDate.Status.map(dep => dep.label);
+
     return (
         <div className="addEmployee_table">
             <div className="table_header">
@@ -210,7 +216,7 @@ export const EmployeeGird = ({
                             <li>
                                 <Combobox
                                     defaultValue="All Positions"
-                                    data={["Total onboarding", "New Onboarding", "Pending Onboarding"]}
+                                    data={designationOptions}
                                 />
                             </li>
                         )}
@@ -218,7 +224,7 @@ export const EmployeeGird = ({
                             <li>
                                 <Combobox
                                     defaultValue="All Departments"
-                                    data={["Total onboarding", "New Onboarding", "Pending Onboarding"]}
+                                    data={departmentOptions}
                                 />
                             </li>
                         )}
@@ -226,7 +232,7 @@ export const EmployeeGird = ({
                             <li>
                                 <Combobox
                                     defaultValue="All Status"
-                                    data={["Total onboarding", "New Onboarding", "Pending Onboarding"]}
+                                    //data={statusOptions}
                                 />
                             </li>
                         )}
