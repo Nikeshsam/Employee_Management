@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Combobox from "react-widgets/Combobox";
 import "react-widgets/styles.css";
@@ -23,9 +23,11 @@ const AddEmployee = () => {
 
     const [modalShow, setModalShow] = useState(false);
 
-    const { loginUser } = useLoginUser();
+    const {loginUser } = useLoginUser();
 
     const [employeeData, setEmployeeData] = useState([]);
+
+    const [searchTerm, setSearchTerm] = useState(''); // ✅ string
 
     const [employeeToDelete, setEmployeeToDelete] = useState(null);
 
@@ -192,25 +194,37 @@ const AddEmployee = () => {
     // Insert Employee Data in Grid API Integration
 
     useEffect(() => {
-        const fetchEmployees = async () => {
-            try {
-                const response = await getEmployees('', pagination.currentPage, pagination.rowsPerPage, loginUser.token);
-                //console.log(response);
-                setEmployeeData(response.data.data); // adjust based on your actual response
-                setPagination(prev => ({ 
-                    ...prev,
-                    totalPages: response.data.totalPages || 0,
-                    totalRecords:response.data.totalRecords ||0
-                }))
-            } catch (error) {
-                console.error('Failed to fetch employees:', error);
-            }
-        };
+        if (!loginUser?.token) return;
 
-        if (loginUser?.token) {
+        const delayDebounce = setTimeout(() => {
+            const fetchEmployees = async () => {
+                try {
+                    const response = await getEmployees(
+                        searchTerm,
+                        pagination.currentPage,
+                        pagination.rowsPerPage,
+                        loginUser.token
+                    );
+
+                    setEmployeeData(response.data?.data || []);
+                    setPagination(prev => ({
+                        ...prev,
+                        totalPages: response.data.totalPages || 0,
+                        totalRecords: response.data.totalRecords || 0
+                    }));
+                } catch (error) {
+                    console.error('Failed to fetch employees:', error);
+                    setEmployeeData([]);
+                }
+            };
+
             fetchEmployees();
-        }
-    }, [loginUser,pagination.rowsPerPage,pagination.currentPage]);
+        }, 500); // ⏱️ Wait 500ms after typing
+
+        return () => clearTimeout(delayDebounce); // ✅ cancel previous timer
+    }, [searchTerm, pagination.currentPage, pagination.rowsPerPage, loginUser]);
+
+
 
     const navigate = useNavigate();
     

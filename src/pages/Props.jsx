@@ -201,7 +201,7 @@ export const EmployeeGird = ({
                     <ul>
                         {showSearch && (
                             <li className='searchInput'>
-                                <input className="grid_search" type="text" placeholder="Search" />
+                                <input className="grid_search" onChange={(e) => setSearchTerm(e.target.value)} type="text" placeholder="Search" />
                             </li>
                         )}
                         {showPositionButton && (

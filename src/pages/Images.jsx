@@ -41,6 +41,9 @@ import UserAvatar from '../assets/Images/UserAvatar.svg';
 import ConfirmDelete from '../assets/Images/ConfirmDelete.svg';
 import ConfirmCheck from '../assets/Images/ConfirmCheck.svg';
 
+import SearchEmployee from '../assets/Images/SearchEmployee.svg';
+
+
 
 
 
@@ -72,7 +75,8 @@ import ConfirmCheck from '../assets/Images/ConfirmCheck.svg';
     Avatar,
     UserAvatar,
     ConfirmDelete,
-    ConfirmCheck
+    ConfirmCheck,
+    SearchEmployee
 }
 
 export default Images;
