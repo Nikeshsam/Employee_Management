@@ -317,6 +317,8 @@ const AddEmployee = () => {
                             pagination={pagination}
                             handlePaginationChange={handlePaginationChange}
                             setPagination={setPagination}
+                            searchTerm={searchTerm}
+                            setSearchTerm={setSearchTerm}
                             onButtonClick={() => console.log('Add clicked')}
                             onFilterClick={() => console.log('Filter clicked')}
                             onDeleteClick={() => console.log('Delete clicked')}

@@ -187,6 +187,8 @@ export const EmployeeGird = ({
     handlePaginationChange,
     setPagination,
 
+    //search
+    setSearchTerm,
     // Actions
     onDeleteClick,
 
