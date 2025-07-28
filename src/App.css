@@ -276,19 +276,21 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 
 
 .addEmployee_table{width: 100%; border-collapse: collapse; margin: 0; border-radius: 0 0 10px 10px; background-color: #fff; border: 1px solid #e5def8; border-top: none;} 
+.addEmployee_table .table_body .table-responsive{max-height: calc(100vh - 295px); overflow-y: auto;}
 .addEmployee_table .table_header{padding: 15px 20px 20px 20px;}
 .addEmployee_table .table_header .heading_elements{width: 100%;}
 .addEmployee_table .table_header .heading_elements ul{display: flex; align-items: center; justify-content: space-between; width: 100%;}
 .addEmployee_table .table_header .heading_elements ul li.searchInput{width: 100%;}
 .addEmployee_table .table_header .heading_elements ul .grid_search{height: 50px !important; width: 100%;}
+.addEmployee_table thead{position: sticky; top: 0; background-color: #343a40; color: white; z-index: 2;}
 .addEmployee_table thead tr,
 .addEmployee_table thead tr td{vertical-align: middle; border: none;}
 
-.addEmployee_table thead tr th{background-color: #EBE4FF;box-shadow: none; overflow: hidden; font-size: 12px; text-transform: uppercase; font-weight: 700; color: #2C2C2C; padding: 10px 20px; border: none !important;}
+.addEmployee_table thead tr th{background-color: #EBE4FF;box-shadow: none; overflow: hidden; font-size: 12px; text-transform: uppercase; font-weight: 700; color: #2C2C2C; padding: 12px 20px; border: none !important; white-space: nowrap;}
 .addEmployee_table thead tr th .form-check-input,
 .addEmployee_table tbody tr td .form-check-input{margin: 0 !important; width: 14px; height: 14px; border: 1px solid #ADADAD;}
 
-.addEmployee_table tbody tr td{background-color: transparent;box-shadow: none; overflow: hidden; font-size: 14px; font-weight: 500; color: #343434; padding: 18px 20px; border: none !important;}
+.addEmployee_table tbody tr td{background-color: transparent;box-shadow: none; overflow: hidden; font-size: 13px; font-weight: 500; color: #343434; padding: 18px 20px; border: none !important;}
 .addEmployee_table tbody tr{border-bottom: 1px solid #e5def8 !important;}
 .addEmployee_table tbody tr:last-child{border: none !important;}
 .addEmployee_table tbody tr,
@@ -384,6 +386,8 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 
 .table_footer .paginations ul.pagination li .page-link{display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; color: #5C5865; border: none !important; border-radius: 4px; background-color: transparent;}
 .table_footer .paginations ul.pagination li .page-link:focus{box-shadow: none;}
+
+.table_footer .paginations ul.pagination li.active .page-link{color: #fff !important;}  
 
 .table_footer .paginations .jumpTo{display: flex; align-items: center; gap: 8px;}
 .table_footer .paginations .jumpTo input.form-control{width: 30px !important; height: 30px !important; border-radius: 4px !important; border: 1px solid #E6DDFF !important; min-height: auto !important; padding: 10px !important;}

@@ -195,7 +195,7 @@ export const EmployeeGird = ({
     tableHeaders = [],
 }) => {
     return (
-        <div className="addEmployee_table mb-3">
+        <div className="addEmployee_table">
             <div className="table_header">
                 <div className="heading_elements">
                     <ul>
