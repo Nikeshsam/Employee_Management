@@ -74,7 +74,8 @@ export const editOrganization = (organization, token, id) => axios.patch(`${url}
 // Employee Export Employees Excel
 
 export const exportEmployeesExcel = (id, token) => {
-  return axios.delete(`${url}/employee/${id}`, {
+  return axios.get(`${url}/employee/export`, {
+    responseType: 'blob', // tells axios to expect binary file
     headers: { Authorization: `Bearer ${token}` }
   });
 };

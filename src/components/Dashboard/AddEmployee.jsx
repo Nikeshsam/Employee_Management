@@ -8,6 +8,7 @@ import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import { addEmployeeValidateField } from '../Validations/Validate.jsx';
 import { getEmployees, addEmployee } from '../../api/index.js';
 import { deleteEmployee } from '../../api/index.js';
+import { exportEmployeesExcel } from '../../api/index.js';
 import ComboDate from '../../data/Combo.json';
 
 
@@ -112,7 +113,7 @@ const AddEmployee = () => {
 
             try {
                 const response = await addEmployee(formData, loginUser.token);
-                console.log(response.data.message);
+                //console.log(response.data.message);
                 setSubmitMessage(response.data.message);
                 // Add toast
                 setToastList(prev => [
@@ -149,7 +150,7 @@ const AddEmployee = () => {
 
                 setErrors({});
             } catch (error) {
-                console.log(error);
+                //console.log(error);
                 setSubmitMessage(error?.response?.data?.message || 'Submission failed');
             }
         }
@@ -194,7 +195,7 @@ const AddEmployee = () => {
         const fetchEmployees = async () => {
             try {
                 const response = await getEmployees('', pagination.currentPage, pagination.rowsPerPage, loginUser.token);
-                console.log(response);
+                //console.log(response);
                 setEmployeeData(response.data.data); // adjust based on your actual response
                 setPagination(prev => ({ 
                     ...prev,
@@ -251,6 +252,29 @@ const AddEmployee = () => {
         }
     };
 
+    const handleDownloadExcel = async () => {
+        try {
+            const token = loginUser.token; // or from auth context
+            console.log("Token:", token);
+            const response = await exportEmployeesExcel(token);
+
+            const blob = new Blob([response.data], {
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            });
+
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'Employees.xlsx');
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        } catch (error) {
+            console.error('Excel download failed:', error);
+            alert('Failed to download Excel file');
+        }
+    };
+
     return (
         <>
             <Container fluid>
@@ -262,7 +286,7 @@ const AddEmployee = () => {
                                 <p>Manage Your Employee</p>
                             </div>
                             <div className='align-items-center d-flex gap-3'>
-                                <Button type='button' className='blue_gradient_border btn_h_50'>
+                                <Button type='button' onClick={handleDownloadExcel} className='blue_gradient_border btn_h_50'>
                                     Download
                                 </Button>
                                 <Button type='button' onClick={handleShowAddEmployeeCanvas} className='blue_gradient btn_h_50'>
