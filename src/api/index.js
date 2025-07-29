@@ -39,7 +39,7 @@ export const getEmployee = (token) => axios.get(`${url}/employee`,  {
   },
 });
 
-export const getEmployees = (searchTerm, page = 1, limit = 10, token) => {
+export const getEmployees = (searchTerm='', page = 1, limit = 10, token, filters) => {
   return axios.get(`${url}/employee`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -48,6 +48,9 @@ export const getEmployees = (searchTerm, page = 1, limit = 10, token) => {
       searchTerm,
       page,
       limit,
+      position: filters?.position || '',
+      department: filters?.department || '',
+      status: filters?.status || '',
     },
   });
 }; 

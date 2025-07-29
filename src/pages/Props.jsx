@@ -188,8 +188,10 @@ export const EmployeeGird = ({
     handlePaginationChange,
     setPagination,
 
-    //search
+    //search and filters
     setSearchTerm,
+    filters,
+    setFilters,
     // Actions
     onDeleteClick,
 
@@ -217,6 +219,8 @@ export const EmployeeGird = ({
                                 <Combobox
                                     defaultValue="All Positions"
                                     data={designationOptions}
+                                    value={filters.position || "All Positions"}
+                                    onChange={(value) => setFilters(prev => ({ ...prev, position: value }))}
                                 />
                             </li>
                         )}
@@ -225,6 +229,8 @@ export const EmployeeGird = ({
                                 <Combobox
                                     defaultValue="All Departments"
                                     data={departmentOptions}
+                                    value={filters.department || "All Departments"}
+                                    onChange={(value) => setFilters(prev => ({ ...prev, department: value }))}
                                 />
                             </li>
                         )}
@@ -233,6 +239,8 @@ export const EmployeeGird = ({
                                 <Combobox
                                     defaultValue="All Status"
                                     //data={statusOptions}
+                                    value={filters.status || "All Status"}
+                                    onChange={(value) => setFilters(prev => ({ ...prev, status: value }))}
                                 />
                             </li>
                         )}
