@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-scroll';
 import BrandLogo from '../../assets/Images/Logo.svg';
-
+import { useNavigate } from 'react-router-dom';
 // Bootstrap imports
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -10,6 +10,7 @@ import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table, Image } from
 // Bootstrap imports
 
 const header = ({ setModalShow }) => {
+  const navigate= useNavigate();
   return (
     <div className='MainHeader'>
       <div className='HR_Brand'>
@@ -70,7 +71,7 @@ const header = ({ setModalShow }) => {
         </Link>
       </div>
       <div className='HR_Action'>
-        <Button className="HR_Action_btn_noBg" onClick={() => window.location.href = '/Authentication'}>
+        <Button className="HR_Action_btn_noBg" onClick={() => navigate('/Authentication')}>
           Login
         </Button>
         <Button onClick={() => setModalShow(true)} className="HR_Action_btn">
