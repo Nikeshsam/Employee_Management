@@ -1,6 +1,6 @@
 // src/context/TokenContext.js
 import { RollerCoaster } from "lucide-react";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useMemo } from "react";
 import CompanyProfile from "../components/Dashboard/CompanyProfile";
 
 const LoginUserContext = createContext();
@@ -26,9 +26,13 @@ export const LoginUserProvider = ({ children }) => {
     setLoginUser({});
     sessionStorage.removeItem("LoginUser");
   };
-
+  const contextValue = useMemo(() => ({
+    loginUser,
+    saveLoginUser,
+    clearLoginUser
+  }), [loginUser]);
   return (
-    <LoginUserContext.Provider value={{ loginUser, saveLoginUser, clearLoginUser }}>
+    <LoginUserContext.Provider value={contextValue}>
       {children}
     </LoginUserContext.Provider>
   );
