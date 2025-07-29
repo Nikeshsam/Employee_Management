@@ -26,13 +26,17 @@ export const LoginUserProvider = ({ children }) => {
     setLoginUser({});
     sessionStorage.removeItem("LoginUser");
   };
-  const contextValue = useMemo(() => ({
-    loginUser,
-    saveLoginUser,
-    clearLoginUser
-  }), [loginUser]);
+
+  const memoValue = useMemo(() => {
+    return {
+      loginUser: loginUser,
+      saveLoginUser: saveLoginUser,
+      clearLoginUser: clearLoginUser,
+    };
+  })
+
   return (
-    <LoginUserContext.Provider value={contextValue}>
+    <LoginUserContext.Provider value={memoValue}>
       {children}
     </LoginUserContext.Provider>
   );

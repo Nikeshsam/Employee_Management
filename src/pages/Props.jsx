@@ -173,6 +173,7 @@ export const PrimaryGird = ({
 // Component Employee Grid.....
 
 export const EmployeeGird = ({
+
     children,
 
     // Visibility Toggles
@@ -187,6 +188,10 @@ export const EmployeeGird = ({
     handlePaginationChange,
     setPagination,
 
+    //search and filters
+    setSearchTerm,
+    filters,
+    setFilters,
     // Actions
     onDeleteClick,
 
@@ -194,21 +199,28 @@ export const EmployeeGird = ({
     buttonClassIcon = 'primary_form_btn btn_h_35',
     tableHeaders = [],
 }) => {
+
+    const designationOptions = ComboDate.Designation.map(dep => dep.label);
+    const departmentOptions = ComboDate.Department.map(dep => dep.label);
+    //const statusOptions = ComboDate.Status.map(dep => dep.label);
+
     return (
-        <div className="addEmployee_table mb-3">
+        <div className="addEmployee_table">
             <div className="table_header">
                 <div className="heading_elements">
                     <ul>
                         {showSearch && (
                             <li className='searchInput'>
-                                <input className="grid_search" type="text" placeholder="Search" />
+                                <input className="grid_search" onChange={(e) => setSearchTerm(e.target.value)} type="text" placeholder="Search" />
                             </li>
                         )}
                         {showPositionButton && (
                             <li>
                                 <Combobox
                                     defaultValue="All Positions"
-                                    data={["Total onboarding", "New Onboarding", "Pending Onboarding"]}
+                                    data={designationOptions}
+                                    value={filters.position || "All Positions"}
+                                    onChange={(value) => setFilters(prev => ({ ...prev, position: value }))}
                                 />
                             </li>
                         )}
@@ -216,7 +228,9 @@ export const EmployeeGird = ({
                             <li>
                                 <Combobox
                                     defaultValue="All Departments"
-                                    data={["Total onboarding", "New Onboarding", "Pending Onboarding"]}
+                                    data={departmentOptions}
+                                    value={filters.department || "All Departments"}
+                                    onChange={(value) => setFilters(prev => ({ ...prev, department: value }))}
                                 />
                             </li>
                         )}
@@ -224,7 +238,9 @@ export const EmployeeGird = ({
                             <li>
                                 <Combobox
                                     defaultValue="All Status"
-                                    data={["Total onboarding", "New Onboarding", "Pending Onboarding"]}
+                                    //data={statusOptions}
+                                    value={filters.status || "All Status"}
+                                    onChange={(value) => setFilters(prev => ({ ...prev, status: value }))}
                                 />
                             </li>
                         )}

@@ -39,7 +39,7 @@ export const getEmployee = (token) => axios.get(`${url}/employee`,  {
   },
 });
 
-export const getEmployees = (searchTerm, page = 1, limit = 10, token) => {
+export const getEmployees = (searchTerm='', page = 1, limit = 10, token, filters) => {
   return axios.get(`${url}/employee`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -48,6 +48,9 @@ export const getEmployees = (searchTerm, page = 1, limit = 10, token) => {
       searchTerm,
       page,
       limit,
+      position: filters?.position || '',
+      department: filters?.department || '',
+      status: filters?.status || '',
     },
   });
 }; 
@@ -62,12 +65,23 @@ export const deleteEmployee = (id, token) => {
   });
 };
 
+// Employee Edit Organization
+
 export const editOrganization = (organization, token, id) => axios.patch(`${url}/organization/${id}`, organization, {
   headers: {
     Authorization: `Bearer ${token}`,
     'Content-Type': 'multipart/form-data',
   },
 });
+
+// Employee Export Employees Excel
+
+export const exportEmployeesExcel = (token) => {
+  return axios.get(`${url}/employee/export`, {
+    responseType: 'blob', // tells axios to expect binary file
+    headers: { Authorization: `Bearer ${token}` }
+  });
+};
 
 // export const updatePost = (id,post)=> axios.patch(`${url}/${id}`,post);
 // export const likePost = (id)=> axios.patch(`${url}/${id}`);

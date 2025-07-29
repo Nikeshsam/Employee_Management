@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Combobox from "react-widgets/Combobox";
 import "react-widgets/styles.css";
 import Images from '../../pages/Images.jsx';
-import { CustomToast, EmployeeGird, InputField, SelectInput, CustomModalConfirmDialog, OffCanvas,UploadInputField } from '../../pages/Props.jsx';
+import { CustomToast, EmployeeGird, InputField, SelectInput, CustomModalConfirmDialog, OffCanvas, UploadInputField } from '../../pages/Props.jsx';
 import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import { addEmployeeValidateField } from '../Validations/Validate.jsx';
 import { getEmployees, addEmployee } from '../../api/index.js';
 import { deleteEmployee } from '../../api/index.js';
+import { exportEmployeesExcel } from '../../api/index.js';
 import ComboDate from '../../data/Combo.json';
 
 
@@ -26,17 +27,26 @@ const AddEmployee = () => {
 
     const [employeeData, setEmployeeData] = useState([]);
 
+    const [searchTerm, setSearchTerm] = useState(''); // ✅ string
+
     const [employeeToDelete, setEmployeeToDelete] = useState(null);
 
     const [showAddEmployeeCanvas, setShowAddEmployeeCanvas] = useState(false);
     const handleShowAddEmployeeCanvas = () => setShowAddEmployeeCanvas(true);
     const handleCloseAddEmployeeCanvas = () => setShowAddEmployeeCanvas(false);
 
-    const [pagination,setPagination]=useState({
-        currentPage:1,
-        totalPages:0,
-        rowsPerPage:5,
-        totalRecords:0
+    const [pagination, setPagination] = useState({
+        currentPage: 1,
+        totalPages: 0,
+        rowsPerPage: 5,
+        totalRecords: 0
+    });
+
+    const [filters,setFilters] = useState({
+        search:'',
+        position:'',
+        department:'',
+        status:'',
     });
 
     const handleToastClose = (index) => {
@@ -112,7 +122,7 @@ const AddEmployee = () => {
 
             try {
                 const response = await addEmployee(formData, loginUser.token);
-                console.log(response.data.message);
+                //console.log(response.data.message);
                 setSubmitMessage(response.data.message);
                 // Add toast
                 setToastList(prev => [
@@ -149,7 +159,7 @@ const AddEmployee = () => {
 
                 setErrors({});
             } catch (error) {
-                console.log(error);
+                //console.log(error);
                 setSubmitMessage(error?.response?.data?.message || 'Submission failed');
             }
         }
@@ -159,60 +169,71 @@ const AddEmployee = () => {
 
     const handleChange = (e) => {
         const { name, type, files, value } = e.target;
-        if(type==='file'){
+        if (type === 'file') {
             const fileData = files?.[0];
-            if(fileData){
+            if (fileData) {
                 setFormData(prev => ({ ...prev, [name]: fileData }));
                 setErrors(prevErrors => ({ ...prevErrors, [name]: '' })); // Clear error for file input
                 return;
-            }else{
+            } else {
                 setErrors(prevErrors => ({ ...prevErrors, [name]: 'Offer Letter is required' })); // Set error for file input
                 return;
             }
         }
-        else{
+        else {
             setFormData(prev => ({ ...prev, [name]: value }));
             const error = addEmployeeValidateField(name, value);
             setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
         }
     };
 
-    const handlePaginationChange = (e)=>{
-        let {name,value} = e.target;
-        if(name==='currentPage' && value>pagination.totalPages){
-            value=pagination.totalPages;
+    const handlePaginationChange = (e) => {
+        let { name, value } = e.target;
+        if (name === 'currentPage' && value > pagination.totalPages) {
+            value = pagination.totalPages;
         }
-        if(name==='rowsPerPage'){
-            setPagination(prev=>({...prev,currentPage:1}));
+        if (name === 'rowsPerPage') {
+            setPagination(prev => ({ ...prev, currentPage: 1 }));
         }
-        setPagination(prev=>({...prev,[name]:value}));
+        setPagination(prev => ({ ...prev, [name]: value }));
     }
 
     // Insert Employee Data in Grid API Integration
 
     useEffect(() => {
-        const fetchEmployees = async () => {
-            try {
-                const response = await getEmployees('', pagination.currentPage, pagination.rowsPerPage, loginUser.token);
-                console.log(response);
-                setEmployeeData(response.data.data); // adjust based on your actual response
-                setPagination(prev => ({ 
-                    ...prev,
-                    totalPages: response.data.totalPages || 0,
-                    totalRecords:response.data.totalRecords ||0
-                }))
-            } catch (error) {
-                console.error('Failed to fetch employees:', error);
-            }
-        };
+        if (!loginUser?.token) return;
 
-        if (loginUser?.token) {
+        const delayDebounce = setTimeout(() => {
+            const fetchEmployees = async () => {
+                try {
+                    const response = await getEmployees(
+                        searchTerm,
+                        pagination.currentPage,
+                        pagination.rowsPerPage,
+                        loginUser.token,
+                        filters
+                    );
+
+                    setEmployeeData(response.data?.data || []);
+                    setPagination(prev => ({
+                        ...prev,
+                        totalPages: response.data.totalPages || 0,
+                        totalRecords: response.data.totalRecords || 0
+                    }));
+                } catch (error) {
+                    console.error('Failed to fetch employees:', error);
+                    setEmployeeData([]);
+                }
+            };
+
             fetchEmployees();
-        }
-    }, [loginUser,pagination.rowsPerPage,pagination.currentPage]);
+        }, 200); // ⏱️ Wait 500ms after typing
+
+        return () => clearTimeout(delayDebounce); // ✅ cancel previous timer
+    }, [searchTerm, pagination.currentPage, pagination.rowsPerPage, loginUser,filters]);
 
     const navigate = useNavigate();
-    
+
     // Delete Employee Function
 
     const handleClearClick = () => {
@@ -251,6 +272,29 @@ const AddEmployee = () => {
         }
     };
 
+    const handleDownloadExcel = async () => {
+        try {
+            const token = loginUser.token; // or from auth context
+            console.log("Token:", token);
+            const response = await exportEmployeesExcel(token);
+
+            const blob = new Blob([response.data], {
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            });
+
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'Employees.xlsx');
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        } catch (error) {
+            console.error('Excel download failed:', error);
+            alert('Failed to download Excel file');
+        }
+    };
+
     return (
         <>
             <Container fluid>
@@ -262,7 +306,7 @@ const AddEmployee = () => {
                                 <p>Manage Your Employee</p>
                             </div>
                             <div className='align-items-center d-flex gap-3'>
-                                <Button type='button' onClick={handleShowAddEmployeeCanvas} className='blue_gradient_border btn_h_50'>
+                                <Button type='button' onClick={handleDownloadExcel} className='blue_gradient_border btn_h_50'>
                                     Download
                                 </Button>
                                 <Button type='button' onClick={handleShowAddEmployeeCanvas} className='blue_gradient btn_h_50'>
@@ -279,6 +323,10 @@ const AddEmployee = () => {
                             pagination={pagination}
                             handlePaginationChange={handlePaginationChange}
                             setPagination={setPagination}
+                            searchTerm={searchTerm}
+                            filters={filters}
+                            setFilters={setFilters}
+                            setSearchTerm={setSearchTerm}
                             onButtonClick={() => console.log('Add clicked')}
                             onFilterClick={() => console.log('Filter clicked')}
                             onDeleteClick={() => console.log('Delete clicked')}
@@ -288,7 +336,7 @@ const AddEmployee = () => {
                             showFooter={true}
                             buttonClassName='secondary_btn btn_h_35 fs_13 fw_500'
                             buttonClassIcon='icon_btn'
-                            tableHeaders={[<Form.Check  className='CustomCheck' />, 'Employee Name', 'Job Title', 'Department', 'JoiningDate', 'Employment Type', 'Status', 'Work Location', 'Actions']}
+                            tableHeaders={[<Form.Check className='CustomCheck' />, 'Employee Name', 'Job Title', 'Department', 'JoiningDate', 'Employment Type', 'Status', 'Work Location', 'Actions']}
                         >
                             {employeeData.map((emp, idx) => (
                                 <tr key={idx}>
@@ -313,12 +361,12 @@ const AddEmployee = () => {
                                         <span className={`badge ${getStatusClass(emp.status)}`}>
                                             <i></i> {emp.status}
                                         </span>
-                                    </td>                                    
+                                    </td>
                                     <td>{emp.workLocation}</td>
                                     <td className='table_action'>
                                         <Button className="btn_action"><img src={Images.View} alt="" /></Button>
                                         <Button className="btn_action"><img src={Images.Edit} alt="" /></Button>
-                                        <Button className="btn_action" onClick={() => {setEmployeeToDelete(emp); setModalShow(true);}}><img src={Images.Delete} alt="" /></Button>
+                                        <Button className="btn_action" onClick={() => { setEmployeeToDelete(emp); setModalShow(true); }}><img src={Images.Delete} alt="" /></Button>
                                     </td>
                                 </tr>
                             ))}
