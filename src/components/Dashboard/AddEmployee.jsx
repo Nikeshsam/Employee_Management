@@ -42,6 +42,13 @@ const AddEmployee = () => {
         totalRecords: 0
     });
 
+    const [filters,setFilters] = useState({
+        search:'',
+        position:'',
+        department:'',
+        status:'',
+    });
+
     const handleToastClose = (index) => {
         const updatedList = toastList.filter((_, i) => i !== index);
         setToastList(updatedList);
@@ -203,7 +210,8 @@ const AddEmployee = () => {
                         searchTerm,
                         pagination.currentPage,
                         pagination.rowsPerPage,
-                        loginUser.token
+                        loginUser.token,
+                        filters
                     );
 
                     setEmployeeData(response.data?.data || []);
@@ -222,7 +230,7 @@ const AddEmployee = () => {
         }, 200); // ⏱️ Wait 500ms after typing
 
         return () => clearTimeout(delayDebounce); // ✅ cancel previous timer
-    }, [searchTerm, pagination.currentPage, pagination.rowsPerPage, loginUser]);
+    }, [searchTerm, pagination.currentPage, pagination.rowsPerPage, loginUser,filters]);
 
     const navigate = useNavigate();
 
@@ -316,6 +324,8 @@ const AddEmployee = () => {
                             handlePaginationChange={handlePaginationChange}
                             setPagination={setPagination}
                             searchTerm={searchTerm}
+                            filters={filters}
+                            setFilters={setFilters}
                             setSearchTerm={setSearchTerm}
                             onButtonClick={() => console.log('Add clicked')}
                             onFilterClick={() => console.log('Filter clicked')}
