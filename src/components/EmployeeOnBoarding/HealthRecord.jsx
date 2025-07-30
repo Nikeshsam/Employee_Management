@@ -158,7 +158,7 @@ const HealthRecord = () => {
               name="blooddonor"
               error={healthErrors.blooddonor}
               value={healthFormData.blooddonor}
-              handleChange={handleHealthChange}
+              onChange={handleHealthChange}
             />
           </div>
         </Col>

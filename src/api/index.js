@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = 'http://localhost:3005/api/v1';
+const url = 'https://hrmsapi-4tvu.onrender.com/api/v1';
 
 export const registerCompany = (companyDetails) => axios.post(`${url}/authentication/register`, companyDetails);
 export const userLogin = (authDetails) => axios.post(`${url}/authentication/login`, authDetails)
