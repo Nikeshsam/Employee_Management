@@ -26,7 +26,7 @@ import RepeatEmail from '../assets/Images/repeat.svg';
 import RegisterImg from '../assets/Images/register-success.svg';
 
 import ORGprofile from '../assets/Images/ORGprofile.svg';
-import Logout from '../assets/Images/Logout.svg';
+import Logout from '../assets/Images/logout.svg';
 
 import InnerLogo from '../assets/Images/Logo.svg';
 
