@@ -30,7 +30,7 @@ import Logout from '../assets/Images/logout.svg';
 
 import InnerLogo from '../assets/Images/Logo.svg';
 
-import Dashboard from '../assets/Images/Dashboard.svg';
+import Dashboard from '../assets/Images/dashboard.svg';
 import OnBoarding from '../assets/Images/OnBoarding.svg';
 import CompanyProfile from '../assets/Images/CompanyProfile.svg';
 import AddEmployee from '../assets/Images/AddEmployee.svg';
