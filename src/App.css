@@ -544,9 +544,15 @@ input:-internal-autofill-selected{background-color: transparent;}
 .rw-picker-btn:hover{background-color: #fff !important;}
 .rw-widget-input{color: #1D1C21 !important; box-shadow: none !important;}
 
-.rw-list-option{font-size: 12.5px; padding: 0.5em 1em}
+.rw-list-option{font-size: 13px; padding: 0.7em 1em; border-bottom: 1px solid #ddd6ef !important;}
+
+.rw-popup-container{width: 225%; left: auto;}
+
+.heading_elements ul li:last-child .rw-popup-container{width: auto !important;}
 
 .no_label .form-label{display: none;}
+
+.rw-popup{overflow: auto; -webkit-overflow-scrolling: touch; margin-top: 2px;border-radius: 10px; box-shadow: 0 0.5em 1em rgb(235 228 255); border: #e1dbf4 1px solid; background-clip: padding-box; background: #fff;}
 
 .DialogueModal .modal-content{border-radius: 20px; border: none; box-shadow: none;}
 .DialogueModal .modal-dialog{width: 320px; min-width: 320px;}
