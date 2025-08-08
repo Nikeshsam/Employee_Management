@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import Images from '../../pages/Images.jsx';
 
+
 // Bootstrap imports
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -15,7 +16,6 @@ const CompleteProfile = ({ setActiveTab }) => {
   const navigate = useNavigate();
 
   const [modalShow, setModalShow] = useState(true); // Modal shows on initial render
-
 
   const handleClearClick = () => {
     setModalShow(false);

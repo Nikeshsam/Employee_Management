@@ -74,6 +74,15 @@ export const editOrganization = (organization, token, id) => axios.patch(`${url}
   },
 });
 
+// Employee Edit Edit
+
+export const editEmployee = (employee, token, id) => axios.put(`${url}/employees/${id}`, employee, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
 // Employee Export Employees Excel
 
 export const exportEmployeesExcel = (token) => {

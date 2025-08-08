@@ -607,3 +607,52 @@ input:-internal-autofill-selected{background-color: transparent;}
 
 .cpViewcol {display: flex;}
 .cpViewcol .cpViewSection{width: 20%;}
+
+.loaderContainer{position: absolute; left: 0; right: 0; height: 100vh; top: 50%; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; background-color: rgb(0 0 0 / 40%); z-index: 9999;}
+.loaderContainer .pl {display: block; width: 5.25em; height: 5.25em;}
+.loaderContainer .pl__ring, .loaderContainer .pl__ball {animation: ring 2s ease-out infinite;}
+.loaderContainer .pl__ball {animation-name: ball;}
+
+/* Dark theme  */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --hue: 254;
+    --bg: hsl(var(--hue), 30%, 12%);   /* Deep purple background */
+    --fg: hsl(var(--hue), 100%, 88%);  /* Light purple-ish foreground */
+    --accent: hsl(var(--hue), 96%, 60%); /* Matching #6D36FA color */
+  }
+}
+
+/* Animation */
+@keyframes ring {
+	from {
+		stroke-dasharray: 0 257 0 0 1 0 0 258;
+	}
+	25% {
+		stroke-dasharray: 0 0 0 0 257 0 258 0;
+	}
+	50%, to {
+		stroke-dasharray: 0 0 0 0 0 515 0 0;}
+}
+@keyframes ball {
+	from, 50% {
+		animation-timing-function: ease-in;
+		stroke-dashoffset: 1;
+	}
+	64% {
+		animation-timing-function: ease-in;
+		stroke-dashoffset: -109;
+	}
+	78% {
+		animation-timing-function: ease-in;
+		stroke-dashoffset: -145;
+	}
+	92% {
+		animation-timing-function: ease-in;
+		stroke-dashoffset: -157;
+	}
+	57%, 71%, 85%, 99%, to {
+		animation-timing-function: ease-out;
+		stroke-dashoffset: -163;
+	}
+}

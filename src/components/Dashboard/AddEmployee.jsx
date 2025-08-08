@@ -6,9 +6,10 @@ import Images from '../../pages/Images.jsx';
 import { CustomToast, EmployeeGird, InputField, SelectInput, CustomModalConfirmDialog, OffCanvas, UploadInputField } from '../../pages/Props.jsx';
 import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import { addEmployeeValidateField } from '../Validations/Validate.jsx';
-import { getEmployees, addEmployee } from '../../api/index.js';
+import { getEmployees, addEmployee, editEmployee } from '../../api/index.js';
 import { deleteEmployee } from '../../api/index.js';
 import { exportEmployeesExcel } from '../../api/index.js';
+import Loader from '../Common/Loader.jsx';
 import ComboDate from '../../data/Combo.json';
 
 
@@ -23,6 +24,11 @@ const AddEmployee = () => {
 
     const [modalShow, setModalShow] = useState(false);
 
+    const [submitting, setSubmitting] = useState(false);
+
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [editingEmployeeId, setEditingEmployeeId] = useState(null);
+
     const { loginUser } = useLoginUser();
 
     const [employeeData, setEmployeeData] = useState([]);
@@ -33,7 +39,7 @@ const AddEmployee = () => {
 
     const [showAddEmployeeCanvas, setShowAddEmployeeCanvas] = useState(false);
     const handleShowAddEmployeeCanvas = () => setShowAddEmployeeCanvas(true);
-    const handleCloseAddEmployeeCanvas = () => setShowAddEmployeeCanvas(false);
+    //const handleCloseAddEmployeeCanvas = () => setShowAddEmployeeCanvas(false);
 
     const [pagination, setPagination] = useState({
         currentPage: 1,
@@ -118,19 +124,28 @@ const AddEmployee = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        console.log("Submitting form");
+        console.log("Edit Mode:", isEditMode);
+        console.log("Editing ID:", editingEmployeeId);
+
         if (validateForm()) {
+            setSubmitting(true); // Start loader
 
             try {
-                const response = await addEmployee(formData, loginUser.token);
-                //console.log(response.data.message);
-                setSubmitMessage(response.data.message);
-                // Add toast
+                let response;
+                if (isEditMode) {
+                    // You need to create/update this API
+                    response = await editEmployee(editingEmployeeId, formData, loginUser.token);
+                } else {
+                    response = await addEmployee(formData, loginUser.token);
+                }
+
                 setToastList(prev => [
                     ...prev,
                     {
                         title: `${formData.firstName} ${formData.lastName}`,
-                        message: 'Employee Added Successfully',
-                        img: Images.SuccessCheck
+                        message: isEditMode ? 'Employee Updated Successfully' : 'Employee Added Successfully',
+                        img: Images.SuccessCheck,
                     }
                 ]);
 
@@ -138,8 +153,8 @@ const AddEmployee = () => {
                 const updatedEmployees = await getEmployees('', pagination.currentPage, pagination.rowsPerPage, loginUser.token);
                 setEmployeeData(updatedEmployees.data.data);
 
-                // Optionally close the canvas
-                handleCloseAddEmployeeCanvas();
+                // // Optionally close the canvas
+                // handleCloseAddEmployeeCanvas();
 
                 // Reset form
                 setFormData({
@@ -158,11 +173,56 @@ const AddEmployee = () => {
                 });
 
                 setErrors({});
+                setIsEditMode(false);
+                setEditingEmployeeId(null);
             } catch (error) {
                 //console.log(error);
                 setSubmitMessage(error?.response?.data?.message || 'Submission failed');
+            }finally{
+                setSubmitting(false); // Start loader
             }
         }
+    };
+
+    const handleEditEmployee = (emp) => {
+        setIsEditMode(true);
+        setEditingEmployeeId(emp._id);
+        setFormData({
+            employeeType: emp.employeeType || '',
+            employeeId: emp.employeeId || '',
+            firstName: emp.firstName || '',
+            lastName: emp.lastName || '',
+            email: emp.email || '',
+            phoneNumber: emp.phoneNumber || '',
+            designation: emp.designation || '',
+            department: emp.department || '',
+            joiningDate: emp.joiningDate ? emp.joiningDate.split('T')[0] : '',
+            employmentType: emp.employmentType || '',
+            workLocation: emp.workLocation || '',
+            offerletter: '', // File cannot be pre-filled
+        });
+        handleShowAddEmployeeCanvas();
+    };
+
+    const handleCloseAddEmployeeCanvas = () => {
+        setShowAddEmployeeCanvas(false);
+        setFormData({
+            employeeType: '',
+            employeeId: '',
+            firstName: '',
+            lastName: '',
+            email: '',
+            phoneNumber: '',
+            designation: '',
+            department: '',
+            joiningDate: '',
+            employmentType: '',
+            workLocation: '',
+            offerletter: '',
+        });
+        setErrors({});
+        setIsEditMode(false);
+        setEditingEmployeeId(null);
     };
 
     //  Handle Change
@@ -232,8 +292,6 @@ const AddEmployee = () => {
         return () => clearTimeout(delayDebounce); // ✅ cancel previous timer
     }, [searchTerm, pagination.currentPage, pagination.rowsPerPage, loginUser,filters]);
 
-    const navigate = useNavigate();
-
     // Delete Employee Function
 
     const handleClearClick = () => {
@@ -295,8 +353,11 @@ const AddEmployee = () => {
         }
     };
 
+    const navigate = useNavigate();
+
     return (
         <>
+        {submitting ? <Loader/> : (
             <Container fluid>
                 <Row>
                     <Col md={12} lg={12} xl={12} xxl={12}>
@@ -365,7 +426,7 @@ const AddEmployee = () => {
                                     <td>{emp.workLocation}</td>
                                     <td className='table_action'>
                                         <Button className="btn_action"><img src={Images.View} alt="" /></Button>
-                                        <Button className="btn_action"><img src={Images.Edit} alt="" /></Button>
+                                        <Button className="btn_action" onClick={() => handleEditEmployee(emp)}><img src={Images.Edit} alt="" /></Button>
                                         <Button className="btn_action" onClick={() => { setEmployeeToDelete(emp); setModalShow(true); }}><img src={Images.Delete} alt="" /></Button>
                                     </td>
                                 </tr>
@@ -374,16 +435,17 @@ const AddEmployee = () => {
                     </Col>
                 </Row>
             </Container>
+        )}
             <OffCanvas
                 show={showAddEmployeeCanvas}
                 placement="end"
                 onSubmit={handleSubmit}
                 onHide={handleCloseAddEmployeeCanvas}
-                title="Add Family Member"
-                subtitle="Start your 7-day free trial."
+                title={isEditMode ? "Edit Employee" : "Add Employee"}
+                subtitle={isEditMode ? "Update employee details" : "Start your 7-day free trial."}
+                name={isEditMode ? "Edit Employee" : "Add Employee"}
+                footerButtonSubmit={isEditMode ? "Update Employee" : "Add Member"}
                 className='PrimaryCanvasModal'
-                name="Add Family"
-                footerButtonSubmit="Add Member"
                 footerButtonCancel="Cancel"
                 footerButtonSubmitClass="modal_primary_btn w-100"
                 footerButtonCancelClass="modal_primary_border_btn w-100"
@@ -540,6 +602,7 @@ const AddEmployee = () => {
                     />
                 </Col>
             </OffCanvas>
+
             <ToastContainer position="top-end" className="p-3">
                 {toastList.map((toast, index) => (
                     <CustomToast
