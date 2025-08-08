@@ -176,7 +176,7 @@ const AddEmployee = () => {
                 setIsEditMode(false);
                 setEditingEmployeeId(null);
             } catch (error) {
-                //console.log(error);
+                console.log(error);
                 setSubmitMessage(error?.response?.data?.message || 'Submission failed');
             }finally{
                 setSubmitting(false); // Start loader

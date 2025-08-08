@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const url = 'https://hrmsapi-4tvu.onrender.com/api/v1';
+//const url = 'http://localhost:3005/api/v1';
 
 export const registerCompany = (companyDetails) => axios.post(`${url}/authentication/register`, companyDetails);
 export const userLogin = (authDetails) => axios.post(`${url}/authentication/login`, authDetails)
@@ -76,7 +77,7 @@ export const editOrganization = (organization, token, id) => axios.patch(`${url}
 
 // Employee Edit Edit
 
-export const editEmployee = (employee, token, id) => axios.put(`${url}/employees/${id}`, employee, {
+export const editEmployee = (employee, token, id) => axios.put(`${url}/employee/${id}`, employee, {
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'multipart/form-data',
