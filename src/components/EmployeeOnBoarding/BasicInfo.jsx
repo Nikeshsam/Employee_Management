@@ -36,7 +36,7 @@ const BasicInfo = () => {
         nationality: '',
         gender: '',
         maritalStatus: '',
-        dateofmarriage: '',
+        dateOfMarriage: '',
     });
 
     const handleToastClose = (index) => {
@@ -78,8 +78,8 @@ const BasicInfo = () => {
                         nationality: res.data.data.nationality || '',
                         gender: res.data.data.gender || '',
                         maritalStatus: res.data.data.maritalStatus || '',
-                        dateofmarriage: res.data.data.dateofmarriage
-                            ? res.data.data.dateofmarriage.split('T')[0]
+                        dateOfMarriage: res.data.data.dateOfMarriage
+                            ? res.data.data.dateOfMarriage.split('T')[0]
                             : '',
                     });
                     setHasData(true);
@@ -116,7 +116,7 @@ const BasicInfo = () => {
     const validateForm = () => {
         const newErrors = {};
         Object.keys(formData).forEach((field) => {
-            if(field==='dateofmarriage' && formData.maritalStatus==='Single') return;
+            if(field==='dateOfMarriage' && formData.maritalStatus==='Single') return;
             const error = basicValidateField(field, formData[field]);
             if (error) newErrors[field] = error;
         });
@@ -149,8 +149,8 @@ const BasicInfo = () => {
                     dateOfBirth: updatedData.data.data.dateOfBirth
                         ? new Date(updatedData.data.data.dateOfBirth).toISOString().split("T")[0]
                         : "",
-                    dateofmarriage: updatedData.data.data.dateofmarriage
-                        ? new Date(updatedData.data.data.dateofmarriage).toISOString().split("T")[0]
+                    dateOfMarriage: updatedData.data.data.dateOfMarriage
+                        ? new Date(updatedData.data.data.dateOfMarriage).toISOString().split("T")[0]
                         : "",
                 });
 
@@ -195,12 +195,12 @@ const BasicInfo = () => {
             updatedForm.age = String(calculateAge(updatedForm.dateOfBirth));
         }
 
-        if (name === "dateofmarriage" && value) {
-            updatedForm.dateofmarriage = new Date(value).toISOString().split("T")[0];
+        if (name === "dateOfMarriage" && value) {
+            updatedForm.dateOfMarriage = new Date(value).toISOString().split("T")[0];
         }
 
         if (name === "maritalStatus" && value !== "Married") {
-            updatedForm.dateofmarriage = ""; // 🔥 clear if not Married
+            updatedForm.dateOfMarriage = ""; // 🔥 clear if not Married
         }
 
         setFormData(updatedForm);
@@ -333,10 +333,10 @@ const BasicInfo = () => {
                                     <InputField
                                         label="Date of Marriage"
                                         type="date"
-                                        name="dateofmarriage"
+                                        name="dateOfMarriage"
                                         placeholder="Enter your Date of Marriage"
-                                        error={errors.dateofmarriage}
-                                        value={formData.dateofmarriage}
+                                        error={errors.dateOfMarriage}
+                                        value={formData.dateOfMarriage}
                                         handleChange={handleChange}
                                         required
                                         disabled={!isEditMode}   //
