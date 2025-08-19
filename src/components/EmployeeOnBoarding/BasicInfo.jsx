@@ -116,6 +116,7 @@ const BasicInfo = () => {
     const validateForm = () => {
         const newErrors = {};
         Object.keys(formData).forEach((field) => {
+            if(field==='dateofmarriage' && formData.maritalStatus==='Single') return;
             const error = basicValidateField(field, formData[field]);
             if (error) newErrors[field] = error;
         });
