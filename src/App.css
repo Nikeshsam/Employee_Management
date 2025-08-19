@@ -351,6 +351,9 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .form-select{color: #2e2e2e !important; font-size: 14px !important; font-weight: 500 !important; background-color: #fff !important; height: 40px !important; border: 1px solid #E5DEF7 !important; border-radius: 4px !important;}
 .form-select:focus{box-shadow: none !important; border: 1px solid #b498ff !important;}
 
+.form-control[disabled]{background-color: #e7e7e7 !important; cursor: not-allowed;}
+.form-select[disabled]{background-color: #e7e7e7 !important; cursor: not-allowed;}
+
 .file-upload-box{height: 80px !important; border: 2px dashed #E5DEF7 !important; width: 100%; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 12.5px; font-weight: 600; color: #6d36f9; overflow: hidden;}
 .file-upload-box img{width: 110px;}
 
@@ -578,10 +581,16 @@ input:-internal-autofill-selected{background-color: transparent;}
 .form-select.is-invalid:not([multiple]):not([size]), 
 .form-select.is-invalid:not([multiple])[size="1"]{--bs-form-select-bg-icon: none !important;}
 
-.CustomToast{background-color: #f7fff0; border: 1px solid #bce995; box-shadow: 0 .5rem 1rem rgb(0 0 0 / 5%); border-radius: 12px; overflow: hidden;}
-.CustomToast .toast-header{background-color: #f7fff0; border-bottom: 1px solid #bce995; padding: 0.75rem;}
+.CustomToast{box-shadow: 0 .5rem 1rem rgb(0 0 0 / 5%); border-radius: 12px; overflow: hidden;}
+.CustomToast .toast-header{  padding: 0.75rem;}
 .CustomToast .toast-header img{width: 23px;}
 .CustomToast .toast-body{padding: 0.90rem; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600;}
+
+.CustomToast.toast-success{background-color: #f7fff0; border: 1px solid #bce995;}
+.CustomToast.toast-error{background-color: #ffe9e9; border: 1px solid #ffb6b6;}
+
+.CustomToast.toast-success .toast-header{background-color: #f7fff0; border-bottom: 1px solid #bce995;}
+.CustomToast.toast-error .toast-header{background-color: #ffe9e9; border-bottom: 1px solid #ffb6b6;}
 
 .employeeGroup{display: flex; align-items: center; gap: 10px;}
 .employeeGroup .employeeGroupImg img{width: 35px;}

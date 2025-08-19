@@ -127,5 +127,28 @@
         { "key": "1", "label": "Chennai" },
         { "key": "2", "label": "Bangalore" },
         { "key": "3", "label": "Hyderabad" }
+    ],
+
+    "Nationality":
+    [
+        { "key": "1", "label": "Indian" },
+        { "key": "2", "label": "Australian" },
+        { "key": "3", "label": "Chinese" },
+        { "key": "4", "label": "Japan" },
+        { "key": "5", "label": "England" },
+        { "key": "6", "label": "Pakistan" },
+        { "key": "7", "label": "Dubai" }
+    ],
+    "Gender":
+    [
+        { "key": "1", "label": "Male" },
+        { "key": "2", "label": "Female" },
+        { "key": "3", "label": "Transgender" },
+        { "key": "4", "label": "Prefer not to say" }
+    ],
+    "MaritalStatus":
+    [
+        { "key": "1", "label": "Single" },
+        { "key": "2", "label": "Married" }
     ]
 }

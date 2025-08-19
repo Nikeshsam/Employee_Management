@@ -9,11 +9,11 @@ export const basicValidateField = (name, value) => {
         case 'lastName':
             if (!value.trim()) error = 'Last Name is required';
             break;
-        case 'dob':
+        case 'dateOfBirth':
             if (!value.trim()) error = 'Date of Birth is required';
             break;
         case 'age':
-            if (!value.trim()) error = 'Age is required';
+            if (!value || String(value).trim() === "Age is required") ;
             break;
         case 'nationality':
             if (!value.trim()) error = 'Nationality is required';
@@ -21,7 +21,7 @@ export const basicValidateField = (name, value) => {
         case 'gender':
             if (!value.trim()) error = 'Gender is required';
             break;
-        case 'maritalstatus':
+        case 'maritalStatus':
             if (!value.trim()) error = 'Marital Status is required';
             break;
         case 'dateofmarriage':

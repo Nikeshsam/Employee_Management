@@ -18,26 +18,37 @@ export const CardForm = ({
     cardTitle = '',
     footerButtonSubmit = "Save",
     footerButtonSubmitClass = "",
+    footerButtonSubmitDisabled = false,   // 🔥 new prop
+    footerExtraButton = null,             // 🔥 new prop
 }) => {
     return (
         <Card className='secondary_card'>
             <Card.Body>
                 {cardTitle && <Card.Title>{cardTitle}</Card.Title>}
-                <Form onSubmit={onSubmit}>
+                <Form>
                     <Row className='gx-3'>
                         {children}
                     </Row>
                 </Form>
             </Card.Body>
-            <Card.Footer>
-                {/* <Button className={footerButtonSubmitClass} onClick={onSubmit}>{footerButtonSubmit}</Button> */}
-                <Button onClick={onSubmit} type="submit" className={footerButtonSubmitClass}>
+            <Card.Footer className="d-flex justify-content-end">
+                {/* Submit button (Save / Update) */}
+                <Button 
+                    type="submit"
+                    onClick={onSubmit}
+                    className={footerButtonSubmitClass} 
+                    disabled={footerButtonSubmitDisabled}  // ✅ disable support
+                >
                     {footerButtonSubmit}
                 </Button>
+
+                {/* Extra button (Edit, Cancel, etc.) */}
+                {footerExtraButton && footerExtraButton}
             </Card.Footer>
         </Card>
     );
 };
+
 
 // Component Card Tertiary.....
 
@@ -341,6 +352,7 @@ export const InputField = ({
     error,
     placeholder = '',
     required = false,
+    disabled ,
     controlId = '',
     className = 'mb-3',
 }) => {
@@ -361,6 +373,7 @@ export const InputField = ({
                 required={required}
                 isInvalid={!!error}
                 autoComplete="off"
+                disabled={disabled}
             />
             {error && (
                 <Form.Control.Feedback type="invalid" className="error_msg">
@@ -418,6 +431,7 @@ export const SelectInput = ({
     error,
     placeholder = "",
     required = false,
+    disabled ,
     controlId,
     options,
     className = 'mb-3'
@@ -432,6 +446,7 @@ export const SelectInput = ({
                 name={name}
                 required={required}
                 isInvalid={!!error}
+                disabled={disabled}
                 aria-label={`${label} select`}
             >
                 <option>{placeholder}</option>
@@ -780,21 +795,34 @@ export const OffCanvas = ({
 };
 
 
-export const CustomToast = ({ 
-    title, 
-    message, 
-    img, 
+export const CustomToast = ({
+    title,
+    message,
     onClose,
+    type,
 }) => {
-  return (
-    <Toast onClose={onClose} show={true} autohide delay={3000} className='CustomToast'>
-      <Toast.Header>
-        <img src={img} className="rounded me-2" alt="toast icon" />
-        <strong className="me-auto">{title}</strong>
-      </Toast.Header>
-      <Toast.Body>{message}</Toast.Body>
-    </Toast>
-  );
+    const iconSrc =
+        type === "success"
+        ? Images.SuccessCheck
+        : type === "error"
+        ? Images.ErrorClose
+        : Images.InfoIcon; // default if no type matches
+    return (
+        // <Toast onClose={onClose} show={true} autoClose={false} delay={3000} className='CustomToast'>
+        <Toast
+            onClose={onClose}
+            show={true}
+            autohide={true} // ✅ enable auto close
+            delay={3000}
+            className={`CustomToast ${type === "success" ? "toast-success" : ""} ${type === "error" ? "toast-error" : ""}`}
+        >
+            <Toast.Header>
+                <img src={iconSrc} className="rounded me-2" alt={`${type} icon`} />
+                <strong className="me-auto">{title}</strong>
+            </Toast.Header>
+            <Toast.Body>{message}</Toast.Body>
+        </Toast>
+    );
 };
 
 

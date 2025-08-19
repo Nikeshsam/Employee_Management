@@ -48,11 +48,11 @@ const AddEmployee = () => {
         totalRecords: 0
     });
 
-    const [filters,setFilters] = useState({
-        search:'',
-        position:'',
-        department:'',
-        status:'',
+    const [filters, setFilters] = useState({
+        search: '',
+        position: '',
+        department: '',
+        status: '',
     });
 
     const handleToastClose = (index) => {
@@ -134,10 +134,22 @@ const AddEmployee = () => {
             try {
                 let response;
                 if (isEditMode) {
-                    // You need to create/update this API
-                    response = await editEmployee(editingEmployeeId, formData, loginUser.token);
+                    console.log(formData)
+                    try {
+                        await editEmployee(formData, loginUser.token, editingEmployeeId);
+                        handleCloseAddEmployeeCanvas(); // ✅ Close the canvas
+                        setIsEditMode(false);           // ✅ Reset edit mode
+                        setEditingEmployeeId(null);     // ✅ Clear selected ID
+                    } catch (error) {
+                        toast.error("Failed to update employee");
+                    }
                 } else {
-                    response = await addEmployee(formData, loginUser.token);
+                    try {
+                        await addEmployee(formData, loginUser.token);
+                        handleCloseAddEmployeeCanvas(); // ✅ Close the canvas after add
+                    } catch (error) {
+                        toast.error("Failed to add employee");
+                    }
                 }
 
                 setToastList(prev => [
@@ -152,9 +164,6 @@ const AddEmployee = () => {
                 // Refresh employee list
                 const updatedEmployees = await getEmployees('', pagination.currentPage, pagination.rowsPerPage, loginUser.token);
                 setEmployeeData(updatedEmployees.data.data);
-
-                // // Optionally close the canvas
-                // handleCloseAddEmployeeCanvas();
 
                 // Reset form
                 setFormData({
@@ -178,7 +187,7 @@ const AddEmployee = () => {
             } catch (error) {
                 console.log(error);
                 setSubmitMessage(error?.response?.data?.message || 'Submission failed');
-            }finally{
+            } finally {
                 setSubmitting(false); // Start loader
             }
         }
@@ -266,6 +275,7 @@ const AddEmployee = () => {
         const delayDebounce = setTimeout(() => {
             const fetchEmployees = async () => {
                 try {
+                    setSubmitting(true); // Start loader
                     const response = await getEmployees(
                         searchTerm,
                         pagination.currentPage,
@@ -283,6 +293,8 @@ const AddEmployee = () => {
                 } catch (error) {
                     console.error('Failed to fetch employees:', error);
                     setEmployeeData([]);
+                } finally {
+                    setSubmitting(false); // End loader
                 }
             };
 
@@ -290,7 +302,7 @@ const AddEmployee = () => {
         }, 200); // ⏱️ Wait 500ms after typing
 
         return () => clearTimeout(delayDebounce); // ✅ cancel previous timer
-    }, [searchTerm, pagination.currentPage, pagination.rowsPerPage, loginUser,filters]);
+    }, [searchTerm, pagination.currentPage, pagination.rowsPerPage, loginUser, filters]);
 
     // Delete Employee Function
 
@@ -301,13 +313,14 @@ const AddEmployee = () => {
 
     const handleDeleteEmployee = async () => {
         try {
+            setSubmitting(true); // Start loader
             await deleteEmployee(employeeToDelete._id, loginUser.token); // or emp.id depending on your DB
             setToastList(prev => [
                 ...prev,
                 {
                     title: `${employeeToDelete.firstName} ${employeeToDelete.lastName}`,
                     message: 'Employee deleted successfully',
-                    img: Images.SuccessCheck
+                    type: "success", // success type
                 }
             ]);
             setModalShow(false);
@@ -324,9 +337,11 @@ const AddEmployee = () => {
                 {
                     title: 'Error',
                     message: 'Failed to delete employee',
-                    img: Images.SuccessCheck
+                    type: "success", // success type
                 }
             ]);
+        } finally {
+            setSubmitting(false); // Start loader
         }
     };
 
@@ -357,7 +372,6 @@ const AddEmployee = () => {
 
     return (
         <>
-        {submitting ? <Loader/> : (
             <Container fluid>
                 <Row>
                     <Col md={12} lg={12} xl={12} xxl={12}>
@@ -399,43 +413,47 @@ const AddEmployee = () => {
                             buttonClassIcon='icon_btn'
                             tableHeaders={[<Form.Check className='CustomCheck' />, 'Employee Name', 'Job Title', 'Department', 'JoiningDate', 'Employment Type', 'Status', 'Work Location', 'Actions']}
                         >
-                            {employeeData.map((emp, idx) => (
-                                <tr key={idx}>
-                                    <td><Form.Check className='CustomCheck' /></td>
-                                    <td>
-                                        <div className='employeeGroup'>
-                                            <div className="employeeGroupImg">
-                                                <img src={Images.UserAvatar} alt="" />
+                        {submitting ? <Loader /> : (
+                            (
+                                employeeData.map((emp, idx) => (
+                                    <tr key={idx}>
+                                        <td><Form.Check className='CustomCheck' /></td>
+                                        <td>
+                                            <div className='employeeGroup'>
+                                                <div className="employeeGroupImg">
+                                                    <img src={Images.UserAvatar} alt="" />
+                                                </div>
+                                                <div className='employeeGroupContent'>
+                                                    <h5>{`${emp.firstName} ${emp.lastName}`}</h5>
+                                                    <p>{emp.email}</p>
+                                                </div>
                                             </div>
-                                            <div className='employeeGroupContent'>
-                                                <h5>{`${emp.firstName} ${emp.lastName}`}</h5>
-                                                <p>{emp.email}</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    {/* <td><a href="#">{emp.employeeId}</a></td> */}
-                                    <td>{emp.designation}</td>
-                                    <td>{emp.department}</td>
-                                    <td>{new Date(emp.joiningDate).toLocaleDateString()}</td>
-                                    <td>{emp.employmentType}</td>
-                                    <td>
-                                        <span className={`badge ${getStatusClass(emp.status)}`}>
-                                            <i></i> {emp.status}
-                                        </span>
-                                    </td>
-                                    <td>{emp.workLocation}</td>
-                                    <td className='table_action'>
-                                        <Button className="btn_action"><img src={Images.View} alt="" /></Button>
-                                        <Button className="btn_action" onClick={() => handleEditEmployee(emp)}><img src={Images.Edit} alt="" /></Button>
-                                        <Button className="btn_action" onClick={() => { setEmployeeToDelete(emp); setModalShow(true); }}><img src={Images.Delete} alt="" /></Button>
-                                    </td>
-                                </tr>
-                            ))}
+                                        </td>
+                                        {/* <td><a href="#">{emp.employeeId}</a></td> */}
+                                        <td>{emp.designation}</td>
+                                        <td>{emp.department}</td>
+                                        <td>{new Date(emp.joiningDate).toLocaleDateString()}</td>
+                                        <td>{emp.employmentType}</td>
+                                        <td>
+                                            <span className={`badge ${getStatusClass(emp.status)}`}>
+                                                <i></i> {emp.status}
+                                            </span>
+                                        </td>
+                                        <td>{emp.workLocation}</td>
+                                        <td className='table_action'>
+                                            <Button className="btn_action"><img src={Images.View} alt="" /></Button>
+                                            <Button className="btn_action" onClick={() => handleEditEmployee(emp)}><img src={Images.Edit} alt="" /></Button>
+                                            <Button className="btn_action" onClick={() => { setEmployeeToDelete(emp); setModalShow(true); }}><img src={Images.Delete} alt="" /></Button>
+                                        </td>
+                                    </tr>
+                                ))
+                            )
+                        )}
                         </EmployeeGird>
                     </Col>
                 </Row>
             </Container>
-        )}
+
             <OffCanvas
                 show={showAddEmployeeCanvas}
                 placement="end"

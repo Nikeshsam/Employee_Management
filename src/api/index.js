@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const url = 'https://hrmsapi-4tvu.onrender.com/api/v1';
-//const url = 'http://localhost:3005/api/v1';
+//const url = 'https://hrmsapi-4tvu.onrender.com/api/v1';
+const url = 'http://localhost:3005/api/v1';
 
 export const registerCompany = (companyDetails) => axios.post(`${url}/authentication/register`, companyDetails);
 export const userLogin = (authDetails) => axios.post(`${url}/authentication/login`, authDetails)
@@ -34,6 +34,7 @@ export const addEmployee = (employee, token) => axios.post(`${url}/employee`, em
     'Content-Type': 'multipart/form-data',
   },
 });
+
 export const getEmployee = (token) => axios.get(`${url}/employee`,  {
   headers: {
     Authorization: `Bearer ${token}`,
@@ -55,6 +56,7 @@ export const getEmployees = (searchTerm='', page = 1, limit = 10, token, filters
     },
   });
 }; 
+
 //get all employees grid load
 
 
@@ -78,11 +80,11 @@ export const editOrganization = (organization, token, id) => axios.patch(`${url}
 // Employee Edit Edit
 
 export const editEmployee = (employee, token, id) => axios.put(`${url}/employee/${id}`, employee, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'multipart/form-data',
-    },
-  });
+  headers: {
+    Authorization: `Bearer ${token}`,
+    'Content-Type': 'multipart/form-data',
+  },
+});
 
 // Employee Export Employees Excel
 
@@ -91,6 +93,30 @@ export const exportEmployeesExcel = (token) => {
     responseType: 'blob', // tells axios to expect binary file
     headers: { Authorization: `Bearer ${token}` }
   });
+};
+
+// Employee Export Employees Basic Details
+
+export const createOrUpdateEmployeeBasicDetails = (basicemployeedetail, token) => {
+  return axios.post(
+    `${url}/employeeDetails/basic-details`, basicemployeedetail, 
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const getEmployeeBasicDetails = (token) => {
+  return axios.get(
+    `${url}/employeeDetails/basic-details`,
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
 };
 
 // export const updatePost = (id,post)=> axios.patch(`${url}/${id}`,post);

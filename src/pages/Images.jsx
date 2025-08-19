@@ -34,7 +34,10 @@ import Dashboard from '../assets/Images/dashboard.svg';
 import OnBoarding from '../assets/Images/OnBoarding.svg';
 import CompanyProfile from '../assets/Images/CompanyProfile.svg';
 import AddEmployee from '../assets/Images/AddEmployee.svg';
+
 import SuccessCheck from '../assets/Images/success-check.svg';
+import ErrorClose from '../assets/Images/error-close.svg';
+
 import Avatar from '../assets/Images/Avatar.svg';
 import UserAvatar from '../assets/Images/UserAvatar.svg';
 
@@ -72,6 +75,7 @@ import SearchEmployee from '../assets/Images/SearchEmployee.svg';
     CompanyProfile, 
     AddEmployee,
     SuccessCheck,
+    ErrorClose,
     Avatar,
     UserAvatar,
     ConfirmDelete,

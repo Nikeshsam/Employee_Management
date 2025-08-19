@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CardForm, PrimaryGird, InputField, SelectInput } from '../../pages/Props.jsx';
-import {basicValidateField} from '../Validations/Validate.jsx';
+import { CardForm, CustomToast, PrimaryGird, InputField, SelectInput } from '../../pages/Props.jsx';
+import { basicValidateField } from '../Validations/Validate.jsx';
+import Images from '../../pages/Images.jsx';
+import { createOrUpdateEmployeeBasicDetails, getEmployeeBasicDetails } from '../../api/index.js';
+import { useLoginUser } from '../../context/LoginUserContext.jsx';
+import ComboDate from '../../data/Combo.json';
+import Loader from '../Common/Loader.jsx';
 
 // Bootstrap imports
 
 import 'bootstrap/dist/css/bootstrap.css';
-import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react-bootstrap';
+import { Container, Card, Form, Row, Col, ToastContainer, Tab, Tabs, Button, Table } from 'react-bootstrap';
 
 // Bootstrap imports
 
@@ -14,48 +19,97 @@ import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react
 
 const BasicInfo = () => {
 
-    const [nationality, setNationality] = useState([
-        { key: '1', label: 'Indian' },
-        { key: '2', label: 'Australian' },
-        { key: '3', label: 'Chinese' },
-        { key: '4', label: 'Japan' },
-        { key: '5', label: 'England' },
-        { key: '6', label: 'Pakistan' },
-        { key: '7', label: 'Dubai' }
-    ]);
+    const [Nationality, setNationality] = useState(ComboDate.Nationality);
+    const [Gender, setGender] = useState(ComboDate.Gender);
+    const [MaritalStatus, setMaritalStatus] = useState(ComboDate.MaritalStatus);
 
-    const [gender, setGender] = useState([
-        { key: '1', label: 'Male' },
-        { key: '2', label: 'Female' },
-        { key: '3', label: 'Transgender' },
-        { key: '4', label: 'Prefer not to say' },
-    ]);
-
-    const [maritalstatus, setMaritalStatus] = useState([
-        { key: '1', label: 'Single' },
-        { key: '2', label: 'Married' }
-    ]);
-
-    // FORM INPUT
-
+    const { loginUser } = useLoginUser();
+    const navigate = useNavigate();
 
     // FormData Validations
 
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
-        dob: '',
+        dateOfBirth: '',
         age: '',
         nationality: '',
         gender: '',
-        maritalstatus: '',
+        maritalStatus: '',
         dateofmarriage: '',
     });
 
+    const handleToastClose = (index) => {
+        const updatedList = toastList.filter((_, i) => i !== index);
+        setToastList(updatedList);
+    };
+
     // Error useState
 
-    const [errors, setErrors] = useState({
-    });
+    const [showToast, setShowToast] = useState(true);
+
+    const [errors, setErrors] = useState({});
+    const [submitting, setSubmitting] = useState(false);
+    const [toastList, setToastList] = useState([]);
+    const [isEditMode, setIsEditMode] = useState(true); // 👉 by default editable if no data
+    const [hasData, setHasData] = useState(false); // 👉 flag to check if data exists
+
+    // useEffect(() => {
+    //     console.log(" State change => hasData:", hasData, "| isEditMode:", isEditMode);
+    // }, [hasData, isEditMode]);
+
+    // Fetch existing employee details
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await getEmployeeBasicDetails(loginUser.token);
+                //console.log(res);
+                //console.log("loginUser.token:", loginUser?.token);
+
+                if (res.data && res.data.data) {
+                    // Employee has data -> fill form + disable edit
+                    setFormData({
+                        firstName: res.data.data.firstName || '',
+                        lastName: res.data.data.lastName || '',
+                        dateOfBirth: res.data.data.dateOfBirth
+                            ? res.data.data.dateOfBirth.split('T')[0]
+                            : '',
+                        age: res.data.data.age || '',
+                        nationality: res.data.data.nationality || '',
+                        gender: res.data.data.gender || '',
+                        maritalStatus: res.data.data.maritalStatus || '',
+                        dateofmarriage: res.data.data.dateofmarriage
+                            ? res.data.data.dateofmarriage.split('T')[0]
+                            : '',
+                    });
+                    setHasData(true);
+                    setIsEditMode(false);
+                } else {
+                    // No data yet -> keep form empty & editable
+                    setHasData(false);
+                    setIsEditMode(true);
+                }
+            } catch (err) {
+                console.error("Error fetching employee details:", err);
+
+                // Only show toast for real network/server errors
+                if (err.response?.status !== 404) {
+                    setToastList(prev => [
+                        ...prev,
+                        {
+                            title: "Error",
+                            message: "Failed to fetch employee details",
+                            type: "error"
+                        }
+                    ]);
+                }
+            }
+        };
+
+        fetchData();
+    }, [loginUser.token]);
+
+    // Use Effect
 
     //  Validate Form with Error
 
@@ -66,143 +120,245 @@ const BasicInfo = () => {
             if (error) newErrors[field] = error;
         });
         setErrors(newErrors);
+        console.log(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
     //  Handle Submit
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (validateForm()) {
-            navigate('/Home'); // 
-            console.log('Form submitted:', formData);
+        if (!validateForm()) return;
+
+        setSubmitting(true);
+
+        try {
+            // ✅ Create or Update
+            await createOrUpdateEmployeeBasicDetails(formData, loginUser.token);
+
+            setToastList((prev) => [
+                ...prev,
+                { title: "Success", message: "Basic details saved successfully!", type: "success" },
+            ]);
+
+            // ✅ Re-fetch updated data
+            const updatedData = await getEmployeeBasicDetails(loginUser.token);
+            if (updatedData.data && updatedData.data.data) {
+                setFormData({
+                    ...updatedData.data.data,
+                    dateOfBirth: updatedData.data.data.dateOfBirth
+                        ? new Date(updatedData.data.data.dateOfBirth).toISOString().split("T")[0]
+                        : "",
+                    dateofmarriage: updatedData.data.data.dateofmarriage
+                        ? new Date(updatedData.data.data.dateofmarriage).toISOString().split("T")[0]
+                        : "",
+                });
+
+                setHasData(true);
+                setIsEditMode(false);
+            }
+        } catch (error) {
+            console.error("Error saving data:", error);
+            setToastList((prev) => [
+                ...prev,
+                { title: "Error", message: "Failed to save basic details. Please try again.", type: "error" },
+            ]);
+        } finally {
+            setSubmitting(false);
         }
+    };
+
+
+    //  Handle Change
+
+    const calculateAge = (dob) => {
+        if (!dob) return "";
+        const birthDate = new Date(dob);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
     };
 
     //  Handle Change
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        let updatedForm = { ...formData, [name]: value };
+
+        // Normalize date fields to YYYY-MM-DD
+        if (name === "dateOfBirth" && value) {
+            updatedForm.dateOfBirth = new Date(value).toISOString().split("T")[0];
+            updatedForm.age = String(calculateAge(updatedForm.dateOfBirth));
+        }
+
+        if (name === "dateofmarriage" && value) {
+            updatedForm.dateofmarriage = new Date(value).toISOString().split("T")[0];
+        }
+
+        if (name === "maritalStatus" && value !== "Married") {
+            updatedForm.dateofmarriage = ""; // 🔥 clear if not Married
+        }
+
+        setFormData(updatedForm);
+
         const error = basicValidateField(name, value);
-        setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
+        setErrors((prevErrors) => ({ ...prevErrors, [name]: error }));
     };
 
-    const navigate  = useNavigate();
 
     return (
         <>
-            <CardForm
-                onSubmit={handleSubmit}
-                footerButtonSubmit="Save"
-                footerButtonSubmitClass="primary_form_btn btn_h_35"
-            >
-                <Col md={9} lg={9} xl={9} xxl={9}>
-                    <Row className='gx-3'>
-                        <Col md={4} lg={4} xl={4} xxl={4}>
-                            <InputField
-                                label="First Name"
-                                name="firstName"
-                                type="text"
-                                placeholder="Enter your first name"
-                                error={errors.firstName}
-                                value={formData.firstName}
-                                handleChange={handleChange}
-                                required
-                            />
-                        </Col>
-                        <Col md={4} lg={4} xl={4} xxl={4}>
-                            <InputField
-                                label="Last Name"
-                                name="lastName"
-                                type="text"
-                                placeholder="Enter your last name"
-                                error={errors.lastName}
-                                value={formData.lastName}
-                                handleChange={handleChange}
-                                required
-                            />
-                        </Col>
-                    </Row>
-                    <Row className='gx-3'>
-                        <Col md={4} lg={4} xl={4} xxl={4}>
-                            <InputField
-                                label="Date of Birth"
-                                name="dob"
-                                type="date"
-                                placeholder="Enter your Date of Birth"
-                                error={errors.dob}
-                                value={formData.dob}
-                                handleChange={handleChange}
-                                required
-                            />
-                        </Col>
-                        <Col md={4} lg={4} xl={4} xxl={4}>
-                            <InputField
-                                label="Age"
-                                name="age"
-                                type="number"
-                                placeholder="Enter your Age"
-                                error={errors.age}
-                                value={formData.age}
-                                handleChange={handleChange}
-                                required
-                            />
-                        </Col>
-                        <Col md={4} lg={4} xl={4} xxl={4}>
-                            <SelectInput
-                                label="Nationality"
-                                name="nationality"
-                                options={nationality}
-                                placeholder="Select Nationality"
-                                error={errors.nationality}
-                                value={formData.nationality}
-                                handleChange={handleChange}
-                                required
-                            />
-                        </Col>
-                    </Row>
-                    <Row className='gx-3'>
-                        <Col md={4} lg={4} xl={4} xxl={4}>
-                            <SelectInput
-                                label="Gender"
-                                name="gender"
-                                options={gender}
-                                placeholder="Select Gender"
-                                error={errors.gender}
-                                value={formData.gender}
-                                handleChange={handleChange}
-                                required
-                            />
-                        </Col>
-                        <Col md={4} lg={4} xl={4} xxl={4}>
-                            <SelectInput
-                                label="Marital Status"
-                                name="maritalstatus"
-                                options={maritalstatus}
-                                placeholder="Marital Status"
-                                error={errors.maritalstatus}
-                                value={formData.maritalstatus}
-                                handleChange={handleChange}
-                                required
-                            />
-                        </Col>
-                        <Col md={4} lg={4} xl={4} xxl={4}>
-                            <InputField
-                                label="Date of Marriage"
-                                type="date"
-                                name="dateofmarriage"
-                                placeholder="Enter your Date of Marriage"
-                                error={errors.dateofmarriage}
-                                value={formData.dateofmarriage}
-                                handleChange={handleChange}
-                                required
-                            />
-                        </Col>
-                    </Row>
-                </Col>
-                <Col md={3} lg={3} xl={3} xxl={3}></Col>
-            </CardForm>
+            {submitting ? <Loader /> : (
+                <CardForm
+                    onSubmit={handleSubmit}
+                    // 🔥 Dynamic button text
+                    footerButtonSubmit={hasData ? (isEditMode ? "Update" : "Update") : "Save"}
+                    footerButtonSubmitClass="primary_form_btn btn_h_35"
+                    footerButtonSubmitDisabled={hasData && !isEditMode}
+                    footerExtraButton={
+                        hasData && !isEditMode ? (
+                            <Button
+                                variant="secondary"
+                                className="btn_h_35 secondary_btn ps-3 pe-3 ms-2"
+                                onClick={() => setIsEditMode(true)} // ✅ Unlock fields
+                            >
+                                Edit
+                            </Button>
+                        ) : null
+                    }
+                >
+                    <Col md={9} lg={9} xl={9} xxl={9}>
+                        <Row className='gx-3'>
+                            <Col md={4} lg={4} xl={4} xxl={4}>
+                                <InputField
+                                    label="First Name"
+                                    name="firstName"
+                                    type="text"
+                                    placeholder="Enter your first name"
+                                    error={errors.firstName}
+                                    value={formData.firstName}
+                                    handleChange={handleChange}
+                                    required
+                                    disabled={!isEditMode}   //
+                                />
+                            </Col>
+                            <Col md={4} lg={4} xl={4} xxl={4}>
+                                <InputField
+                                    label="Last Name"
+                                    name="lastName"
+                                    type="text"
+                                    placeholder="Enter your last name"
+                                    error={errors.lastName}
+                                    value={formData.lastName}
+                                    handleChange={handleChange}
+                                    required
+                                    disabled={!isEditMode}   //
+                                />
+                            </Col>
+                        </Row>
+                        <Row className='gx-3'>
+                            <Col md={4} lg={4} xl={4} xxl={4}>
+                                <InputField
+                                    label="Date of Birth"
+                                    name="dateOfBirth"
+                                    type="date"
+                                    placeholder="Enter your Date of Birth"
+                                    error={errors.dateOfBirth}
+                                    value={formData.dateOfBirth}
+                                    handleChange={handleChange}
+                                    required
+                                    disabled={!isEditMode}   //
+                                />
+                            </Col>
+                            <Col md={4} lg={4} xl={4} xxl={4}>
+                                <InputField
+                                    label="Age"
+                                    name="age"
+                                    type="number"
+                                    placeholder="Enter your Age"
+                                    error={errors.age}
+                                    value={formData.age}
+                                    handleChange={handleChange}
+                                    required
+                                    disabled={!isEditMode}   //
+                                />
+                            </Col>
+                            <Col md={4} lg={4} xl={4} xxl={4}>
+                                <SelectInput
+                                    label="Nationality"
+                                    name="nationality"
+                                    options={Nationality}
+                                    placeholder="Select Nationality"
+                                    error={errors.nationality}
+                                    value={formData.nationality}
+                                    handleChange={handleChange}
+                                    required
+                                    disabled={!isEditMode}   //
+                                />
+                            </Col>
+                        </Row>
+                        <Row className='gx-3'>
+                            <Col md={4} lg={4} xl={4} xxl={4}>
+                                <SelectInput
+                                    label="Gender"
+                                    name="gender"
+                                    options={Gender}
+                                    placeholder="Select Gender"
+                                    error={errors.gender}
+                                    value={formData.gender}
+                                    handleChange={handleChange}
+                                    required
+                                    disabled={!isEditMode}   //
+                                />
+                            </Col>
+                            <Col md={4} lg={4} xl={4} xxl={4}>
+                                <SelectInput
+                                    label="Marital Status"
+                                    name="maritalStatus"
+                                    options={MaritalStatus}
+                                    placeholder="Marital Status"
+                                    error={errors.maritalStatus}
+                                    value={formData.maritalStatus}
+                                    handleChange={handleChange}
+                                    required
+                                    disabled={!isEditMode}   //
+                                />
+                            </Col>
+                            {formData.maritalStatus === "Married" && (
+                                <Col md={4} lg={4} xl={4} xxl={4}>
+                                    <InputField
+                                        label="Date of Marriage"
+                                        type="date"
+                                        name="dateofmarriage"
+                                        placeholder="Enter your Date of Marriage"
+                                        error={errors.dateofmarriage}
+                                        value={formData.dateofmarriage}
+                                        handleChange={handleChange}
+                                        required
+                                        disabled={!isEditMode}   //
+                                    />
+                                </Col>
+                            )}
+                        </Row>
+                    </Col>
+                    <Col md={3} lg={3} xl={3} xxl={3}></Col>
+                </CardForm>
+            )}
+            <ToastContainer position="top-end" className="p-3">
+                {toastList.map((toast, index) => (
+                    <CustomToast
+                        key={index}
+                        title={toast.title}
+                        message={toast.message}
+                        img={toast.img}
+                        type={toast.type}
+                        onClose={() => handleToastClose(index)} // If your component supports this
+                    />
+                ))}
+            </ToastContainer>
         </>
     )
 }
