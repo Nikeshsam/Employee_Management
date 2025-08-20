@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CardForm, PrimaryGird, InputField, SelectInput } from '../../pages/Props.jsx';
 import {contactValidateField} from '../Validations/Validate.jsx';
+import Images from '../../pages/Images.jsx';
+import { createOrUpdateEmployeeBasicDetails, getEmployeeBasicDetails } from '../../api/index.js';
+import { useLoginUser } from '../../context/LoginUserContext.jsx';
+import ComboDate from '../../data/Combo.json';
+import Loader from '../Common/Loader.jsx';
 
 // Bootstrap imports
 
@@ -11,60 +16,10 @@ import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react
 // Bootstrap imports
 
 const Contact = () => {
-    const [country, setCountry] = useState([
-        { key: '1', label: 'Indian' },
-        { key: '2', label: 'Australian' },
-        { key: '3', label: 'Chinese' },
-        { key: '4', label: 'Japan' },
-        { key: '5', label: 'England' },
-        { key: '6', label: 'Pakistan' },
-        { key: '7', label: 'Dubai' }
-    ])
 
-    const [state, setState] = useState([
-        { key: '1', label: 'Tamil Nadu' },
-        { key: '2', label: 'Andhra Pradesh' },
-        { key: '3', label: 'Maharashtra' },
-        { key: '4', label: 'Gujarat' },
-        { key: '5', label: 'Uttar Pradesh' },
-        { key: '6', label: 'Rajasthan' },
-        { key: '7', label: 'Delhi' },
-        { key: '8', label: 'Goa' },
-        { key: '9', label: 'Karnataka' },
-        { key: '10', label: 'Kerala' },
-    ])
-
-    const [city, setCity] = useState([
-        { key: '1', label: 'Chennai' },
-        { key: '2', label: 'Kanchipuram' },
-        { key: '3', label: 'Vellore' },
-        { key: '4', label: 'Tiruvannamalai' },
-        { key: '5', label: 'Chengalpattu' },
-        { key: '6', label: 'Madurai' },
-        { key: '7', label: 'Coimbatore' },
-        { key: '8', label: 'Tirupur' },
-        { key: '9', label: 'Thanjavur' },
-        { key: '10', label: 'Thoothukudi' },
-        { key: '11', label: 'Salem' },
-        { key: '12', label: 'Tiruchirappalli' },
-        { key: '13', label: 'Erode' },
-        { key: '14', label: 'Dindigul' },
-        { key: '15', label: 'Kanyakumari' },
-        { key: '16', label: 'Tirunelveli' },
-        { key: '17', label: 'Virudhunagar' },
-        { key: '18', label: 'Namakkal' },
-        { key: '19', label: 'Karur' },
-        { key: '20', label: 'Pudukkottai' },
-        { key: '21', label: 'Sivaganga' },
-        { key: '22', label: 'Ramanathapuram' },
-        { key: '23', label: 'Thiruvarur' },
-        { key: '24', label: 'Nagapattinam' },
-        { key: '25', label: 'Kallakurichi' },
-        { key: '26', label: 'Ariyalur' },
-        { key: '27', label: 'Perambalur' },
-        { key: '28', label: 'Tenkasi' },
-        { key: '29', label: 'Theni' },
-    ])
+    const [Country, setCountry] = useState(ComboDate.Country);
+    const [State, setState] = useState(ComboDate.State);
+    const [City, setCity] = useState(ComboDate.City);
 
     // FORM INPUT
 
@@ -168,7 +123,7 @@ const Contact = () => {
                 <SelectInput
                     label="Country"
                     name="country"
-                    options={country}
+                    options={Country}
                     placeholder="Select Country"
                     error={errors.country}
                     value={formData.country}
@@ -180,7 +135,7 @@ const Contact = () => {
                 <SelectInput
                     label="State"
                     name="state"
-                    options={state}
+                    options={State}
                     placeholder="Select State"
                     error={errors.state}
                     value={formData.state}
@@ -192,7 +147,7 @@ const Contact = () => {
                 <SelectInput
                     label="City"
                     name="city"
-                    options={city}
+                    options={City}
                     placeholder="Select City"
                     error={errors.city}
                     value={formData.city}
@@ -243,7 +198,7 @@ const Contact = () => {
                 <SelectInput
                     label="Country"
                     name="pcountry"
-                    options={country}
+                    options={Country}
                     placeholder="Select Country"
                     error={errors.pcountry}
                     value={formData.pcountry}
@@ -255,7 +210,7 @@ const Contact = () => {
                 <SelectInput
                     label="State"
                     name="pstate"
-                    options={state}
+                    options={State}
                     placeholder="Select State"
                     error={errors.pstate}
                     value={formData.pstate}
@@ -267,7 +222,7 @@ const Contact = () => {
                 <SelectInput
                     label="City"
                     name="pcity"
-                    options={city}
+                    options={City}
                     placeholder="Select City"
                     error={errors.pcity}
                     value={formData.pcity}
