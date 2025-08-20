@@ -2,10 +2,16 @@
 import { RollerCoaster } from "lucide-react";
 import { createContext, useContext, useState, useMemo } from "react";
 import CompanyProfile from "../components/Dashboard/CompanyProfile";
-
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 const LoginUserContext = createContext();
 
+
 export const LoginUserProvider = ({ children }) => {
+
+  
+const navigate = useNavigate();
   const [loginUser, setLoginUser] = useState(() => JSON.parse(sessionStorage.getItem("LoginUser")) || {
     token: "",
     user: {
@@ -34,6 +40,27 @@ export const LoginUserProvider = ({ children }) => {
       clearLoginUser: clearLoginUser,
     };
   })
+
+    useEffect(() => {
+    if (!loginUser.token) return;
+
+    try {
+      const decoded = jwtDecode(loginUser.token);
+      const expiryTime = decoded.exp * 1000 - Date.now();
+
+      if (expiryTime <= 0) {
+        navigate('/Authentication');
+      } else {
+        const timer = setTimeout(() => {
+        navigate('/Authentication');
+        }, expiryTime);
+
+        return () => clearTimeout(timer);
+      }
+    } catch {
+      logout();
+    }
+  }, [loginUser.token]);
 
   return (
     <LoginUserContext.Provider value={memoValue}>
