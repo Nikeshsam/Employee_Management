@@ -119,6 +119,61 @@ export const getEmployeeBasicDetails = (token) => {
   );
 };
 
+export const createOrUpdateEmployeeContactDetails = (basicemployeedetail, token) => {
+  return axios.post(
+    `${url}/employeeDetails/contact-details`, basicemployeedetail, 
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const getEmployeeContactDetails = (token) => {
+  return axios.get(
+    `${url}/employeeDetails/contact-details`,
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const createOrUpdateDependentDetails = (dependentsData, token) => {
+  return axios.post(
+    `${url}/employeeDetails/dependents`, dependentsData,
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const deleteDependentDetails = async (id, token) => {
+  return await axios.delete(
+    `${process.env.REACT_APP_API_BASE_URL}/dependents/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const getDependentDetails = (token) => {
+  return axios.get(
+    `${url}/employeeDetails/dependents`,
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
 // export const updatePost = (id,post)=> axios.patch(`${url}/${id}`,post);
 // export const likePost = (id)=> axios.patch(`${url}/${id}`);
 // export const deletePost = (id)=> axios.patch(`${url}/${id}`);

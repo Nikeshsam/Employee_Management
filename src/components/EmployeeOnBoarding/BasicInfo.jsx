@@ -44,9 +44,9 @@ const BasicInfo = () => {
         setToastList(updatedList);
     };
 
-    // Error useState
-
     const [showToast, setShowToast] = useState(true);
+
+    // Error useState
 
     const [errors, setErrors] = useState({});
     const [submitting, setSubmitting] = useState(false);
@@ -54,18 +54,11 @@ const BasicInfo = () => {
     const [isEditMode, setIsEditMode] = useState(true); // 👉 by default editable if no data
     const [hasData, setHasData] = useState(false); // 👉 flag to check if data exists
 
-    // useEffect(() => {
-    //     console.log(" State change => hasData:", hasData, "| isEditMode:", isEditMode);
-    // }, [hasData, isEditMode]);
-
     // Fetch existing employee details
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const res = await getEmployeeBasicDetails(loginUser.token);
-                //console.log(res);
-                //console.log("loginUser.token:", loginUser?.token);
-
                 if (res.data && res.data.data) {
                     // Employee has data -> fill form + disable edit
                     setFormData({
@@ -167,7 +160,6 @@ const BasicInfo = () => {
             setSubmitting(false);
         }
     };
-
 
     //  Handle Change
 

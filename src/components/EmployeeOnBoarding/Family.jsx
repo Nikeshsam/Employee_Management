@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CardForm, PrimaryGird, InputField, OffCanvas } from '../../pages/Props.jsx';
+import { CardForm, CustomToast, PrimaryGird, InputField, OffCanvas } from '../../pages/Props.jsx';
+import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import Images from '../../pages/Images.jsx';
-import {familyValidateField} from '../Validations/Validate.jsx';
+import { familyValidateField } from '../Validations/Validate.jsx';
+import Loader from '../Common/Loader.jsx';
+import { createOrUpdateDependentDetails, deleteDependentDetails, getDependentDetails } from '../../api/index.js';
 
 // Bootstrap imports
 
 import 'bootstrap/dist/css/bootstrap.css';
-import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react-bootstrap';
+import { Container, Card, Form, Row, Col, ToastContainer, Tab, Tabs, Button, Table } from 'react-bootstrap';
 
 // Bootstrap imports
 
@@ -20,38 +23,19 @@ const Family = () => {
     const handleShowFamilyCanvas = () => setShowFamilyCanvas(true);
     const handleCloseFamilyCanvas = () => setShowFamilyCanvas(false);
 
-    const [familymembers, setFamilyMembers] = useState([
-        {
-            key: '1',
-            FirstName: 'John',
-            LastName: 'Doe',
-            Relationship: 'Father',
-            Education: 'Bachelor\'s Degree',
-            Occupation: 'Software Engineer',
-            dependentInBenefits: true,
-            dob: 'May 01, 1975',
-        },
-        {
-            key: '2',
-            FirstName: 'Ganesh',
-            LastName: 'Kumar',
-            Relationship: 'Mother',
-            Education: 'Master\'s Degree',
-            Occupation: 'Doctor',
-            dependentInBenefits: true,
-            dob: 'June 21, 1979',
-        },
-        {
-            key: '3',
-            FirstName: 'Alice',
-            LastName: 'Doe',
-            Relationship: 'Sister',
-            Education: 'High School',
-            Occupation: 'Student',
-            dependentInBenefits: false,
-            dob: 'Sep 15, 2005',
-        }
-    ])
+    const [submitting, setSubmitting] = useState(false);
+
+    const [familymembers, setFamilyMembers] = useState([]);
+
+    const { loginUser } = useLoginUser();
+
+    const [toastList, setToastList] = useState([]);
+    const [editingIndex, setEditingIndex] = useState(null);
+
+    const handleToastClose = (index) => {
+        const updatedList = toastList.filter((_, i) => i !== index);
+        setToastList(updatedList);
+    };
 
     // FormData Validations
 
@@ -66,17 +50,7 @@ const Family = () => {
 
     // Error useState
 
-    const [errors, setErrors] = useState({
-        fname: '',
-        lname: '',
-        relationship: '',
-        dob: '',
-        education: '',
-        occupation: '',
-    });
-
-
-
+    const [errors, setErrors] = useState({});
 
     //  Validate Form with Error
 
@@ -94,11 +68,114 @@ const Family = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (validateForm()) {
-            navigate('/Home'); // 
-            console.log('Form submitted:', formData);
+        if (!validateForm()) return;
+
+        const newMember = {
+            name: `${formData.fname} ${formData.lname}`.trim(),
+            relationship: formData.relationship,
+            dateOfBirth: formData.dob,
+            education: formData.education,
+            occupation: formData.occupation,
+            dependentBenefit: true
+        };
+
+        if (editingIndex !== null) {
+            setFamilyMembers((prev) =>
+                prev.map((member, idx) => (idx === editingIndex ? newMember : member))
+            );
+        } else {
+            setFamilyMembers((prev) => [...prev, newMember]);
+        }
+
+        setToastList((prev) => [
+            ...prev,
+            { title: "Success", message: "Dependent added to grid!", type: "success" },
+        ]);
+
+        setFormData({
+            fname: '',
+            lname: '',
+            relationship: '',
+            dob: '',
+            education: '',
+            occupation: '',
+        });
+
+        setEditingIndex(null);
+        setShowFamilyCanvas(false);
+    };
+
+    useEffect(() => {
+        const fetchFamilyMember = async () => {
+            try {
+                const response = await getDependentDetails(loginUser.token);
+                if (!response) {
+                    console.log("No Data Found");
+                    return;
+                }
+                setFamilyMembers(response.data.dependents);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchFamilyMember();
+    }, [loginUser.token]);
+
+    const fetchDependents = async () => {
+        try{
+            const response = await getDependentDetails(loginUser.token);
+            if (!response){
+                console.log("No Data Found");
+                return;
+            }
+            setFamilyMembers(response.data.dependents);
+        }catch(error) {
+            console.log(error);
+        }
+    }
+
+    const handleSaveAll = async () => {
+        try {
+            setSubmitting(true);
+
+            const newMembers = familymembers; // only new
+            if (newMembers.length === 0) {
+                setToastList((prev) => [
+                    ...prev,
+                    { title: "Info", message: "No new dependents to save", type: "info" },
+                ]);
+                return;
+            }
+
+            const apiData = {
+                dependents: newMembers.map(member => ({
+                    _id:member._id,
+                    name: member.name,
+                    relationship: member.relationship,
+                    dateOfBirth: member.dateOfBirth,
+                    education: member.education,
+                    occupation: member.occupation,
+                    dependentBenefit: true
+                }))
+            };
+            console.log(apiData);
+            //return;
+
+            await createOrUpdateDependentDetails(apiData, loginUser.token);
+
+            setToastList((prev) => [
+                ...prev,
+                { title: "Success", message: "New family members saved successfully!", type: "success" },
+            ]);
+            await fetchDependents();
+        } catch (error) {
+            console.error("Error saving dependents:", error);
+        } finally {
+            setSubmitting(false);
         }
     };
+
 
     //  Handle Change
 
@@ -109,43 +186,98 @@ const Family = () => {
         setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
     };
 
-    const navigate  = useNavigate();
+    // 👉 Add below inside Family component (before return)
+
+    const handleEdit = (index) => {
+        const member = familymembers[index];
+
+        // Split full name into first & last
+        const [firstName, ...rest] = (member.name || "").split(" ");
+        const lastName = rest.join(" ");
+
+        setFormData({
+            fname: firstName,
+            lname: lastName,
+            relationship: member.relationship,
+            dob: member.dateOfBirth,
+            education: member.education,
+            occupation: member.occupation,
+        });
+
+        setEditingIndex(index);
+        setShowFamilyCanvas(true); // Open the OffCanvas for editing
+    };
+
+    const handleDelete = (index) => {
+        setFamilyMembers((prev) => prev.filter((_, i) => i !== index));
+
+        setToastList((prev) => [
+            ...prev,
+            { title: "Deleted", message: "Family member removed from grid!", type: "error" },
+        ]);
+    };
+
+
+    const navigate = useNavigate();
 
     return (
         <>
-            <CardForm
-                footerButtonSubmit="Save"
-                footerButtonSubmitClass="primary_form_btn btn_h_35"
-            >
-                <Col md={12} lg={12} xl={12} xxl={12}>
-                    <PrimaryGird
-                        cardTitle="Family"
-                        buttonText="Add Family"
-                        showAddButton={true}
-                        showFilterButton={false}
-                        showDeleteButton={false}
-                        showFooter={false}
-                        onButtonClick={handleShowFamilyCanvas}
-                        tableHeaders={['First Name', 'Last Name', 'Relationship', 'Date of Birth', 'Education', 'occupation', 'Dependent in benefits', 'Actions']}
-                    >
-                        {familymembers.map((familymember) => (
-                            <tr key={familymember.key}>
-                                <td>{familymember.FirstName}</td>
-                                <td>{familymember.LastName}</td>
-                                <td>{familymember.Relationship}</td>
-                                <td>{familymember.dob}</td>
-                                <td>{familymember.Education}</td>
-                                <td>{familymember.Occupation}</td>
-                                <td>{familymember.dependentInBenefits ? 'Yes' : 'No'}</td>
-                                <td className='table_action'>
-                                    <Button className="btn_action"><img src={Images.Edit} alt="" /></Button>
-                                    <Button className="btn_action"><img src={Images.Delete} alt="" /></Button>
-                                </td>
-                            </tr>
-                        ))}
-                    </PrimaryGird>
-                </Col>
-            </CardForm>
+            {submitting ? <Loader /> : (
+                <CardForm
+                    footerButtonSubmit="Save"
+                    footerButtonSubmitClass="primary_form_btn btn_h_35"
+                    onSubmit={handleSaveAll} 
+                >
+                    <Col md={12} lg={12} xl={12} xxl={12}>
+                        <PrimaryGird
+                            cardTitle="Family"
+                            buttonText="Add Family"
+                            showAddButton={true}
+                            showFilterButton={false}
+                            showDeleteButton={false}
+                            showFooter={false}
+                            onButtonClick={handleShowFamilyCanvas}
+                            tableHeaders={['First Name', 'Last Name', 'Relationship', 'Date of Birth', 'Education', 'occupation', 'Dependent in benefits', 'Actions']}
+                        >
+                            {submitting ? (
+                                <Loader />
+                            ) : (
+                                familymembers.length > 0 ? (
+                                    familymembers.map((member, index) => {
+                                        // Split full name into first & last
+                                        const [firstName, ...rest] = (member.name || "").split(" ");
+                                        const lastName = rest.join(" ");
+
+                                        return (
+                                            <tr key={index}>
+                                                <td>{firstName}</td>
+                                                <td>{lastName}</td>
+                                                <td>{member.relationship}</td>
+                                                <td>{member.dateOfBirth}</td>
+                                                <td>{member.education}</td>
+                                                <td>{member.occupation}</td>
+                                                <td>{member.dependentBenefit ? "Yes" : "No"}</td>
+                                                <td className='table_action'>
+                                                    <Button className="btn_action" onClick={() => handleEdit(index)}><img src={Images.Edit} alt="" /></Button>
+                                                    <Button className="btn_action" onClick={() => handleDelete(index)}><img src={Images.Delete} alt="" /></Button>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })
+                                ) : (
+                                    <tr>
+                                        <td colSpan="8" style={{ textAlign: "center" }}>
+                                            No Family Members Added
+                                        </td>
+                                    </tr>
+                                )
+                            )}
+
+
+                        </PrimaryGird>
+                    </Col>
+                </CardForm>
+            )}
 
             <OffCanvas
                 show={showFamilyCanvas}
@@ -240,6 +372,19 @@ const Family = () => {
                     />
                 </Col>
             </OffCanvas>
+
+            <ToastContainer position="top-end" className="p-3">
+                {toastList.map((toast, index) => (
+                    <CustomToast
+                        key={index}
+                        title={toast.title}
+                        message={toast.message}
+                        img={toast.img}
+                        type={toast.type}
+                        onClose={() => handleToastClose(index)} // If your component supports this
+                    />
+                ))}
+            </ToastContainer>
         </>
     )
 }

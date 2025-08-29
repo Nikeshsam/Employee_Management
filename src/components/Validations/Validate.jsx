@@ -67,72 +67,77 @@ export const benefitsValidateField = (name, value) => {
 export const contactValidateField = (name, value) => {
     let error = '';
     switch (name) {
-        case 'address1':
-        case 'paddress1':
-            if (!value.trim()) error = 'Address is required';
+        // Current Address
+        case 'currentAddress.addressLine1':
+            if (!value.trim()) error = 'Address Line 1 is required';
             break;
-
-        case 'address2':
-        case 'paddress2':
-            if (!value.trim()) error = 'Address is required';
+        case 'currentAddress.addressLine2':
+            if (!value.trim()) error = 'Address Line 2 is required';
             break;
-
-        case 'country':
-        case 'pcountry':
+        case 'currentAddress.country':
             if (!value.trim()) error = 'Country is required';
             break;
-
-        case 'state':
-        case 'pstate':
-            if (!value.trim()) error = 'Date of Birth is required';
+        case 'currentAddress.state':
+            if (!value.trim()) error = 'State is required';
             break;
-
-        case 'city':
-        case 'pcity':
+        case 'currentAddress.city':
             if (!value.trim()) error = 'City is required';
             break;
-
-        case 'zipCode':
-        case 'pzipCode':
-            if (!value.trim()) error = 'ZipCode is required';
+        case 'currentAddress.zipCode':
+            if (!value.trim()) error = 'Zip Code is required';
             break;
 
-        case 'cdpphonenumber':
+        // Permanent Address
+        case 'permanentAddress.addressLine1':
+            if (!value.trim()) error = 'Address Line 1 is required';
+            break;
+        case 'permanentAddress.addressLine2':
+            if (!value.trim()) error = 'Address Line 2 is required';
+            break;
+        case 'permanentAddress.city':
+            if (!value.trim()) error = 'City is required';
+            break;
+        case 'permanentAddress.state':
+            if (!value.trim()) error = 'State is required';
+            break;
+        case 'permanentAddress.country':
+            if (!value.trim()) error = 'Country is required';
+            break;
+        case 'permanentAddress.zipCode':
+            if (!value.trim()) error = 'Zip Code is required';
+            break;
+
+        // Contact Info
+        case 'primaryMobileNo':
             if (!value.trim()) error = 'Primary Phone Number is required';
             break;
-
-        case 'cdaphonenumber':
+        case 'secondaryMobileNo':
             if (!value.trim()) error = 'Alternate Phone Number is required';
             break;
-
-        case 'cdemailaddress':
+        case 'email':
             if (!value.trim()) error = 'Email Address is required';
             break;
 
-        case 'ecdrelationname':
+        // Emergency Contact
+        case 'relationName':
             if (!value.trim()) error = 'Relation Name is required';
             break;
-
-        case 'ecdrelationship':
+        case 'relationship':
             if (!value.trim()) error = 'Relationship is required';
             break;
-
-        case 'ecdphonenumber':
+        case 'relationContactNo':
             if (!value.trim()) error = 'Phone Number is required';
             break;
-
-        case 'ecdemailaddress':
+        case 'relationEmail':
             if (!value.trim()) error = 'Email Address is required';
             break;
-
-        case 'ecdAddress':
+        case 'relationAddress':
             if (!value.trim()) error = 'Address is required';
             break;
 
         default:
             break;
     }
-
     return error;
 };
 

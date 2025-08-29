@@ -76,7 +76,7 @@ export const CardFromTertiary = ({
             </Card.Footer>
         </Card>
     );
-}
+};
 
 // Component Grid.....
 
@@ -383,6 +383,9 @@ export const InputField = ({
         </Form.Group>
     );
 };
+
+// Component InputField.....
+
 export const UploadInputField = ({
     label = '',
     name,
@@ -518,7 +521,7 @@ export const CustomModal = ({
             </Modal.Footer>
         </Modal>
     );
-}
+};
 
 // Component Modal.....
 
@@ -568,7 +571,7 @@ export const CustomModalConfirmDialog = ({
             
         </Modal>
     );
-}
+};
 
 // Component InlineInputField.....
 
