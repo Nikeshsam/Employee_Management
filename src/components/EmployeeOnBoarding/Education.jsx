@@ -1,100 +1,377 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CardForm, PrimaryGird, InputField, OffCanvas } from '../../pages/Props.jsx';
+import { CardForm, CustomToast, CustomModalConfirmDialog, PrimaryGird, InputField, OffCanvas } from '../../pages/Props.jsx';
+import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import Images from '../../pages/Images.jsx';
-import {educationValidateField} from '../Validations/Validate.jsx';
+import {educationValidateField, certificationValidateField} from '../Validations/Validate.jsx';
+import Loader from '../Common/Loader.jsx';
+import { createOrUpdateDependentDetails, deleteDependentDetails, getDependentDetails } from '../../api/index.js';
 
 // Bootstrap imports
 
 import 'bootstrap/dist/css/bootstrap.css';
-import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react-bootstrap';
+import { Container, Card, Form, Row, Col, ToastContainer, Tab, Tabs, Button, Table } from 'react-bootstrap';
 
 // Bootstrap imports
 
 const Educations = () => {
 
-    // Canvas useState
+    //Education Canvas useState
 
     const [showEducationCanvas, setShowEducationCanvas] = useState(false);
-    const [showCertificationCanvas, setShowCertificationCanvas] = useState(false);
-
     const handleShowEducationCanvas = () => setShowEducationCanvas(true);
     const handleCloseEducationCanvas = () => setShowEducationCanvas(false);
+    const [educations, setEducation] = useState([]);
+    const [educationEditingIndex, setEducationEditingIndex] = useState(null);
 
+
+   //Certification Canvas useState
+    const [showCertificationCanvas, setShowCertificationCanvas] = useState(false);
     const handleShowCertificationCanvas = () => setShowCertificationCanvas(true);
     const handleCloseCertificationCanvas = () => setShowCertificationCanvas(false);
+    const [certifications, setCertifications] = useState([]);
+    const [certificationsEditingIndex, setCertificationsEditingIndex] = useState(null);
 
-    const [educations, setEducation] = useState([
-        {
-            key: '1',
-            Degree: 'B.Tech',
-            Major: 'IT',
-            University: 'Anna University',
-            Year: '2024',
-            CGPA: '7.6',
-        },
-    ])
+    const [submitting, setSubmitting] = useState(false);
+    const {loginUser} = useLoginUser();
+    const [toastList, setToastList] = useState([]);
+    const [modalShow, setModalShow] = useState(false);
+    const [itemToDelete, setItemToDelete] = useState(null);
+    const [deleteType, setDeleteType] = useState(null); // "education" | "certification"
+    const [indexToDelete, setIndexToDelete] = useState(null);
+    const [formType, setFormType] = useState(null); // "education" | "certification"
 
-    const [certifications, setCertifications] = useState([
-        {
-            key: '2',
-            Name: 'Scrum Master',
-            IssuedBy: 'Project Management Institute',
-            IssuedDate: 'Mar 25, 2024',
-            ExpiryDate: 'Mar 25, 2027',
-            AdditionalInformation: '2024',
-        },
-    ])
+    const [educationErrors, setEducationErrors] = useState({});
+    const [certificationErrors, setCertificationErrors] = useState({});
+
+
+    const handleToastClose = (index) => {
+        const updatedList = toastList.filter((_, i) => i !== index);
+        setToastList(updatedList);
+    };
+
+    const handleClearClick = () => {
+        setModalShow(false);
+        setItemToDelete(null);   // reset the selected item
+        setDeleteType(null);     // clear type (education/certification)
+        setIndexToDelete(null);  // clear index
+    };
+
 
     // FormData Validations
 
-    const [formData, setFormData] = useState({
+    const [educationFormData, setEducationFormData] = useState({
         degree: '',
         major: '',
         university: '',
         year: '',
-        CGPA: '',
-        cname: '',
-        issuedby: '',
-        issuedate: '',
-        expirydate: '',
-        additionalinformation: '',
+        percentage: '',
     });
 
-    // Error useState
-
-    const [errors, setErrors] = useState({});
-
+    const [certificationsFormData, setCertificationsFormData] = useState({
+        name: '',
+        issuedBy: '',
+        issuedDate: '',
+        additionalInfo: '',
+    });
 
     //  Validate Form with Error
 
     const validateForm = () => {
-        const newErrors = {};
-        Object.keys(formData).forEach((field) => {
-            const error = educationValidateField(field, formData[field]);
-            if (error) newErrors[field] = error;
-        });
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
-
-    //  Handle Submit
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (validateForm()) {
-            navigate('/Home'); // 
-            console.log('Form submitted:', formData);
+        if (formType === "education") {
+            const newErrors = {};
+            Object.keys(educationFormData).forEach((field) => {
+                const error = educationValidateField(field, educationFormData[field]);
+                if (error) newErrors[field] = error;
+            });
+            setEducationErrors(newErrors);
+            return Object.keys(newErrors).length === 0;
         }
+
+        if (formType === "certification") {
+            const newErrors = {};
+            Object.keys(certificationsFormData).forEach((field) => {
+                const error = certificationValidateField(field, certificationsFormData[field]);
+                if (error) newErrors[field] = error;
+            });
+            setCertificationErrors(newErrors);
+            return Object.keys(newErrors).length === 0;
+        }
+
+        return false;
     };
+
+
 
     //  Handle Change
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-        const error = educationValidateField(name, value);
-        setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
+
+        if (formType === "education") {
+            setEducationFormData(prev => ({ ...prev, [name]: value }));
+            const error = educationValidateField(name, value);
+            setEducationErrors(prevErrors => ({ ...prevErrors, [name]: error }));
+        }
+        else if (formType === "certification") {
+            setCertificationsFormData(prev => ({ ...prev, [name]: value }));
+            const error = certificationValidateField(name, value);
+            setCertificationErrors(prevErrors => ({ ...prevErrors, [name]: error }));
+        }
+    };
+
+
+    /////////////////////////// Education Funcationally Start Here ///////////////////////////
+
+    //  Handle Education Submit
+
+    const handleEducationSubmit = (e) => {
+        e.preventDefault();
+        if (!validateForm()) return;
+
+        const newEducation = {
+            _id: educationFormData._id,
+            degree: educationFormData.degree,
+            major: educationFormData.major,
+            university: educationFormData.university,
+            year: educationFormData.year,
+            percentage: educationFormData.percentage,
+        };
+
+        if (educationEditingIndex !== null) {
+            setEducation((prev) =>
+                prev.map((member, idx) => (idx === educationEditingIndex ? newEducation : member))
+            );
+        } else {
+            setEducation((prev) => [...prev, newEducation]);
+        }
+
+        setToastList((prev) => [
+            ...prev,
+            {
+                title: "Success",
+                message: educationEditingIndex !== null
+                    ? "Educations updated successfully!"
+                    : "Educations added successfully!",
+                type: "success"
+            },
+        ]);
+
+        setEducationFormData({
+            degree: '',
+            major: '',
+            university: '',
+            year: '',
+            percentage: '',
+        });
+
+        setEducationEditingIndex(null);
+        //resetForm();   // <-- clear everything here
+        setShowEducationCanvas(false);
+    };
+
+    const handleEducationEdit = (index) => {
+        const education = educations[index];
+
+        setEducationFormData({
+            _id: education._id,
+            degree: education.degree,
+            major: education.major,
+            university: education.university,
+            year: education.year,
+            percentage: education.percentage,
+        });
+
+        setEducationEditingIndex(index);
+        setShowEducationCanvas(true); // Open the OffCanvas for editing
+    };
+
+    const fetchEducation = async () => {
+        try {
+            const response = await getDependentDetails(loginUser.token);
+            if (!response) {
+                console.log("No Data Found");
+                return;
+            }
+            setFamilyMembers(response.data.dependents);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    /////////////////////////// Education Funcationally Start Here ///////////////////////////
+
+    //  Handle Education Submit
+
+    const handleCertificationSubmit = (e) => {
+        e.preventDefault();
+        if (!validateForm()) return;
+
+        const newCertification = {
+            _id: certificationsFormData._id,
+            name: certificationsFormData.name,
+            issuedBy: certificationsFormData.issuedBy,
+            issuedDate: certificationsFormData.issuedDate,
+            additionalInfo: certificationsFormData.additionalInfo,
+        };
+
+        if (certificationsEditingIndex !== null) {
+            setCertifications((prev) =>
+                prev.map((member, idx) => (idx === certificationsEditingIndex ? newCertification : member))
+            );
+        } else {
+            setCertifications((prev) => [...prev, newCertification]);
+        }
+
+        setToastList((prev) => [
+            ...prev,
+            {
+                title: "Success",
+                message: certificationsEditingIndex !== null
+                    ? "Family Member updated successfully!"
+                    : "Family Member added successfully!",
+                type: "success"
+            },
+        ]);
+
+        setCertificationsFormData({
+            name: '',
+            issuedBy: '',
+            issuedDate: '',
+            additionalInfo: '',
+        });
+
+        setCertificationsEditingIndex(null);
+        //resetForm();   // <-- clear everything here
+        handleShowCertificationCanvas(false);
+    };
+
+    const handleCertificationEdit = (index) => {
+        const education = educations[index];
+
+        setCertificationsFormData({
+            _id: education._id,
+            name: education.name,
+            issuedBy: education.issuedBy,
+            issuedDate: education.issuedDate,
+            additionalInfo: education.additionalInfo
+        });
+
+        setCertificationsEditingIndex(index);
+        handleShowCertificationCanvas(true); // Open the OffCanvas for editing
+    };
+
+    const fetchCertification = async () => {
+        try {
+            const response = await getDependentDetails(loginUser.token);
+            if (!response) {
+                console.log("No Data Found");
+                return;
+            }
+            setFamilyMembers(response.data.dependents);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+
+    // useEffect(() => {
+    //     const fetchEducation = async () => {
+    //         try {
+    //             const response = await getEducationDetails(loginUser.token);
+    //             if (!response) {
+    //                 console.log("No Data Found");
+    //                 return;
+    //             }
+    //             setEducation(response.data.dependents);
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     };
+
+    //     fetchEducation();
+    // }, [loginUser.token]);
+
+    const handleDelete = async () => {
+        let member;
+
+        if (deleteType === "education") {
+            member = educations[indexToDelete];
+            setEducation((prev) => prev.filter((_, i) => i !== indexToDelete));
+        } else if (deleteType === "certification") {
+            member = certifications[indexToDelete];
+            setCertifications((prev) => prev.filter((_, i) => i !== indexToDelete));
+        }
+
+        if (member?._id) {
+            try {
+                let response;
+
+                if (deleteType === "education") {
+                    response = await deleteEmployeeEducation(member._id, loginUser.token);
+                } else if (deleteType === "certification") {
+                    response = await deleteEmployeeCertification(member._id, loginUser.token);
+                }
+
+                setToastList(prev => [
+                    ...prev,
+                    {
+                        title: `${member.name || member.degree}`,
+                        message: `${deleteType === "education" ? "Education" : "Certification"} deleted successfully`,
+                        type: "success",
+                    }
+                ]);
+
+                console.log(response);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        setModalShow(false);
+        setItemToDelete(null); // ✅ reset generic state
+    };
+
+    const handleSaveAll = async () => {
+        try {
+            setSubmitting(true);
+
+            const newMembers = familymembers; // only new
+            if (newMembers.length === 0) {
+                setToastList((prev) => [
+                    ...prev,
+                    { title: "Info", message: "No new Family Member to save", type: "info" },
+                ]);
+                return;
+            }
+
+            const apiData = {
+                dependents: newMembers.map(member => ({
+                    _id: member._id,
+                    name: member.name,
+                    relationship: member.relationship,
+                    dateOfBirth: member.dateOfBirth,
+                    education: member.education,
+                    occupation: member.occupation,
+                    dependentBenefit: true
+                }))
+            };
+            console.log(apiData);
+            //return;
+
+            await createOrUpdateDependentDetails(apiData, loginUser.token);
+
+            setToastList((prev) => [
+                ...prev,
+                { title: "Success", message: "Family members saved successfully!", type: "success" },
+            ]);
+            await fetchEducation();
+        } catch (error) {
+            console.error("Error saving dependents:", error);
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     const navigate = useNavigate();
@@ -104,6 +381,7 @@ const Educations = () => {
             <CardForm
                 footerButtonSubmit="Save"
                 footerButtonSubmitClass="primary_form_btn btn_h_35"
+                onSubmit={handleSaveAll} 
             >
                 <Col md={12} lg={12} xl={12} xxl={12}>
                     <PrimaryGird
@@ -116,19 +394,33 @@ const Educations = () => {
                         onButtonClick={handleShowEducationCanvas}
                         tableHeaders={['Degree', 'Major', 'University', 'Year', 'CGPA', 'Actions']}
                     >
-                        {educations.map((education) => (
-                            <tr key={education.key}>
-                                <td>{education.Degree}</td>
-                                <td>{education.Major}</td>
-                                <td>{education.University}</td>
-                                <td>{education.Year}</td>
-                                <td>{education.CGPA}</td>
-                                <td className='table_action'>
-                                    <Button className="btn_action"><img src={Images.Edit} alt="" /></Button>
-                                    <Button className="btn_action"><img src={Images.Delete} alt="" /></Button>
-                                </td>
-                            </tr>
-                        ))}
+                        {submitting ? (
+                            <Loader />
+                        ) : (
+                            educations.length > 0 ? (
+                                educations.map((education, index) => {
+                                    return (
+                                        <tr key={education.key}>
+                                            <td>{education.degree}</td>
+                                            <td>{education.major}</td>
+                                            <td>{education.university}</td>
+                                            <td>{education.year}</td>
+                                            <td>{education.percentage}</td>
+                                            <td className='table_action'>
+                                                <Button className="btn_action" onClick={() => handleEducationEdit(index)}><img src={Images.Edit} alt="" /></Button>
+                                                <Button className="btn_action" onClick={() => {setItemToDelete(education); setIndexToDelete(index); setDeleteType("education"); setModalShow(true); }}><img src={Images.Delete} alt="" /></Button>
+                                            </td>
+                                        </tr>
+                                    );
+                                })
+                            ) : (
+                                <tr>
+                                    <td colSpan="8" style={{ textAlign: "center" }}>
+                                        No Family Members Added
+                                    </td>
+                                </tr>
+                            )
+                        )}
                     </PrimaryGird>
                 </Col>
 
@@ -141,21 +433,33 @@ const Educations = () => {
                         showDeleteButton={false}
                         showFooter={false}
                         onButtonClick={handleShowCertificationCanvas}
-                        tableHeaders={['Name', 'Issued by', 'Issued Date', 'Expiry Date', 'Additional Information', 'Actions']}
+                        tableHeaders={['Name', 'Issued by', 'Issued Date', 'Course Description', 'Actions']}
                     >
-                        {certifications.map((certification) => (
-                            <tr key={certification.key}>
-                                <td>{certification.Name}</td>
-                                <td>{certification.IssuedBy}</td>
-                                <td>{certification.IssuedDate}</td>
-                                <td>{certification.ExpiryDate}</td>
-                                <td>{certification.AdditionalInformation}</td>
-                                <td className='table_action'>
-                                    <Button className="btn_action"><img src={Images.Edit} alt="" /></Button>
-                                    <Button className="btn_action"><img src={Images.Delete} alt="" /></Button>
+                        {submitting ? (
+                            <Loader />
+                        ) : (certifications.length > 0 ? (
+                            certifications.map((certification, index) => {
+                                return (
+                                    <tr key={certification.key}>
+                                        <td>{certification.name}</td>
+                                        <td>{certification.issuedBy}</td>
+                                        <td>{certification.issuedDate}</td>
+                                        <td>{certification.additionalInfo}</td>
+                                        <td className='table_action'>
+                                            <Button className="btn_action" onClick={() => handleCertificationEdit(index)}><img src={Images.Edit} alt="" /></Button>
+                                            <Button className="btn_action" onClick={() => {setItemToDelete(certification); setIndexToDelete(index); setDeleteType("certification"); setModalShow(true); }}><img src={Images.Delete} alt="" /></Button>
+                                        </td>
+                                    </tr>
+                                );
+                            })
+                        ) : (
+                            <tr>
+                                <td colSpan="8" style={{ textAlign: "center" }}>
+                                    No Family Members Added
                                 </td>
                             </tr>
-                        ))}
+                        )
+                        )}
                     </PrimaryGird>
                 </Col>
             </CardForm>
@@ -163,13 +467,13 @@ const Educations = () => {
             <OffCanvas
                 show={showEducationCanvas}
                 placement="end"
-                onSubmit={handleSubmit}
+                onSubmit={handleEducationSubmit}
                 onHide={handleCloseEducationCanvas}
-                title="Add Education"
-                subtitle="Start your 7-day free trial."
+                title={educationEditingIndex !== null ? "Update Education Details" : "Add Education Details"}
+                subtitle={educationEditingIndex !== null ? "Update the details of your Education." : "Start your 7-day free trial."}
                 className='PrimaryCanvasModal'
-                name="Add Education"
-                footerButtonSubmit="Add Education"
+                name={educationEditingIndex !== null ? "Update Education Details" : "Add Education Details"}
+                footerButtonSubmit={educationEditingIndex !== null ? "Update Education Details" : "Add Education Details"}
                 footerButtonCancel="Cancel"
                 footerButtonSubmitClass="modal_primary_btn w-100"
                 footerButtonCancelClass="modal_primary_border_btn w-100"
@@ -178,11 +482,11 @@ const Educations = () => {
                     <InputField
                         label="Degree"
                         type="text"
-                        placeholder="Enter your First Name"
+                        placeholder="Enter your Degree"
                         controlId="degree"
                         name="degree"
-                        error={errors.degree}
-                        value={formData.degree}
+                        error={educationErrors.degree}
+                        value={educationFormData.degree}
                         handleChange={handleChange}
                         required
                     />
@@ -191,11 +495,11 @@ const Educations = () => {
                     <InputField
                         label="Major"
                         type="text"
-                        placeholder="Enter your Last Name"
+                        placeholder="Enter your Major"
                         controlId="major"
                         name="major"
-                        error={errors.major}
-                        value={formData.major}
+                        error={educationErrors.major}
+                        value={educationFormData.major}
                         handleChange={handleChange}
                         required
                     />
@@ -204,11 +508,11 @@ const Educations = () => {
                     <InputField
                         label="University"
                         type="text"
-                        placeholder="Enter your Last Name"
+                        placeholder="Enter your University"
                         controlId="university"
                         name="university"
-                        error={errors.university}
-                        value={formData.university}
+                        error={educationErrors.university}
+                        value={educationFormData.university}
                         handleChange={handleChange}
                         required
                     />
@@ -216,25 +520,25 @@ const Educations = () => {
                 <Col md={6} lg={6} xl={6} xxl={6}>
                     <InputField
                         label="Year"
-                        type="date"
-                        placeholder="Enter your Last Name"
+                        type="month"
+                        placeholder="Enter your Year"
                         controlId="year"
                         name="year"
-                        error={errors.year}
-                        value={formData.year}
+                        error={educationErrors.year}
+                        value={educationFormData.year}
                         handleChange={handleChange}
                         required
                     />
                 </Col>
                 <Col md={6} lg={6} xl={6} xxl={6}>
                     <InputField
-                        label="CGPA"
+                        label="Percentage"
                         type="text"
-                        placeholder="Enter your Last Name"
-                        controlId="CGPA"
-                        name="CGPA"
-                        error={errors.CGPA}
-                        value={formData.CGPA}
+                        placeholder="Enter your Percentage"
+                        controlId="percentage"
+                        name="percentage"
+                        error={educationErrors.percentage}
+                        value={educationFormData.percentage}
                         handleChange={handleChange}
                         required
                     />
@@ -244,26 +548,26 @@ const Educations = () => {
             <OffCanvas
                 show={showCertificationCanvas}
                 placement="end"
-                onSubmit={handleSubmit}
+                onSubmit={handleCertificationSubmit}
                 onHide={handleCloseCertificationCanvas}
-                title="Add Certification"
-                subtitle="Start your 7-day free trial."
+                title={certificationsEditingIndex !== null ? "Update Certification Member" : "Add Certification Member"}
+                subtitle={certificationsEditingIndex !== null ? "Update the details of your Certifications." : "Start your 7-day free trial."}
                 className='PrimaryCanvasModal'
-                name="Add Certification"
-                footerButtonSubmit="Add Certification"
+                name={certificationsEditingIndex !== null ? "Update Certification" : "Add Certification"}
+                footerButtonSubmit={certificationsEditingIndex !== null ? "Update Certification" : "Add Certification"}
                 footerButtonCancel="Cancel"
                 footerButtonSubmitClass="modal_primary_btn w-100"
                 footerButtonCancelClass="modal_primary_border_btn w-100"
             >
                 <Col md={6} lg={6} xl={6} xxl={6}>
                     <InputField
-                        label="Name"
+                        label="Certification Name"
                         type="text"
-                        placeholder="Enter your First Name"
-                        controlId="cname"
-                        name="cname"
-                        error={errors.cname}
-                        value={formData.cname}
+                        placeholder="Enter your Certification Name"
+                        controlId="name"
+                        name="name"
+                        error={certificationErrors.name}
+                        value={certificationsFormData.name}
                         handleChange={handleChange}
                         required
                     />
@@ -273,10 +577,10 @@ const Educations = () => {
                         label="Issued By"
                         type="text"
                         placeholder="Enter your Last Name"
-                        controlId="issuedby"
-                        name="issuedby"
-                        error={errors.issuedby}
-                        value={formData.issuedby}
+                        controlId="issuedBy"
+                        name="issuedBy"
+                        error={certificationErrors.issuedBy}
+                        value={certificationsFormData.issuedBy}
                         handleChange={handleChange}
                         required
                     />
@@ -284,45 +588,78 @@ const Educations = () => {
                 <Col md={6} lg={6} xl={6} xxl={6}>
                     <InputField
                         label="Issued Date"
-                        type="text"
-                        placeholder="Enter your Last Name"
-                        controlId="issuedate"
-                        name="issuedate"
-                        error={errors.issuedate}
-                        value={formData.issuedate}
-                        handleChange={handleChange}
-                        required
-                    />
-                </Col>
-                <Col md={6} lg={6} xl={6} xxl={6}>
-                    <InputField
-                        label="Expiry Date"
                         type="date"
-                        placeholder="Enter your Last Name"
-                        controlId="expirydate"
-                        name="expirydate"
-                        error={errors.expirydate}
-                        value={formData.expirydate}
+                        placeholder="Enter Your Issued Date"
+                        controlId="issuedDate"
+                        name="issuedDate"
+                        error={certificationErrors.issuedDate}
+                        value={certificationsFormData.issuedDate}
                         handleChange={handleChange}
                         required
                     />
                 </Col>
                 <Col md={6} lg={6} xl={6} xxl={6}>
                     <InputField
-                        label="Additional Information"
+                        label="Course Description"
                         type="text"
-                        placeholder="Enter your Last Name"
-                        controlId="additionalinformation"
-                        name="additionalinformation"
-                        error={errors.additionalinformation}
-                        value={formData.additionalinformation}
+                        placeholder="Enter your Course Description"
+                        controlId="additionalInfo"
+                        name="additionalInfo"
+                        error={certificationErrors.additionalInfo}
+                        value={certificationsFormData.additionalInfo}
                         handleChange={handleChange}
                         required
                     />
                 </Col>
             </OffCanvas>
-        </>
 
+            <ToastContainer position="top-end" className="p-3">
+                {toastList.map((toast, index) => (
+                    <CustomToast
+                        key={index}
+                        title={toast.title}
+                        message={toast.message}
+                        img={toast.img}
+                        type={toast.type}
+                        onClose={() => handleToastClose(index)} // If your component supports this
+                    />
+                ))}
+            </ToastContainer>
+
+            <CustomModalConfirmDialog
+                show={modalShow}
+                onHide={handleClearClick}
+                title="Delete Employee"
+                size="md"
+                subtitle="This action cannot be undone."
+                className="ConfirmDialogModal delete"
+                showSubmitButton={true}
+                showCancelButton={true}
+                bodyContent={
+                    <div className="ConfirmContainer">
+                        <div className="ConfirmIcon">
+                            <img src={Images.ConfirmDelete} alt="Delete" />
+                        </div>
+                        {itemToDelete && (
+                            <div className="ConfirmContent">
+                                <h5>Delete Employee</h5>
+                                <p>
+                                    Are you sure you want to delete this{" "}
+                                    {deleteType === "education" ? "Education" : "Certification"} details{" "}
+                                    <span>{itemToDelete.degree || itemToDelete.name}</span>?
+                                    This action cannot be undone.
+                                </p>
+                            </div>
+                        )}
+                    </div>
+                }
+                onSubmit={handleDelete}
+                footerButtonSubmit="Delete"
+                footerButtonCancel="Cancel"
+                footerButtonSubmitClass="modal_danger_btn"
+                footerButtonCancelClass="modal_primary_border_btn"
+            />
+        </>
     )
 }
 

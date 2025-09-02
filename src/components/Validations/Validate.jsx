@@ -158,25 +158,31 @@ export const educationValidateField = (name, value) => {
         case 'year':
             if (!value.trim()) error = 'Year is required';
             break;
-        case 'education':
-            if (!value.trim()) error = 'Education is required';
+        case 'percentage':
+            if (!value.trim()) error = 'Percentage is required';
             break;
-        case 'CGPA':
-            if (!value.trim()) error = 'CGPA is required';
+        default:
             break;
-        case 'cname':
+    }
+
+    return error;
+};
+
+// Certification Validations Error Message
+
+export const certificationValidateField = (name, value) => {
+    let error = '';
+    switch (name) {
+        case 'name':
             if (!value.trim()) error = 'Name is required';
             break;
-        case 'issuedby':
+        case 'issuedBy':
             if (!value.trim()) error = 'Issued By is required';
             break;
-        case 'issuedate':
+        case 'issuedDate':
             if (!value.trim()) error = 'Issue Date is required';
             break;
-        case 'expirydate':
-            if (!value.trim()) error = 'Expiry Date is required';
-            break;
-        case 'additionalinformation':
+        case 'additionalInfo':
             if (!value.trim()) error = 'Additional Information is required';
             break;
         default:

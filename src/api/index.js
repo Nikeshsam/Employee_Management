@@ -154,7 +154,7 @@ export const createOrUpdateDependentDetails = (dependentsData, token) => {
 
 export const deleteDependentDetails = async (id, token) => {
   return await axios.delete(
-    `${process.env.REACT_APP_API_BASE_URL}/dependents/${id}`,
+     `${url}/employeeDetails/dependents/${id}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -166,6 +166,40 @@ export const deleteDependentDetails = async (id, token) => {
 export const getDependentDetails = (token) => {
   return axios.get(
     `${url}/employeeDetails/dependents`,
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+
+export const createOrUpdateEducationDetails = (educationDetailsData, token) => {
+  return axios.post(
+    `${url}/employeeDetails/education-details`, educationDetailsData,
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const deleteEmployeeEducation = async (id, token) => {
+  return await axios.delete(
+     `${url}/employeeDetails/education-details/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const getEducationDetails = (token) => {
+  return axios.get(
+    `${url}/employeeDetails/education-details`,
     {
       headers: {
         authorization: `Bearer ${token}`,

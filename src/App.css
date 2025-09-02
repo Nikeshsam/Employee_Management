@@ -665,3 +665,7 @@ input:-internal-autofill-selected{background-color: transparent;}
 		stroke-dashoffset: -163;
 	}
 }
+
+/* input[type="month"]::-webkit-datetime-edit-month-field {
+    display: none;
+  } */

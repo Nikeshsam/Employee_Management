@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CardForm, CustomToast, PrimaryGird, InputField, OffCanvas } from '../../pages/Props.jsx';
+import { CardForm, CustomToast, PrimaryGird, CustomModalConfirmDialog, InputField, OffCanvas } from '../../pages/Props.jsx';
 import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import Images from '../../pages/Images.jsx';
 import { familyValidateField } from '../Validations/Validate.jsx';
@@ -32,14 +32,24 @@ const Family = () => {
     const [toastList, setToastList] = useState([]);
     const [editingIndex, setEditingIndex] = useState(null);
 
+    const [modalShow, setModalShow] = useState(false);
+    const [dependentToDelete, setDependentToDelete] = useState(null);
+    const [indexToDelete, setIndexToDelete] = useState(null);
+
     const handleToastClose = (index) => {
         const updatedList = toastList.filter((_, i) => i !== index);
         setToastList(updatedList);
     };
 
+    const handleClearClick = () => {
+        setModalShow(false);
+        setDependentToDelete(null); // If you’re using employeeToDelete state
+    };
+
     // FormData Validations
 
     const [formData, setFormData] = useState({
+        _id:'',
         fname: '',
         lname: '',
         relationship: '',
@@ -71,6 +81,7 @@ const Family = () => {
         if (!validateForm()) return;
 
         const newMember = {
+            _id:formData._id,
             name: `${formData.fname} ${formData.lname}`.trim(),
             relationship: formData.relationship,
             dateOfBirth: formData.dob,
@@ -89,7 +100,13 @@ const Family = () => {
 
         setToastList((prev) => [
             ...prev,
-            { title: "Success", message: "Dependent added to grid!", type: "success" },
+            {
+                title: "Success",
+                message: editingIndex !== null
+                    ? "Family Member updated successfully!"
+                    : "Family Member added successfully!",
+                type: "success"
+            },
         ]);
 
         setFormData({
@@ -102,6 +119,7 @@ const Family = () => {
         });
 
         setEditingIndex(null);
+        //resetForm();   // <-- clear everything here
         setShowFamilyCanvas(false);
     };
 
@@ -143,7 +161,7 @@ const Family = () => {
             if (newMembers.length === 0) {
                 setToastList((prev) => [
                     ...prev,
-                    { title: "Info", message: "No new dependents to save", type: "info" },
+                    { title: "Info", message: "No new Family Member to save", type: "info" },
                 ]);
                 return;
             }
@@ -166,7 +184,7 @@ const Family = () => {
 
             setToastList((prev) => [
                 ...prev,
-                { title: "Success", message: "New family members saved successfully!", type: "success" },
+                { title: "Success", message: "Family members saved successfully!", type: "success" },
             ]);
             await fetchDependents();
         } catch (error) {
@@ -175,7 +193,6 @@ const Family = () => {
             setSubmitting(false);
         }
     };
-
 
     //  Handle Change
 
@@ -186,7 +203,7 @@ const Family = () => {
         setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
     };
 
-    // 👉 Add below inside Family component (before return)
+    // Add below inside Family component (before return)
 
     const handleEdit = (index) => {
         const member = familymembers[index];
@@ -196,6 +213,7 @@ const Family = () => {
         const lastName = rest.join(" ");
 
         setFormData({
+            _id:member._id, 
             fname: firstName,
             lname: lastName,
             relationship: member.relationship,
@@ -208,15 +226,29 @@ const Family = () => {
         setShowFamilyCanvas(true); // Open the OffCanvas for editing
     };
 
-    const handleDelete = (index) => {
-        setFamilyMembers((prev) => prev.filter((_, i) => i !== index));
-
-        setToastList((prev) => [
-            ...prev,
-            { title: "Deleted", message: "Family member removed from grid!", type: "error" },
-        ]);
+    const handleDeleteDependent = async () => {
+        const member = familymembers[indexToDelete];
+        setFamilyMembers((prev) => prev.filter((_, i) => i !== indexToDelete));
+        
+        if(member._id){
+            try{
+                const response = await deleteDependentDetails(member._id, loginUser.token);
+                setToastList(prev => [
+                    ...prev,
+                    {
+                        title: `${dependentToDelete.name}`,
+                        message: 'Employee deleted successfully',
+                        type: "success", // success type
+                    }
+                ]);
+                setModalShow(false);
+                console.log(response);
+            }catch(error){
+                console.log(error);
+            }
+        }
+        
     };
-
 
     const navigate = useNavigate();
 
@@ -253,13 +285,13 @@ const Family = () => {
                                                 <td>{firstName}</td>
                                                 <td>{lastName}</td>
                                                 <td>{member.relationship}</td>
-                                                <td>{member.dateOfBirth}</td>
+                                                <td>{member.dateOfBirth ? new Date(member.dateOfBirth).toLocaleDateString("en-GB") : ""}</td>
                                                 <td>{member.education}</td>
                                                 <td>{member.occupation}</td>
                                                 <td>{member.dependentBenefit ? "Yes" : "No"}</td>
                                                 <td className='table_action'>
                                                     <Button className="btn_action" onClick={() => handleEdit(index)}><img src={Images.Edit} alt="" /></Button>
-                                                    <Button className="btn_action" onClick={() => handleDelete(index)}><img src={Images.Delete} alt="" /></Button>
+                                                    <Button className="btn_action" onClick={() => {setDependentToDelete(member); setIndexToDelete(index), setModalShow(true);}}><img src={Images.Delete} alt="" /></Button>
                                                 </td>
                                             </tr>
                                         );
@@ -272,8 +304,6 @@ const Family = () => {
                                     </tr>
                                 )
                             )}
-
-
                         </PrimaryGird>
                     </Col>
                 </CardForm>
@@ -284,11 +314,11 @@ const Family = () => {
                 placement="end"
                 onSubmit={handleSubmit}
                 onHide={handleCloseFamilyCanvas}
-                title="Add Family Member"
-                subtitle="Start your 7-day free trial."
+                title={editingIndex !== null ? "Update Family Member" : "Add Family Member"}
+                subtitle={editingIndex !== null ? "Update the details of your family member." : "Start your 7-day free trial."}
                 className='PrimaryCanvasModal'
-                name="Add Family"
-                footerButtonSubmit="Add Member"
+                name={editingIndex !== null ? "Update Family" : "Add Family"}
+                footerButtonSubmit={editingIndex !== null ? "Update Member" : "Add Member"}
                 footerButtonCancel="Cancel"
                 footerButtonSubmitClass="modal_primary_btn w-100"
                 footerButtonCancelClass="modal_primary_border_btn w-100"
@@ -385,6 +415,37 @@ const Family = () => {
                     />
                 ))}
             </ToastContainer>
+
+            <CustomModalConfirmDialog
+                show={modalShow}
+                onHide={handleClearClick}
+                title="Delete Employee"
+                size="md"
+                subtitle='This action cannot be undone.'
+                className='ConfirmDialogModal delete'
+                showSubmitButton={true}
+                showCancelButton={true}
+                bodyContent={
+                    <>
+                        <div className='ConfirmContainer'>
+                            <div className='ConfirmIcon'>
+                                <img src={Images.ConfirmDelete} alt="Delete" />
+                            </div>
+                            {dependentToDelete && (
+                                <div className='ConfirmContent'>
+                                    <h5>Delete Employee</h5>
+                                    <p>Are you sure you want to delete this employee <span>{`${dependentToDelete.name}`}</span>? This action cannot be undo.</p>
+                                </div>
+                            )}
+                        </div>
+                    </>
+                }
+                onSubmit={handleDeleteDependent}
+                footerButtonSubmit="Delete"
+                footerButtonCancel="Cancel"
+                footerButtonSubmitClass="modal_danger_btn"
+                footerButtonCancelClass="modal_primary_border_btn"
+            />
         </>
     )
 }
