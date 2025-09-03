@@ -175,9 +175,9 @@ export const getDependentDetails = (token) => {
 };
 
 
-export const createOrUpdateEducationDetails = (educationDetailsData, token) => {
+export const createOrUpdateEducationDetails = (educationDetails, token) => {
   return axios.post(
-    `${url}/employeeDetails/education-details`, educationDetailsData,
+    `${url}/employeeDetails/education-details`, educationDetails,
     {
       headers: {
         authorization: `Bearer ${token}`,
@@ -207,6 +207,41 @@ export const getEducationDetails = (token) => {
     }
   );
 };
+
+export const createOrUpdateEmployeeCertificationDetails = (employeeCertifications, token) => {
+  return axios.post(
+    `${url}/employeeDetails/certification`, employeeCertifications,
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const deleteEmployeeCertification = async (id, token) => {
+  return await axios.delete(
+     `${url}/employeeDetails/certification/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const getEmployeeCertification = (token) => {
+  return axios.get(
+    `${url}/employeeDetails/certification`,
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+
 
 // export const updatePost = (id,post)=> axios.patch(`${url}/${id}`,post);
 // export const likePost = (id)=> axios.patch(`${url}/${id}`);

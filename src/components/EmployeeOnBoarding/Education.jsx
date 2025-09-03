@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { CardForm, CustomToast, CustomModalConfirmDialog, PrimaryGird, InputField, OffCanvas } from '../../pages/Props.jsx';
 import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import Images from '../../pages/Images.jsx';
-import {educationValidateField, certificationValidateField} from '../Validations/Validate.jsx';
+import { educationValidateField, certificationValidateField } from '../Validations/Validate.jsx';
 import Loader from '../Common/Loader.jsx';
-import { createOrUpdateDependentDetails, deleteDependentDetails, getDependentDetails } from '../../api/index.js';
+import { createOrUpdateEducationDetails, deleteEmployeeEducation, getEducationDetails, createOrUpdateEmployeeCertificationDetails, deleteEmployeeCertification, getEmployeeCertification } from '../../api/index.js';
 
 // Bootstrap imports
 
@@ -19,21 +19,33 @@ const Educations = () => {
     //Education Canvas useState
 
     const [showEducationCanvas, setShowEducationCanvas] = useState(false);
-    const handleShowEducationCanvas = () => setShowEducationCanvas(true);
-    const handleCloseEducationCanvas = () => setShowEducationCanvas(false);
-    const [educations, setEducation] = useState([]);
+    const handleShowEducationCanvas = () => {
+        setShowEducationCanvas(true);
+        setFormType('education')
+    };
+    const handleCloseEducationCanvas = () => {
+        setShowEducationCanvas(false);
+        setFormType(null);
+    };
+    const [educations, setEducations] = useState([]);
     const [educationEditingIndex, setEducationEditingIndex] = useState(null);
 
 
-   //Certification Canvas useState
+    //Certification Canvas useState
     const [showCertificationCanvas, setShowCertificationCanvas] = useState(false);
-    const handleShowCertificationCanvas = () => setShowCertificationCanvas(true);
-    const handleCloseCertificationCanvas = () => setShowCertificationCanvas(false);
+    const handleShowCertificationCanvas = () => {
+        setShowCertificationCanvas(true);
+        setFormType('certification');
+    };
+    const handleCloseCertificationCanvas = () => {
+        setShowCertificationCanvas(false);
+        setFormType(null);
+    }
     const [certifications, setCertifications] = useState([]);
     const [certificationsEditingIndex, setCertificationsEditingIndex] = useState(null);
 
     const [submitting, setSubmitting] = useState(false);
-    const {loginUser} = useLoginUser();
+    const { loginUser } = useLoginUser();
     const [toastList, setToastList] = useState([]);
     const [modalShow, setModalShow] = useState(false);
     const [itemToDelete, setItemToDelete] = useState(null);
@@ -102,7 +114,6 @@ const Educations = () => {
     };
 
 
-
     //  Handle Change
 
     const handleChange = (e) => {
@@ -139,11 +150,11 @@ const Educations = () => {
         };
 
         if (educationEditingIndex !== null) {
-            setEducation((prev) =>
+            setEducations((prev) =>
                 prev.map((member, idx) => (idx === educationEditingIndex ? newEducation : member))
             );
         } else {
-            setEducation((prev) => [...prev, newEducation]);
+            setEducations((prev) => [...prev, newEducation]);
         }
 
         setToastList((prev) => [
@@ -167,7 +178,7 @@ const Educations = () => {
 
         setEducationEditingIndex(null);
         //resetForm();   // <-- clear everything here
-        setShowEducationCanvas(false);
+        handleCloseEducationCanvas();
     };
 
     const handleEducationEdit = (index) => {
@@ -186,18 +197,6 @@ const Educations = () => {
         setShowEducationCanvas(true); // Open the OffCanvas for editing
     };
 
-    const fetchEducation = async () => {
-        try {
-            const response = await getDependentDetails(loginUser.token);
-            if (!response) {
-                console.log("No Data Found");
-                return;
-            }
-            setFamilyMembers(response.data.dependents);
-        } catch (error) {
-            console.log(error);
-        }
-    }
 
     /////////////////////////// Education Funcationally Start Here ///////////////////////////
 
@@ -228,8 +227,8 @@ const Educations = () => {
             {
                 title: "Success",
                 message: certificationsEditingIndex !== null
-                    ? "Family Member updated successfully!"
-                    : "Family Member added successfully!",
+                    ? "Certification updated successfully!"
+                    : "Certification added successfully!",
                 type: "success"
             },
         ]);
@@ -243,62 +242,84 @@ const Educations = () => {
 
         setCertificationsEditingIndex(null);
         //resetForm();   // <-- clear everything here
-        handleShowCertificationCanvas(false);
+        handleCloseCertificationCanvas();
     };
 
     const handleCertificationEdit = (index) => {
-        const education = educations[index];
+        const certification = certifications[index]; // ✅ fix
 
         setCertificationsFormData({
-            _id: education._id,
-            name: education.name,
-            issuedBy: education.issuedBy,
-            issuedDate: education.issuedDate,
-            additionalInfo: education.additionalInfo
+            _id: certification._id,
+            name: certification.name,
+            issuedBy: certification.issuedBy,
+            issuedDate: certification.issuedDate,
+            additionalInfo: certification.additionalInfo
         });
 
         setCertificationsEditingIndex(index);
-        handleShowCertificationCanvas(true); // Open the OffCanvas for editing
+        handleShowCertificationCanvas(true);
     };
 
-    const fetchCertification = async () => {
+
+
+    const fetchDetails = async (type) => {
         try {
-            const response = await getDependentDetails(loginUser.token);
-            if (!response) {
-                console.log("No Data Found");
-                return;
+            let response;
+
+            if (type === "education") {
+                response = await getEducationDetails(loginUser.token);
+                if (response && response.data?.educationDetails) {
+                    setEducations(response.data.educationDetails); // ✅ use correct field
+                }
             }
-            setFamilyMembers(response.data.dependents);
+            else if (type === "certifications") {
+                response = await getEmployeeCertification(loginUser.token);
+                if (response && response.data?.employeeCertifications) {
+                    setCertifications(response.data.employeeCertifications); // ✅ use correct field
+                }
+            }
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [eduResponse, certResponse] = await Promise.all([
+                    getEducationDetails(loginUser.token),
+                    getEmployeeCertification(loginUser.token),
+                ]);
 
-    // useEffect(() => {
-    //     const fetchEducation = async () => {
-    //         try {
-    //             const response = await getEducationDetails(loginUser.token);
-    //             if (!response) {
-    //                 console.log("No Data Found");
-    //                 return;
-    //             }
-    //             setEducation(response.data.dependents);
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     };
+                if (eduResponse?.data?.educationDetails) {
+                    setEducations(eduResponse.data.educationDetails);
+                } else {
+                    console.log("No Education Data Found");
+                }
 
-    //     fetchEducation();
-    // }, [loginUser.token]);
+                if (certResponse?.data?.employeeCertifications) {
+                    setCertifications(certResponse.data.employeeCertifications);
+                } else {
+                    console.log("No Certification Data Found");
+                }
+
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchData();
+    }, [loginUser.token]);
+
+
 
     const handleDelete = async () => {
         let member;
 
         if (deleteType === "education") {
             member = educations[indexToDelete];
-            setEducation((prev) => prev.filter((_, i) => i !== indexToDelete));
+            setEducations((prev) => prev.filter((_, i) => i !== indexToDelete));
         } else if (deleteType === "certification") {
             member = certifications[indexToDelete];
             setCertifications((prev) => prev.filter((_, i) => i !== indexToDelete));
@@ -337,42 +358,65 @@ const Educations = () => {
         try {
             setSubmitting(true);
 
-            const newMembers = familymembers; // only new
-            if (newMembers.length === 0) {
+            const newEducations = educations;
+            const newCertifications = certifications;
+
+            if (newEducations.length === 0 && newCertifications.length === 0) {
                 setToastList((prev) => [
                     ...prev,
-                    { title: "Info", message: "No new Family Member to save", type: "info" },
+                    { title: "Info", message: "No new Education or Certification to save", type: "info" },
                 ]);
                 return;
             }
 
             const apiData = {
-                dependents: newMembers.map(member => ({
-                    _id: member._id,
-                    name: member.name,
-                    relationship: member.relationship,
-                    dateOfBirth: member.dateOfBirth,
-                    education: member.education,
-                    occupation: member.occupation,
-                    dependentBenefit: true
+                educationDetails: newEducations.map(item => ({
+                    _id: item._id,
+                    degree: item.degree,
+                    major: item.major,
+                    university: item.university,
+                    year: item.year,
+                    percentage: item.percentage,
+                })),
+                employeeCertifications: newCertifications.map(item => ({
+                    _id: item._id,
+                    name: item.name,
+                    issuedBy: item.issuedBy,
+                    issuedDate: item.issuedDate,
+                    additionalInfo: item.additionalInfo,
                 }))
             };
-            console.log(apiData);
-            //return;
 
-            await createOrUpdateDependentDetails(apiData, loginUser.token);
+            console.log(apiData);
+            // return;
+
+            // Call both APIs (separately, but in same function)
+            if (apiData.educationDetails.length > 0) {
+                await createOrUpdateEducationDetails({ educationDetails: apiData.educationDetails }, loginUser.token);
+                await fetchDetails("education");
+            }
+
+            if (apiData.employeeCertifications.length > 0) {
+                await createOrUpdateEmployeeCertificationDetails({ employeeCertifications: apiData.employeeCertifications }, loginUser.token);
+                await fetchDetails("certifications");
+            }
 
             setToastList((prev) => [
                 ...prev,
-                { title: "Success", message: "Family members saved successfully!", type: "success" },
+                { title: "Success", message: "Education & Certifications saved successfully!", type: "success" },
             ]);
-            await fetchEducation();
+
         } catch (error) {
-            console.error("Error saving dependents:", error);
+            console.error("Error saving education/certifications:", error);
+            setToastList((prev) => [
+                ...prev,
+                { title: "Error", message: "Failed to save Education & Certifications", type: "error" },
+            ]);
         } finally {
             setSubmitting(false);
         }
     };
+
 
     const navigate = useNavigate();
 
@@ -381,7 +425,7 @@ const Educations = () => {
             <CardForm
                 footerButtonSubmit="Save"
                 footerButtonSubmitClass="primary_form_btn btn_h_35"
-                onSubmit={handleSaveAll} 
+                onSubmit={handleSaveAll}
             >
                 <Col md={12} lg={12} xl={12} xxl={12}>
                     <PrimaryGird
@@ -400,15 +444,19 @@ const Educations = () => {
                             educations.length > 0 ? (
                                 educations.map((education, index) => {
                                     return (
-                                        <tr key={education.key}>
+                                        <tr key={education._id || index}>
                                             <td>{education.degree}</td>
                                             <td>{education.major}</td>
                                             <td>{education.university}</td>
                                             <td>{education.year}</td>
                                             <td>{education.percentage}</td>
                                             <td className='table_action'>
-                                                <Button className="btn_action" onClick={() => handleEducationEdit(index)}><img src={Images.Edit} alt="" /></Button>
-                                                <Button className="btn_action" onClick={() => {setItemToDelete(education); setIndexToDelete(index); setDeleteType("education"); setModalShow(true); }}><img src={Images.Delete} alt="" /></Button>
+                                                <Button className="btn_action" onClick={() => handleEducationEdit(index)}>
+                                                    <img src={Images.Edit} alt="" />
+                                                </Button>
+                                                <Button className="btn_action" onClick={() => { setItemToDelete(education); setIndexToDelete(index); setDeleteType("education"); setModalShow(true); }}>
+                                                    <img src={Images.Delete} alt="" />
+                                                </Button>
                                             </td>
                                         </tr>
                                     );
@@ -416,7 +464,7 @@ const Educations = () => {
                             ) : (
                                 <tr>
                                     <td colSpan="8" style={{ textAlign: "center" }}>
-                                        No Family Members Added
+                                        No Educations Details Added
                                     </td>
                                 </tr>
                             )
@@ -440,14 +488,14 @@ const Educations = () => {
                         ) : (certifications.length > 0 ? (
                             certifications.map((certification, index) => {
                                 return (
-                                    <tr key={certification.key}>
+                                    <tr key={certification._id || index}>
                                         <td>{certification.name}</td>
                                         <td>{certification.issuedBy}</td>
                                         <td>{certification.issuedDate}</td>
                                         <td>{certification.additionalInfo}</td>
                                         <td className='table_action'>
                                             <Button className="btn_action" onClick={() => handleCertificationEdit(index)}><img src={Images.Edit} alt="" /></Button>
-                                            <Button className="btn_action" onClick={() => {setItemToDelete(certification); setIndexToDelete(index); setDeleteType("certification"); setModalShow(true); }}><img src={Images.Delete} alt="" /></Button>
+                                            <Button className="btn_action" onClick={() => { setItemToDelete(certification); setIndexToDelete(index); setDeleteType("certification"); setModalShow(true); }}><img src={Images.Delete} alt="" /></Button>
                                         </td>
                                     </tr>
                                 );
@@ -455,7 +503,7 @@ const Educations = () => {
                         ) : (
                             <tr>
                                 <td colSpan="8" style={{ textAlign: "center" }}>
-                                    No Family Members Added
+                                    No Certifications Details Added
                                 </td>
                             </tr>
                         )
