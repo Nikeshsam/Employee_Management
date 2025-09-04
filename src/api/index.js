@@ -241,6 +241,39 @@ export const getEmployeeCertification = (token) => {
   );
 };
 
+export const createOrUpdateEmployeeExperienceDetails = (experienceDetails, token) => {
+  return axios.post(
+    `${url}/employeeDetails/certification`, experienceDetails,
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const deleteEmployeeExperience = async (id, token) => {
+  return await axios.delete(
+     `${url}/employeeDetails/certification/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const getEmployeeExperienceDetails = (token) => {
+  return axios.get(
+    `${url}/employeeDetails/certification`,
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
 
 
 // export const updatePost = (id,post)=> axios.patch(`${url}/${id}`,post);

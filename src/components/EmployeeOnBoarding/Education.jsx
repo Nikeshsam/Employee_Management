@@ -194,7 +194,7 @@ const Educations = () => {
         });
 
         setEducationEditingIndex(index);
-        setShowEducationCanvas(true); // Open the OffCanvas for editing
+        handleShowEducationCanvas(); // Open the OffCanvas for editing
     };
 
 
@@ -257,7 +257,7 @@ const Educations = () => {
         });
 
         setCertificationsEditingIndex(index);
-        handleShowCertificationCanvas(true);
+        handleShowCertificationCanvas();
     };
 
 

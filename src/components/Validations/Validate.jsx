@@ -159,7 +159,7 @@ export const educationValidateField = (name, value) => {
             if (!value.trim()) error = 'Year is required';
             break;
         case 'percentage':
-            if (!value.trim()) error = 'Percentage is required';
+            if (!value) error = 'Percentage is required';
             break;
         default:
             break;
@@ -343,14 +343,14 @@ export const workExperienceValidateField = (name, value) => {
         case 'location':
             if (!value.trim()) error = 'Location is required';
             break;
-        case 'jobtitle':
+        case 'jobTitle':
             if (!value.trim()) error = 'Jobtitle is required';
             break;
-        case 'startdate':
-            if (!value.trim()) error = 'Start Date is required';
+        case 'startDate':
+            if (!value) error = 'Start Date is required';
             break;
-        case 'enddate':
-            if (!value.trim()) error = 'End Date is required';
+        case 'endDate':
+            if (!value) error = 'End Date is required';
             break;
         default:
             break;
