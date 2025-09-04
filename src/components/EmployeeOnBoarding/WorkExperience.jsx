@@ -117,7 +117,7 @@ const WorkExperience = () => {
     const fetchExperienceDetial = async () => {
       try {
         const response = await getEmployeeExperienceDetails(loginUser.token);
-        if (!response) {
+        if (!response.data.experiences) {
           console.log("No Data Found");
           return;
         }
@@ -133,7 +133,7 @@ const WorkExperience = () => {
   const fetchExperience = async () => {
     try {
       const response = await getEmployeeExperienceDetails(loginUser.token);
-      if (!response) {
+      if (!response.data.experiences) {
         console.log("No Data Found");
         return;
       }
@@ -157,7 +157,7 @@ const WorkExperience = () => {
       }
 
       const apiData = {
-        experiences: newExperience.map(experience => ({
+        experienceDetails: newExperience.map(experience => ({
           _id: experience._id,
           organization: experience.organization,
           location: experience.location,
@@ -290,7 +290,7 @@ const WorkExperience = () => {
                 ) : (
                   <tr>
                     <td colSpan="8" style={{ textAlign: "center" }}>
-                      No Family Members Added
+                      No Experience Details Added
                     </td>
                   </tr>
                 )

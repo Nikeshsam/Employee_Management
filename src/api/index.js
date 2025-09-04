@@ -243,7 +243,7 @@ export const getEmployeeCertification = (token) => {
 
 export const createOrUpdateEmployeeExperienceDetails = (experienceDetails, token) => {
   return axios.post(
-    `${url}/employeeDetails/certification`, experienceDetails,
+    `${url}/employeeDetails/experience`, experienceDetails,
     {
       headers: {
         authorization: `Bearer ${token}`,
@@ -254,7 +254,7 @@ export const createOrUpdateEmployeeExperienceDetails = (experienceDetails, token
 
 export const deleteEmployeeExperience = async (id, token) => {
   return await axios.delete(
-     `${url}/employeeDetails/certification/${id}`,
+     `${url}/employeeDetails/experience/${id}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -265,7 +265,7 @@ export const deleteEmployeeExperience = async (id, token) => {
 
 export const getEmployeeExperienceDetails = (token) => {
   return axios.get(
-    `${url}/employeeDetails/certification`,
+    `${url}/employeeDetails/experience`,
     {
       headers: {
         authorization: `Bearer ${token}`,
