@@ -205,6 +205,16 @@
         { "key": "27", "label": "Perambalur" },
         { "key": "28", "label": "Tenkasi" },
         { "key": "29", "label": "Theni" }
+    ],
+    "BloodGroup":
+    [
+        { "key": "1", "label": "O positive" },
+        { "key": "2", "label": "O negative" },
+        { "key": "3", "label": "A positive" },
+        { "key": "4", "label": "B positive" },
+        { "key": "5", "label": "B negative" },
+        { "key": "6", "label": "AB positive" },
+        { "key": "7", "label": "AB negative" }
     ]
 
 

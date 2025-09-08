@@ -39,7 +39,7 @@ export const basicValidateField = (name, value) => {
 export const benefitsValidateField = (name, value) => {
     let error = '';
     switch (name) {
-        case 'dname':
+        case 'name':
             if (!value.trim()) error = 'Name is required';
             break;
         case 'relationship':
@@ -48,10 +48,10 @@ export const benefitsValidateField = (name, value) => {
         case 'gender':
             if (!value.trim()) error = 'Gender is required';
             break;
-        case 'idnumber':
+        case 'idNumber':
             if (!value.trim()) error = 'ID Number is required';
             break;
-        case 'dob':
+        case 'DoB':
             if (!value.trim()) error = 'Date of Birth is required';
             break;
 
@@ -228,19 +228,15 @@ export const healthValidateField = (name, value) => {
     let error = '';
     switch (name) {
 
-        case 'bloodgroup':
+        case 'bloodGroup':
             if (!value.trim()) error = 'Blood Group is required';
             break;
 
-        case 'blooddonor':
-            if (!value.trim()) error = 'Blood Donor is required';
-            break;
-
-        case 'allergyintolerance':
+        case 'allergies':
             if (!value.trim()) error = 'Allergy Intolerance is required';
             break;
 
-        case 'preexisting':
+        case 'preExistingIllnesses':
             if (!value.trim()) error = 'Pre Existing is required';
             break;
 
@@ -257,11 +253,11 @@ export const vaccinationValidateField = (name, value) => {
     let error = '';
     switch (name) {
 
-        case 'vaccinationname':
+        case 'vaccinationName':
             if (!value.trim()) error = 'Vaccination Name is required';
             break;
 
-        case 'dateofdose':
+        case 'dateofDose':
             if (!value.trim()) error = 'Date of Dose is required';
             break;
 
@@ -305,19 +301,19 @@ export const passportValidateField = (name, value) => {
 export const visaValidateField = (name, value) => {
     let error = '';
     switch (name) {
-        case 'visanumber':
+        case 'visaNumber':
             if (!value.trim()) error = 'Visa Number No is required';
             break;
 
-        case 'issueddate':
+        case 'issuedDate':
             if (!value.trim()) error = 'Issue Date is required';
             break;
 
-        case 'placeofissue':
+        case 'placeOfIssue':
             if (!value.trim()) error = 'Place of Issue is required';
             break;
 
-        case 'expirydate':
+        case 'expiryDate':
             if (!value.trim()) error = 'Expiry Date is required';
             break;
 

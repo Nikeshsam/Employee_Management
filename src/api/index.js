@@ -274,6 +274,104 @@ export const getEmployeeExperienceDetails = (token) => {
   );
 };
 
+export const createOrUpdateEmployeeBenefits = (benefits, token) => {
+  return axios.post(
+    `${url}/employeeDetails/benefits`, benefits,
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const deleteEmployeeBenefit = async (id, token) => {
+  return await axios.delete(
+     `${url}/employeeDetails/benefits/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const getEmployeeBenefits = (token) => {
+  return axios.get(
+    `${url}/employeeDetails/benefits`,
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const createOrUpdateEmployeeHealthRecord = (vaccinations, token) => {
+  return axios.post(
+    `${url}/employeeDetails/health-record`, vaccinations,
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const deleteEmployeeVaccinationRecord = async (id, token) => {
+  return await axios.delete(
+     `${url}/employeeDetails/health-record/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const getEmployeeHealthRecord = (token) => {
+  return axios.get(
+    `${url}/employeeDetails/health-record`,
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const createOrUpdateEmployeeTravelDetails = (visaDetails, token) => {
+  return axios.post(
+    `${url}/employeeDetails/travel-record`, visaDetails,
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const deleteEmployeeVisaDetails = async (id, token) => {
+  return await axios.delete(
+     `${url}/employeeDetails/travel-record/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const getEmployeeTravelRecord = (token) => {
+  return axios.get(
+    `${url}/employeeDetails/travel-record`,
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
 
 
 // export const updatePost = (id,post)=> axios.patch(`${url}/${id}`,post);

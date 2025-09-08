@@ -1,65 +1,82 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CardForm, PrimaryGird, InputField, OffCanvas } from '../../pages/Props.jsx';
+import {
+  CardForm,
+  CustomToast,
+  PrimaryGird,
+  CustomModalConfirmDialog,
+  InputField,
+  SelectInput,
+  OffCanvas
+} from '../../pages/Props.jsx';
+import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import Images from '../../pages/Images.jsx';
-import { passportValidateField } from '../Validations/Validate.jsx';
-import { visaValidateField } from '../Validations/Validate.jsx';
+import { passportValidateField, visaValidateField } from '../Validations/Validate.jsx';
+import Loader from '../Common/Loader.jsx';
+
+// ✅ API calls (assumed imported)
+import {
+  getEmployeeTravelRecord,
+  createOrUpdateEmployeeTravelDetails,
+  deleteEmployeeVisaDetails
+} from '../../api/index.js'; // replace with your actual api file
 
 // Bootstrap imports
 
 import 'bootstrap/dist/css/bootstrap.css';
-import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react-bootstrap';
+import { Container, Card, Form, Row, Col, ToastContainer, Tab, Tabs, Button, Table } from 'react-bootstrap';
 
 // Bootstrap imports
 
 const Travel = () => {
 
-  const [showWorkVaccinationCanvas, setShowVaccinationCanvas] = useState(false);
-  const handleShowVaccinationCanvas = () => setShowVaccinationCanvas(true);
-  const handleCloseVaccinationCanvas = () => setShowVaccinationCanvas(false);
+  const navigate = useNavigate();
+  const { loginUser } = useLoginUser();
 
-  const [Visas, setVisas] = useState([
-    {
-      key: '1',
-      VisaNumber: 'VISA10024578',
-      IssuedDate: '2022-04-10',
-      PlaceofIssue: 'New Delhi',
-      ExpiryDate: '2025-04-09',
-      Notes: 'Business Visa, Multiple Entry',
-    },
-    {
-      key: '2',
-      VisaNumber: 'VISA20317891',
-      IssuedDate: '2023-07-01',
-      PlaceofIssue: 'Mumbai',
-      ExpiryDate: '2026-06-30',
-      Notes: 'Tourist Visa, Single Entry',
-    }
-  ])
+  // canvas
+
+  const [showVisaCanvas, setShowVisaCanvas] = useState(false);
+  const handleShowVisaCanvas = () => setShowVisaCanvas(true);
+  const handleCloseVisaCanvas = () => setShowVisaCanvas(false);
+
+  const [Visas, setVisas] = useState([])
+  const [submitting, setSubmitting] = useState(false);
 
   // FORM INPUT
 
   // FormData Validations
 
   const [PassportFormData, setPassportFormData] = useState({
-    passportno: '',
-    issuedby: '',
-    dateofissue: '',
-    dateexpiry: '',
+    passportNo: '',
+    issuedBy: '',
+    issueDate: '',
+    expiryDate: '',
   });
 
   const [VisaFormData, setVisaFormData] = useState({
-    visanumber: '',
-    issueddate: '',
-    placeofissue: '',
-    expirydate: '',
+    visaNumber: '',
+    issuedDate: '',
+    placeOfIssue: '',
+    expiryDate: '',
     notes: '',
   });
 
-  // Error useState
+  // errors
 
   const [PassportErrors, setPassportErrors] = useState({});
   const [VisaErrors, setVisaErrors] = useState({});
+
+  // misc
+  const [toastList, setToastList] = useState([]);
+  const [editingIndex, setEditingIndex] = useState(null);
+  const [modalShow, setModalShow] = useState(false);
+  const [visaToDelete, setVisaToDelete] = useState(null);
+  const [indexToDelete, setIndexToDelete] = useState(null);
+
+  // --- Toast ---
+  const handleToastClose = (index) => {
+    setToastList((prev) => prev.filter((_, i) => i !== index));
+  };
 
   //  Validate Form with Error
 
@@ -85,19 +102,138 @@ const Travel = () => {
 
   //  Handle Submit
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validatePassportForm()) {
-      navigate('/Home'); // 
-      console.log('Form submitted:', PassportFormData);
-    }
-  };
-
   const handleCanvasSubmit = (e) => {
     e.preventDefault();
-    if (validateVisaForm()) {
-      navigate('/Home'); // 
-      console.log('Form submitted:', VisaFormData);
+    if (!validateVisaForm()) return;
+
+    const newVisa = {
+      _id: VisaFormData._id || '',
+      visaNumber: VisaFormData.visaNumber,
+      issuedDate: VisaFormData.issuedDate,
+      placeOfIssue: VisaFormData.placeOfIssue,
+      expiryDate: VisaFormData.expiryDate,
+      notes: VisaFormData.notes,
+    };
+
+    if (editingIndex !== null) {
+      setVisas((prev) =>
+        prev.map((item, idx) => (idx === editingIndex ? newVisa : item))
+      );
+      setToastList((prev) => [
+        ...prev,
+        { title: "Success", message: "Vaccination updated successfully!", type: "success" }
+      ]);
+    } else {
+      setVisas((prev) => [...prev, newVisa]);
+      setToastList((prev) => [
+        ...prev,
+        { title: "Success", message: "Vaccination added successfully!", type: "success" }
+      ]);
+    }
+
+    // reset form
+    setVisaFormData({ _id: '', visaNumber: '', issuedDate: '', placeOfIssue: '', expiryDate: '', notes:'' });
+    setEditingIndex(null);
+    setShowVisaCanvas(false);
+  };
+
+  // --- Edit Vaccination ---
+  const handleEdit = (index) => {
+    const vacci = empVaccinations[index];
+    setVisaFormData({
+      _id: vacci._id || '',
+      vaccinationName: vacci.vaccinationName || '',
+      dateofDose: vacci.dateofDose || '',
+    });
+    setEditingIndex(index);
+    setShowVisaCanvas(true);
+  };
+
+  // --- Delete Vaccination ---
+  const handleDeleteVisa = async () => {
+    const member = empVaccinations[indexToDelete];
+    setVisas((prev) => prev.filter((_, i) => i !== indexToDelete));
+
+    if (member._id) {
+      try {
+        await deleteEmployeeVisaDetails(member._id, loginUser.token);
+        setToastList((prev) => [
+          ...prev,
+          { title: "Success", message: "Vaccination deleted successfully", type: "success" }
+        ]);
+      } catch (err) {
+        console.error(err);
+      }
+    } else {
+      setToastList((prev) => [
+        ...prev,
+        { title: "Info", message: "Vaccination deleted locally", type: "success" }
+      ]);
+    }
+
+    setModalShow(false);
+    setVisaToDelete(null);
+    setIndexToDelete(null);
+  };
+
+  // --- Fetch from API ---
+
+  useEffect(() => {
+
+    const fetchVisa = async () => {
+      try {
+        const response = await getEmployeeHealthRecord(loginUser.token);
+        if (response.data.passportFormData) {
+          // Set health form fields if present
+          setPassportFormData({
+            passportNo: response.data.passportFormData.passportNo || '',
+            issuedBy: !!response.data.passportFormData.issuedBy,
+            issueDate: response.data.passportFormData.issueDate || '',
+            expiryDate: response.data.passportFormData.expiryDate || '',
+          });
+          // Set vaccinations if present
+          if (Array.isArray(response.data.passportFormData.empVisa)) {
+            setEmpVaccination(response.data.passportFormData.empVisa);
+          } else {
+            setEmpVaccination([]);
+          }
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchVisa();
+  }, [loginUser.token]);
+
+  // --- Save All to API ---
+  const handleSaveAll = async () => {
+    if (!validatePassportForm()) return;
+    try {
+      setSubmitting(true);
+
+      const apiData = {
+        ...PassportFormData,
+        empVisa: Visas.map((v) => ({
+          _id: v._id || undefined,
+          visaNumber: v.visaNumber,
+          issuedDate: v.issuedDate,
+          placeOfIssue: v.placeOfIssue,
+          expiryDate: v.expiryDate,
+          notes: v.notes,
+        })),
+      };
+
+      await createOrUpdateEmployeeTravelDetails(apiData, loginUser.token);
+      setToastList((prev) => [
+        ...prev,
+        { title: "Success", message: "Health record saved successfully!", type: "success" }
+      ]);
+      await fetchVisa();
+    } catch (err) {
+      console.error("Error saving health record:", err);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -117,12 +253,12 @@ const Travel = () => {
     setVisaErrors(prevErrors => ({ ...prevErrors, [name]: error }));
   };
 
-  const navigate = useNavigate();
+
 
   return (
     <>
       <CardForm
-        onSubmit={handleSubmit}
+        onSubmit={handleSaveAll}
         footerButtonSubmit="Save And Submit"
         footerButtonSubmitClass="primary_form_btn btn_h_35"
       >
@@ -185,31 +321,49 @@ const Travel = () => {
             showFilterButton={false}
             showDeleteButton={false}
             showFooter={false}
-            onButtonClick={handleShowVaccinationCanvas}
+            onButtonClick={handleShowVisaCanvas}
             tableHeaders={['Visa Number', 'Issued Date', 'Place of Issue', 'Expiry Date', 'Notes', 'Action']}
           >
-            {Visas.map((Visa) => (
-              <tr key={Visa.key}>
-                <td>{Visa.VisaNumber}</td>
-                <td>{Visa.IssuedDate}</td>
-                <td>{Visa.PlaceofIssue}</td>
-                <td>{Visa.ExpiryDate}</td>
-                <td>{Visa.Notes}</td>
-                <td className='table_action'>
-                  <Button className="btn_action"><img src={Images.Edit} alt="" /></Button>
-                  <Button className="btn_action"><img src={Images.Delete} alt="" /></Button>
+            {Array.isArray(Visas) && Visas.length > 0 ? (
+              Visas.map((Visa, index) => (
+                <tr key={Visa._id || index}>
+                  <td>{Visa.visaNumber}</td>
+                  <td>{Visa.issuedDate}</td>
+                  <td>{Visa.placeOfIssue}</td>
+                  <td>{Visa.expiryDate}</td>
+                  <td>{Visa.notes}</td>
+                  <td className='table_action'>
+                    <Button className="btn_action" onClick={() => handleEdit(index)}>
+                      <img src={Images.Edit} alt="" />
+                    </Button>
+                    <Button className="btn_action"
+                      onClick={() => {
+                        setVaccinationToDelete(vaccination);
+                        setIndexToDelete(index);
+                        setModalShow(true);
+                      }}
+                    >
+                      <img src={Images.Delete} alt="" />
+                    </Button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="3" style={{ textAlign: "center" }}>
+                  No Vaccination Records Added
                 </td>
               </tr>
-            ))}
+            )}
           </PrimaryGird>
         </Col>
       </CardForm>
 
       <OffCanvas
-        show={showWorkVaccinationCanvas}
+        show={showVisaCanvas}
         placement="end"
         onSubmit={handleCanvasSubmit}
-        onHide={handleCloseVaccinationCanvas}
+        onHide={handleCloseVisaCanvas}
         title="Add Vaccination"
         subtitle="Start your 7-day free trial."
         className='PrimaryCanvasModal'
@@ -224,10 +378,10 @@ const Travel = () => {
             label="Visa Number"
             type="text"
             placeholder="Enter your Visa Number"
-            controlId="visanumber"
-            name="visanumber"
-            error={VisaErrors.visanumber}
-            value={VisaFormData.visanumber}
+            controlId="visaNumber"
+            name="visaNumber"
+            error={VisaErrors.visaNumber}
+            value={VisaFormData.visaNumber}
             handleChange={handleVisaChange}
             required
           />
@@ -235,12 +389,12 @@ const Travel = () => {
         <Col md={6} lg={6} xl={6} xxl={6}>
           <InputField
             label="Issued Date"
-            type="text"
+            type="date"
             placeholder="Enter your Issued Date"
-            controlId="issueddate"
-            name="issueddate"
-            error={VisaErrors.issueddate}
-            value={VisaFormData.issueddate}
+            controlId="issuedDate"
+            name="issuedDate"
+            error={VisaErrors.issuedDate}
+            value={VisaFormData.issuedDate}
             handleChange={handleVisaChange}
             required
           />
@@ -250,10 +404,10 @@ const Travel = () => {
             label="Place of Issue"
             type="text"
             placeholder="Enter your Place of Issue"
-            controlId="placeofissue"
-            name="placeofissue"
-            error={VisaErrors.placeofissue}
-            value={VisaFormData.placeofissue}
+            controlId="placeOfIssue"
+            name="placeOfIssue"
+            error={VisaErrors.placeOfIssue}
+            value={VisaFormData.placeOfIssue}
             handleChange={handleVisaChange}
             required
           />
@@ -261,12 +415,12 @@ const Travel = () => {
         <Col md={6} lg={6} xl={6} xxl={6}>
           <InputField
             label="Expiry Date"
-            type="text"
+            type="date"
             placeholder="Enter your expirydate"
-            controlId="expirydate"
-            name="expirydate"
-            error={VisaErrors.expirydate}
-            value={VisaFormData.expirydate}
+            controlId="expiryDate"
+            name="expiryDate"
+            error={VisaErrors.expiryDate}
+            value={VisaFormData.expiryDate}
             handleChange={handleVisaChange}
             required
           />
@@ -285,6 +439,52 @@ const Travel = () => {
           />
         </Col>
       </OffCanvas>
+
+      {/* --- Toast --- */}
+      <ToastContainer position="top-end" className="p-3">
+        {toastList.map((toast, index) => (
+          <CustomToast
+            key={index}
+            title={toast.title}
+            message={toast.message}
+            type={toast.type}
+            onClose={() => handleToastClose(index)}
+          />
+        ))}
+      </ToastContainer>
+
+      {/* --- Confirm Delete Modal --- */}
+      <CustomModalConfirmDialog
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        title="Delete Vaccination"
+        size="md"
+        subtitle="This action cannot be undone."
+        className="ConfirmDialogModal delete"
+        showSubmitButton={true}
+        showCancelButton={true}
+        bodyContent={
+          <div className="ConfirmContainer">
+            <div className="ConfirmIcon">
+              <img src={Images.ConfirmDelete} alt="Delete" />
+            </div>
+            {visaToDelete && (
+              <div className="ConfirmContent">
+                <h5>Delete Vaccination</h5>
+                <p>
+                  Are you sure you want to delete vaccination{" "}
+                  <span>{visaToDelete.vaccinationName}</span>? This action cannot be undone.
+                </p>
+              </div>
+            )}
+          </div>
+        }
+        onSubmit={handleDeleteVisa}
+        footerButtonSubmit="Delete"
+        footerButtonCancel="Cancel"
+        footerButtonSubmitClass="modal_danger_btn"
+        footerButtonCancelClass="modal_primary_border_btn"
+      />
     </>
   )
 }

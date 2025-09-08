@@ -117,11 +117,11 @@ const WorkExperience = () => {
     const fetchExperienceDetial = async () => {
       try {
         const response = await getEmployeeExperienceDetails(loginUser.token);
-        if (!response.data.experiences) {
+        if (!response.data.experienceDetails) {
           console.log("No Data Found");
           return;
         }
-        setWorkExperience(response.data.experiences);
+        setWorkExperience(response.data.experienceDetails);
       } catch (error) {
         console.log(error);
       }
@@ -264,8 +264,8 @@ const WorkExperience = () => {
                         <td>{experience.organization}</td>
                         <td>{experience.location}</td>
                         <td>{experience.jobTitle}</td>
-                        <td>{experience.startDate}</td>
-                        <td>{experience.endDate}</td>
+                        <td>{experience.startDate ? new Date(experience.startDate).toLocaleDateString("en-GB") : ""}</td>
+                        <td>{experience.endDate ? new Date(experience.endDate).toLocaleDateString("en-GB") : ""}</td>
                         <td className='table_action'>
                           <Button
                             className="btn_action"
@@ -410,7 +410,7 @@ const WorkExperience = () => {
               {experienceToDelete && (
                 <div className='ConfirmContent'>
                   <h5>Delete Experience</h5>
-                  <p>Are you sure you want to delete this employee <span>{`${experienceToDelete.name}`}</span>? This action cannot be undo.</p>
+                  <p>Are you sure you want to delete this Experience <span>{`${experienceToDelete.organization}`}</span>? This action cannot be undo.</p>
                 </div>
               )}
             </div>
