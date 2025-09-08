@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   CardForm,
@@ -22,47 +22,51 @@ import {
 } from '../../api/index.js'; // replace with your actual api file
 
 // Bootstrap imports
-
 import 'bootstrap/dist/css/bootstrap.css';
 import { Container, Card, Form, Row, Col, ToastContainer, Tab, Tabs, Button, Table } from 'react-bootstrap';
 
-// Bootstrap imports
-
 const Travel = () => {
-
   const navigate = useNavigate();
   const { loginUser } = useLoginUser();
 
   // canvas
-
   const [showVisaCanvas, setShowVisaCanvas] = useState(false);
   const handleShowVisaCanvas = () => setShowVisaCanvas(true);
-  const handleCloseVisaCanvas = () => setShowVisaCanvas(false);
+  const handleCloseVisaCanvas = () => {
+    setShowVisaCanvas(false);
+    setVisaFormData({
+      _id: '',
+      visaNumber: '',
+      issuedDate: '',
+      placeOfIssue: '',
+      expiryDate: '',
+      notes: ''
+    });
+    setVisaErrors({});
+    setEditingIndex(null);
+  };
 
-  const [Visas, setVisas] = useState([])
+  const [Visas, setVisas] = useState([]);
   const [submitting, setSubmitting] = useState(false);
 
   // FORM INPUT
-
-  // FormData Validations
-
   const [PassportFormData, setPassportFormData] = useState({
     passportNo: '',
     issuedBy: '',
     issueDate: '',
-    expiryDate: '',
+    expiryDate: ''
   });
 
   const [VisaFormData, setVisaFormData] = useState({
+    _id: '',
     visaNumber: '',
     issuedDate: '',
     placeOfIssue: '',
     expiryDate: '',
-    notes: '',
+    notes: ''
   });
 
   // errors
-
   const [PassportErrors, setPassportErrors] = useState({});
   const [VisaErrors, setVisaErrors] = useState({});
 
@@ -79,7 +83,6 @@ const Travel = () => {
   };
 
   //  Validate Form with Error
-
   const validatePassportForm = () => {
     const newErrors = {};
     Object.keys(PassportFormData).forEach((field) => {
@@ -100,145 +103,36 @@ const Travel = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  //  Handle Submit
-
-  const handleCanvasSubmit = (e) => {
-    e.preventDefault();
-    if (!validateVisaForm()) return;
-
-    const newVisa = {
-      _id: VisaFormData._id || '',
-      visaNumber: VisaFormData.visaNumber,
-      issuedDate: VisaFormData.issuedDate,
-      placeOfIssue: VisaFormData.placeOfIssue,
-      expiryDate: VisaFormData.expiryDate,
-      notes: VisaFormData.notes,
-    };
-
-    if (editingIndex !== null) {
-      setVisas((prev) =>
-        prev.map((item, idx) => (idx === editingIndex ? newVisa : item))
-      );
-      setToastList((prev) => [
-        ...prev,
-        { title: "Success", message: "Vaccination updated successfully!", type: "success" }
-      ]);
-    } else {
-      setVisas((prev) => [...prev, newVisa]);
-      setToastList((prev) => [
-        ...prev,
-        { title: "Success", message: "Vaccination added successfully!", type: "success" }
-      ]);
-    }
-
-    // reset form
-    setVisaFormData({ _id: '', visaNumber: '', issuedDate: '', placeOfIssue: '', expiryDate: '', notes:'' });
-    setEditingIndex(null);
-    setShowVisaCanvas(false);
-  };
-
-  // --- Edit Vaccination ---
-  const handleEdit = (index) => {
-    const vacci = empVaccinations[index];
-    setVisaFormData({
-      _id: vacci._id || '',
-      vaccinationName: vacci.vaccinationName || '',
-      dateofDose: vacci.dateofDose || '',
-    });
-    setEditingIndex(index);
-    setShowVisaCanvas(true);
-  };
-
-  // --- Delete Vaccination ---
-  const handleDeleteVisa = async () => {
-    const member = empVaccinations[indexToDelete];
-    setVisas((prev) => prev.filter((_, i) => i !== indexToDelete));
-
-    if (member._id) {
-      try {
-        await deleteEmployeeVisaDetails(member._id, loginUser.token);
-        setToastList((prev) => [
-          ...prev,
-          { title: "Success", message: "Vaccination deleted successfully", type: "success" }
-        ]);
-      } catch (err) {
-        console.error(err);
-      }
-    } else {
-      setToastList((prev) => [
-        ...prev,
-        { title: "Info", message: "Vaccination deleted locally", type: "success" }
-      ]);
-    }
-
-    setModalShow(false);
-    setVisaToDelete(null);
-    setIndexToDelete(null);
-  };
-
-  // --- Fetch from API ---
-
-  useEffect(() => {
-
-    const fetchVisa = async () => {
-      try {
-        const response = await getEmployeeHealthRecord(loginUser.token);
-        if (response.data.passportFormData) {
-          // Set health form fields if present
-          setPassportFormData({
-            passportNo: response.data.passportFormData.passportNo || '',
-            issuedBy: !!response.data.passportFormData.issuedBy,
-            issueDate: response.data.passportFormData.issueDate || '',
-            expiryDate: response.data.passportFormData.expiryDate || '',
-          });
-          // Set vaccinations if present
-          if (Array.isArray(response.data.passportFormData.empVisa)) {
-            setEmpVaccination(response.data.passportFormData.empVisa);
-          } else {
-            setEmpVaccination([]);
-          }
+  // --- Fetch from API (extracted so other functions can call it) ---
+  const fetchVisa = useCallback(async () => {
+    try {
+      const response = await getEmployeeTravelRecord(loginUser.token);
+      const data = response?.data || {};
+      if (data.passportFormData) {
+        setPassportFormData({
+          passportNo: data.passportFormData.passportNo || '',
+          issuedBy: data.passportFormData.issuedBy || '',
+          issueDate: data.passportFormData.issueDate || '',
+          expiryDate: data.passportFormData.expiryDate || ''
+        });
+        if (Array.isArray(data.passportFormData.empVisa)) {
+          setVisas(data.passportFormData.empVisa);
+        } else {
+          setVisas([]);
         }
-      } catch (err) {
-        console.error(err);
       }
-    };
-
-    fetchVisa();
+    } catch (err) {
+      console.error('Error fetching travel record:', err);
+    }
   }, [loginUser.token]);
 
-  // --- Save All to API ---
-  const handleSaveAll = async () => {
-    if (!validatePassportForm()) return;
-    try {
-      setSubmitting(true);
-
-      const apiData = {
-        ...PassportFormData,
-        empVisa: Visas.map((v) => ({
-          _id: v._id || undefined,
-          visaNumber: v.visaNumber,
-          issuedDate: v.issuedDate,
-          placeOfIssue: v.placeOfIssue,
-          expiryDate: v.expiryDate,
-          notes: v.notes,
-        })),
-      };
-
-      await createOrUpdateEmployeeTravelDetails(apiData, loginUser.token);
-      setToastList((prev) => [
-        ...prev,
-        { title: "Success", message: "Health record saved successfully!", type: "success" }
-      ]);
-      await fetchVisa();
-    } catch (err) {
-      console.error("Error saving health record:", err);
-    } finally {
-      setSubmitting(false);
+  useEffect(() => {
+    if (loginUser?.token) {
+      fetchVisa();
     }
-  };
+  }, [loginUser?.token, fetchVisa]);
 
   //  Handle Passport Change
-
   const handlePassportChange = (e) => {
     const { name, value } = e.target;
     setPassportFormData(prev => ({ ...prev, [name]: value }));
@@ -253,7 +147,136 @@ const Travel = () => {
     setVisaErrors(prevErrors => ({ ...prevErrors, [name]: error }));
   };
 
+  //  Handle Submit for Add/Edit Visa (canvas)
+  const handleCanvasSubmit = (e) => {
+    e.preventDefault();
+    if (!validateVisaForm()) return;
 
+    const newVisa = {
+      _id: VisaFormData._id || '',
+      visaNumber: VisaFormData.visaNumber,
+      issuedDate: VisaFormData.issuedDate,
+      placeOfIssue: VisaFormData.placeOfIssue,
+      expiryDate: VisaFormData.expiryDate,
+      notes: VisaFormData.notes
+    };
+
+    if (editingIndex !== null) {
+      setVisas((prev) =>
+        prev.map((item, idx) => (idx === editingIndex ? newVisa : item))
+      );
+      setToastList((prev) => [
+        ...prev,
+        { title: 'Success', message: 'Visa updated successfully!', type: 'success' }
+      ]);
+    } else {
+      setVisas((prev) => [...prev, newVisa]);
+      setToastList((prev) => [
+        ...prev,
+        { title: 'Success', message: 'Visa added successfully!', type: 'success' }
+      ]);
+    }
+
+    // reset form & close
+    setVisaFormData({ _id: '', visaNumber: '', issuedDate: '', placeOfIssue: '', expiryDate: '', notes: '' });
+    setEditingIndex(null);
+    setShowVisaCanvas(false);
+  };
+
+  // --- Edit Visa ---
+  const handleEdit = (index) => {
+    const visa = Visas[index];
+    if (!visa) return;
+    setVisaFormData({
+      _id: visa._id || '',
+      visaNumber: visa.visaNumber || '',
+      issuedDate: visa.issuedDate || '',
+      placeOfIssue: visa.placeOfIssue || '',
+      expiryDate: visa.expiryDate || '',
+      notes: visa.notes || ''
+    });
+    setEditingIndex(index);
+    setShowVisaCanvas(true);
+  };
+
+  // --- Prepare Delete Visa (open modal) ---
+  const prepareDeleteVisa = (index) => {
+    const visa = Visas[index];
+    setVisaToDelete(visa || null);
+    setIndexToDelete(index);
+    setModalShow(true);
+  };
+
+  // --- Delete Visa ---
+  const handleDeleteVisa = async () => {
+    const member = Visas[indexToDelete];
+    // optimistically remove from UI
+    setVisas((prev) => prev.filter((_, i) => i !== indexToDelete));
+
+    if (member?._id) {
+      try {
+        await deleteEmployeeVisaDetails(member._id, loginUser.token);
+        setToastList((prev) => [
+          ...prev,
+          { title: 'Success', message: 'Visa deleted successfully', type: 'success' }
+        ]);
+      } catch (err) {
+        console.error(err);
+        setToastList((prev) => [
+          ...prev,
+          { title: 'Error', message: 'Failed to delete visa on server', type: 'error' }
+        ]);
+      }
+    } else {
+      setToastList((prev) => [
+        ...prev,
+        { title: 'Info', message: 'Visa deleted locally', type: 'info' }
+      ]);
+    }
+
+    setModalShow(false);
+    setVisaToDelete(null);
+    setIndexToDelete(null);
+  };
+
+  // --- Save All to API ---
+  const handleSaveAll = async () => {
+    if (!validatePassportForm()) return;
+    try {
+      setSubmitting(true);
+
+      const apiData = {
+        passportNo: PassportFormData.passportNo,
+        issuedBy: PassportFormData.issuedBy,
+        issueDate: PassportFormData.issueDate,
+        expiryDate: PassportFormData.expiryDate,
+        empVisa: Visas.map((v) => ({
+          _id: v._id || undefined,
+          visaNumber: v.visaNumber,
+          issuedDate: v.issuedDate,
+          placeOfIssue: v.placeOfIssue,
+          expiryDate: v.expiryDate,
+          notes: v.notes
+        }))
+      };
+
+      await createOrUpdateEmployeeTravelDetails(apiData, loginUser.token);
+      setToastList((prev) => [
+        ...prev,
+        { title: 'Success', message: 'Travel record saved successfully!', type: 'success' }
+      ]);
+      // re-fetch from server to keep local state authoritative
+      await fetchVisa();
+    } catch (err) {
+      console.error('Error saving travel record:', err);
+      setToastList((prev) => [
+        ...prev,
+        { title: 'Error', message: 'Failed to save travel record', type: 'error' }
+      ]);
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <>
@@ -262,58 +285,63 @@ const Travel = () => {
         footerButtonSubmit="Save And Submit"
         footerButtonSubmitClass="primary_form_btn btn_h_35"
       >
-        <Col md={12} lg={12} xl={12} xxl={12}>
-          <h5 className='MainTitle'>Passport Details</h5>
+        <Col md={12}>
+          <h5 className="MainTitle">Passport Details</h5>
         </Col>
-        <Col md={3} lg={3} xl={3} xxl={3}>
+
+        <Col md={3}>
           <InputField
             label="Passport No"
-            name="passportno"
+            name="passportNo"
             type="text"
             placeholder="Enter your Passport No"
-            error={PassportErrors.passportno}
-            value={PassportFormData.passportno}
+            error={PassportErrors.passportNo}
+            value={PassportFormData.passportNo}
             handleChange={handlePassportChange}
             required
           />
         </Col>
-        <Col md={3} lg={3} xl={3} xxl={3}>
+
+        <Col md={3}>
           <InputField
             label="Issued By"
-            name="issuedby"
+            name="issuedBy"
             type="text"
-            placeholder="Enter your Issued By"
-            error={PassportErrors.issuedby}
-            value={PassportFormData.issuedby}
+            placeholder="Enter Issued By"
+            error={PassportErrors.issuedBy}
+            value={PassportFormData.issuedBy}
             handleChange={handlePassportChange}
             required
           />
         </Col>
-        <Col md={3} lg={3} xl={3} xxl={3}>
+
+        <Col md={3}>
           <InputField
             label="Date of Issue"
-            name="dateofissue"
+            name="issueDate"
             type="date"
-            placeholder="Enter your Date of Issue"
-            error={PassportErrors.dateofissue}
-            value={PassportFormData.dateofissue}
+            placeholder="Enter Date of Issue"
+            error={PassportErrors.issueDate}
+            value={PassportFormData.issueDate}
             handleChange={handlePassportChange}
             required
           />
         </Col>
-        <Col md={3} lg={3} xl={3} xxl={3}>
+
+        <Col md={3}>
           <InputField
             label="Date of Expiry"
-            name="dateexpiry"
+            name="expiryDate"
             type="date"
-            placeholder="Enter your Date of Expiry"
-            error={PassportErrors.dateexpiry}
-            value={PassportFormData.dateexpiry}
+            placeholder="Enter Date of Expiry"
+            error={PassportErrors.expiryDate}
+            value={PassportFormData.expiryDate}
             handleChange={handlePassportChange}
             required
           />
         </Col>
-        <Col md={12} lg={12} xl={12} xxl={12}>
+
+        <Col md={12}>
           <PrimaryGird
             cardTitle="Visa Details"
             buttonText="Add Visa"
@@ -325,33 +353,32 @@ const Travel = () => {
             tableHeaders={['Visa Number', 'Issued Date', 'Place of Issue', 'Expiry Date', 'Notes', 'Action']}
           >
             {Array.isArray(Visas) && Visas.length > 0 ? (
-              Visas.map((Visa, index) => (
-                <tr key={Visa._id || index}>
-                  <td>{Visa.visaNumber}</td>
-                  <td>{Visa.issuedDate}</td>
-                  <td>{Visa.placeOfIssue}</td>
-                  <td>{Visa.expiryDate}</td>
-                  <td>{Visa.notes}</td>
-                  <td className='table_action'>
+              Visas.map((visa, index) => (
+                <tr key={visa._id || index}>
+                  <td>{visa.visaNumber}</td>
+                  <td>{visa.issuedDate}</td>
+                  <td>{visa.placeOfIssue}</td>
+                  <td>{visa.expiryDate}</td>
+                  <td>{visa.notes}</td>
+                  <td className="table_action">
                     <Button className="btn_action" onClick={() => handleEdit(index)}>
-                      <img src={Images.Edit} alt="" />
+                      <img src={Images.Edit} alt="Edit" />
                     </Button>
-                    <Button className="btn_action"
+                    <Button
+                      className="btn_action"
                       onClick={() => {
-                        setVaccinationToDelete(vaccination);
-                        setIndexToDelete(index);
-                        setModalShow(true);
+                        prepareDeleteVisa(index);
                       }}
                     >
-                      <img src={Images.Delete} alt="" />
+                      <img src={Images.Delete} alt="Delete" />
                     </Button>
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="3" style={{ textAlign: "center" }}>
-                  No Vaccination Records Added
+                <td colSpan="6" style={{ textAlign: 'center' }}>
+                  No Visa Records Added
                 </td>
               </tr>
             )}
@@ -364,16 +391,16 @@ const Travel = () => {
         placement="end"
         onSubmit={handleCanvasSubmit}
         onHide={handleCloseVisaCanvas}
-        title="Add Vaccination"
-        subtitle="Start your 7-day free trial."
-        className='PrimaryCanvasModal'
-        name="Add Vaccination"
-        footerButtonSubmit="Add Vaccination"
+        title={editingIndex !== null ? 'Edit Visa' : 'Add Visa'}
+        subtitle=""
+        className="PrimaryCanvasModal"
+        name={editingIndex !== null ? 'Edit Visa' : 'Add Visa'}
+        footerButtonSubmit={editingIndex !== null ? 'Update Visa' : 'Add Visa'}
         footerButtonCancel="Cancel"
         footerButtonSubmitClass="modal_primary_btn w-100"
         footerButtonCancelClass="modal_primary_border_btn w-100"
       >
-        <Col md={6} lg={6} xl={6} xxl={6}>
+        <Col md={6}>
           <InputField
             label="Visa Number"
             type="text"
@@ -386,11 +413,12 @@ const Travel = () => {
             required
           />
         </Col>
-        <Col md={6} lg={6} xl={6} xxl={6}>
+
+        <Col md={6}>
           <InputField
             label="Issued Date"
             type="date"
-            placeholder="Enter your Issued Date"
+            placeholder="Enter Issued Date"
             controlId="issuedDate"
             name="issuedDate"
             error={VisaErrors.issuedDate}
@@ -399,11 +427,12 @@ const Travel = () => {
             required
           />
         </Col>
-        <Col md={6} lg={6} xl={6} xxl={6}>
+
+        <Col md={6}>
           <InputField
             label="Place of Issue"
             type="text"
-            placeholder="Enter your Place of Issue"
+            placeholder="Enter Place of Issue"
             controlId="placeOfIssue"
             name="placeOfIssue"
             error={VisaErrors.placeOfIssue}
@@ -412,11 +441,12 @@ const Travel = () => {
             required
           />
         </Col>
-        <Col md={6} lg={6} xl={6} xxl={6}>
+
+        <Col md={6}>
           <InputField
             label="Expiry Date"
             type="date"
-            placeholder="Enter your expirydate"
+            placeholder="Enter Expiry Date"
             controlId="expiryDate"
             name="expiryDate"
             error={VisaErrors.expiryDate}
@@ -425,17 +455,17 @@ const Travel = () => {
             required
           />
         </Col>
-        <Col md={6} lg={6} xl={6} xxl={6}>
+
+        <Col md={12}>
           <InputField
             label="Notes"
             type="text"
-            placeholder="Enter your Notes"
+            placeholder="Enter Notes"
             controlId="notes"
             name="notes"
             error={VisaErrors.notes}
             value={VisaFormData.notes}
             handleChange={handleVisaChange}
-            required
           />
         </Col>
       </OffCanvas>
@@ -457,7 +487,7 @@ const Travel = () => {
       <CustomModalConfirmDialog
         show={modalShow}
         onHide={() => setModalShow(false)}
-        title="Delete Vaccination"
+        title="Delete Visa"
         size="md"
         subtitle="This action cannot be undone."
         className="ConfirmDialogModal delete"
@@ -470,10 +500,10 @@ const Travel = () => {
             </div>
             {visaToDelete && (
               <div className="ConfirmContent">
-                <h5>Delete Vaccination</h5>
+                <h5>Delete Visa</h5>
                 <p>
-                  Are you sure you want to delete vaccination{" "}
-                  <span>{visaToDelete.vaccinationName}</span>? This action cannot be undone.
+                  Are you sure you want to delete visa{' '}
+                  <span>{visaToDelete.visaNumber}</span>? This action cannot be undone.
                 </p>
               </div>
             )}
@@ -486,7 +516,7 @@ const Travel = () => {
         footerButtonCancelClass="modal_primary_border_btn"
       />
     </>
-  )
-}
+  );
+};
 
-export default Travel
+export default Travel;
