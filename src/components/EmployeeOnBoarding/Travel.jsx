@@ -14,7 +14,7 @@ import Images from '../../pages/Images.jsx';
 import { passportValidateField, visaValidateField } from '../Validations/Validate.jsx';
 import Loader from '../Common/Loader.jsx';
 
-// ✅ API calls (assumed imported)
+// API calls (assumed imported)
 import {
   getEmployeeTravelRecord,
   createOrUpdateEmployeeTravelDetails,
@@ -32,24 +32,12 @@ const Travel = () => {
   // canvas
   const [showVisaCanvas, setShowVisaCanvas] = useState(false);
   const handleShowVisaCanvas = () => setShowVisaCanvas(true);
-  const handleCloseVisaCanvas = () => {
-    setShowVisaCanvas(false);
-    setVisaFormData({
-      _id: '',
-      visaNumber: '',
-      issuedDate: '',
-      placeOfIssue: '',
-      expiryDate: '',
-      notes: ''
-    });
-    setVisaErrors({});
-    setEditingIndex(null);
-  };
+  const handleCloseVisaCanvas = () => setShowVisaCanvas(false);
 
-  const [Visas, setVisas] = useState([]);
+  const [empVisa, setEmpVisa] = useState([]);
   const [submitting, setSubmitting] = useState(false);
 
-  // FORM INPUT
+  // form states
   const [PassportFormData, setPassportFormData] = useState({
     passportNo: '',
     issuedBy: '',
@@ -82,7 +70,7 @@ const Travel = () => {
     setToastList((prev) => prev.filter((_, i) => i !== index));
   };
 
-  //  Validate Form with Error
+  // --- Validations ---
   const validatePassportForm = () => {
     const newErrors = {};
     Object.keys(PassportFormData).forEach((field) => {
@@ -103,34 +91,12 @@ const Travel = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // --- Fetch from API (extracted so other functions can call it) ---
-  const fetchVisa = useCallback(async () => {
-    try {
-      const response = await getEmployeeTravelRecord(loginUser.token);
-      const data = response?.data || {};
-      if (data.passportFormData) {
-        setPassportFormData({
-          passportNo: data.passportFormData.passportNo || '',
-          issuedBy: data.passportFormData.issuedBy || '',
-          issueDate: data.passportFormData.issueDate || '',
-          expiryDate: data.passportFormData.expiryDate || ''
-        });
-        if (Array.isArray(data.passportFormData.empVisa)) {
-          setVisas(data.passportFormData.empVisa);
-        } else {
-          setVisas([]);
-        }
-      }
-    } catch (err) {
-      console.error('Error fetching travel record:', err);
-    }
-  }, [loginUser.token]);
-
-  useEffect(() => {
-    if (loginUser?.token) {
-      fetchVisa();
-    }
-  }, [loginUser?.token, fetchVisa]);
+  const handleVisaChange = (e) => {
+    const { name, value } = e.target;
+    setVisaFormData(prev => ({ ...prev, [name]: value }));
+    const error = visaValidateField(name, value);
+    setVisaErrors(prevErrors => ({ ...prevErrors, [name]: error }));
+  };
 
   //  Handle Passport Change
   const handlePassportChange = (e) => {
@@ -138,13 +104,6 @@ const Travel = () => {
     setPassportFormData(prev => ({ ...prev, [name]: value }));
     const error = passportValidateField(name, value);
     setPassportErrors(prevErrors => ({ ...prevErrors, [name]: error }));
-  };
-
-  const handleVisaChange = (e) => {
-    const { name, value } = e.target;
-    setVisaFormData(prev => ({ ...prev, [name]: value }));
-    const error = visaValidateField(name, value);
-    setVisaErrors(prevErrors => ({ ...prevErrors, [name]: error }));
   };
 
   //  Handle Submit for Add/Edit Visa (canvas)
@@ -162,7 +121,7 @@ const Travel = () => {
     };
 
     if (editingIndex !== null) {
-      setVisas((prev) =>
+      setEmpVisa((prev) =>
         prev.map((item, idx) => (idx === editingIndex ? newVisa : item))
       );
       setToastList((prev) => [
@@ -170,7 +129,7 @@ const Travel = () => {
         { title: 'Success', message: 'Visa updated successfully!', type: 'success' }
       ]);
     } else {
-      setVisas((prev) => [...prev, newVisa]);
+      setEmpVisa((prev) => [...prev, newVisa]);
       setToastList((prev) => [
         ...prev,
         { title: 'Success', message: 'Visa added successfully!', type: 'success' }
@@ -185,8 +144,7 @@ const Travel = () => {
 
   // --- Edit Visa ---
   const handleEdit = (index) => {
-    const visa = Visas[index];
-    if (!visa) return;
+    const visa = empVisa[index];
     setVisaFormData({
       _id: visa._id || '',
       visaNumber: visa.visaNumber || '',
@@ -199,19 +157,11 @@ const Travel = () => {
     setShowVisaCanvas(true);
   };
 
-  // --- Prepare Delete Visa (open modal) ---
-  const prepareDeleteVisa = (index) => {
-    const visa = Visas[index];
-    setVisaToDelete(visa || null);
-    setIndexToDelete(index);
-    setModalShow(true);
-  };
-
   // --- Delete Visa ---
   const handleDeleteVisa = async () => {
-    const member = Visas[indexToDelete];
+    const member = empVisa[indexToDelete];
     // optimistically remove from UI
-    setVisas((prev) => prev.filter((_, i) => i !== indexToDelete));
+    setEmpVisa((prev) => prev.filter((_, i) => i !== indexToDelete));
 
     if (member?._id) {
       try {
@@ -239,6 +189,37 @@ const Travel = () => {
     setIndexToDelete(null);
   };
 
+  // --- Fetch from API ---
+  useEffect(() => {
+    const fetchVisa = async () => {
+      try {
+        const response = await getEmployeeTravelRecord(loginUser.token);
+        if (response.data.travelRecord) {
+          // Set passport form fields if present
+          setPassportFormData({
+            passportNo: response.data.travelRecord.passportNo || '',
+            issuedBy: response.data.travelRecord.issuedBy || '',
+            issueDate: response.data.travelRecord.issueDate || '',
+            expiryDate: response.data.travelRecord.expiryDate || '',
+          });
+          // Set visas if present
+          if (Array.isArray(response.data.travelRecord.visaDetails)) {
+            setEmpVisa(response.data.travelRecord.visaDetails);
+          } else {
+            setEmpVisa([]);
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching travel record:', err);
+      }
+    };
+
+    // if (loginUser?.token) {
+    //   fetchVisa();
+    // }
+    fetchVisa();
+  }, [loginUser?.token]);
+
   // --- Save All to API ---
   const handleSaveAll = async () => {
     if (!validatePassportForm()) return;
@@ -250,7 +231,7 @@ const Travel = () => {
         issuedBy: PassportFormData.issuedBy,
         issueDate: PassportFormData.issueDate,
         expiryDate: PassportFormData.expiryDate,
-        empVisa: Visas.map((v) => ({
+        visaDetails: empVisa.map((v) => ({
           _id: v._id || undefined,
           visaNumber: v.visaNumber,
           issuedDate: v.issuedDate,
@@ -269,10 +250,6 @@ const Travel = () => {
       await fetchVisa();
     } catch (err) {
       console.error('Error saving travel record:', err);
-      setToastList((prev) => [
-        ...prev,
-        { title: 'Error', message: 'Failed to save travel record', type: 'error' }
-      ]);
     } finally {
       setSubmitting(false);
     }
@@ -352,8 +329,8 @@ const Travel = () => {
             onButtonClick={handleShowVisaCanvas}
             tableHeaders={['Visa Number', 'Issued Date', 'Place of Issue', 'Expiry Date', 'Notes', 'Action']}
           >
-            {Array.isArray(Visas) && Visas.length > 0 ? (
-              Visas.map((visa, index) => (
+            {Array.isArray(empVisa) && empVisa.length > 0 ? (
+              empVisa.map((visa, index) => (
                 <tr key={visa._id || index}>
                   <td>{visa.visaNumber}</td>
                   <td>{visa.issuedDate}</td>
@@ -367,7 +344,9 @@ const Travel = () => {
                     <Button
                       className="btn_action"
                       onClick={() => {
-                        prepareDeleteVisa(index);
+                        setVisaToDelete(visa);
+                        setIndexToDelete(index);
+                        setModalShow(true);
                       }}
                     >
                       <img src={Images.Delete} alt="Delete" />

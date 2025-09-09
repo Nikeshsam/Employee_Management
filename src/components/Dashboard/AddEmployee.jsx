@@ -137,16 +137,16 @@ const AddEmployee = () => {
                     console.log(formData)
                     try {
                         await editEmployee(formData, loginUser.token, editingEmployeeId);
-                        handleCloseAddEmployeeCanvas(); // ✅ Close the canvas
-                        setIsEditMode(false);           // ✅ Reset edit mode
-                        setEditingEmployeeId(null);     // ✅ Clear selected ID
+                        handleCloseAddEmployeeCanvas(); // Close the canvas
+                        setIsEditMode(false);           // Reset edit mode
+                        setEditingEmployeeId(null);     // Clear selected ID
                     } catch (error) {
                         toast.error("Failed to update employee");
                     }
                 } else {
                     try {
                         await addEmployee(formData, loginUser.token);
-                        handleCloseAddEmployeeCanvas(); // ✅ Close the canvas after add
+                        handleCloseAddEmployeeCanvas(); // Close the canvas after add
                     } catch (error) {
                         toast.error("Failed to add employee");
                     }
@@ -158,6 +158,7 @@ const AddEmployee = () => {
                         title: `${formData.firstName} ${formData.lastName}`,
                         message: isEditMode ? 'Employee Updated Successfully' : 'Employee Added Successfully',
                         img: Images.SuccessCheck,
+                        type: "success",
                     }
                 ]);
 
@@ -320,7 +321,7 @@ const AddEmployee = () => {
                 {
                     title: `${employeeToDelete.firstName} ${employeeToDelete.lastName}`,
                     message: 'Employee deleted successfully',
-                    type: "success", // success type
+                    type: "error", // success type
                 }
             ]);
             setModalShow(false);
@@ -337,7 +338,7 @@ const AddEmployee = () => {
                 {
                     title: 'Error',
                     message: 'Failed to delete employee',
-                    type: "success", // success type
+                    type: "error", // success type
                 }
             ]);
         } finally {
@@ -627,7 +628,8 @@ const AddEmployee = () => {
                         key={index}
                         title={toast.title}
                         message={toast.message}
-                        img={toast.img}
+                        type={toast.type}
+                        // img={toast.img}
                         onClose={() => handleToastClose(index)} // If your component supports this
                     />
                 ))}

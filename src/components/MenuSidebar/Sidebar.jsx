@@ -12,37 +12,53 @@ const Sidebar = ({ handleSidebarClick, activeTab }) => {
     clearLoginUser();
     navigate('/Authentication');
   }
+
+  const menuItems = [
+    {
+      label: "Dashboard",
+      key: "Dashboard",
+      icon: Images.Dashboard,
+      roles: ["admin", "user"], // only admin
+    },
+    {
+      label: "On Boarding",
+      key: "On-Boarding",
+      icon: Images.OnBoarding,
+      roles: ["user"], // both can see
+    },
+    {
+      label: "Company Profile",
+      key: "Company Profile",
+      icon: Images.CompanyProfile,
+      roles: ["admin"], // only admin
+    },
+    {
+      label: "Add Employee",
+      key: "Add Employee",
+      icon: Images.AddEmployee,
+      roles: ["admin"], // only admin
+    },
+  ];
+
   return (
     <>
       <div className='sidebar_content'>
         <div className='Innerlogo'>
           <img src={Images.InnerLogo} alt="Logo" />
         </div>
-        <ul className='sidebar_menu'>
-          {loginUser?.user?.role === 'admin' &&
-            <li onClick={() => handleSidebarClick('Dashboard')} className={activeTab === 'Dashboard' ? 'active' : ''}>
-              <i><img src={Images.Dashboard} alt="Dashboard" /></i>
-              <span>Dashboard</span>
-            </li>
-          }
-
-          <li onClick={() => handleSidebarClick('On-Boarding')} className={activeTab === 'On-Boarding' ? 'active' : ''}>
-            <i><img src={Images.OnBoarding} alt="OnBoarding" /></i>
-            <span>On Boarding</span>
-          </li>
-
-          {loginUser?.user?.role === 'admin' &&
-            <li onClick={() => handleSidebarClick('Company Profile')} className={activeTab === 'Company Profile' ? 'active' : ''}>
-              <i><img src={Images.CompanyProfile} alt="Company Profile" /></i>
-              <span>Company Profile</span>
-            </li>
-          }
-          {loginUser?.user?.role === 'admin' &&
-            <li onClick={() => handleSidebarClick('Add Employee')} className={activeTab === 'Add Employee' ? 'active' : ''}>
-              <i><img src={Images.AddEmployee} alt="Add Employee" /></i>
-              <span>Add Employee</span>
-            </li>
-          }
+        <ul className="sidebar_menu">
+          {menuItems
+            .filter(item => item.roles.includes(loginUser?.user?.role)) // show only allowed
+            .map(item => (
+              <li
+                key={item.key}
+                onClick={() => handleSidebarClick(item.key)}
+                className={activeTab === item.key ? "active" : ""}
+              >
+                <i><img src={item.icon} alt={item.label} /></i>
+                <span>{item.label}</span>
+              </li>
+            ))}
         </ul>
       </div>
       <div className="sidebar_setting">

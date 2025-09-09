@@ -183,7 +183,7 @@ const HealthRecord = () => {
 
   useEffect(() => {
 
-    const fetchVisa = async () => {
+    const fetchVaccination = async () => {
       try {
         const response = await getEmployeeHealthRecord(loginUser.token);
         if (response.data.healthRecord) {
@@ -206,7 +206,7 @@ const HealthRecord = () => {
       }
     };
 
-    fetchVisa();
+    fetchVaccination();
   }, [loginUser.token]);
 
   // --- Save All to API ---
