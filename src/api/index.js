@@ -373,6 +373,12 @@ export const getEmployeeTravelRecord = (token) => {
   );
 };
 
+export const getEmployeeId = async (token) => {
+  return await axios.get("/employee/empId", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
 
 // export const updatePost = (id,post)=> axios.patch(`${url}/${id}`,post);
 // export const likePost = (id)=> axios.patch(`${url}/${id}`);

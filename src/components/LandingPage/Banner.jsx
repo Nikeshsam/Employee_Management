@@ -17,7 +17,7 @@ const Banner = ({ modalShow, setModalShow }) => {
   // FormData useState
 
   const [formData, setFormData] = useState({
-    name: '',
+    //name: '',
     email: '',
     organizationName: '',
     password: '',
@@ -27,7 +27,7 @@ const Banner = ({ modalShow, setModalShow }) => {
   // Error useState
 
   const [errors, setErrors] = useState({
-    name: '',
+    //name: '',
     email: '',
     organizationName: '',
     password: '',
@@ -41,9 +41,9 @@ const Banner = ({ modalShow, setModalShow }) => {
   const validateField = (name, value) => {
     let error = '';
     switch (name) {
-      case 'name':
-        if (!value.trim()) error = 'Name is required';
-        break;
+      // case 'name':
+      //   if (!value.trim()) error = 'Name is required';
+      //   break;
 
       case 'email':
         if (!value) error = 'Email is required';
@@ -118,7 +118,7 @@ const Banner = ({ modalShow, setModalShow }) => {
 
   const handleClearClick = () => {
     setFormData({
-      name: '',
+      //name: '',
       email: '',
       organizationName: '',
       password: '',
@@ -154,7 +154,7 @@ const Banner = ({ modalShow, setModalShow }) => {
         className='PrimaryModal'
         bodyContent={
           <>
-            <Col md={6} lg={6} xl={6} xxl={6}>
+            {/* <Col md={6} lg={6} xl={6} xxl={6}>
               <InputField
                 label="Name"
                 type="text"
@@ -166,7 +166,20 @@ const Banner = ({ modalShow, setModalShow }) => {
                 handleChange={handleChange}
                 required
               />
-            </Col>
+            </Col> */}
+            <Col md={6} lg={6} xl={6} xxl={6}>
+              <InputField
+                label="Organization Name"
+                type="text"
+                placeholder="Enter Your Organization Name"
+                controlId="organizationName"
+                name="organizationName"
+                error={errors.organizationName}
+                value={formData.organizationName}
+                handleChange={handleChange}
+                required
+              />
+            </Col>  
             <Col md={6} lg={6} xl={6} xxl={6}>
               <InputField
                 label="Organization Email"
@@ -176,19 +189,6 @@ const Banner = ({ modalShow, setModalShow }) => {
                 name="email"
                 error={errors.email}
                 value={formData.email}
-                handleChange={handleChange}
-                required
-              />
-            </Col>
-            <Col md={12} lg={12} xl={12} xxl={12}>
-              <InputField
-                label="Organization Name"
-                type="text"
-                placeholder="Enter Your Organization Name"
-                controlId="organizationName"
-                name="organizationName"
-                error={errors.organizationName}
-                value={formData.organizationName}
                 handleChange={handleChange}
                 required
               />

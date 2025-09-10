@@ -6,7 +6,7 @@ import Images from '../../pages/Images.jsx';
 import { CustomToast, EmployeeGird, InputField, SelectInput, CustomModalConfirmDialog, OffCanvas, UploadInputField } from '../../pages/Props.jsx';
 import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import { addEmployeeValidateField } from '../Validations/Validate.jsx';
-import { getEmployees, addEmployee, editEmployee } from '../../api/index.js';
+import { getEmployees, addEmployee, editEmployee, getEmployeeId } from '../../api/index.js';
 import { deleteEmployee } from '../../api/index.js';
 import { exportEmployeesExcel } from '../../api/index.js';
 import Loader from '../Common/Loader.jsx';
@@ -38,7 +38,7 @@ const AddEmployee = () => {
     const [employeeToDelete, setEmployeeToDelete] = useState(null);
 
     const [showAddEmployeeCanvas, setShowAddEmployeeCanvas] = useState(false);
-    const handleShowAddEmployeeCanvas = () => setShowAddEmployeeCanvas(true);
+    // const handleShowAddEmployeeCanvas = () => setShowAddEmployeeCanvas(true);
     //const handleCloseAddEmployeeCanvas = () => setShowAddEmployeeCanvas(false);
 
     const [pagination, setPagination] = useState({
@@ -213,6 +213,25 @@ const AddEmployee = () => {
         });
         handleShowAddEmployeeCanvas();
     };
+
+    const handleShowAddEmployeeCanvas = async () => {
+        setShowAddEmployeeCanvas(true);
+
+        if (!isEditMode) {
+            try {
+                const response = await getEmployeeId(loginUser.token);
+                console.log(response);
+                setFormData(prev => ({
+                    ...prev,
+                    employeeId: response.data.employeeId, // Auto-generated ID
+                }));
+            } catch (error) {
+                console.error("Failed to fetch employee ID", error);
+            }
+        }
+    };
+
+
 
     const handleCloseAddEmployeeCanvas = () => {
         setShowAddEmployeeCanvas(false);
@@ -492,6 +511,7 @@ const AddEmployee = () => {
                         value={formData.employeeId}
                         handleChange={handleChange}
                         required
+                        readOnly // ✅ prevents manual editing
                     />
                 </Col>
                 <Col md={6} lg={6} xl={6} xxl={6}>

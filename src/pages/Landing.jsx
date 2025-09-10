@@ -18,7 +18,7 @@ import LandingFooter from '../components/LandingPage/Footer.jsx';
 
 const Landing = () => {
 
-    const [modalShow, setModalShow] = React.useState(false); 
+    const [modalShow, setModalShow] = React.useState(false);
 
     return (
         <>
@@ -29,12 +29,12 @@ const Landing = () => {
                     </Row>
                 </Container>
             </Container>
-            <Container id='home' className='pb-5' style={{paddingTop: '75px'}}>
+            <Container id='home' className='pb-5' style={{ paddingTop: '75px' }}>
                 <Row className='pt-5 pb-5 align-items-center'>
                     <LandingBanner modalShow={modalShow} setModalShow={setModalShow}></LandingBanner>
                 </Row>
             </Container>
-            <Container id='product' className='pt-5 mb-5' style={{backgroundColor: '#F6F9FF'}} fluid>
+            <Container id='product' className='pt-5 mb-5' style={{ backgroundColor: '#F6F9FF' }} fluid>
                 <Container className='pt-5'>
                     <Row className="justify-content-center">
                         <LandingProduct></LandingProduct>
@@ -46,14 +46,14 @@ const Landing = () => {
                     <LandingFeatures></LandingFeatures>
                 </Row>
             </Container>
-            <Container id='pricing' className='pt-5 pb-5' style={{backgroundColor: '#F6F9FF'}} fluid>
+            <Container id='pricing' className='pt-5 pb-5' style={{ backgroundColor: '#F6F9FF' }} fluid>
                 <Container className='pt-5 pb-5'>
                     <Row>
                         <LandingPricing></LandingPricing>
                     </Row>
                 </Container>
             </Container>
-            <Container id='about' className='pt-5 pb-5' style={{backgroundColor: '#1A202C'}} fluid>
+            <Container id='about' className='pt-5 pb-5' style={{ backgroundColor: '#1A202C' }} fluid>
                 <Container className='pt-5 pb-5'>
                     <Row>
                         <LandingAboutUs></LandingAboutUs>
