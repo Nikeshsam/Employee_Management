@@ -11,12 +11,14 @@ import { deleteEmployee } from '../../api/index.js';
 import { exportEmployeesExcel } from '../../api/index.js';
 import Loader from '../Common/Loader.jsx';
 import ComboDate from '../../data/Combo.json';
+//import { Department, Designation, DepartmentDesignationMap } from "../../combo.json";
 
 
 // Bootstrap imports
 
 import 'bootstrap/dist/css/bootstrap.css';
 import { Container, Form, Row, Col, ToastContainer, Button } from 'react-bootstrap';
+import { use } from 'react';
 
 // Bootstrap imports
 
@@ -66,6 +68,25 @@ const AddEmployee = () => {
     const [Designation, setDesignation] = useState(ComboDate.Designation)
     const [Department, setDepartment] = useState(ComboDate.Department)
 
+    const departmentOptions = ComboDate.Department;
+    const designationOptions = ComboDate.Designation;
+    const departmentDesignationMap = ComboDate.DepartmentDesignationMap;
+
+    const getDepartmentLabel = (val) => {
+        const dept = ComboDate.Department.find(
+            (d) => String(d.value) === String(val) // ensure type-safe comparison
+        );
+        return dept ? dept.label : val;
+    };
+
+    const getDesignationLabel = (val) => {
+        const desig = ComboDate.Designation.find(
+            (d) => String(d.value) === String(val)
+        );
+        return desig ? desig.label : val;
+    };
+
+
     // FormData Validations
 
     const [formData, setFormData] = useState({
@@ -84,6 +105,24 @@ const AddEmployee = () => {
         offerletter: '',
 
     });
+
+    // Department && Designation Filter
+
+    const [filteredDesignations, setFilteredDesignations] = useState([]);
+
+    const handleDepartmentChange = (e) => {
+        const selectedDeptValue = e.target.value; // department value (like "1")
+
+        setFormData({ ...formData, department: selectedDeptValue, designation: "" });
+
+        // Use `value` instead of `key`
+        const allowedDesignations = Designation.filter(d =>
+            departmentDesignationMap[selectedDeptValue]?.includes(d.value)
+        );
+
+        setFilteredDesignations(allowedDesignations);
+    };
+
 
     // Error useState
 
@@ -124,29 +163,28 @@ const AddEmployee = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log("Submitting form");
-        console.log("Edit Mode:", isEditMode);
-        console.log("Editing ID:", editingEmployeeId);
-
         if (validateForm()) {
-            setSubmitting(true); // Start loader
+            setSubmitting(true);
 
             try {
-                let response;
                 if (isEditMode) {
-                    console.log(formData)
-                    try {
-                        await editEmployee(formData, loginUser.token, editingEmployeeId);
-                        handleCloseAddEmployeeCanvas(); // Close the canvas
-                        setIsEditMode(false);           // Reset edit mode
-                        setEditingEmployeeId(null);     // Clear selected ID
-                    } catch (error) {
-                        toast.error("Failed to update employee");
-                    }
+                    // ✅ Edit Employee
+                    await editEmployee(formData, loginUser.token, editingEmployeeId);
+                    handleCloseAddEmployeeCanvas();
+                    setIsEditMode(false);
+                    setEditingEmployeeId(null);
                 } else {
+                    // ✅ Add Employee
                     try {
-                        await addEmployee(formData, loginUser.token);
-                        handleCloseAddEmployeeCanvas(); // Close the canvas after add
+                        // Get new Employee ID only when adding
+                        const idResponse = await getEmployeeId(loginUser.token);
+                        const newEmployeeId = idResponse.data.employeeId;
+
+                        // Merge employeeId with form data
+                        const payload = { ...formData, employeeId: newEmployeeId };
+
+                        await addEmployee(payload, loginUser.token);
+                        handleCloseAddEmployeeCanvas();
                     } catch (error) {
                         toast.error("Failed to add employee");
                     }
@@ -163,7 +201,12 @@ const AddEmployee = () => {
                 ]);
 
                 // Refresh employee list
-                const updatedEmployees = await getEmployees('', pagination.currentPage, pagination.rowsPerPage, loginUser.token);
+                const updatedEmployees = await getEmployees(
+                    '',
+                    pagination.currentPage,
+                    pagination.rowsPerPage,
+                    loginUser.token
+                );
                 setEmployeeData(updatedEmployees.data.data);
 
                 // Reset form
@@ -189,7 +232,7 @@ const AddEmployee = () => {
                 console.log(error);
                 setSubmitMessage(error?.response?.data?.message || 'Submission failed');
             } finally {
-                setSubmitting(false); // Start loader
+                setSubmitting(false);
             }
         }
     };
@@ -199,7 +242,7 @@ const AddEmployee = () => {
         setEditingEmployeeId(emp._id);
         setFormData({
             employeeType: emp.employeeType || '',
-            employeeId: emp.employeeId || '',
+            //employeeId: emp.employeeId || '',
             firstName: emp.firstName || '',
             lastName: emp.lastName || '',
             email: emp.email || '',
@@ -214,24 +257,18 @@ const AddEmployee = () => {
         handleShowAddEmployeeCanvas();
     };
 
-    const handleShowAddEmployeeCanvas = async () => {
+    const handleShowAddEmployeeCanvas = () => {
         setShowAddEmployeeCanvas(true);
 
-        if (!isEditMode) {
-            try {
-                const response = await getEmployeeId(loginUser.token);
-                console.log(response);
-                setFormData(prev => ({
-                    ...prev,
-                    employeeId: response.data.employeeId, // Auto-generated ID
-                }));
-            } catch (error) {
-                console.error("Failed to fetch employee ID", error);
-            }
-        }
+        // if (!isEditMode) {
+        //     // Reset form without employeeId
+        //     setFormData({
+        //         employeeId: "",
+        //         name: "",
+        //         // other fields reset here...
+        //     });
+        // }
     };
-
-
 
     const handleCloseAddEmployeeCanvas = () => {
         setShowAddEmployeeCanvas(false);
@@ -340,7 +377,7 @@ const AddEmployee = () => {
                 {
                     title: `${employeeToDelete.firstName} ${employeeToDelete.lastName}`,
                     message: 'Employee deleted successfully',
-                    type: "error", // success type
+                    type: "success", // success type
                 }
             ]);
             setModalShow(false);
@@ -431,13 +468,14 @@ const AddEmployee = () => {
                             showFooter={true}
                             buttonClassName='secondary_btn btn_h_35 fs_13 fw_500'
                             buttonClassIcon='icon_btn'
-                            tableHeaders={[<Form.Check className='CustomCheck' />, 'Employee Name', 'Job Title', 'Department', 'JoiningDate', 'Employment Type', 'Status', 'Work Location', 'Actions']}
+                            tableHeaders={[<Form.Check className='CustomCheck' />, 'Employee ID', 'Employee Name', 'Department', 'Job Title', 'JoiningDate', 'Employment Type', 'Status', 'Work Location', 'Actions']}
                         >
                         {submitting ? <Loader /> : (
                             (
                                 employeeData.map((emp, idx) => (
                                     <tr key={idx}>
                                         <td><Form.Check className='CustomCheck' /></td>
+                                        <td><a href="#">{emp.employeeId}</a></td>
                                         <td>
                                             <div className='employeeGroup'>
                                                 <div className="employeeGroupImg">
@@ -449,9 +487,8 @@ const AddEmployee = () => {
                                                 </div>
                                             </div>
                                         </td>
-                                        {/* <td><a href="#">{emp.employeeId}</a></td> */}
-                                        <td>{emp.designation}</td>
-                                        <td>{emp.department}</td>
+                                        <td>{getDepartmentLabel(emp.department)}</td>
+                                        <td>{getDesignationLabel(emp.designation)}</td>
                                         <td>{new Date(emp.joiningDate).toLocaleDateString()}</td>
                                         <td>{emp.employmentType}</td>
                                         <td>
@@ -500,7 +537,7 @@ const AddEmployee = () => {
                         required
                     />
                 </Col>
-                <Col md={6} lg={6} xl={6} xxl={6}>
+                {/* <Col md={6} lg={6} xl={6} xxl={6}>
                     <InputField
                         label="Emp ID"
                         type="text"
@@ -511,9 +548,9 @@ const AddEmployee = () => {
                         value={formData.employeeId}
                         handleChange={handleChange}
                         required
-                        readOnly // ✅ prevents manual editing
+                        readOnly // prevents manual editing
                     />
-                </Col>
+                </Col> */}
                 <Col md={6} lg={6} xl={6} xxl={6}>
                     <InputField
                         label="First Name"
@@ -524,7 +561,7 @@ const AddEmployee = () => {
                         error={errors.firstName}
                         value={formData.firstName}
                         handleChange={handleChange}
-                        required
+                        required={true}
                     />
                 </Col>
                 <Col md={6} lg={6} xl={6} xxl={6}>
@@ -574,7 +611,7 @@ const AddEmployee = () => {
                         placeholder="Choose Department"
                         error={errors.department}
                         value={formData.department}
-                        handleChange={handleChange}
+                        handleChange={handleDepartmentChange}
                         required
                     />
                 </Col>
@@ -582,7 +619,7 @@ const AddEmployee = () => {
                     <SelectInput
                         label="Designation"
                         name="designation"
-                        options={Designation}
+                        options={filteredDesignations.length > 0 ? filteredDesignations : Designation}
                         placeholder="Choose Designation"
                         error={errors.designation}
                         value={formData.designation}
@@ -654,6 +691,7 @@ const AddEmployee = () => {
                     />
                 ))}
             </ToastContainer>
+            
             <CustomModalConfirmDialog
                 show={modalShow}
                 onHide={handleClearClick}

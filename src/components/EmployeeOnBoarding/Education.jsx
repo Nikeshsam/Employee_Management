@@ -305,7 +305,7 @@ const Educations = () => {
                 }
 
             } catch (error) {
-                console.log(error);
+                //console.log(error);
             }
         };
 
@@ -407,7 +407,7 @@ const Educations = () => {
             ]);
 
         } catch (error) {
-            console.error("Error saving education/certifications:", error);
+            //console.error("Error saving education/certifications:", error);
             setToastList((prev) => [
                 ...prev,
                 { title: "Error", message: "Failed to save Education & Certifications", type: "error" },

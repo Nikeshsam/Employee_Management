@@ -177,7 +177,7 @@ const WorkExperience = () => {
       ]);
       await fetchExperience();
     } catch (error) {
-      console.error("Error saving Experience:", error);
+      //console.error("Error saving Experience:", error);
     } finally {
       setSubmitting(false);
     }

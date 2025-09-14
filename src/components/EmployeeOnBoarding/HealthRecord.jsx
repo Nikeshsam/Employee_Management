@@ -165,7 +165,7 @@ const HealthRecord = () => {
           { title: "Success", message: "Vaccination deleted successfully", type: "success" }
         ]);
       } catch (err) {
-        console.error(err);
+        //console.error(err);
       }
     } else {
       setToastList((prev) => [
@@ -202,7 +202,7 @@ const HealthRecord = () => {
           }
         }
       } catch (err) {
-        console.error(err);
+        //console.error(err);
       }
     };
 
@@ -231,7 +231,7 @@ const HealthRecord = () => {
       ]);
       await fetchVaccination();
     } catch (err) {
-      console.error("Error saving health record:", err);
+      //console.error("Error saving health record:", err);
     } finally {
       setSubmitting(false);
     }

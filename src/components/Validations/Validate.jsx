@@ -361,11 +361,11 @@ export const addEmployeeValidateField = (name, value) => {
     let error = '';
     switch (name) {
         case 'userType':
-            if (!value.trim()) error = 'Employee ID is required';
+            if (!value.trim()) error = 'Select Employee Type';
             break;
-        case 'employeeId':
-            if (!value.trim()) error = 'Employee ID is required';
-            break;
+        // case 'employeeId':
+        //     if (!value.trim()) error = 'Employee ID is required';
+        //     break;
         case 'firstName':
             if (!value.trim()) error = 'First Name is required';
             break;

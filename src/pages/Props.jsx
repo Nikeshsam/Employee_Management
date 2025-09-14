@@ -353,6 +353,7 @@ export const InputField = ({
     placeholder = '',
     required = false,
     disabled ,
+    readOnly = false,
     controlId = '',
     className = 'mb-3',
 }) => {
@@ -374,6 +375,7 @@ export const InputField = ({
                 isInvalid={!!error}
                 autoComplete="off"
                 disabled={disabled}
+                readOnly={readOnly}
             />
             {error && (
                 <Form.Control.Feedback type="invalid" className="error_msg">
@@ -434,7 +436,7 @@ export const SelectInput = ({
     error,
     placeholder = "",
     required = false,
-    disabled ,
+    disabled,
     controlId,
     options,
     className = 'mb-3'
@@ -443,8 +445,7 @@ export const SelectInput = ({
         <Form.Group className={`position-relative ${className}`} controlId={controlId}>
             <Form.Label>{label}</Form.Label>
             <Form.Select
-                placeholder={placeholder}
-                value={value}
+                value={value || ""}
                 onChange={handleChange}
                 name={name}
                 required={required}
@@ -452,9 +453,9 @@ export const SelectInput = ({
                 disabled={disabled}
                 aria-label={`${label} select`}
             >
-                <option>{placeholder}</option>
+                <option value="">{placeholder}</option>
                 {options.map((option) => (
-                    <option key={option.key} value={option.value || option.label}>
+                    <option key={option.value} value={option.value}>
                         {option.label}
                     </option>
                 ))}
@@ -797,7 +798,6 @@ export const OffCanvas = ({
     );
 };
 
-
 export const CustomToast = ({
     title,
     message,
@@ -827,7 +827,6 @@ export const CustomToast = ({
         </Toast>
     );
 };
-
 
 export const getComboLabel = (comboName, key) => {
     const comboArray = ComboDate[comboName];

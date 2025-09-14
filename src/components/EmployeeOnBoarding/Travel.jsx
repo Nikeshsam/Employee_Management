@@ -210,7 +210,7 @@ const Travel = () => {
           }
         }
       } catch (err) {
-        console.error('Error fetching travel record:', err);
+        //console.error('Error fetching travel record:', err);
       }
     };
 
@@ -249,7 +249,7 @@ const Travel = () => {
       // re-fetch from server to keep local state authoritative
       await fetchVisa();
     } catch (err) {
-      console.error('Error saving travel record:', err);
+      //console.error('Error saving travel record:', err);
     } finally {
       setSubmitting(false);
     }

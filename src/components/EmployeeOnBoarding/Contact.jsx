@@ -112,18 +112,18 @@ const Contact = () => {
                     setIsEditMode(true);    
             }
         } catch (error) {
-            console.error("Error fetching contact details:", error);
+            //console.error("Error fetching contact details:", error);
             // Only show toast for real network/server errors
-            if (err.response?.status !== 404) {
-                setToastList(prev => [
-                    ...prev,
-                    {
-                        title: "Error",
-                        message: "Failed to fetch employee details",
-                        type: "error"
-                    }
-                ]);
-            }
+            // if (err.response?.status !== 404) {
+            //     setToastList(prev => [
+            //         ...prev,
+            //         {
+            //             title: "Error",
+            //             message: "Failed to fetch employee details",
+            //             type: "error"
+            //         }
+            //     ]);
+            // }
         }
     };
 
@@ -189,7 +189,7 @@ const Contact = () => {
             setIsEditMode(false);
 
         } catch (error) {
-            console.error("Error saving data:", error);
+            //console.error("Error saving data:", error);
             setToastList((prev) => [
                 ...prev,
                 { title: "Error", message: "Failed to save Contact details. Please try again.", type: "error" },

@@ -1,74 +1,116 @@
-import React, { useState } from 'react';
-import { CardForm, PrimaryGird, InputField } from '../../pages/Props.jsx';
+import React, { useState, useEffect } from 'react';
 import Images from '../../pages/Images.jsx';
-
-// Bootstrap imports
+import { getLoggedEmployee } from '../../api/index.js';
+import { useLoginUser } from '../../context/LoginUserContext.jsx';
+import ComboDate from '../../data/Combo.json';
 
 import 'bootstrap/dist/css/bootstrap.css';
-import { Container, Card, Form, Row, Col, Tab, Tabs, Button, Table } from 'react-bootstrap';
-
-// Bootstrap imports
 
 function EmployeeProfileCard() {
-  const employee = {
-    id: 'EMP012547',
-    name: 'Nikesh Balu',
-    designation: 'UI UX Developer',
-    department: 'UI UX Team',
-    joiningDate: '25/07/2023',
-    employmentType: 'Full-Time',
-    manager: 'Muthu Karthikeyan',
-    workLocation: 'Work From Home',
-    status: 'Active',
-    offerLetter: '#', // Link to offer letter (PDF)
-    profilePic: Images.UserName // Replace with actual image URL if needed
-  };
+    const { loginUser } = useLoginUser(); // ✅ you already have loginUser context
+    const [employeeProfile, setEmployeeProfile] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchEmployee = async () => {
+            try {
+                const response = await getLoggedEmployee(loginUser.token);
+                //console.log("Logged Employee API Response:", response.data);
+                setEmployeeProfile(response.data.data);
+            } catch (error) {
+                //console.error("Failed to fetch logged employee:", error);
+            } finally {
+                setLoading(false);
+                //console.log(employeeProfile);
+            }
+        };
+
+        if (loginUser?.token) {
+            fetchEmployee();
+        }
+    }, [loginUser]);
+
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+
+    if (!employeeProfile) {
+        return <p>No employee details found.</p>;
+    }
+
+    const getDepartmentLabel = (val) => {
+        const dept = ComboDate.Department.find(
+            (d) => String(d.value) === String(val) // ensure type-safe comparison
+        );
+        return dept ? dept.label : val;
+    };
+
+    const getDesignationLabel = (val) => {
+        const desig = ComboDate.Designation.find(
+            (d) => String(d.value) === String(val)
+        );
+        return desig ? desig.label : val;
+    };
+
+
+
     return (
         <div className="employee_profile_container">
             <div className='employee_profile_pic_content'>
                 <div className='employee_profile_pic'>
-                    <img src={employee.profilePic} alt="Profile" className="img-fluid rounded-circle"/>
+                    <img
+                        src={employeeProfile.profilePic || Images.UserName}
+                        alt="Profile"
+                        className="img-fluid rounded-circle"
+                    />
                 </div>
                 <div className='employee_profile_content'>
                     <h5 className="mb-0">
-                        <label>{employee.name}{' '}</label>
-                        <span className="badge">{employee.status}</span>
+                        <label>{`${employeeProfile.firstName} ${employeeProfile.lastName}`}</label>
+                        <span className="badge">{employeeProfile.status}</span>
                     </h5>
-                    <p className="">{employee.designation}</p>
-                    <a href="#" className="">
-                        {employee.id}
-                    </a>
+                    <p>{getDesignationLabel(employeeProfile.designation)}</p>
+                    <a href="#">{employeeProfile.employeeId}</a>
                 </div>
             </div>
+
             <div className="employee_profile_details">
                 <label>Department</label>
-                <span>{employee.department}</span>
+                <span>{getDepartmentLabel(employeeProfile.department)}</span>
             </div>
             <div className="employee_profile_details">
                 <label>Joining Date</label>
-                <span>{employee.joiningDate}</span>
+                {/* <span>{employeeProfile.joiningDate}</span> */}
+                <span>03-07-2025</span>
             </div>
             <div className="employee_profile_details">
                 <label>Employment Type</label>
-                <span>{employee.employmentType}</span>
+                <span>{employeeProfile.employmentType}</span>
             </div>
             <div className="employee_profile_details">
                 <label>Manager</label>
-                <span>{employee.manager}</span>
+                {/* <span>{employeeProfile.manager}</span> */}
+                <span>Muthu Kumar</span>
             </div>
             <div className="employee_profile_details">
                 <label>Work Location</label>
-                <span>{employee.workLocation}</span>
+                <span>{employeeProfile.workLocation}</span>
             </div>
-            <div className="employee_offer_letter">
-                <a href={employee.offerLetter} className="">
-                    <img src={Images.OfferLetter} alt="Offer Letter" className="offer_letter_icon" />
-                    {' '}
-                    Offer Letter
-                </a>
-            </div>
+
+            {employeeProfile.offerLetter && (
+                <div className="employee_offer_letter">
+                    <a href="#">
+                        <img
+                            src={Images.OfferLetter}
+                            alt="Offer Letter"
+                            className="offer_letter_icon"
+                        />
+                        {employeeProfile.offerLetter.fileName}
+                    </a>
+                </div>
+            )}
         </div>
-    )
+    );
 }
 
-export default EmployeeProfileCard
+export default EmployeeProfileCard;

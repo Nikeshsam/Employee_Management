@@ -181,7 +181,7 @@ const Benefits = () => {
 
       await fetchBenefits(); // ✅ Refresh from DB so state matches server
     } catch (error) {
-      console.error("Error saving benefits:", error);
+      //console.error("Error saving benefits:", error);
     } finally {
       setSubmitting(false);
     }

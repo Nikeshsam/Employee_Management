@@ -108,15 +108,27 @@ const BasicInfo = () => {
 
     const validateForm = () => {
         const newErrors = {};
+
         Object.keys(formData).forEach((field) => {
-            if(field==='dateOfMarriage' && formData.maritalStatus==='Single') return;
+            if (field === "dateOfMarriage") {
+                // Find selected marital status label
+                const selectedStatus = ComboDate.MaritalStatus.find(
+                    s => s.value === formData.maritalStatus
+                );
+                // Only validate dateOfMarriage if Married
+                if (selectedStatus?.label !== "Married") {
+                    return;
+                }
+            }
+
             const error = basicValidateField(field, formData[field]);
             if (error) newErrors[field] = error;
         });
+
         setErrors(newErrors);
-        console.log(newErrors);
         return Object.keys(newErrors).length === 0;
     };
+
 
     //  Handle Submit
     const handleSubmit = async (e) => {
@@ -331,7 +343,7 @@ const BasicInfo = () => {
                                         value={formData.dateOfMarriage}
                                         handleChange={handleChange}
                                         required
-                                        disabled={!isEditMode}   //
+                                        disabled={!isEditMode}
                                     />
                                 </Col>
                             )}

@@ -133,7 +133,7 @@ const Family = () => {
                 }
                 setFamilyMembers(response.data.dependents);
             } catch (error) {
-                console.log(error);
+                //console.log(error);
             }
         };
 
@@ -149,7 +149,7 @@ const Family = () => {
             }
             setFamilyMembers(response.data.dependents);
         }catch(error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 
@@ -177,7 +177,7 @@ const Family = () => {
                     dependentBenefit: true
                 }))
             };
-            console.log(apiData);
+            //console.log(apiData);
             //return;
 
             await createOrUpdateDependentDetails(apiData, loginUser.token);
@@ -188,7 +188,7 @@ const Family = () => {
             ]);
             await fetchDependents();
         } catch (error) {
-            console.error("Error saving dependents:", error);
+            //console.error("Error saving dependents:", error);
         } finally {
             setSubmitting(false);
         }
@@ -244,7 +244,7 @@ const Family = () => {
                 setModalShow(false);
                 console.log(response);
             }catch(error){
-                console.log(error);
+                //console.log(error);
             }
         }
         

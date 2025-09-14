@@ -374,9 +374,24 @@ export const getEmployeeTravelRecord = (token) => {
 };
 
 export const getEmployeeId = async (token) => {
-  return await axios.get("/employee/empId", {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  return await axios.get(
+    `${url}/employee/empId`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+    }
+  );
+};
+
+export const getLoggedEmployee = async (token) => {
+  return await axios.get(
+    `${url}/employeeDetails/logged-employee`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 };
 
 
