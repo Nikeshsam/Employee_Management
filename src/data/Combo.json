@@ -70,44 +70,63 @@
     { "value": 1, "label": "Technical / Development Department" },
     { "value": 2, "label": "UI/UX & Design" },
     { "value": 3, "label": "Quality Assurance (QA)" },
-    { "value": 4, "label": "Product & Project Management" },
+    { "value": 4, "label": "Business Analyst" },
     { "value": 5, "label": "Human Resources (HR)" },
     { "value": 6, "label": "Sales & Marketing" },
-    { "value": 7, "label": "IT Support & DevOps" },
-    { "value": 8, "label": "Others (Admin, Finance, Legal)" }
+    { "value": 7, "label": "IT Support & DevOps" }
   ],
 
   "Designation": [
     { "value": 1, "label": "Junior Software Developer" },
     { "value": 2, "label": "Software Developer" },
-    { "value": 3, "label": "UI/UX Designer" },
-    { "value": 4, "label": "Senior UI/UX Designer" },
-    { "value": 5, "label": "QA Engineer" },
-    { "value": 6, "label": "Senior QA Engineer" },
-    { "value": 7, "label": "Business Analyst" },
-    { "value": 8, "label": "Project Manager" },
-    { "value": 9, "label": "HR Executive" },
-    { "value": 10, "label": "HR Manager" },
-    { "value": 11, "label": "Marketing Executive" },
-    { "value": 12, "label": "IT Support / System Admin" }
+    { "value": 3, "label": "Senior Software Developer" },
+    { "value": 4, "label": "Lead Developer" },
+    { "value": 5, "label": "Project Manager" },
+    { "value": 6, "label": "Junior UI/UX Designer" },
+    { "value": 7, "label": "UI/UX Designer" },
+    { "value": 8, "label": "Senior UI/UX Designer" },
+    { "value": 9, "label": "Team Lead" },
+    { "value": 10, "label": "Design Manager" },
+    { "value": 11, "label": "Junior QA Engineer" },
+    { "value": 12, "label": "QA Engineer" },
+    { "value": 13, "label": "Senior QA Engineer" },
+    { "value": 14, "label": "Lead QA Engineer" },
+    { "value": 15, "label": "QA Manager" },
+    { "value": 16, "label": "Junior Business Analyst" },
+    { "value": 17, "label": "Business Analyst" },
+    { "value": 18, "label": "Senior Business Analyst" },
+    { "value": 19, "label": "Business Analysis Manager" },
+    { "value": 20, "label": "HR Trainee" },
+    { "value": 21, "label": "HR Executive" },
+    { "value": 22, "label": "HR Manager" },
+    { "value": 23, "label": "Sales Executive" },
+    { "value": 24, "label": "Sales Officer" },
+    { "value": 25, "label": "Senior Sales Manager" },
+    { "value": 26, "label": "Head of Sales & Marketing" },
+    { "value": 27, "label": "IT Support Trainee"},
+    { "value": 28, "label": "IT Support Engineer"},
+    { "value": 29, "label": "Senior IT Support Engineer"},
+    { "value": 30, "label": "IT Support Lead"},
+    { "value": 31, "label": "DevOps Engineer"},
+    { "value": 32, "label": "Senior DevOps Engineer"},
+    { "value": 33, "label": "DevOps Lead"}
   ],
 
   "DepartmentDesignationMap": {
-    "1": [1, 2],
-    "2": [3, 4],
-    "3": [5, 6],
-    "4": [7, 8],
-    "5": [9, 10],
-    "6": [11],
-    "7": [12],
-    "8": []
+    "1": [1, 2, 3, 4, 5],
+    "2": [6, 7, 8, 9, 10],
+    "3": [11, 12, 13, 14, 15],
+    "4": [16, 17, 18, 19],
+    "5": [20, 21, 22],
+    "6": [23, 24, 25, 26],
+    "7": [27, 28, 29, 30, 31, 32, 33]
   },
 
   "EmploymentType": [
-    { "value": 1, "label": "Full Time" },
-    { "value": 2, "label": "Part Time" },
-    { "value": 3, "label": "Contracted Employee" },
-    { "value": 4, "label": "Internship" }
+    { "value": "Full Time", "label": "Full Time" },
+    { "value": "Part Time", "label": "Part Time" },
+    { "value": "Contracted Employee", "label": "Contracted Employee" },
+    { "value": "Internship", "label": "Internship" }
   ],
 
   "EmployeeType": [
@@ -116,9 +135,9 @@
   ],
 
   "WorkLocation": [
-    { "value": 1, "label": "Chennai" },
-    { "value": 2, "label": "Bangalore" },
-    { "value": 3, "label": "Hyderabad" }
+    { "value": "Chennai", "label": "Chennai" },
+    { "value": "Bangalore", "label": "Bangalore" },
+    { "value": "Hyderabad", "label": "Hyderabad" }
   ],
 
   "Nationality": [

@@ -1,26 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import SunSet from '../../assets/Images/sunset.svg';
 import { useLoginUser } from '../../context/LoginUserContext';
+import { getLoggedEmployee } from '../../api';
 
-
-const TopMenu = ({ title, username, activeTab }) => {
+const TopMenu = ({ title, activeTab }) => {
   const { loginUser } = useLoginUser();
+  const [employeeProfile, setEmployeeProfile] = useState(null);
 
-  // Get current hour
+  // Fetch employee profile if user is employee
+  useEffect(() => {
+    const fetchEmployee = async () => {
+      try {
+        const response = await getLoggedEmployee(loginUser.token);
+        //console.log("Logged Employee API Response:", response.data);
+        setEmployeeProfile(response.data.data);
+      } catch (error) {
+        //console.error("Failed to fetch logged employee:", error);
+      } finally {
+        //setLoading(false);
+        //console.log(employeeProfile);
+      }
+    };
+
+    if (loginUser?.token) {
+      fetchEmployee();
+    }
+  }, [loginUser]);
+
+
+
+  // Greeting logic
   const hour = new Date().getHours();
   let greeting = "Good Morning,";
-  if (hour >= 12 && hour < 16) {
-    greeting = "Good Afternoon,";
-  } else if (hour >= 16 || hour < 5) {
-    greeting = "Good Evening,";
-  }
-
-
-
+  if (hour >= 12 && hour < 16) greeting = "Good Afternoon,";
+  else if (hour >= 16 || hour < 5) greeting = "Good Evening,";
 
   return (
     <div className='topmenu'>
@@ -29,14 +43,20 @@ const TopMenu = ({ title, username, activeTab }) => {
         <div className='greeting'>
           <i><img src={SunSet} alt="sunset" /></i>
           <span>{greeting}</span>
-          <label>{loginUser.user.name}</label>
+          <label>
+            {loginUser?.user?.role === "admin"
+              ? loginUser?.user?.name
+              : employeeProfile
+                ? `${employeeProfile.firstName || ""} ${employeeProfile.lastName || ""}`
+                : ""}
+          </label>
         </div>
       </div>
       <div className='topmenu_search'>
         <input type="text" placeholder='Quick Search' />
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default TopMenu;

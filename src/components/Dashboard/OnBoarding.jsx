@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
+import { getLoggedEmployee } from '../../api/index.js';
+import { useLoginUser } from '../../context/LoginUserContext.jsx';
 
 // Bootstrap imports
 
@@ -20,6 +22,29 @@ import Travel from '../EmployeeOnBoarding/Travel.jsx';
 
 
 const EmployeeProfileCard = () => {
+
+  const { loginUser } = useLoginUser(); // ✅ you already have loginUser context
+  const [employeeProfile, setEmployeeProfile] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchEmployee = async () => {
+      try {
+        const response = await getLoggedEmployee(loginUser.token);
+        //console.log("Logged Employee API Response:", response.data);
+        setEmployeeProfile(response.data.data);
+      } catch (error) {
+        //console.error("Failed to fetch logged employee:", error);
+      } finally {
+        setLoading(false);
+        //console.log(employeeProfile);
+      }
+    };
+
+    if (loginUser?.token) {
+      fetchEmployee();
+    }
+  }, [loginUser]);
   
   return (
 
@@ -28,7 +53,7 @@ const EmployeeProfileCard = () => {
         <Col md={12} lg={12} xl={12} xxl={12}>
           <Card className='card_purple mb-4'>
             <Card.Body>
-              <EmployeeProfileDetails />
+              <EmployeeProfileDetails employeeProfile={employeeProfile} loading={loading} setLoading={setLoading} />
             </Card.Body>
           </Card>
         </Col>
@@ -36,7 +61,7 @@ const EmployeeProfileCard = () => {
 
           <Tabs defaultActiveKey="basic_info" transition={false} id="noanim-tab-example" className="mb-3 Secondary_tab">
             <Tab eventKey="basic_info" title="Basic Info">
-              <BasicInfo/>
+              <BasicInfo employeeProfile={employeeProfile}/>
             </Tab>
             <Tab eventKey="contact" title="Contact">
               <Contact/>

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { CardForm, CustomToast, PrimaryGird, InputField, SelectInput } from '../../pages/Props.jsx';
 import { basicValidateField } from '../Validations/Validate.jsx';
 import Images from '../../pages/Images.jsx';
-import { createOrUpdateEmployeeBasicDetails, getEmployeeBasicDetails } from '../../api/index.js';
+import { createOrUpdateEmployeeBasicDetails, getEmployeeBasicDetails, getLoggedEmployee } from '../../api/index.js';
 import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import ComboDate from '../../data/Combo.json';
 import Loader from '../Common/Loader.jsx';
@@ -17,7 +17,7 @@ import { Container, Card, Form, Row, Col, ToastContainer, Tab, Tabs, Button, Tab
 
 // import Props from 'Props.jsx';
 
-const BasicInfo = () => {
+const BasicInfo = ({employeeProfile}) => {
 
     const [Nationality, setNationality] = useState(ComboDate.Nationality);
     const [Gender, setGender] = useState(ComboDate.Gender);
@@ -29,8 +29,8 @@ const BasicInfo = () => {
     // FormData Validations
 
     const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
+        firstName: employeeProfile?.firstName || '',
+        lastName: employeeProfile?.lastName || '',
         dateOfBirth: '',
         age: '',
         nationality: '',
@@ -55,45 +55,94 @@ const BasicInfo = () => {
     const [hasData, setHasData] = useState(false); // 👉 flag to check if data exists
 
     // Fetch existing employee details
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const res = await getEmployeeBasicDetails(loginUser.token);
+    //             if (res.data && res.data.data) {
+    //                 // Employee has data -> fill form + disable edit
+    //                 setFormData({
+    //                     firstName: res.data.data.firstName || '',
+    //                     lastName: res.data.data.lastName || '',
+    //                     dateOfBirth: res.data.data.dateOfBirth
+    //                         ? res.data.data.dateOfBirth.split('T')[0]
+    //                         : '',
+    //                     age: res.data.data.age || '',
+    //                     nationality: res.data.data.nationality || '',
+    //                     gender: res.data.data.gender || '',
+    //                     maritalStatus: res.data.data.maritalStatus || '',
+    //                     dateOfMarriage: res.data.data.dateOfMarriage
+    //                         ? res.data.data.dateOfMarriage.split('T')[0]
+    //                         : '',
+    //                 });
+    //                 setHasData(true);
+    //                 setIsEditMode(false);
+    //             } else {
+    //                 // No data yet -> keep form empty & editable
+    //                 setHasData(false);
+    //                 setIsEditMode(true);
+    //             }
+    //         } catch (err) {
+    //             //console.error("Error fetching employee details:", err);
+
+    //             // Only show toast for real network/server errors
+    //             if (err.response?.status !== 404) {
+    //                 setToastList(prev => [
+    //                     ...prev,
+    //                     {
+    //                         title: "Error",
+    //                         message: "Failed to fetch employee details",
+    //                         type: "error"
+    //                     }
+    //                 ]);
+    //             }
+    //         }
+    //     };
+
+    //     fetchData();
+    // }, [loginUser.token]);
+
+    // Use Effect
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await getEmployeeBasicDetails(loginUser.token);
-                if (res.data && res.data.data) {
-                    // Employee has data -> fill form + disable edit
-                    setFormData({
-                        firstName: res.data.data.firstName || '',
-                        lastName: res.data.data.lastName || '',
-                        dateOfBirth: res.data.data.dateOfBirth
-                            ? res.data.data.dateOfBirth.split('T')[0]
-                            : '',
-                        age: res.data.data.age || '',
-                        nationality: res.data.data.nationality || '',
-                        gender: res.data.data.gender || '',
-                        maritalStatus: res.data.data.maritalStatus || '',
-                        dateOfMarriage: res.data.data.dateOfMarriage
-                            ? res.data.data.dateOfMarriage.split('T')[0]
-                            : '',
-                    });
-                    setHasData(true);
-                    setIsEditMode(false);
-                } else {
-                    // No data yet -> keep form empty & editable
-                    setHasData(false);
-                    setIsEditMode(true);
-                }
-            } catch (err) {
-                console.error("Error fetching employee details:", err);
+                const empRes = await getLoggedEmployee(loginUser.token);
+                //console.log(empRes);
+                const { firstName, lastName } = empRes.data || {};
 
-                // Only show toast for real network/server errors
+                setFormData({
+                    firstName: firstName || "",
+                    lastName: lastName || "",
+                    dateOfBirth: emp.dateOfBirth ? emp.dateOfBirth.split("T")[0] : "",
+                    age: emp.age || "",
+                    nationality: emp.nationality || "",
+                    gender: emp.gender || "",
+                    maritalStatus: emp.maritalStatus || "",
+                    dateOfMarriage: emp.dateOfMarriage ? emp.dateOfMarriage.split("T")[0] : "",
+                });
+
+                const res = await getEmployeeBasicDetails(loginUser.token);
+                const emp = res.data?.data || {};
+
+                setFormData({
+                    firstName: firstName || "",
+                    lastName: lastName || "",
+                    dateOfBirth: emp.dateOfBirth ? emp.dateOfBirth.split("T")[0] : "",
+                    age: emp.age || "",
+                    nationality: emp.nationality || "",
+                    gender: emp.gender || "",
+                    maritalStatus: emp.maritalStatus || "",
+                    dateOfMarriage: emp.dateOfMarriage ? emp.dateOfMarriage.split("T")[0] : "",
+                });
+
+                setHasData(!!res.data?.data);
+                setIsEditMode(false);
+            } catch (err) {
                 if (err.response?.status !== 404) {
                     setToastList(prev => [
                         ...prev,
-                        {
-                            title: "Error",
-                            message: "Failed to fetch employee details",
-                            type: "error"
-                        }
+                        { title: "Error", message: "Failed to fetch employee details", type: "error" }
                     ]);
                 }
             }
@@ -101,8 +150,6 @@ const BasicInfo = () => {
 
         fetchData();
     }, [loginUser.token]);
-
-    // Use Effect
 
     //  Validate Form with Error
 
@@ -131,6 +178,48 @@ const BasicInfo = () => {
 
 
     //  Handle Submit
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     if (!validateForm()) return;
+
+    //     setSubmitting(true);
+
+    //     try {
+    //         // ✅ Create or Update
+    //         await createOrUpdateEmployeeBasicDetails(formData, loginUser.token);
+
+    //         setToastList((prev) => [
+    //             ...prev,
+    //             { title: "Success", message: "Basic details saved successfully!", type: "success" },
+    //         ]);
+
+    //         // ✅ Re-fetch updated data
+    //         const updatedData = await getEmployeeBasicDetails(loginUser.token);
+    //         if (updatedData.data && updatedData.data.data) {
+    //             setFormData({
+    //                 ...updatedData.data.data,
+    //                 dateOfBirth: updatedData.data.data.dateOfBirth
+    //                     ? new Date(updatedData.data.data.dateOfBirth).toISOString().split("T")[0]
+    //                     : "",
+    //                 dateOfMarriage: updatedData.data.data.dateOfMarriage
+    //                     ? new Date(updatedData.data.data.dateOfMarriage).toISOString().split("T")[0]
+    //                     : "",
+    //             });
+
+    //             setHasData(true);
+    //             setIsEditMode(false);
+    //         }
+    //     } catch (error) {
+    //         console.error("Error saving data:", error);
+    //         setToastList((prev) => [
+    //             ...prev,
+    //             { title: "Error", message: "Failed to save basic details. Please try again.", type: "error" },
+    //         ]);
+    //     } finally {
+    //         setSubmitting(false);
+    //     }
+    // };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!validateForm()) return;
@@ -138,8 +227,10 @@ const BasicInfo = () => {
         setSubmitting(true);
 
         try {
-            // ✅ Create or Update
-            await createOrUpdateEmployeeBasicDetails(formData, loginUser.token);
+            // ✅ exclude firstName & lastName from payload
+            const { firstName, lastName, ...payload } = formData;
+
+            await createOrUpdateEmployeeBasicDetails(payload, loginUser.token);
 
             setToastList((prev) => [
                 ...prev,
@@ -150,10 +241,15 @@ const BasicInfo = () => {
             const updatedData = await getEmployeeBasicDetails(loginUser.token);
             if (updatedData.data && updatedData.data.data) {
                 setFormData({
-                    ...updatedData.data.data,
+                    firstName: formData.firstName, // keep existing name from getLoggedEmployee
+                    lastName: formData.lastName,
                     dateOfBirth: updatedData.data.data.dateOfBirth
                         ? new Date(updatedData.data.data.dateOfBirth).toISOString().split("T")[0]
                         : "",
+                    age: updatedData.data.data.age || "",
+                    nationality: updatedData.data.data.nationality || "",
+                    gender: updatedData.data.data.gender || "",
+                    maritalStatus: updatedData.data.data.maritalStatus || "",
                     dateOfMarriage: updatedData.data.data.dateOfMarriage
                         ? new Date(updatedData.data.data.dateOfMarriage).toISOString().split("T")[0]
                         : "",
@@ -172,6 +268,7 @@ const BasicInfo = () => {
             setSubmitting(false);
         }
     };
+
 
     //  Handle Change
 
@@ -219,7 +316,7 @@ const BasicInfo = () => {
             {submitting ? <Loader /> : (
                 <CardForm
                     onSubmit={handleSubmit}
-                    // 🔥 Dynamic button text
+                    // Dynamic button text
                     footerButtonSubmit={hasData ? (isEditMode ? "Update" : "Update") : "Save"}
                     footerButtonSubmitClass="primary_form_btn btn_h_35"
                     footerButtonSubmitDisabled={hasData && !isEditMode}

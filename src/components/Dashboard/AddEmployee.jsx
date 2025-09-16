@@ -186,7 +186,7 @@ const AddEmployee = () => {
                         await addEmployee(payload, loginUser.token);
                         handleCloseAddEmployeeCanvas();
                     } catch (error) {
-                        toast.error("Failed to add employee");
+                        //toast.error("Failed to add employee");
                     }
                 }
 

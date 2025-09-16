@@ -25,11 +25,11 @@ const CompanyProfile = ({ openCanvas }) => {
     navigate('/Home'); // Navigate after modal closes
   };
 
-    const [submitting, setSubmitting] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   // Company Profile Canvas
 
-  const location  = useLocation();
+  const location = useLocation();
   const [showCompanyProfileCanvas, setShowCompanyProfileCanvas] = useState(false);
   const [previewUrl, setPreviewUrl] = useState(null);
 
@@ -152,7 +152,7 @@ const CompanyProfile = ({ openCanvas }) => {
       } catch (error) {
         console.log(error);
         setSubmitMessage(error?.response?.data?.message || 'Submission failed');
-      }finally{
+      } finally {
         setSubmitting(false); // Start loader
       }
     }
@@ -180,110 +180,124 @@ const CompanyProfile = ({ openCanvas }) => {
     }
   };
 
-  const handlEdit = () =>{
+  const handlEdit = () => {
     setFormData(viewData);
     setShowCompanyProfileCanvas(true);
     setIsEditing(true); // set to edit mode
     setPreviewUrl(`data:image/png;base64,${viewData.companyLogo}`);
   }
 
+  const getComboLabel = (type, value) => {
+    if (!value) return null;
+
+    let list = ComboDate[type];
+    if (!list) return value;
+
+    // Check if value is stored as key or value
+    const item = list.find(
+      (d) => d.key === value || d.value === value
+    );
+
+    return item ? item.label : value;
+  };
+
   const navigate = useNavigate();
 
   return (
     <>
-    {submitting ? <Loader/> : (
-      <Container fluid>
-        <Row>
-          <Col md={12} lg={12} xl={12} xxl={12}>
-            <CardFromTertiary
-              footerButtonSubmit="Edit"
-              footerButtonSubmitClass="btn btn-primary btn_h_35 mb-2 pe-4 ps-4 secondary_btn"
-              footerButtonSubmitOnClick={handlEdit}
-            >
-              <Row>
-                <Col md={12} lg={12} xl={12} xxl={12}>
-                  <div className="cpViewContainer">
-                    <div className='cpViewWrap'>
-                      <div className='cpViewLogoContainer'>
-                        <div className='cpViewLogo'>
-                          <img className='img-fluid' src={viewData.companyLogo?`data:image/png;base64,${viewData.companyLogo}`:null} alt="" />
+      {submitting ? <Loader /> : (
+        <Container fluid>
+          <Row>
+            <Col md={12} lg={12} xl={12} xxl={12}>
+              <CardFromTertiary
+                footerButtonSubmit="Edit"
+                footerButtonSubmitClass="btn btn-primary btn_h_35 mb-2 pe-4 ps-4 secondary_btn"
+                footerButtonSubmitOnClick={handlEdit}
+              >
+                <Row>
+                  <Col md={12} lg={12} xl={12} xxl={12}>
+                    <div className="cpViewContainer">
+                      <div className='cpViewWrap'>
+                        <div className='cpViewLogoContainer'>
+                          <div className='cpViewLogo'>
+                            <img className='img-fluid' src={viewData.companyLogo ? `data:image/png;base64,${viewData.companyLogo}` : null} alt="" />
+                          </div>
+                          <div className='cpViewSection'>
+                            <label htmlFor="">Organization Name </label>
+                            <span className='color-1 text-decoration-underline'>{viewData.organizationName || 'Nil'}</span>
+                          </div>
+                        </div>
+                        <div className='cpViewSection extra_icon CID'>
+                          <label htmlFor="">Company ID</label>
+                          <span>{viewData.companyID || 'Nil'}</span>
+                        </div>
+                        <div className='cpViewSection extra_icon TID'>
+                          <label htmlFor="">Tax ID</label>
+                          <span className='color-4'>{viewData.taxID || 'Nil'}</span>
+                        </div>
+                      </div>
+                      <div className='cpViewcol'>
+                        <div className='cpViewSection'>
+                          <label htmlFor="">Industry</label>
+                          <span>{getComboLabel('Industry', viewData.industry) || 'Nil'}</span>
                         </div>
                         <div className='cpViewSection'>
-                          <label htmlFor="">Organization Name </label>
-                          <span className='color-1 text-decoration-underline'>{viewData.organizationName || 'Nil'}</span>
+                          <label htmlFor="">Business Type</label>
+                          <span>{getComboLabel('BusinessType', viewData.businessType) || 'Nil'}</span>
+                        </div>
+                        <div className='cpViewSection'>
+                          <label htmlFor="">Country</label>
+                          <span>{viewData.country || 'Nil'}</span>
+                        </div>
+                        <div className='cpViewSection'>
+                          <label htmlFor="">Phone Number</label>
+                          <span className='color-2'>{viewData.phoneNumber || 'Nil'}</span>
+                        </div>
+                        <div className='cpViewSection'>
+                          <label htmlFor="">Fax Number</label>
+                          <span className='color-3'>{viewData.faxNumber || 'Nil'}</span>
                         </div>
                       </div>
-                      <div className='cpViewSection extra_icon CID'>
-                        <label htmlFor="">Company ID</label>
-                        <span>{viewData.companyID || 'Nil'}</span>
+                      <div className='cpViewcol'>
+                        <div className='cpViewSection'>
+                          <label htmlFor="">Website</label>
+                          <span>{viewData.website || 'Nil'}</span>
+                        </div>
+                        <div className='cpViewSection'>
+                          <label htmlFor="">Fiscal</label>
+                          <span>{getComboLabel('FiscalYear', viewData.fiscal) || 'Nil'}</span>
+                        </div>
+                        <div className='cpViewSection'>
+                          <label htmlFor="">Tax Method</label>
+                          <span className='color-5'>{viewData.taxMethod || 'Nil'}</span>
+                        </div>
+                        <div className='cpViewSection'>
+                          <label htmlFor="">Time Zone</label>
+                          <span>{getComboLabel('TimeZone', viewData.timeZone) || 'Nil'}</span>
+                        </div>
+                        <div className='cpViewSection'>
+                          <label htmlFor="">Date Format</label>
+                          <span>{getComboLabel('DateFormat', viewData.dateFormat) || 'Nil'}</span>
+                        </div>
                       </div>
-                      <div className='cpViewSection extra_icon TID'>
-                        <label htmlFor="">Tax ID</label>
-                        <span className='color-4'>{viewData.taxID || 'Nil'}</span>
-                      </div>
-                    </div>
-                    <div className='cpViewcol'>
-                      <div className='cpViewSection'>
-                        <label htmlFor="">Industry</label>
-                        <span>{getComboLabel('Industry', viewData.industry) || 'Nil'}</span>
-                      </div>
-                      <div className='cpViewSection'>
-                        <label htmlFor="">Business Type</label>
-                        <span>{getComboLabel('BusinessType', viewData.businessType) || 'Nil'}</span>
-                      </div>
-                      <div className='cpViewSection'>
-                        <label htmlFor="">Country</label>
-                        <span>{viewData.country || 'Nil'}</span>
-                      </div>
-                      <div className='cpViewSection'>
-                        <label htmlFor="">Phone Number</label>
-                        <span className='color-2'>{viewData.phoneNumber || 'Nil'}</span>
-                      </div>
-                      <div className='cpViewSection'>
-                        <label htmlFor="">Fax Number</label>
-                        <span className='color-3'>{viewData.faxNumber || 'Nil'}</span>
+                      <div className='cpViewcol'>
+                        <div className='cpViewSection w-100'>
+                          <label htmlFor="">Company Address</label>
+                          <span>{`${viewData.companyAddress} ${viewData.street} ${viewData.city} ${viewData.state} ${viewData.zipCode || 'Nil'}`}</span>
+                        </div>
                       </div>
                     </div>
-                    <div className='cpViewcol'>
-                      <div className='cpViewSection'>
-                        <label htmlFor="">Website</label>
-                        <span>{viewData.website || 'Nil'}</span>
-                      </div>
-                      <div className='cpViewSection'>
-                        <label htmlFor="">Fiscal</label>
-                        <span>{getComboLabel('FiscalYear', viewData.fiscal) || 'Nil'}</span>
-                      </div>
-                      <div className='cpViewSection'>
-                        <label htmlFor="">Tax Method</label>
-                        <span className='color-5'>{viewData.taxMethod || 'Nil'}</span>
-                      </div>
-                      <div className='cpViewSection'>
-                        <label htmlFor="">Time Zone</label>
-                        <span>{getComboLabel('TimeZone', viewData.timeZone) || 'Nil'}</span>
-                      </div>
-                      <div className='cpViewSection'>
-                        <label htmlFor="">Date Format</label>
-                        <span>{getComboLabel('DateFormat', viewData.dateFormat) || 'Nil'}</span>
-                      </div>
-                    </div>
-                    <div className='cpViewcol'>
-                      <div className='cpViewSection w-100'>
-                        <label htmlFor="">Company Address</label>
-                        <span>{`${viewData.companyAddress} ${viewData.street} ${viewData.city} ${viewData.state} ${viewData.zipCode || 'Nil'}`}</span>
-                      </div>
-                    </div>
-                  </div>
-                </Col>
-              </Row>
-            </CardFromTertiary>
-          </Col>
-        </Row>
-      </Container>
-    )}
+                  </Col>
+                </Row>
+              </CardFromTertiary>
+            </Col>
+          </Row>
+        </Container>
+      )}
       <OffCanvas
         onSubmit={handleSubmit}
         show={showCompanyProfileCanvas}
-        onHide={() => {setShowCompanyProfileCanvas(false); setIsEditing(false);}}
+        onHide={() => { setShowCompanyProfileCanvas(false); setIsEditing(false); }}
         placement="end"
         title="Add Organization Profile"
         subtitle="Complete the profile to get started"

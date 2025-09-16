@@ -1,34 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Images from '../../pages/Images.jsx';
-import { getLoggedEmployee } from '../../api/index.js';
-import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import ComboDate from '../../data/Combo.json';
 
 import 'bootstrap/dist/css/bootstrap.css';
 
-function EmployeeProfileCard() {
-    const { loginUser } = useLoginUser(); // ✅ you already have loginUser context
-    const [employeeProfile, setEmployeeProfile] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchEmployee = async () => {
-            try {
-                const response = await getLoggedEmployee(loginUser.token);
-                //console.log("Logged Employee API Response:", response.data);
-                setEmployeeProfile(response.data.data);
-            } catch (error) {
-                //console.error("Failed to fetch logged employee:", error);
-            } finally {
-                setLoading(false);
-                //console.log(employeeProfile);
-            }
-        };
-
-        if (loginUser?.token) {
-            fetchEmployee();
-        }
-    }, [loginUser]);
+function EmployeeProfileCard({ employeeProfile, loading, setLoading }) {
 
     if (loading) {
         return <p>Loading...</p>;
@@ -51,8 +27,6 @@ function EmployeeProfileCard() {
         );
         return desig ? desig.label : val;
     };
-
-
 
     return (
         <div className="employee_profile_container">
