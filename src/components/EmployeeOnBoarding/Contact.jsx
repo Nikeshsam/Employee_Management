@@ -443,7 +443,7 @@ const Contact = () => {
                     </Col>
                     <Col md={3} lg={3} xl={3} xxl={3}>
                         <InputField
-                            label="Email Address"
+                            label="Personal Email Address"
                             name="email"
                             type="text"
                             placeholder="Enter your Email Address"

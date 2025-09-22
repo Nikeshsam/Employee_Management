@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLoginUser } from '../../context/LoginUserContext.jsx';
 
 // Bootstrap imports
 
@@ -15,122 +16,221 @@ import EmployeeStatistics from '../Common/EmployeeStatistics.jsx';
 import UpcomingEvents from '../Common/UpcomingEvents.jsx';
 import AttendanceSummary from '../Common/AttendanceSummary.jsx';
 import EmployeeList from '../Common/EmployeeList.jsx';
+import Attendance from '../Common/Attendance.jsx';
+import LeaveReport from '../Common/LeaveReport.jsx';
+import HolidayList from '../Common/HolidayList.jsx';
+import Birthday from '../Common/Birthday.jsx';
+import RequestApproval from '../Common/RequestApproval.jsx';
 
 
 const Dashboard = () => {
+  const { loginUser } = useLoginUser();
+
+  // console.log("👉 Logged user object:", loginUser.user);
+  // console.log("👉 Role is:", loginUser?.user.role);
 
   return (
     <Container fluid>
-      <Row className='mt-0 gx-3'>
-        <Col md={12} lg={7} xl={7} xxl={7}>
-          <Card className='primary_card'>
-            <Card.Header>
-              <h3>Task & Reminders</h3>
-              <div className="heading_elements">
-                <i className='square'>
-                  <img src={Refresh} alt="" />
-                </i>
-              </div>
-            </Card.Header>
-            <Card.Body className='pt-1'>
-              <TaskReminder />
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col md={12} lg={5} xl={5} xxl={5}>
-          <Card className='primary_card'>
-            <Card.Header>
-              <div className='heading_group'>
-                <h3>Employee Statistics</h3>
-                <p>Sep 04, 2024 - Oct 04, 2024</p>
-              </div>
-              <div className="heading_elements">
-                <ul className='day_filter'>
-                  <li><a className='day_filter_item active' href="">7d</a></li>
-                  <li><a className='day_filter_item' href="">30d</a></li>
-                  <li><a className='day_filter_item' href="">All</a></li>
-                </ul>
-              </div>
-            </Card.Header>
-            <Card.Body className='pt-0'>
-              <EmployeeStatistics />
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-      <Row className='mt-3 gx-3'>
-        <Col md={12} lg={8} xl={8} xxl={8}>
-          <Card className='primary_card'>
-            <Card.Header>
-              <div className='heading_group'>
-                <h3>Key Metrics</h3>
-                <p>Sep 04, 2024 - Oct 04, 2024</p>
-              </div>
-              <div className="heading_elements">
-                <ul className='day_filter'>
-                  <li><a className='day_filter_item active' href="">7d</a></li>
-                  <li><a className='day_filter_item' href="">30d</a></li>
-                  <li><a className='day_filter_item' href="">All</a></li>
-                </ul>
-              </div>
-            </Card.Header>
-            <Card.Body className='pt-1'>
-              <Nav className='Primary_tab' variant="tabs" defaultActiveKey="/home">
-                <Nav.Item>
-                  <Nav.Link href="/home">Turnover Rate</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey="link-1">Absence Rate</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey="link-2">Employee Satisfaction</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey="link-3">Training Completion Rate</Nav.Link>
-                </Nav.Item>
-              </Nav>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col md={12} lg={4} xl={4} xxl={4}>
-          <Card className='primary_card mb-3'>
-            <Card.Header>
-              <h3>Upcoming Events</h3>
-              <div className="heading_elements">
-                <button className='my_calendar' type='button'> <i><img src={Calendar} alt="" /></i> View Calendar</button>
-              </div>
-            </Card.Header>
-            <Card.Body className='pt-0'>
-              <UpcomingEvents />
-            </Card.Body>
-          </Card>
-          <Card className='primary_card'>
-            <Card.Header>
-              <h3>Attendance Summary</h3>
-              <div className="heading_elements">
-                <i className='square'>
-                  <img src={Refresh} alt="" />
-                </i>
-              </div>
-            </Card.Header>
-            <Card.Body className='pt-0'>
-              <AttendanceSummary />
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-      <Row className='mt-3 gx-3'>
-        <Col md={12} lg={12} xl={12} xxl={12}>
-          <Card className='primary_card'>
-            <Card.Header>
-              <h3>Recent Employee</h3>
-            </Card.Header>
-            <Card.Body className='p-0'>
-              <EmployeeList />
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
+      
+      {loginUser?.user.role === "admin" && (
+        <>
+          <Row className='mt-0 gx-3'>
+            <Col md={12} lg={12} xl={12} xxl={12}>
+              <Card className='primary_card'>
+                <Card.Header>
+                  <div className='heading_group'>
+                    <h3>Employee Statistics</h3>
+                    <p>Sep 04, 2024 - Oct 04, 2024</p>
+                  </div>
+                  <div className="heading_elements">
+                    <ul className='day_filter'>
+                      <li><a className='day_filter_item active' href="">7d</a></li>
+                      <li><a className='day_filter_item' href="">30d</a></li>
+                      <li><a className='day_filter_item' href="">All</a></li>
+                    </ul>
+                  </div>
+                </Card.Header>
+                <Card.Body className='pt-0'>
+                  <EmployeeStatistics />
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+          <Row className='mt-3 gx-3'>
+            <Col md={12} lg={8} xl={8} xxl={8}>
+              <Card className='primary_card'>
+                <Card.Header>
+                  <div className='heading_group'>
+                    <h3>Key Metrics</h3>
+                    <p>Sep 04, 2024 - Oct 04, 2024</p>
+                  </div>
+                  <div className="heading_elements">
+                    <ul className='day_filter'>
+                      <li><a className='day_filter_item active' href="">7d</a></li>
+                      <li><a className='day_filter_item' href="">30d</a></li>
+                      <li><a className='day_filter_item' href="">All</a></li>
+                    </ul>
+                  </div>
+                </Card.Header>
+                <Card.Body className='pt-1'>
+                  <Nav className='Primary_tab' variant="tabs" defaultActiveKey="/home">
+                    <Nav.Item>
+                      <Nav.Link href="/home">Turnover Rate</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link eventKey="link-1">Absence Rate</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link eventKey="link-2">Employee Satisfaction</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link eventKey="link-3">Training Completion Rate</Nav.Link>
+                    </Nav.Item>
+                  </Nav>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col md={12} lg={4} xl={4} xxl={4}>
+              <Card className='primary_card mb-3'>
+                <Card.Header>
+                  <h3>Upcoming Events</h3>
+                  <div className="heading_elements">
+                    <button className='my_calendar' type='button'> <i><img src={Calendar} alt="" /></i> View Calendar</button>
+                  </div>
+                </Card.Header>
+                <Card.Body className='pt-0'>
+                  <UpcomingEvents />
+                </Card.Body>
+              </Card>
+              <Card className='primary_card'>
+                <Card.Header>
+                  <h3>Attendance Summary</h3>
+                  <div className="heading_elements">
+                    <i className='square'>
+                      <img src={Refresh} alt="" />
+                    </i>
+                  </div>
+                </Card.Header>
+                <Card.Body className='pt-0'>
+                  <AttendanceSummary />
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+          <Row className='mt-3 gx-3'>
+            <Col md={12} lg={12} xl={12} xxl={12}>
+              <Card className='primary_card'>
+                <Card.Header>
+                  <h3>Recent Employee</h3>
+                </Card.Header>
+                <Card.Body className='p-0'>
+                  <EmployeeList />
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </>
+      )}
+      
+      {loginUser?.user.role === "user" && (
+        <>
+          <Row className='mt-3 gx-3'>
+            <Col md={12} lg={4} xl={4} xxl={4}>
+              <Card className='primary_card'>
+                <Card.Header style={{borderBottom: '1px solid #FF6B6B'}}>
+                  <h3>Attendance</h3>
+                  <div className="heading_elements">
+                    {/* <i className='square'>
+                      <img src={Refresh} alt="" />
+                    </i> */}
+                  </div>
+                </Card.Header>
+                <Card.Body className=''>
+                  <Attendance/>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col md={12} lg={4} xl={4} xxl={4}>
+              <Card className='primary_card'>
+                <Card.Header style={{borderBottom: '1px solid #38D9A9'}}>
+                  <h3>Leave Report</h3>
+                  <div className="heading_elements">
+                    {/* <i className='square'>
+                      <img src={Refresh} alt="" />
+                    </i> */}
+                  </div>
+                </Card.Header>
+                <Card.Body className=''>
+                  <LeaveReport/>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col md={12} lg={4} xl={4} xxl={4}>
+              <Card className='primary_card'>
+                <Card.Header style={{borderBottom: '1px solid #FFA94D'}}>
+                  <h3>Holiday List</h3>
+                  <div className="heading_elements">
+                    {/* <i className='square'>
+                      <img src={Refresh} alt="" />
+                    </i> */}
+                  </div>
+                </Card.Header>
+                <Card.Body className=''>
+                  <HolidayList/>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+          <Row className='mt-3 gx-3'>
+            <Col md={12} lg={4} xl={4} xxl={4}>
+              <Card className='primary_card'>
+                <Card.Header style={{borderBottom: '1px solid #4DABF7'}}>
+                  <h3>Task & Reminders</h3>
+                  <div className="heading_elements">
+                    <i className='square'>
+                      <img src={Refresh} alt="" />
+                    </i>
+                  </div>
+                </Card.Header>
+                <Card.Body className=''>
+                  <TaskReminder />
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col md={12} lg={4} xl={4} xxl={4}>
+              <Card className='primary_card'>
+                <Card.Header style={{borderBottom: '1px solid #9775FA'}}>
+                  <h3>Birthday</h3>
+                  <div className="heading_elements">
+                    {/* <i className='square'>
+                      <img src={Refresh} alt="" />
+                    </i> */}
+                  </div>
+                </Card.Header>
+                <Card.Body className=''>
+                  <Birthday />
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col md={12} lg={4} xl={4} xxl={4}>
+              <Card className='primary_card'>
+                <Card.Header style={{borderBottom: '1px solid #F783AC'}}>
+                  <h3>Request For Approval</h3>
+                  <div className="heading_elements">
+                      <div className='notifi'>
+                        <span>Pending</span>
+                        <i>8</i>
+                      </div>
+                  </div>
+                </Card.Header>
+                <Card.Body className=''>
+                  <RequestApproval />
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </>
+      )}
     </Container>
   )
 }

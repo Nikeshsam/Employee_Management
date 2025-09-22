@@ -13,19 +13,21 @@ function EmployeeStatistics() {
         { title: 'Job Applications', count: 385, percentage: 33 }
     ]);
     return (
-        <div className='employeestate_container'>
+        <div className='employeestate_container g-3 row'>
             {employeeData.map((data, index) => (
-                <div className='employee_content' key={index}>
-                    <h5>{data.title}</h5>
-                    <div className='employee_count'>
-                        <span className='count'>
-                            {data.count}
-                        </span>
-                        <span className='count-text'>People</span>
-                        <span className='count-percentage'>
-                            <i><img src={UpArrow} alt="" /></i>
-                            {data.percentage}%
-                        </span>
+                <div className='col-3'>
+                    <div className='employee_content ' key={index}>
+                        <h5>{data.title}</h5>
+                        <div className='employee_count'>
+                            <span className='count'>
+                                {data.count}
+                            </span>
+                            <span className='count-text'>People</span>
+                            <span className='count-percentage'>
+                                <i><img src={UpArrow} alt="" /></i>
+                                {data.percentage}%
+                            </span>
+                        </div>
                     </div>
                 </div>
             ))}

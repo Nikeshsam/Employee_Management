@@ -12,6 +12,7 @@ import Loader from '../Common/Loader.jsx';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import { Container, Card, Form, Row, Col, ToastContainer, Tab, Tabs, Button, Table } from 'react-bootstrap';
+import { first } from 'lodash';
 
 // Bootstrap imports
 
@@ -109,18 +110,8 @@ const BasicInfo = ({employeeProfile}) => {
             try {
                 const empRes = await getLoggedEmployee(loginUser.token);
                 //console.log(empRes);
-                const { firstName, lastName } = empRes.data || {};
-
-                setFormData({
-                    firstName: firstName || "",
-                    lastName: lastName || "",
-                    dateOfBirth: emp.dateOfBirth ? emp.dateOfBirth.split("T")[0] : "",
-                    age: emp.age || "",
-                    nationality: emp.nationality || "",
-                    gender: emp.gender || "",
-                    maritalStatus: emp.maritalStatus || "",
-                    dateOfMarriage: emp.dateOfMarriage ? emp.dateOfMarriage.split("T")[0] : "",
-                });
+                const { firstName, lastName } = empRes.data.data || {};
+                setFormData(prev => ({  ...prev, firstName: firstName || '', lastName: lastName || '' }));
 
                 const res = await getEmployeeBasicDetails(loginUser.token);
                 const emp = res.data?.data || {};
@@ -228,9 +219,9 @@ const BasicInfo = ({employeeProfile}) => {
 
         try {
             // ✅ exclude firstName & lastName from payload
-            const { firstName, lastName, ...payload } = formData;
+            //const { firstName, lastName, ...payload } = formData;
 
-            await createOrUpdateEmployeeBasicDetails(payload, loginUser.token);
+            await createOrUpdateEmployeeBasicDetails(formData, loginUser.token);
 
             setToastList((prev) => [
                 ...prev,
@@ -241,8 +232,8 @@ const BasicInfo = ({employeeProfile}) => {
             const updatedData = await getEmployeeBasicDetails(loginUser.token);
             if (updatedData.data && updatedData.data.data) {
                 setFormData({
-                    firstName: formData.firstName, // keep existing name from getLoggedEmployee
-                    lastName: formData.lastName,
+                    firstName: formData.firstName,  // keep from existing state
+                    lastName: formData.lastName,    // keep from existing state
                     dateOfBirth: updatedData.data.data.dateOfBirth
                         ? new Date(updatedData.data.data.dateOfBirth).toISOString().split("T")[0]
                         : "",

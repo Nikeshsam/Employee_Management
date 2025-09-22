@@ -29,7 +29,7 @@ const UpcomingEvents = ()=> {
   ]);
 
   return (
-    <div className='UPC_event_container'>
+    <div className='UPC_event_container' style={{height: '240px', overflow: 'auto' }}>
       {events.map(event => (
         <div className='UPC_event' key={event.id}>
           <div className="event_details">

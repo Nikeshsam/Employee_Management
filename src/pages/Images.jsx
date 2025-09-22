@@ -37,12 +37,15 @@ import AddEmployee from '../assets/Images/AddEmployee.svg';
 
 import SuccessCheck from '../assets/Images/success-check.svg';
 import ErrorClose from '../assets/Images/error-close.svg';
+import TaskCheck from '../assets/Images/task_check.svg';
 
 import Avatar from '../assets/Images/Avatar.svg';
 import UserAvatar from '../assets/Images/UserAvatar.svg';
 
 import ConfirmDelete from '../assets/Images/ConfirmDelete.svg';
 import ConfirmCheck from '../assets/Images/ConfirmCheck.svg';
+import BirthdayCake from '../assets/Images/cake.svg';
+import BirthdayCup from '../assets/Images/birthday_cup.svg';
 
 import SearchEmployee from '../assets/Images/SearchEmployee.svg';
 
@@ -80,7 +83,10 @@ import SearchEmployee from '../assets/Images/SearchEmployee.svg';
     UserAvatar,
     ConfirmDelete,
     ConfirmCheck,
-    SearchEmployee
+    SearchEmployee,
+    TaskCheck,
+    BirthdayCake,
+    BirthdayCup
 }
 
 export default Images;

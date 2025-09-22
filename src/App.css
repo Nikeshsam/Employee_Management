@@ -170,18 +170,24 @@ Form{width: 100%;}
 
 .main_container .main_content .content{padding: 19px 5px; height: calc(100vh - 50px); overflow: auto;}
 
-.primary_card{border: 1px solid #E7DEFF; background-color: #fff; border-radius: 15px; box-shadow: none; overflow: hidden;}
-.primary_card .card-header{background-color: #fff; border: none !important; display: flex; align-items: center; justify-content: space-between; padding: 18px 15px;}
+.primary_card{border: 1px solid #E7DEFF; background-color: #fff; border-radius: 15px; box-shadow: none; overflow: hidden; padding: 0 15px;}
+.primary_card .card-header{background-color: #fff; border: none; display: flex; align-items: center; justify-content: space-between; padding: 12px 0; height: 50px; position: relative; border-bottom: 1px solid #ddd;}
+/* .primary_card .card-header::after{content: ''; position: absolute; width: 93%; height: 1px; background-color: #ddd; bottom: 0; left: 0; right: 0; margin: auto;} */
 .primary_card .card-header .heading_group{display: flex; flex-direction: column; gap: 7px;}
 .primary_card .card-header .heading_group h3{font-size: 16px; font-weight: 600; color: #2A2731; line-height: 20px; margin: 0 !important;}
 .primary_card .card-header .heading_group p{font-size: 12px; font-weight: 500; color: #757479; line-height: 16px; margin: 0 !important;}
 .primary_card .card-header h3{font-size: 16px; font-weight: 600; color: #2A2731; line-height: 20px; margin: 0 !important;}
 .primary_card .card-header .heading_elements{display: flex; align-items: center; gap: 7px;}
 .primary_card .card-header .heading_elements .square{display: flex; align-items: center; justify-content: center; border: 1px solid #E7DEFF; border-radius: 3px; padding: 6px;}
+.primary_card .card-body{padding: var(--bs-card-spacer-y) 0}
+
+.primary_card .heading_elements .notifi{display: flex; align-items: center; gap: 7px;}
+.primary_card .heading_elements .notifi span{font-size: 12px; font-weight: 600; color: #9BA2A8;}
+.primary_card .heading_elements .notifi i{ width: 20px; height: 20px; background-color: #F1EBFF; border-radius: 100px; color: #6D36FA; font-size: 12px; font-weight: 600; font-style: normal; display: flex; align-items: center; justify-content: center;}
 
 
 .secondary_card{border: 1px solid #E4E3E3; border-radius: 8px; background-color: #fff;}
-.secondary_card .card-body{height: calc(100vh - 352px); overflow: auto; }
+.secondary_card .card-body{height: calc(100vh - 352px); overflow: auto;}
 .secondary_card .card-footer{background-color: #ECECEC; border: none !important; display: flex; align-items: center; justify-content: flex-end;}
 
 .Tertiary_card{border: 2px dashed #eae3fe; border-radius: 15px; background-color: #fff; overflow: hidden;}
@@ -197,8 +203,8 @@ Form{width: 100%;}
 .day_filter .day_filter_item{display: flex; align-items: center; justify-content: center; gap: 5px; padding: 3px 8px;  cursor: pointer; font-size: 12px; font-weight: 600; color: #2A2731 !important; text-decoration: none; border-radius: 3px;}
 .day_filter .day_filter_item.active{background-color: #E7DEFF;}
 
-.employeestate_container{display: flex; align-items: center; flex-wrap: wrap; padding: 0; gap: 3%;}
-.employeestate_container .employee_content{width: 48.5%; border: 1px solid #E7DEFF; border-bottom: 4px solid #E7DEFF; background-color: #fff; padding: 15px; display: flex; align-items: flex-start; flex-direction: column; border-radius: 12px; gap: 12px; margin-bottom: 3%;}
+/* .employeestate_container{display: flex; align-items: center; flex-wrap: wrap; padding: 0; gap: 3%;} */
+.employeestate_container .employee_content{border: 1px solid #E7DEFF; border-bottom: 4px solid #E7DEFF; background-color: #fff; padding: 15px; display: flex; align-items: flex-start; flex-direction: column; border-radius: 12px; gap: 12px;}
 .employeestate_container .employee_content h5{font-size: 14px; font-weight: 500; color: #5A5762; margin: 0;}
 .employeestate_container .employee_content .employee_count{display: flex; align-items: center; gap: 10px;}
 .employeestate_container .employee_content .employee_count .count{font-size: 24px; font-weight: 700; color: #454545; line-height: 27px;}
@@ -669,3 +675,73 @@ input:-internal-autofill-selected{background-color: transparent;}
 /* input[type="month"]::-webkit-datetime-edit-month-field {
     display: none;
   } */
+
+.leave_report_container,
+.holiday_list_container,
+.Req_App_container,
+.Attendance_container,
+.brd_container{display: flex; align-items: flex-start; flex-direction: column; gap: 10px;}
+.leave_report_container .leave_report_content{display: flex; align-items: center; justify-content: flex-start; gap: 10px; width: 100%;}
+.leave_report_container .leave_report_content .leave_report_count{display: flex; align-items: center; justify-content: center; gap: 2px; width: 40px; height: 40px; border-radius: 100px; border: 2px solid #E7E7E7;}
+.leave_report_container .leave_report_content .leave_report_count span{font-size: 13px; font-weight: 600; font-style: normal;}
+.leave_report_container .leave_report_content .leave_report_title{display: flex; align-items: flex-start; flex-direction: column; justify-content: flex-start; gap: 2px;}
+.leave_report_container .leave_report_content .leave_report_title h5{margin: 0; font-size: 13px; font-weight: 600; line-height: 16px;}
+.leave_report_container .leave_report_content .leave_report_title p{font-size: 11px; font-weight: 500; color: #7E7B87; line-height: 13px;}
+
+.holiday_list_container .holiday_list_content{display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%;}
+.holiday_list_container .holiday_list_content .holiday_list_left h5{margin: 0; font-size: 13px; font-weight: 600; line-height: 16px;}
+.holiday_list_container .holiday_list_content .holiday_list_right {display: flex; flex-direction: column; justify-content: flex-end; gap: 4px;}
+.holiday_list_container .holiday_list_content .holiday_list_right .holiday_date{margin: 0; font-size: 13px; font-weight: 600; line-height: 16px; text-align: right;}
+.holiday_list_container .holiday_list_content .holiday_list_right .holiday_day{margin: 0; font-size: 11px; color: #757479; font-weight: 400; line-height: 16px;}
+
+.Req_App_container .Req_App_details{display: flex; align-items: center; justify-content: space-between; width: 100%;}
+.Req_App_container .Req_App_details .Req_App_task_date{display: flex; gap: 15px;}
+.Req_App_container .Req_App_details .Req_App_task_date .RA_icon{display: flex; align-items: center;}
+.Req_App_container .Req_App_details .Req_App_task_date .RA_icon img{width: 16px; height: 16px; }
+.Req_App_container .Req_App_details .Req_App_task_date .RA_Content{display: flex; flex-direction: column; gap: 3px;}
+.Req_App_container .Req_App_details .Req_App_task_date .Req_App_task{font-size: 13px; font-weight: 600; line-height: 16px; color: #2A2731;}
+.Req_App_container .Req_App_details .Req_App_task_date .Req_App_day{font-size: 11px; font-weight: 500; line-height: 13px; color: #7E7B87;}
+.Req_App_container .Req_App_details .Req_App_icon i{width: 32px; height: 32px; display: flex;}
+
+.Attendance_container .Attendance_content{display: flex; align-items: center; flex-direction: column; width: 100%; justify-content: space-between; height: 100%;}
+.Attendance_container .Attendance_content .Attendance_timer{display: flex; flex-direction: column; gap: 10px; width: 100%; height: 100%;
+    justify-content: center;}
+.Attendance_container .Attendance_content .Attendance_timer .Attendance_Start_date{display: flex; align-items: center; gap: 10px; justify-content: center;}
+.Attendance_container .Attendance_content .Attendance_timer .Attendance_Start_date .Attendance_start_time{font-size: 14px; font-weight: 500; color: #929097;}
+.Attendance_container .Attendance_content .Attendance_timer .Attendance_Start_date .Attendance_start_time i{color: #48464F; font-style:normal; font-weight: 600;}
+.Attendance_container .Attendance_content .Attendance_timer .Attendance_Start_date .Attendance_date{font-size: 14px; font-weight: 500; color: #929097;}
+.Attendance_container .Attendance_content .Attendance_timer .Attendance_clock{display: flex; align-items: center; justify-content: center;}
+.Attendance_container .Attendance_content .Attendance_timer .Attendance_clock span{font-size: 28px; font-weight: 700; color: #342B4B;}
+
+.Attendance_container .Attendance_content .Attendance_timer .Attendance_action_button{display: flex; align-items: center; gap: 18px; justify-content: center;}
+.Attendance_container .Attendance_content .Attendance_timer .Attendance_action_button .checkIn{background-color: #FFA917; padding: 8px 20px; font-size: 14px; font-weight:600; color: #FFFFFF; border-radius: 100px; border: none;}
+.Attendance_container .Attendance_content .Attendance_timer .Attendance_action_button .Break{background-color: #fff; padding: 4px 12px; font-size: 11px; font-weight:500; color: #6D36FA; border-radius: 100px; border: 1px solid #6D36FA;}
+.Attendance_container .Attendance_content .Attendance_timer .Attendance_action_button .breakContent{display: flex; flex-direction: column;}
+.Attendance_container .Attendance_content .Attendance_timer .Attendance_action_button .breakContent label{display: flex; font-size: 12px; font-weight: 500; color: #89878E; line-height: 16px;}
+.Attendance_container .Attendance_content .Attendance_timer .Attendance_action_button .breakContent span{display: flex; font-size: 12px; font-weight: 600; color: #33303D; line-height: 16px;}
+
+.Attendance_container .Attendance_content .Attendance_details{display: flex; align-items: center; justify-content: space-between; width: 100%;}
+.Attendance_container .Attendance_content .Attendance_details span{font-size: 12px; font-weight: 500; color: #534F5D;}
+
+.brd_container .brd_cur_birthday{display: flex; flex-direction: column; width: 100%; gap: 10px;}
+.brd_container .brd_cur_birthday .brd_cur_birthday_title{display: flex; align-items: center; gap: 10px;}
+.brd_container .brd_cur_birthday h6{font-size: 14px; font-weight: 600; color: #10C076; margin: 0;}
+.brd_container .brd_cur_birthday .brd_cur_birthday_content{display: flex; align-items: center; justify-content: space-between;}
+.brd_container .brd_cur_birthday .brd_cur_birthday_content h3{font-size: 13px; font-weight: 600; line-height: 16px; color: #2A2731; margin: 0;}
+.brd_container .brd_cur_birthday .brd_cur_birthday_content .brd_date_wish{display: flex; align-items: center; gap: 7px;}
+.brd_container .brd_cur_birthday .brd_cur_birthday_content .brd_date_wish .brd_cur_date{background-color: #F1EBFF;  padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; color: #6D36FA; line-height: 13px;}
+.brd_container .brd_cur_birthday .brd_cur_birthday_content .brd_date_wish .brd_wish{background-color: #FFA917; padding: 5px 7px; border-radius: 4px; display: flex; align-items: center; gap: 5px;}
+.brd_container .brd_cur_birthday .brd_cur_birthday_content .brd_date_wish .brd_wish span{font-size: 11px; font-weight: 600; line-height: 15px; color: #fff; display: flex;}
+.brd_container .brd_cur_birthday .brd_cur_birthday_content span{font-size: 13px; font-weight: 600; line-height: 16px; color: #2A2731;}
+
+.brd_container .brd_upc_birthday{display: flex; flex-direction: column; gap: 15px; width: 100%; padding-top: 15px; border-top: 1px solid #ECE5FF;}
+.brd_container .brd_upc_birthday h6{font-size: 14px; font-weight: 600; color:#2C2C2C; margin: 0;}
+.brd_container .brd_upc_birthday .brd_upc_birthday_content{display: flex; flex-direction: column; gap: 18px;}
+.brd_container .brd_upc_birthday .brd_upc_birthday_content .brd_upc_birthday_wrap{display: flex; align-items: center; justify-content: space-between;}
+.brd_container .brd_upc_birthday .brd_upc_birthday_content .brd_upc_birthday_wrap .brd_upc_birthday_wrap_left{display: flex; align-items: center; gap: 7px;}
+.brd_container .brd_upc_birthday .brd_upc_birthday_content .brd_upc_birthday_wrap .brd_upc_birthday_wrap_left i{width: 30px; height: 30px; border-radius: 100px; background-color: #E9FFEB; font-size: 11.5px; font-weight: 600; color: #0EA31D; display: flex; align-items: center; justify-content: center; font-style: normal;}
+.brd_container .brd_upc_birthday .brd_upc_birthday_content .brd_upc_birthday_wrap .brd_upc_birthday_wrap_left h3{font-size: 13px; font-weight: 600; line-height: 16px; color: #2A2731; margin: 0;}
+.brd_container .brd_upc_birthday .brd_upc_birthday_content .brd_upc_birthday_wrap span{font-size: 11px; font-weight: 500; line-height: 13px; color: #626067; margin: 0;}
+
+
+

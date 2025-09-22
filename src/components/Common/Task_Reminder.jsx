@@ -39,9 +39,9 @@ const TaskList = ()=> {
     ]);
 
     return(
-        <div className="task_reminder_container">
+        <div className="task_reminder_container" style={{height: '240px' }}>
             {tasks.map(task => (
-                <div className="task_reminder_content" key={task.id}>
+                <div className="task_reminder_content"  key={task.id}>
                     <div className="task_rem_left">
                         <div className="task_rem_icon">
                             <i><img src={TaskReminder} alt="" /></i>
@@ -51,12 +51,12 @@ const TaskList = ()=> {
                             <p>{task.description}</p>
                         </div>
                     </div>
-                    <div className="task_rem_right">
+                    {/* <div className="task_rem_right">
                         <div className="task_noti_dur">
                             <span className="task_dur">{task.duration}</span>
                             <span className="task_noti">{task.notification}</span>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             ))}
         </div>
