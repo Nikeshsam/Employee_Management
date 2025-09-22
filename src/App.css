@@ -730,7 +730,7 @@ input:-internal-autofill-selected{background-color: transparent;}
 .brd_container .brd_cur_birthday .brd_cur_birthday_content h3{font-size: 13px; font-weight: 600; line-height: 16px; color: #2A2731; margin: 0;}
 .brd_container .brd_cur_birthday .brd_cur_birthday_content .brd_date_wish{display: flex; align-items: center; gap: 7px;}
 .brd_container .brd_cur_birthday .brd_cur_birthday_content .brd_date_wish .brd_cur_date{background-color: #F1EBFF;  padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; color: #6D36FA; line-height: 13px;}
-.brd_container .brd_cur_birthday .brd_cur_birthday_content .brd_date_wish .brd_wish{background-color: #FFA917; padding: 5px 7px; border-radius: 4px; display: flex; align-items: center; gap: 5px;}
+.brd_container .brd_cur_birthday .brd_cur_birthday_content .brd_date_wish .brd_wish{background-color: #FFA917; padding: 5px 7px; border-radius: 4px; display: flex; align-items: center; gap: 5px; border: none !important;}
 .brd_container .brd_cur_birthday .brd_cur_birthday_content .brd_date_wish .brd_wish span{font-size: 11px; font-weight: 600; line-height: 15px; color: #fff; display: flex;}
 .brd_container .brd_cur_birthday .brd_cur_birthday_content span{font-size: 13px; font-weight: 600; line-height: 16px; color: #2A2731;}
 

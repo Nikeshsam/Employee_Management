@@ -54,7 +54,7 @@ const BirthdayCard = () => {
                 </span>
                 <Button
                   className="brd_wish"
-                  variant={wished.includes(b.name) ? "success" : "warning"}
+                  //variant={wished.includes(b.name) ? "success" : "warning"}
                   disabled={wished.includes(b.name)}
                   onClick={() => handleWish(b.name)}
                 >
