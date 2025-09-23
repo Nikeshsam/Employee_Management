@@ -4,7 +4,7 @@ import Images from '../../pages/Images.jsx';
 
 const BirthdayCard = () => {
   const birthdays = [
-    { name: "Anjali Sharma", date: "2025-09-22" }, // Today
+    { name: "Anjali Sharma", date: "2025-09-23" }, // Today
     { name: "Rajesh Kumar", date: "2025-09-25" },
     { name: "Meena Gupta", date: "2025-09-30" },
     // { name: "Amit Patel", date: "2025-10-02" },

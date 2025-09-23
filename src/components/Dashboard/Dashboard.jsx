@@ -37,7 +37,7 @@ const Dashboard = () => {
           <Row className='mt-0 gx-3'>
             <Col md={12} lg={12} xl={12} xxl={12}>
               <Card className='primary_card'>
-                <Card.Header>
+                <Card.Header style={{height: 'auto'}}>
                   <div className='heading_group'>
                     <h3>Employee Statistics</h3>
                     <p>Sep 04, 2024 - Oct 04, 2024</p>
@@ -50,16 +50,16 @@ const Dashboard = () => {
                     </ul>
                   </div>
                 </Card.Header>
-                <Card.Body className='pt-0'>
+                <Card.Body className=''>
                   <EmployeeStatistics />
                 </Card.Body>
               </Card>
             </Col>
           </Row>
           <Row className='mt-3 gx-3'>
-            <Col md={12} lg={8} xl={8} xxl={8}>
+            <Col md={12} lg={7} xl={7} xxl={7}>
               <Card className='primary_card'>
-                <Card.Header>
+                <Card.Header style={{height: 'auto'}}>
                   <div className='heading_group'>
                     <h3>Key Metrics</h3>
                     <p>Sep 04, 2024 - Oct 04, 2024</p>
@@ -72,7 +72,7 @@ const Dashboard = () => {
                     </ul>
                   </div>
                 </Card.Header>
-                <Card.Body className='pt-1'>
+                <Card.Body className=''>
                   <Nav className='Primary_tab' variant="tabs" defaultActiveKey="/home">
                     <Nav.Item>
                       <Nav.Link href="/home">Turnover Rate</Nav.Link>
@@ -90,7 +90,7 @@ const Dashboard = () => {
                 </Card.Body>
               </Card>
             </Col>
-            <Col md={12} lg={4} xl={4} xxl={4}>
+            <Col md={12} lg={5} xl={5} xxl={5}>
               <Card className='primary_card mb-3'>
                 <Card.Header>
                   <h3>Upcoming Events</h3>
@@ -98,7 +98,7 @@ const Dashboard = () => {
                     <button className='my_calendar' type='button'> <i><img src={Calendar} alt="" /></i> View Calendar</button>
                   </div>
                 </Card.Header>
-                <Card.Body className='pt-0'>
+                <Card.Body className=''>
                   <UpcomingEvents />
                 </Card.Body>
               </Card>
@@ -111,7 +111,7 @@ const Dashboard = () => {
                     </i>
                   </div>
                 </Card.Header>
-                <Card.Body className='pt-0'>
+                <Card.Body className=''>
                   <AttendanceSummary />
                 </Card.Body>
               </Card>
@@ -120,10 +120,10 @@ const Dashboard = () => {
           <Row className='mt-3 gx-3'>
             <Col md={12} lg={12} xl={12} xxl={12}>
               <Card className='primary_card'>
-                <Card.Header>
+                <Card.Header style={{borderBottom: 'none'}}>
                   <h3>Recent Employee</h3>
                 </Card.Header>
-                <Card.Body className='p-0'>
+                <Card.Body className=''>
                   <EmployeeList />
                 </Card.Body>
               </Card>

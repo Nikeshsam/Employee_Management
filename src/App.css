@@ -204,12 +204,12 @@ Form{width: 100%;}
 .day_filter .day_filter_item.active{background-color: #E7DEFF;}
 
 /* .employeestate_container{display: flex; align-items: center; flex-wrap: wrap; padding: 0; gap: 3%;} */
-.employeestate_container .employee_content{border: 1px solid #E7DEFF; border-bottom: 4px solid #E7DEFF; background-color: #fff; padding: 15px; display: flex; align-items: flex-start; flex-direction: column; border-radius: 12px; gap: 12px;}
+.employeestate_container .employee_content{border: 1px solid #E7DEFF; border-bottom: 4px solid #E7DEFF; background-color: #fff; padding: 15px; display: flex; align-items: flex-start; flex-direction: column; border-radius: 12px; gap: 15px;}
 .employeestate_container .employee_content h5{font-size: 14px; font-weight: 500; color: #5A5762; margin: 0;}
 .employeestate_container .employee_content .employee_count{display: flex; align-items: center; gap: 10px;}
-.employeestate_container .employee_content .employee_count .count{font-size: 24px; font-weight: 700; color: #454545; line-height: 27px;}
+.employeestate_container .employee_content .employee_count .count{font-size: 24px; font-weight: 700; color: #2a2731; line-height: 27px;}
 .employeestate_container .employee_content .employee_count .count-text{font-size: 14px; font-weight: 500; color: #5A5762; margin: 0;}
-.employeestate_container .employee_content .employee_count .count-percentage{border: 1px solid rgb(57 148 134 / 35%); background-color: rgb(57 148 134 / 10%); border-radius: 5px; padding: 2px 4px; font-size: 10px; font-weight: 600; color: #399486; display: flex; align-items: center; gap: 3px; line-height: 12px;}
+.employeestate_container .employee_content .employee_count .count-percentage{border: none; background-color: #E7F7F2; border-radius: 5px; padding: 6px 10px; font-size: 11px; font-weight: 600; color: #1DB686; display: flex; align-items: center; gap: 3px; line-height: 12px;}
 .employeestate_container .employee_content .employee_count .count-percentage i{display: flex;}
 
 .task_reminder_container{display: flex; align-items: flex-start; flex-direction: column; gap: 15.5px;}
@@ -246,17 +246,27 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .UPC_event_container .UPC_event .event_actions .event_user_icons{display: flex; align-items: center;}
 .UPC_event_container .UPC_event .event_actions .event_user_icons li{margin-left: -4px;}
 
-.AttendanceSummary{display: flex; align-items: center; justify-content: flex-start; gap: 50px;}
-.AttendanceSummary .flex{position: relative;}
-.AttendanceSummary .flex .att_dot{width: 5px; height: 5px; border-radius: 50%; position: absolute; left: 0; top: 6px;}
+.AttendanceSummary{display: flex; flex-direction: column; gap: 15px;}
+.AttendanceSummary{position: relative;}
 
-.AttendanceSummary .flex .att_dot.absent{background-color: #3E01DC;}
-.AttendanceSummary .flex .att_dot.present{background-color: #10C076;}
-.AttendanceSummary .flex .att_dot.on-leave{background-color: #ADE69D;}
-.AttendanceSummary .flex .att_dot.sick-leave{background-color: #E89CFE;}
+/* Smooth transition for each segment */
+.progress-segment {
+  height: 100%;
+  transition: width 1s ease-in-out;
+}
 
-.AttendanceSummary .flex .att_data{padding-left: 15px; font-size: 12px; font-weight: 500; color: #656565;}
-.AttendanceSummary .flex .att_value{padding-left: 15px; font-size: 15px; font-weight: 700; color: #454545;}
+.AttendanceSummary .absent{background-color: #3E01DC;}
+.AttendanceSummary .present{background-color: #10C076;}
+.AttendanceSummary .on-leave{background-color: #ADE69D;}
+.AttendanceSummary .sick-leave{background-color: #E89CFE;}
+
+.AttendanceSummary .att_progress{display: flex; gap: 10px; border-radius: 100px;}
+.AttendanceSummary .att_progress .att_progress_segment{border-radius: 100px;}
+
+.AttendanceSummary .att_content{display: flex; align-items: center; gap: 5px;}
+.AttendanceSummary .att_content .att_details{display: flex; align-items: center; gap: 5px;}
+.AttendanceSummary .att_data{display: flex; font-size: 12px; font-weight: 500; color: #656565;}
+.AttendanceSummary .att_value{display: flex; font-size: 14px; font-weight: 700; color: #454545;}
 
 .primary_table{width: 100%; border-collapse: collapse; margin: 0;}
 .primary_table thead tr,
