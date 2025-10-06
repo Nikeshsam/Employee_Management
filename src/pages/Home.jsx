@@ -10,6 +10,7 @@ import Dashboard from '../components/Dashboard/Dashboard.jsx';
 import OnBoarding from '../components/Dashboard/OnBoarding.jsx';
 import CompanyProfile from '../components/Dashboard/CompanyProfile.jsx';
 import AddEmployee from '../components/Dashboard/AddEmployee.jsx';
+import ManageHolidays from '../components/Dashboard/ManageHolidays.jsx';
 import { useLoginUser } from '../context/LoginUserContext.jsx';
 
 import CompleteProfile from '../components/Common/CompleteProfile.jsx';
@@ -48,6 +49,7 @@ const Home = () => {
                 <div className='content'>
                    {activeTab === 'Dashboard' ? <Dashboard /> : 
                     activeTab === 'On-Boarding' ? <OnBoarding /> : 
+                    activeTab === 'Manage Holidays' ? <ManageHolidays /> :
                     activeTab === 'Company Profile' ?(<CompanyProfile openCanvas={openCanvasFlag} />) : (<AddEmployee/>)}
                 </div>
             </div>

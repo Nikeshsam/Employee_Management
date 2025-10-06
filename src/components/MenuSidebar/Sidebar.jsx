@@ -38,6 +38,12 @@ const Sidebar = ({ handleSidebarClick, activeTab }) => {
       icon: Images.AddEmployee,
       roles: ["admin"], // only admin
     },
+    {
+      label: "Manage Holidays",
+      key: "Manage Holidays",
+      icon: Images.ManageHoliday,
+      roles: ["admin"], // only admin
+    },
   ];
 
   return (

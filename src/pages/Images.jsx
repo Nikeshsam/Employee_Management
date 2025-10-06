@@ -46,6 +46,7 @@ import ConfirmDelete from '../assets/Images/ConfirmDelete.svg';
 import ConfirmCheck from '../assets/Images/ConfirmCheck.svg';
 import BirthdayCake from '../assets/Images/cake.svg';
 import BirthdayCup from '../assets/Images/birthday_cup.svg';
+import ManageHoliday from '../assets/Images/manage_holiday.svg';
 
 import SearchEmployee from '../assets/Images/SearchEmployee.svg';
 
@@ -86,7 +87,8 @@ import SearchEmployee from '../assets/Images/SearchEmployee.svg';
     SearchEmployee,
     TaskCheck,
     BirthdayCake,
-    BirthdayCup
+    BirthdayCup,
+    ManageHoliday
 }
 
 export default Images;

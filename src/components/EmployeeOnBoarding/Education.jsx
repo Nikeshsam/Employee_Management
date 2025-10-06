@@ -69,7 +69,6 @@ const Educations = () => {
         setIndexToDelete(null);  // clear index
     };
 
-
     // FormData Validations
 
     const [educationFormData, setEducationFormData] = useState({
@@ -113,7 +112,6 @@ const Educations = () => {
         return false;
     };
 
-
     //  Handle Change
 
     const handleChange = (e) => {
@@ -130,7 +128,6 @@ const Educations = () => {
             setCertificationErrors(prevErrors => ({ ...prevErrors, [name]: error }));
         }
     };
-
 
     /////////////////////////// Education Funcationally Start Here ///////////////////////////
 
@@ -197,7 +194,6 @@ const Educations = () => {
         handleShowEducationCanvas(); // Open the OffCanvas for editing
     };
 
-
     /////////////////////////// Education Funcationally Start Here ///////////////////////////
 
     //  Handle Education Submit
@@ -260,8 +256,6 @@ const Educations = () => {
         handleShowCertificationCanvas();
     };
 
-
-
     const fetchDetails = async (type) => {
         try {
             let response;
@@ -282,7 +276,6 @@ const Educations = () => {
             console.log(error);
         }
     };
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -311,8 +304,6 @@ const Educations = () => {
 
         fetchData();
     }, [loginUser.token]);
-
-
 
     const handleDelete = async () => {
         let member;
@@ -416,7 +407,6 @@ const Educations = () => {
             setSubmitting(false);
         }
     };
-
 
     const navigate = useNavigate();
 
