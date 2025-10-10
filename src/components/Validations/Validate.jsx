@@ -489,3 +489,51 @@ export const organizationvalidateField = (name, value) => {
 
     return error;
 };
+
+// Manage Holidays Error Message
+
+export const HolidayListValidateField = (name, value) => {
+    let error = '';
+    switch (name) {
+        case 'holidayname':
+            if (!value.trim()) error = 'Holiday Name is required';
+            break;
+        case 'holidaydate':
+            if (!value.trim()) error = 'Holiday Date is required';
+            break;
+        case 'holidayday':
+            if (!value.trim()) error = 'Holiday Day is required';
+            break;
+        case 'description':
+            if (!value.trim()) error = 'Description is required';
+            break;
+
+        default:
+            break;
+    }
+
+    return error;
+};
+
+export const LeaveReportValidateField = (name, value) => {
+    let error = '';
+    switch (name) {
+        case 'holidayname':
+            if (!value.trim()) error = 'Holiday Name is required';
+            break;
+        case 'holidaydate':
+            if (!value.trim()) error = 'Holiday Date is required';
+            break;
+        case 'holidayday':
+            if (!value.trim()) error = 'Holiday Day is required';
+            break;
+        case 'description':
+            if (!value.trim()) error = 'Description is required';
+            break;
+
+        default:
+            break;
+    }
+
+    return error;
+};
