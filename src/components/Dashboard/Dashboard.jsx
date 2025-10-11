@@ -21,6 +21,7 @@ import LeaveReport from '../Common/LeaveReport.jsx';
 import HolidayList from '../Common/HolidayList.jsx';
 import Birthday from '../Common/Birthday.jsx';
 import RequestApproval from '../Common/RequestApproval.jsx';
+import KeyMetrics from '../Common/KeyMetrics.jsx';
 
 
 const Dashboard = () => {
@@ -58,37 +59,7 @@ const Dashboard = () => {
           </Row>
           <Row className='mt-3 gx-3'>
             <Col md={12} lg={7} xl={7} xxl={7}>
-              <Card className='primary_card'>
-                <Card.Header style={{height: 'auto'}}>
-                  <div className='heading_group'>
-                    <h3>Key Metrics</h3>
-                    <p>Sep 04, 2024 - Oct 04, 2024</p>
-                  </div>
-                  <div className="heading_elements">
-                    <ul className='day_filter'>
-                      <li><a className='day_filter_item active' href="">7d</a></li>
-                      <li><a className='day_filter_item' href="">30d</a></li>
-                      <li><a className='day_filter_item' href="">All</a></li>
-                    </ul>
-                  </div>
-                </Card.Header>
-                <Card.Body className=''>
-                  <Nav className='Primary_tab' variant="tabs" defaultActiveKey="/home">
-                    <Nav.Item>
-                      <Nav.Link href="/home">Turnover Rate</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link eventKey="link-1">Absence Rate</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link eventKey="link-2">Employee Satisfaction</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link eventKey="link-3">Training Completion Rate</Nav.Link>
-                    </Nav.Item>
-                  </Nav>
-                </Card.Body>
-              </Card>
+                <KeyMetrics />
             </Col>
             <Col md={12} lg={5} xl={5} xxl={5}>
               <Card className='primary_card mb-3'>
@@ -123,7 +94,7 @@ const Dashboard = () => {
                 <Card.Header style={{borderBottom: 'none'}}>
                   <h3>Recent Employee</h3>
                 </Card.Header>
-                <Card.Body className=''>
+                <Card.Body className='pt-0'>
                   <EmployeeList />
                 </Card.Body>
               </Card>

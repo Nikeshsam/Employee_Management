@@ -152,11 +152,9 @@ const ManageHolidaysAndLeave = () => {
 
         setLeaveForm({
             _id: "",
-            employee: "",
             leaveType: "",
-            fromDate: "",
-            toDate: "",
-            reason: "",
+            leaveCount: "",
+            description: "",
         });
         setEditingLeave(null);
         setShowLeaveCanvas(false);
@@ -181,13 +179,37 @@ const ManageHolidaysAndLeave = () => {
         ]);
     };
 
+    const resetHolidayForm = () => {
+        setHolidayForm({
+            _id: "",
+            holidayname: "",
+            holidaydate: "",
+            holidayday: "",
+            description: "",
+        });
+        setHolidayErrors({});
+        setEditingHoliday(null);
+    };
+
+    const resetLeaveForm = () => {
+        setLeaveForm({
+            _id: "",
+            leaveType: "",
+            leaveCount: "",
+            description: "",
+        });
+        setLeaveErrors({});
+        setEditingLeave(null);
+    };
+
+
     /** ---------- MAIN RETURN ---------- **/
     return (
         <>
             {submitting ? (
                 <Loader />
             ) : (
-                <Container fluid>
+                <Container fluid className="manage_holiday">
                     <Row>
                         <Col md={12} lg={12} xl={12} xxl={12}>
                             <CardForm
@@ -312,7 +334,10 @@ const ManageHolidaysAndLeave = () => {
                 show={showHolidayCanvas}
                 placement="end"
                 onSubmit={handleHolidaySubmit}
-                onHide={() => setShowHolidayCanvas(false)}
+                onHide={() => {
+                    setShowHolidayCanvas(false);
+                    resetHolidayForm();
+                }}
                 title={editingHoliday !== null ? "Edit Holiday" : "Add Holiday"}
                 subtitle={editingHoliday !== null ? "Update the details of Holiday List." : "Add your Holiday List Here."}
                 className='PrimaryCanvasModal'
@@ -359,6 +384,8 @@ const ManageHolidaysAndLeave = () => {
                         name="description"
                         value={holidayForm.description}
                         handleChange={handleHolidayChange}
+                        error={holidayErrors.description}
+                        required
                     />
                 </Col>
             </OffCanvas>
@@ -368,7 +395,10 @@ const ManageHolidaysAndLeave = () => {
                 show={showLeaveCanvas}
                 placement="end"
                 onSubmit={handleLeaveSubmit}
-                onHide={() => setShowLeaveCanvas(false)}
+                onHide={() => {
+                    setShowLeaveCanvas(false);
+                    resetLeaveForm();
+                }}
                 title={editingLeave !== null ? "Edit Leave" : "Add Leave"}
                 subtitle={editingLeave !== null ? "Update the details of Leave Report." : "Add your Leave Report Here."}
                 className='PrimaryCanvasModal'
@@ -391,7 +421,7 @@ const ManageHolidaysAndLeave = () => {
                 <Col md={6}>
                     <InputField
                         label="Leave Count"
-                        type="date"
+                        type="text"
                         name="leaveCount"
                         value={leaveForm.leaveCount}
                         handleChange={handleLeaveChange}
@@ -405,6 +435,8 @@ const ManageHolidaysAndLeave = () => {
                         name="description"
                         value={leaveForm.description}
                         handleChange={handleLeaveChange}
+                        error={leaveErrors.description}
+                        required
                     />
                 </Col>
             </OffCanvas>

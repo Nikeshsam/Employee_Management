@@ -518,14 +518,11 @@ export const HolidayListValidateField = (name, value) => {
 export const LeaveReportValidateField = (name, value) => {
     let error = '';
     switch (name) {
-        case 'holidayname':
-            if (!value.trim()) error = 'Holiday Name is required';
+        case 'leaveType':
+            if (!value.trim()) error = 'Leave Type is required';
             break;
-        case 'holidaydate':
-            if (!value.trim()) error = 'Holiday Date is required';
-            break;
-        case 'holidayday':
-            if (!value.trim()) error = 'Holiday Day is required';
+        case 'leaveCount':
+            if (!value.trim()) error = 'Leave Count is required';
             break;
         case 'description':
             if (!value.trim()) error = 'Description is required';

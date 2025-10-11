@@ -188,6 +188,9 @@ Form{width: 100%;}
 
 .secondary_card{border: 1px solid #E4E3E3; border-radius: 8px; background-color: #fff;}
 .secondary_card .card-body{height: calc(100vh - 352px); overflow: auto;}
+
+.manage_holiday .secondary_card .card-body{height: calc(100vh - 140px);}
+
 .secondary_card .card-footer{background-color: #ECECEC; border: none !important; display: flex; align-items: center; justify-content: flex-end;}
 
 .Tertiary_card{border: 2px dashed #eae3fe; border-radius: 15px; background-color: #fff; overflow: hidden;}
@@ -200,7 +203,7 @@ Form{width: 100%;}
 .inlineForm .form-label{display: flex; align-items: center; justify-content: flex-end;}
 
 .day_filter{display: flex; align-items: center; justify-content: center; gap: 3px; padding: 3px; border: 1px solid #E7DEFF; border-radius: 4px;}
-.day_filter .day_filter_item{display: flex; align-items: center; justify-content: center; gap: 5px; padding: 3px 8px;  cursor: pointer; font-size: 12px; font-weight: 600; color: #2A2731 !important; text-decoration: none; border-radius: 3px;}
+.day_filter .day_filter_item{display: flex; align-items: center; justify-content: center; gap: 5px; padding: 3px 8px;  cursor: pointer; font-size: 12px; font-weight: 600; color: #2A2731 !important; text-decoration: none; border-radius: 3px; border: none; background-color: transparent;}
 .day_filter .day_filter_item.active{background-color: #E7DEFF;}
 
 /* .employeestate_container{display: flex; align-items: center; flex-wrap: wrap; padding: 0; gap: 3%;} */
