@@ -20,7 +20,7 @@ export const organizationDetails = (organization, token) => axios.post(`${url}/o
   },
 });
 
-export const getOrganizationDetails = (token) => axios.get(`${url}/organization`,  {
+export const getOrganizationDetails = (token) => axios.get(`${url}/organization`, {
   headers: {
     Authorization: `Bearer ${token}`,
   },
@@ -35,13 +35,13 @@ export const addEmployee = (employee, token) => axios.post(`${url}/employee`, em
   },
 });
 
-export const getEmployee = (token) => axios.get(`${url}/employee`,  {
+export const getEmployee = (token) => axios.get(`${url}/employee`, {
   headers: {
     Authorization: `Bearer ${token}`,
   },
 });
 
-export const getEmployees = (searchTerm='', page = 1, limit = 10, token, filters) => {
+export const getEmployees = (searchTerm = '', page = 1, limit = 10, token, filters) => {
   return axios.get(`${url}/employee`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -55,7 +55,7 @@ export const getEmployees = (searchTerm='', page = 1, limit = 10, token, filters
       status: filters?.status || '',
     },
   });
-}; 
+};
 
 //get all employees grid load
 
@@ -99,7 +99,7 @@ export const exportEmployeesExcel = (token) => {
 
 export const createOrUpdateEmployeeBasicDetails = (basicemployeedetail, token) => {
   return axios.post(
-    `${url}/employeeDetails/basic-details`, basicemployeedetail, 
+    `${url}/employeeDetails/basic-details`, basicemployeedetail,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -121,7 +121,7 @@ export const getEmployeeBasicDetails = (token) => {
 
 export const createOrUpdateEmployeeContactDetails = (basicemployeedetail, token) => {
   return axios.post(
-    `${url}/employeeDetails/contact-details`, basicemployeedetail, 
+    `${url}/employeeDetails/contact-details`, basicemployeedetail,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -154,7 +154,7 @@ export const createOrUpdateDependentDetails = (dependentsData, token) => {
 
 export const deleteDependentDetails = async (id, token) => {
   return await axios.delete(
-     `${url}/employeeDetails/dependents/${id}`,
+    `${url}/employeeDetails/dependents/${id}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -188,7 +188,7 @@ export const createOrUpdateEducationDetails = (educationDetails, token) => {
 
 export const deleteEmployeeEducation = async (id, token) => {
   return await axios.delete(
-     `${url}/employeeDetails/education-details/${id}`,
+    `${url}/employeeDetails/education-details/${id}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -221,7 +221,7 @@ export const createOrUpdateEmployeeCertificationDetails = (employeeCertification
 
 export const deleteEmployeeCertification = async (id, token) => {
   return await axios.delete(
-     `${url}/employeeDetails/certification/${id}`,
+    `${url}/employeeDetails/certification/${id}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -254,7 +254,7 @@ export const createOrUpdateEmployeeExperienceDetails = (experienceDetails, token
 
 export const deleteEmployeeExperience = async (id, token) => {
   return await axios.delete(
-     `${url}/employeeDetails/experience/${id}`,
+    `${url}/employeeDetails/experience/${id}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -287,7 +287,7 @@ export const createOrUpdateEmployeeBenefits = (benefits, token) => {
 
 export const deleteEmployeeBenefit = async (id, token) => {
   return await axios.delete(
-     `${url}/employeeDetails/benefits/${id}`,
+    `${url}/employeeDetails/benefits/${id}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -320,7 +320,7 @@ export const createOrUpdateEmployeeHealthRecord = (vaccinations, token) => {
 
 export const deleteEmployeeVaccinationRecord = async (id, token) => {
   return await axios.delete(
-     `${url}/employeeDetails/health-record/${id}`,
+    `${url}/employeeDetails/health-record/${id}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -353,7 +353,7 @@ export const createOrUpdateEmployeeTravelDetails = (visaDetails, token) => {
 
 export const deleteEmployeeVisaDetails = async (id, token) => {
   return await axios.delete(
-     `${url}/employeeDetails/travel-record/${id}`,
+    `${url}/employeeDetails/travel-record/${id}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -393,6 +393,40 @@ export const getLoggedEmployee = async (token) => {
       },
     });
 };
+
+export const createOrUpdateHoliday = (holidayForm, token) => {
+  return axios.post(
+    `${url}/holiday`, holidayForm,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const deleteHoliday = async (id, token) => {
+  return await axios.delete(
+    `${url}/employeeDetails/travel-record/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const getHolidays = (token) => {
+  return axios.get(
+    `${url}/employeeDetails/travel-record`,
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
 
 
 // export const updatePost = (id,post)=> axios.patch(`${url}/${id}`,post);

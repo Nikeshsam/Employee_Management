@@ -11,6 +11,7 @@ import { useLoginUser } from "../../context/LoginUserContext.jsx";
 import Images from "../../pages/Images.jsx";
 import Loader from "../Common/Loader.jsx";
 import { HolidayListValidateField, LeaveReportValidateField } from "../Validations/Validate.jsx";
+import { createOrUpdateHoliday, deleteDependentDetails, getDependentDetails } from '../../api/index.js';
 
 // Bootstrap imports
 
@@ -202,6 +203,94 @@ const ManageHolidaysAndLeave = () => {
         setEditingLeave(null);
     };
 
+    const handleHolidaySaveAll = async () => {
+        try {
+            setSubmitting(true);
+
+            if (holidayList.length === 0) {
+                setToastList((prev) => [
+                    ...prev,
+                    { title: "Info", message: "No holiday records to save.", type: "info" },
+                ]);
+                return;
+            }
+
+            for (const h of holidayList) {
+                // validate fields before API call
+                if (!h.holidayname || !h.holidaydate) {
+                    setToastList((prev) => [
+                        ...prev,
+                        { title: "Error", message: "Holiday name and date are required.", type: "error" },
+                    ]);
+                    return;
+                }
+
+                await createOrUpdateHoliday(h, loginUser.token);
+            }
+
+            setToastList((prev) => [
+                ...prev,
+                { title: "Success", message: "All holidays saved successfully!", type: "success" },
+            ]);
+
+        } catch (error) {
+            console.error("Error saving holidays:", error);
+            setToastList((prev) => [
+                ...prev,
+                {
+                    title: "Error",
+                    message:
+                        error?.response?.data?.message ||
+                        "Failed to save holidays. Please check the API request.",
+                    type: "error",
+                },
+            ]);
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
+
+    const handleLeaveSaveAll = async () => {
+        try {
+            setSubmitting(true);
+
+            if (leaveList.length === 0) {
+                setToastList((prev) => [
+                    ...prev,
+                    { title: "Info", message: "No leave records to save.", type: "info" },
+                ]);
+                return;
+            }
+
+            const apiData = {
+                leaves: leaveList.map(l => ({
+                    _id: l._id || "",
+                    leaveType: l.leaveType,
+                    leaveCount: l.leaveCount,
+                    description: l.description,
+                })),
+            };
+
+            await createOrUpdateHoliday(apiData, loginUser.token); // Replace with actual Leave API if available
+
+            setToastList((prev) => [
+                ...prev,
+                { title: "Success", message: "Leave report saved successfully!", type: "success" },
+            ]);
+
+        } catch (error) {
+            console.error("Error saving leaves:", error);
+            setToastList((prev) => [
+                ...prev,
+                { title: "Error", message: "Failed to save leave data.", type: "error" },
+            ]);
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
+
 
     /** ---------- MAIN RETURN ---------- **/
     return (
@@ -212,121 +301,132 @@ const ManageHolidaysAndLeave = () => {
                 <Container fluid className="manage_holiday">
                     <Row>
                         <Col md={12} lg={12} xl={12} xxl={12}>
-                            <CardForm
-                                //onSubmit={handleSaveAll}
-                                footerButtonSubmit="Save"
-                                footerButtonSubmitClass="primary_form_btn btn_h_35"
-                            >
-                                <Tabs defaultActiveKey="holiday" transition={false} id="noanim-tab-example" className="Secondary_tab mb-3 pe-2 ps-2">
-                                    <Tab eventKey="holiday" title="Holiday List">
-                                        <PrimaryGird
-                                            cardTitle="Manage Holidays"
-                                            buttonText="Add Holiday"
-                                            showAddButton={true}
-                                            showFilterButton={false}
-                                            showDeleteButton={false}
-                                            showFooter={false}
-                                            onButtonClick={() => setShowHolidayCanvas(true)}
-                                            tableHeaders={["Name", "Date", "Day", "Description", "Actions"]}
-                                        >
-                                            {holidayList.length > 0 ? (
-                                                holidayList.map((h, i) => (
-                                                    <tr key={i}>
-                                                        <td>{h.holidayname}</td>
-                                                        <td>{h.holidaydate}</td>
-                                                        <td>{h.holidayday}</td>
-                                                        <td>{h.description}</td>
-                                                        <td className="table_action">
-                                                            <Button
-                                                                className="btn_action"
-                                                                onClick={() => {
-                                                                    setHolidayForm(h);
-                                                                    setEditingHoliday(i);
-                                                                    setShowHolidayCanvas(true);
-                                                                }}
-                                                            >
-                                                                <img src={Images.Edit} alt="edit" />
-                                                            </Button>
-                                                            <Button
-                                                                className="btn_action"
-                                                                onClick={() => {
-                                                                    setDeleteHolidayIndex(i);
-                                                                    setShowHolidayModal(true);
-                                                                }}
-                                                            >
-                                                                <img src={Images.Delete} alt="delete" />
-                                                            </Button>
+
+                            <Tabs defaultActiveKey="holiday" transition={false} id="noanim-tab-example" className="Secondary_tab mb-3">
+                                <Tab eventKey="holiday" title="Holiday List">
+                                    <CardForm
+                                        onSubmit={handleHolidaySaveAll}
+                                        footerButtonSubmit="Save Holiday"
+                                        footerButtonSubmitClass="primary_form_btn btn_h_35"
+                                    >
+                                        <Col md={12} lg={12} xl={12} xxl={12}>
+                                            <PrimaryGird
+                                                cardTitle="Manage Holidays"
+                                                buttonText="Add Holiday"
+                                                showAddButton={true}
+                                                showFilterButton={false}
+                                                showDeleteButton={false}
+                                                showFooter={false}
+                                                onButtonClick={() => setShowHolidayCanvas(true)}
+                                                tableHeaders={["Name", "Date", "Day", "Description", "Actions"]}
+                                            >
+                                                {holidayList.length > 0 ? (
+                                                    holidayList.map((h, i) => (
+                                                        <tr key={i}>
+                                                            <td>{h.holidayname}</td>
+                                                            <td>{h.holidaydate}</td>
+                                                            <td>{h.holidayday}</td>
+                                                            <td>{h.description}</td>
+                                                            <td className="table_action">
+                                                                <Button
+                                                                    className="btn_action"
+                                                                    onClick={() => {
+                                                                        setHolidayForm(h);
+                                                                        setEditingHoliday(i);
+                                                                        setShowHolidayCanvas(true);
+                                                                    }}
+                                                                >
+                                                                    <img src={Images.Edit} alt="edit" />
+                                                                </Button>
+                                                                <Button
+                                                                    className="btn_action"
+                                                                    onClick={() => {
+                                                                        setDeleteHolidayIndex(i);
+                                                                        setShowHolidayModal(true);
+                                                                    }}
+                                                                >
+                                                                    <img src={Images.Delete} alt="delete" />
+                                                                </Button>
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan="5" className="text-center">
+                                                            No holidays added yet
                                                         </td>
                                                     </tr>
-                                                ))
-                                            ) : (
-                                                <tr>
-                                                    <td colSpan="5" className="text-center">
-                                                        No holidays added yet
-                                                    </td>
-                                                </tr>
-                                            )}
-                                        </PrimaryGird>
-                                    </Tab>
-                                    <Tab eventKey="leave" title="Leave Report">
-                                        <PrimaryGird
-                                            cardTitle="Leave Report"
-                                            buttonText="Add Leave"
-                                            showAddButton={true}
-                                            showFilterButton={false}
-                                            showDeleteButton={false}
-                                            showFooter={false}
-                                            onButtonClick={() => setShowLeaveCanvas(true)}
-                                            tableHeaders={[
-                                                "Leave Type",
-                                                "Leave Count",
-                                                "Description",
-                                                "Actions",
-                                            ]}
-                                        >
-                                            {leaveList.length > 0 ? (
-                                                leaveList.map((l, i) => (
-                                                    <tr key={i}>
-                                                        <td>{l.leaveType}</td>
-                                                        <td>{l.leaveCount}</td>
-                                                        <td>{l.description}</td>
-                                                        <td className="table_action">
-                                                            <Button
-                                                                className="btn_action"
-                                                                onClick={() => {
-                                                                    setLeaveForm(l);
-                                                                    setEditingLeave(i);
-                                                                    setShowLeaveCanvas(true);
-                                                                }}
-                                                            >
-                                                                <img src={Images.Edit} alt="edit" />
-                                                            </Button>
-                                                            <Button
-                                                                className="btn_action"
-                                                                onClick={() => {
-                                                                    setDeleteLeaveIndex(i);
-                                                                    setShowLeaveModal(true);
-                                                                }}
-                                                            >
-                                                                <img src={Images.Delete} alt="delete" />
-                                                            </Button>
+                                                )}
+                                            </PrimaryGird>
+                                        </Col>
+                                    </CardForm>
+                                </Tab>
+                                <Tab eventKey="leave" title="Leave Report">
+                                    <CardForm
+                                        onSubmit={handleLeaveSaveAll}
+                                        footerButtonSubmit="Save Leave"
+                                        footerButtonSubmitClass="primary_form_btn btn_h_35"
+                                    >
+                                        <Col md={12} lg={12} xl={12} xxl={12}>
+                                            <PrimaryGird
+                                                cardTitle="Leave Report"
+                                                buttonText="Add Leave"
+                                                showAddButton={true}
+                                                showFilterButton={false}
+                                                showDeleteButton={false}
+                                                showFooter={false}
+                                                onButtonClick={() => setShowLeaveCanvas(true)}
+                                                tableHeaders={[
+                                                    "Leave Type",
+                                                    "Leave Count",
+                                                    "Description",
+                                                    "Actions",
+                                                ]}
+                                            >
+                                                {leaveList.length > 0 ? (
+                                                    leaveList.map((l, i) => (
+                                                        <tr key={i}>
+                                                            <td>{l.leaveType}</td>
+                                                            <td>{l.leaveCount}</td>
+                                                            <td>{l.description}</td>
+                                                            <td className="table_action">
+                                                                <Button
+                                                                    className="btn_action"
+                                                                    onClick={() => {
+                                                                        setLeaveForm(l);
+                                                                        setEditingLeave(i);
+                                                                        setShowLeaveCanvas(true);
+                                                                    }}
+                                                                >
+                                                                    <img src={Images.Edit} alt="edit" />
+                                                                </Button>
+                                                                <Button
+                                                                    className="btn_action"
+                                                                    onClick={() => {
+                                                                        setDeleteLeaveIndex(i);
+                                                                        setShowLeaveModal(true);
+                                                                    }}
+                                                                >
+                                                                    <img src={Images.Delete} alt="delete" />
+                                                                </Button>
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan="6" className="text-center">
+                                                            No leave report data
                                                         </td>
                                                     </tr>
-                                                ))
-                                            ) : (
-                                                <tr>
-                                                    <td colSpan="6" className="text-center">
-                                                        No leave report data
-                                                    </td>
-                                                </tr>
-                                            )}
-                                        </PrimaryGird>
-                                    </Tab>
-                                </Tabs>
-                            </CardForm>
+                                                )}
+                                            </PrimaryGird>
+                                        </Col>
+                                    </CardForm>
+                                </Tab>
+                            </Tabs>
                         </Col>
                     </Row>
-                </Container>
+                </Container >
             )}
 
             {/* ---------- Holiday OffCanvas ---------- */}
