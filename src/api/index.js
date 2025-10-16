@@ -407,7 +407,7 @@ export const createOrUpdateHoliday = (holidayForm, token) => {
 
 export const deleteHoliday = async (id, token) => {
   return await axios.delete(
-    `${url}/employeeDetails/travel-record/${id}`,
+    `${url}/holiday/${id}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -418,7 +418,7 @@ export const deleteHoliday = async (id, token) => {
 
 export const getHolidays = (token) => {
   return axios.get(
-    `${url}/employeeDetails/travel-record`,
+    `${url}/holiday`,
     {
       headers: {
         authorization: `Bearer ${token}`,
@@ -427,6 +427,38 @@ export const getHolidays = (token) => {
   );
 };
 
+export const createOrUpdateLeave = (holidayForm, token) => {
+  return axios.post(
+    `${url}/holiday`, holidayForm,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const deleteLeave = async (id, token) => {
+  return await axios.delete(
+    `${url}/holiday/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const getleave = (token) => {
+  return axios.get(
+    `${url}/holiday`,
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
 
 
 // export const updatePost = (id,post)=> axios.patch(`${url}/${id}`,post);
