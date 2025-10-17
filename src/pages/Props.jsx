@@ -443,7 +443,10 @@ export const SelectInput = ({
 }) => {
     return (
         <Form.Group className={`position-relative ${className}`} controlId={controlId}>
-            <Form.Label>{label}</Form.Label>
+            <Form.Label>
+                {label}
+                {required && <span className="text-danger"> *</span>}
+            </Form.Label>
             <Form.Select
                 value={value || ""}
                 onChange={handleChange}

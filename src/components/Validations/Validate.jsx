@@ -504,10 +504,12 @@ export const HolidayListValidateField = (name, value) => {
         case 'holidayday':
             if (!value.trim()) error = 'Holiday Day is required';
             break;
+        case 'restrictedHoliday':
+            if (!value.trim()) error = 'Please confirm holiday type.';
+            break;
         case 'description':
             if (!value.trim()) error = 'Description is required';
             break;
-
         default:
             break;
     }

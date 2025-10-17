@@ -150,6 +150,11 @@
     { "value": 7, "label": "Dubai" }
   ],
 
+  "RestrictedHoliday": [
+    { "value": 1, "label": "Yes, Restricted Holiday" },
+    { "value": 2, "label": "No, General Holiday" }
+  ],
+
   "Gender": [
     { "value": 1, "label": "Male" },
     { "value": 2, "label": "Female" },

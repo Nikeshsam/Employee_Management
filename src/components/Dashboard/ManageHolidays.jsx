@@ -4,11 +4,13 @@ import {
     PrimaryGird,
     OffCanvas,
     InputField,
+    SelectInput,
     CustomToast,
     CustomModalConfirmDialog,
 } from "../../pages/Props.jsx";
 import { useLoginUser } from "../../context/LoginUserContext.jsx";
 import Images from "../../pages/Images.jsx";
+import ComboDate from '../../data/Combo.json';
 import Loader from "../Common/Loader.jsx";
 import { HolidayListValidateField, LeaveReportValidateField } from "../Validations/Validate.jsx";
 import { createOrUpdateHoliday, deleteHoliday, getHolidays } from '../../api/index.js';
@@ -21,6 +23,9 @@ import { Container, Card, Form, Row, Col, ToastContainer, Tab, Tabs, Button, Tab
 // Bootstrap imports
 
 const ManageHolidaysAndLeave = () => {
+
+    const [RestrictedHoliday, setRestrictedHoliday] = useState(ComboDate.RestrictedHoliday);
+
     const { loginUser } = useLoginUser();
     const [toastList, setToastList] = useState([]);
     const [submitting, setSubmitting] = useState(false);
@@ -32,6 +37,7 @@ const ManageHolidaysAndLeave = () => {
         holidayname: "",
         holidaydate: "",
         holidayday: "",
+        restrictedHoliday: "",
         description: "",
     });
     const [holidayErrors, setHolidayErrors] = useState({});
@@ -39,7 +45,7 @@ const ManageHolidaysAndLeave = () => {
     const [showHolidayCanvas, setShowHolidayCanvas] = useState(false);
     const [showHolidayModal, setShowHolidayModal] = useState(false);
     const [holidayToDelete, setHolidayToDelete] = useState(null);
-    const [indexToDelete, setIndexToDelete] = useState(null);
+    const [deleteHolidayIndex, setDeleteHolidayIndex] = useState(null);
 
     const handleHolidayClearClick = () => {
         setShowHolidayModal(false);
@@ -69,6 +75,7 @@ const ManageHolidaysAndLeave = () => {
             holidayname: "",
             holidaydate: "",
             holidayday: "",
+            restrictedHoliday: "",
             description: "",
         });
         setHolidayErrors({});
@@ -156,9 +163,9 @@ const ManageHolidaysAndLeave = () => {
     };
 
     const handleDeleteHoliday = async () => {
-        const holiday = holidayList[indexToDelete];
-        setHolidayList(prev => prev.filter((_, i) => i !== indexToDelete));
-        setShowHolidayModal(false);
+        const holiday = holidayList[deleteHolidayIndex];
+        setHolidayList(prev => prev.filter((_, i) => i !== deleteHolidayIndex));
+        setDeleteHolidayIndex(null);
 
         if (holiday._id) {
             try {
@@ -231,8 +238,9 @@ const ManageHolidaysAndLeave = () => {
     const [leaveErrors, setLeaveErrors] = useState({});
     const [editingLeave, setEditingLeave] = useState(null);
     const [showLeaveCanvas, setShowLeaveCanvas] = useState(false);
-    const [deleteLeaveIndex, setDeleteLeaveIndex] = useState(null);
     const [showLeaveModal, setShowLeaveModal] = useState(false);
+    const [leaveToDelete, setLeaveToDelete] = useState(null);
+    const [deleteLeaveIndex, setDeleteLeaveIndex] = useState(null);
 
     /** ---------- TOAST ---------- **/
     const handleToastClose = (index) =>
@@ -379,7 +387,6 @@ const ManageHolidaysAndLeave = () => {
                 <Container fluid className="manage_holiday">
                     <Row>
                         <Col md={12} lg={12} xl={12} xxl={12}>
-
                             <Tabs defaultActiveKey="holiday" transition={false} id="noanim-tab-example" className="Secondary_tab mb-3">
                                 <Tab eventKey="holiday" title="Holiday List">
                                     <CardForm
@@ -396,7 +403,7 @@ const ManageHolidaysAndLeave = () => {
                                                 showDeleteButton={false}
                                                 showFooter={false}
                                                 onButtonClick={() => setShowHolidayCanvas(true)}
-                                                tableHeaders={["Name", "Date", "Day", "Description", "Actions"]}
+                                                tableHeaders={["Name", "Date", "Day", "Restricted Holiday", "Description", "Actions"]}
                                             >
                                                 {holidayList.length > 0 ? (
                                                     holidayList.map((h, i) => (
@@ -404,6 +411,7 @@ const ManageHolidaysAndLeave = () => {
                                                             <td>{h.holidayname}</td>
                                                             <td>{h.holidaydate}</td>
                                                             <td>{h.holidayday}</td>
+                                                            <td>{h.restricted ? "Yes" : "No"}</td>
                                                             <td>{h.description}</td>
                                                             <td className="table_action">
                                                                 <Button
@@ -415,7 +423,7 @@ const ManageHolidaysAndLeave = () => {
                                                                 <Button className="btn_action"
                                                                     onClick={() => {
                                                                         setHolidayToDelete(h);
-                                                                        setIndexToDelete(i);
+                                                                        setDeleteHolidayIndex(i);
                                                                         setShowHolidayModal(true);
                                                                     }}
                                                                 >
@@ -500,7 +508,7 @@ const ManageHolidaysAndLeave = () => {
                             </Tabs>
                         </Col>
                     </Row>
-                </Container >
+                </Container>
             )}
 
             {/* ---------- Holiday OffCanvas ---------- */}
@@ -549,6 +557,18 @@ const ManageHolidaysAndLeave = () => {
                         value={holidayForm.holidayday}
                         handleChange={handleHolidayChange}
                         error={holidayErrors.holidayday}
+                        required
+                    />
+                </Col>
+                <Col md={6}>
+                    <SelectInput
+                        label="Is this a Restricted Holiday?"
+                        name="restrictedHoliday"
+                        options={RestrictedHoliday}
+                        placeholder="Select an option"
+                        error={holidayErrors.restrictedHoliday}
+                        value={holidayForm.restrictedHoliday}
+                        handleChange={handleHolidayChange}
                         required
                     />
                 </Col>

@@ -79,7 +79,8 @@ function EmployeeProfileCard({ employeeProfile, loading, setLoading }) {
                             alt="Offer Letter"
                             className="offer_letter_icon"
                         />
-                        {employeeProfile.offerLetter.fileName}
+                        {/* {employeeProfile.offerLetter.fileName} */}
+                        Offer Letter
                     </a>
                 </div>
             )}

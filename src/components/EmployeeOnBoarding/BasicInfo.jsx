@@ -167,7 +167,6 @@ const BasicInfo = ({employeeProfile}) => {
         return Object.keys(newErrors).length === 0;
     };
 
-
     //  Handle Submit
     // const handleSubmit = async (e) => {
     //     e.preventDefault();
@@ -260,7 +259,6 @@ const BasicInfo = ({employeeProfile}) => {
         }
     };
 
-
     //  Handle Change
 
     const calculateAge = (dob) => {
@@ -300,7 +298,6 @@ const BasicInfo = ({employeeProfile}) => {
         const error = basicValidateField(name, value);
         setErrors((prevErrors) => ({ ...prevErrors, [name]: error }));
     };
-
 
     return (
         <>
