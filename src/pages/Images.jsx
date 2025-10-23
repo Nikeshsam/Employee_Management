@@ -49,6 +49,7 @@ import BirthdayCup from '../assets/Images/birthday_cup.svg';
 import ManageHoliday from '../assets/Images/manage_holiday.svg';
 
 import SearchEmployee from '../assets/Images/SearchEmployee.svg';
+import TimeLoader from '../assets/Images/time_loader.svg';
 
 
 
@@ -88,7 +89,8 @@ import SearchEmployee from '../assets/Images/SearchEmployee.svg';
     TaskCheck,
     BirthdayCake,
     BirthdayCup,
-    ManageHoliday
+    ManageHoliday,
+    TimeLoader
 }
 
 export default Images;

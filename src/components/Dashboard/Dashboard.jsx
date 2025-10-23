@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useLoginUser } from '../../context/LoginUserContext.jsx';
+import Images from "../../pages/Images.jsx";
 
 // Bootstrap imports
 
@@ -105,6 +106,28 @@ const Dashboard = () => {
       
       {loginUser?.user.role === "user" && (
         <>
+          <Row>
+            <Col md={12} lg={12} xl={12} xxl={12}>
+              <Card className='Gradient_Card'>
+                <Card.Body>
+                  <div className='Employee_Main_Card'>
+                    <div className='Employee_Title'>
+                      <h5>Hi Nikesh Balu</h5>
+                      <p>Thursday, 20th February</p>
+                    </div>
+                    <div className='Employee_checkIn'>
+                      <button type='button'>Check Out <i><img src={Images.TimeLoader} alt="" /></i></button>
+                      <span>01:18:04 Hrs</span>
+                    </div>
+                    <div className='Employee_ActionBtn'>
+                      <button type='button'>Apply Leave</button>
+                      <button type='button'>Log Time</button>
+                    </div>
+                  </div>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
           <Row className='mt-3 gx-3'>
             <Col md={12} lg={4} xl={4} xxl={4}>
               <Card className='primary_card'>

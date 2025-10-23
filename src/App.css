@@ -756,5 +756,15 @@ input:-internal-autofill-selected{background-color: transparent;}
 .brd_container .brd_upc_birthday .brd_upc_birthday_content .brd_upc_birthday_wrap .brd_upc_birthday_wrap_left h3{font-size: 13px; font-weight: 600; line-height: 16px; color: #2A2731; margin: 0;}
 .brd_container .brd_upc_birthday .brd_upc_birthday_content .brd_upc_birthday_wrap span{font-size: 11px; font-weight: 500; line-height: 13px; color: #626067; margin: 0;}
 
+.Gradient_Card{background: #DBCDFF; background: linear-gradient(90deg,rgba(219, 205, 255, 1) 0%, rgba(238, 232, 255, 1) 100%); border: none; border-radius: 8px;}
+.Employee_Main_Card{display: flex; align-items: center; justify-content: space-between; padding: 7px 5px;}
+.Employee_Main_Card .Employee_Title{display: flex; flex-direction: column; gap: 10px;}
+.Employee_Main_Card .Employee_Title h5{color: #3D16A2; font-size: 24px; line-height: 24px; font-weight: 700; margin: 0; letter-spacing: 0.5px;}
+.Employee_Main_Card .Employee_Title p{color: #665B82; font-size: 13px; line-height: 15px; font-weight: 500; margin: 0;}
+.Employee_Main_Card .Employee_checkIn{display: flex; align-items: center; gap: 10px;}
+.Employee_Main_Card .Employee_checkIn button{background-color: #FFA917; display: flex; gap: 10px; align-items: center; padding: 8px 20px; font-size: 14px; font-weight: 600; color: #FFFFFF; border-radius: 100px; border: none;}
+.Employee_Main_Card .Employee_checkIn span{color: #646368; font-size: 14px; line-height: 16px; font-weight: 500;}
 
+.Employee_Main_Card .Employee_ActionBtn{display: flex; align-items: center; gap: 10px;}
+.Employee_Main_Card .Employee_ActionBtn button{background-color: #ffffff; border: 1px solid #3E01DC !important; border-radius: 4px; padding: 10px 15px; font-size: 13px; color: #322F3B; line-height: 15px; font-weight: 600;}
 
