@@ -265,8 +265,8 @@ const Dashboard = () => {
               label="Employee ID"
               name="employeeId"
               value={leaveForm.employeeId}
-              handleChange={handleLeaveChange}
-              error={leaveErrors.employeeId}
+              //handleChange={handleLeaveChange}
+              //error={leaveErrors.employeeId}
               required
             />
           </Col>
@@ -274,11 +274,11 @@ const Dashboard = () => {
             <SelectInput
               label="Leave Type"
               name="leaveType"
-              options={LeaveTypes}
+              //options={LeaveTypes}
               placeholder="Select an option"
-              error={leaveErrors.leaveType}
+              //error={leaveErrors.leaveType}
               value={leaveForm.leavetype}
-              handleChange={handleLeaveChange}
+              //handleChange={handleLeaveChange}
               required
             />
           </Col>
@@ -287,8 +287,8 @@ const Dashboard = () => {
               label="Date"
               name="leaveDate"
               value={leaveForm.leaveDate}
-              handleChange={handleLeaveChange}
-              error={leaveErrors.leaveDate}
+              //handleChange={handleLeaveChange}
+              //error={leaveErrors.leaveDate}
               required
             />
           </Col>
@@ -297,8 +297,8 @@ const Dashboard = () => {
               label="Email ID"
               name="emailId"
               value={leaveForm.emailId}
-              handleChange={handleLeaveChange}
-              error={leaveErrors.emailId}
+              //handleChange={handleLeaveChange}
+              //error={leaveErrors.emailId}
               required
             />
           </Col>
@@ -307,8 +307,8 @@ const Dashboard = () => {
               label="Reason for leave"
               name="reasonForLeave"
               value={leaveForm.reasonForLeave}
-              handleChange={handleLeaveChange}
-              error={leaveErrors.reasonForLeave}
+              //handleChange={handleLeaveChange}
+              //error={leaveErrors.reasonForLeave}
               required
             />
           </Col>
