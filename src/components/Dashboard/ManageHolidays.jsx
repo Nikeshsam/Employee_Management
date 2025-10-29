@@ -225,7 +225,7 @@ const ManageHolidaysAndLeave = () => {
         setShowHolidayCanvas(true); // Open the OffCanvas for editing
     };
 
-
+    
 
     /** ---------- LEAVE REPORT STATES ---------- **/
     const [leaveList, setLeaveList] = useState([]);
