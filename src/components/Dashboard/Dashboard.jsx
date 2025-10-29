@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import Images from "../../pages/Images.jsx";
+import { OffCanvas, InputField, SelectInput, } from "../../pages/Props.jsx";
 
 // Bootstrap imports
 
@@ -28,18 +29,33 @@ import KeyMetrics from '../Common/KeyMetrics.jsx';
 const Dashboard = () => {
   const { loginUser } = useLoginUser();
 
+  const [showLeaveCanvas, setShowLeaveCanvas] = useState(false);
+  const [leaveForm, setLeaveForm] = useState({
+    //_id: "",
+    employeeId: "",
+    leavetype: "",
+    leaveDate: "",
+    enddate: "",
+    description: "",
+  });
+
+  const handleLeaveSubmit = (e) => {
+    e.preventDefault();
+    if (!validateLeaveForm()) return;
+  };
+
   // console.log("👉 Logged user object:", loginUser.user);
   // console.log("👉 Role is:", loginUser?.user.role);
 
   return (
     <Container fluid>
-      
+
       {loginUser?.user.role === "admin" && (
         <>
           <Row className='mt-0 gx-3'>
             <Col md={12} lg={12} xl={12} xxl={12}>
               <Card className='primary_card'>
-                <Card.Header style={{height: 'auto'}}>
+                <Card.Header style={{ height: 'auto' }}>
                   <div className='heading_group'>
                     <h3>Employee Statistics</h3>
                     <p>Sep 04, 2024 - Oct 04, 2024</p>
@@ -60,7 +76,7 @@ const Dashboard = () => {
           </Row>
           <Row className='mt-3 gx-3'>
             <Col md={12} lg={7} xl={7} xxl={7}>
-                <KeyMetrics />
+              <KeyMetrics />
             </Col>
             <Col md={12} lg={5} xl={5} xxl={5}>
               <Card className='primary_card mb-3'>
@@ -92,7 +108,7 @@ const Dashboard = () => {
           <Row className='mt-3 gx-3'>
             <Col md={12} lg={12} xl={12} xxl={12}>
               <Card className='primary_card'>
-                <Card.Header style={{borderBottom: 'none'}}>
+                <Card.Header style={{ borderBottom: 'none' }}>
                   <h3>Recent Employee</h3>
                 </Card.Header>
                 <Card.Body className='pt-0'>
@@ -103,7 +119,7 @@ const Dashboard = () => {
           </Row>
         </>
       )}
-      
+
       {loginUser?.user.role === "user" && (
         <>
           <Row>
@@ -131,7 +147,7 @@ const Dashboard = () => {
           <Row className='mt-3 gx-3'>
             <Col md={12} lg={4} xl={4} xxl={4}>
               <Card className='primary_card'>
-                <Card.Header style={{borderBottom: '1px solid #FF6B6B'}}>
+                <Card.Header style={{ borderBottom: '1px solid #FF6B6B' }}>
                   <h3>Attendance</h3>
                   <div className="heading_elements">
                     {/* <i className='square'>
@@ -140,13 +156,13 @@ const Dashboard = () => {
                   </div>
                 </Card.Header>
                 <Card.Body className=''>
-                  <Attendance/>
+                  <Attendance />
                 </Card.Body>
               </Card>
             </Col>
             <Col md={12} lg={4} xl={4} xxl={4}>
               <Card className='primary_card'>
-                <Card.Header style={{borderBottom: '1px solid #38D9A9'}}>
+                <Card.Header style={{ borderBottom: '1px solid #38D9A9' }}>
                   <h3>Leave Report</h3>
                   <div className="heading_elements">
                     {/* <i className='square'>
@@ -155,13 +171,13 @@ const Dashboard = () => {
                   </div>
                 </Card.Header>
                 <Card.Body className=''>
-                  <LeaveReport/>
+                  <LeaveReport />
                 </Card.Body>
               </Card>
             </Col>
             <Col md={12} lg={4} xl={4} xxl={4}>
               <Card className='primary_card'>
-                <Card.Header style={{borderBottom: '1px solid #FFA94D'}}>
+                <Card.Header style={{ borderBottom: '1px solid #FFA94D' }}>
                   <h3>Holiday List</h3>
                   <div className="heading_elements">
                     {/* <i className='square'>
@@ -170,7 +186,7 @@ const Dashboard = () => {
                   </div>
                 </Card.Header>
                 <Card.Body className=''>
-                  <HolidayList/>
+                  <HolidayList />
                 </Card.Body>
               </Card>
             </Col>
@@ -178,7 +194,7 @@ const Dashboard = () => {
           <Row className='mt-3 gx-3'>
             <Col md={12} lg={4} xl={4} xxl={4}>
               <Card className='primary_card'>
-                <Card.Header style={{borderBottom: '1px solid #4DABF7'}}>
+                <Card.Header style={{ borderBottom: '1px solid #4DABF7' }}>
                   <h3>Task & Reminders</h3>
                   <div className="heading_elements">
                     <i className='square'>
@@ -193,7 +209,7 @@ const Dashboard = () => {
             </Col>
             <Col md={12} lg={4} xl={4} xxl={4}>
               <Card className='primary_card'>
-                <Card.Header style={{borderBottom: '1px solid #9775FA'}}>
+                <Card.Header style={{ borderBottom: '1px solid #9775FA' }}>
                   <h3>Birthday</h3>
                   <div className="heading_elements">
                     {/* <i className='square'>
@@ -208,13 +224,13 @@ const Dashboard = () => {
             </Col>
             <Col md={12} lg={4} xl={4} xxl={4}>
               <Card className='primary_card'>
-                <Card.Header style={{borderBottom: '1px solid #F783AC'}}>
+                <Card.Header style={{ borderBottom: '1px solid #F783AC' }}>
                   <h3>Request For Approval</h3>
                   <div className="heading_elements">
-                      <div className='notifi'>
-                        <span>Pending</span>
-                        <i>8</i>
-                      </div>
+                    <div className='notifi'>
+                      <span>Pending</span>
+                      <i>8</i>
+                    </div>
                   </div>
                 </Card.Header>
                 <Card.Body className=''>
@@ -225,8 +241,83 @@ const Dashboard = () => {
           </Row>
         </>
       )}
+
+      <>
+        <OffCanvas
+          show={showLeaveCanvas}
+          placement="end"
+          onSubmit={handleLeaveSubmit}
+          onHide={() => {
+            setShowLeaveCanvas(false);
+            resetHolidayForm();
+          }}
+          title={"Add Holiday"}
+          subtitle={"Add your Holiday List Here."}
+          className='PrimaryCanvasModal'
+          name={"Add Holiday List"}
+          footerButtonSubmit={"Add Holiday List"}
+          footerButtonCancel="Cancel"
+          footerButtonSubmitClass="modal_primary_btn w-100"
+          footerButtonCancelClass="modal_primary_border_btn w-100"
+        >
+          <Col md={6}>
+            <InputField
+              label="Employee ID"
+              name="employeeId"
+              value={leaveForm.employeeId}
+              handleChange={handleLeaveChange}
+              error={leaveErrors.employeeId}
+              required
+            />
+          </Col>
+          <Col md={6}>
+            <SelectInput
+              label="Leave Type"
+              name="leaveType"
+              options={LeaveTypes}
+              placeholder="Select an option"
+              error={leaveErrors.leaveType}
+              value={leaveForm.leavetype}
+              handleChange={handleLeaveChange}
+              required
+            />
+          </Col>
+          <Col md={6}>
+            <InputField
+              label="Date"
+              name="leaveDate"
+              value={leaveForm.leaveDate}
+              handleChange={handleLeaveChange}
+              error={leaveErrors.leaveDate}
+              required
+            />
+          </Col>
+          <Col md={12}>
+            <InputField
+              label="Email ID"
+              name="emailId"
+              value={leaveForm.emailId}
+              handleChange={handleLeaveChange}
+              error={leaveErrors.emailId}
+              required
+            />
+          </Col>
+          <Col md={12}>
+            <InputField
+              label="Reason for leave"
+              name="reasonForLeave"
+              value={leaveForm.reasonForLeave}
+              handleChange={handleLeaveChange}
+              error={leaveErrors.reasonForLeave}
+              required
+            />
+          </Col>
+        </OffCanvas>
+      </>
+
     </Container>
-  )
-}
+
+  );
+};
 
 export default Dashboard

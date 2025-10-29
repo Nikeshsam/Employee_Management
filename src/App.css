@@ -756,7 +756,7 @@ input:-internal-autofill-selected{background-color: transparent;}
 .brd_container .brd_upc_birthday .brd_upc_birthday_content .brd_upc_birthday_wrap .brd_upc_birthday_wrap_left h3{font-size: 13px; font-weight: 600; line-height: 16px; color: #2A2731; margin: 0;}
 .brd_container .brd_upc_birthday .brd_upc_birthday_content .brd_upc_birthday_wrap span{font-size: 11px; font-weight: 500; line-height: 13px; color: #626067; margin: 0;}
 
-.Gradient_Card{background: #DBCDFF; background: linear-gradient(90deg,rgba(219, 205, 255, 1) 0%, rgba(238, 232, 255, 1) 100%); border: none; border-radius: 8px;}
+.Gradient_Card{background: #eee8ff; border: none; border-radius: 8px;}
 .Employee_Main_Card{display: flex; align-items: center; justify-content: space-between; padding: 7px 5px;}
 .Employee_Main_Card .Employee_Title{display: flex; flex-direction: column; gap: 10px;}
 .Employee_Main_Card .Employee_Title h5{color: #3D16A2; font-size: 24px; line-height: 24px; font-weight: 700; margin: 0; letter-spacing: 0.5px;}
