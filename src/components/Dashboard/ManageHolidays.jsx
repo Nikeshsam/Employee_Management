@@ -6,6 +6,8 @@ import {
     InputField,
     SelectInput,
     CustomToast,
+    RadioGroupField,
+    CheckBoxGroup,
     CustomModalConfirmDialog,
 } from "../../pages/Props.jsx";
 import { useLoginUser } from "../../context/LoginUserContext.jsx";
@@ -25,6 +27,30 @@ import { Container, Card, Form, Row, Col, ToastContainer, Tab, Tabs, Button, Tab
 const ManageHolidaysAndLeave = () => {
 
     const [RestrictedHoliday, setRestrictedHoliday] = useState(ComboDate.RestrictedHoliday);
+    const [LeaveCategories, setLeaveCategories] = useState(ComboDate.LeaveCategories);
+    const [GenderOptions, setGenderOptions] = useState(ComboDate.GenderOptions);
+
+    const monthlyAccrual = [
+        {
+            label: 'Yes (accrue leave monthly)',
+            value: 'accrual',
+        },
+        {
+            label: 'No (do not accrue leave monthly)',
+            value: 'no-accrual',
+        },
+    ];
+
+    const carryForwardAllowed = [
+        {
+            label: 'Yes (allow carry forward)',
+            value: 'allow',
+        },
+        {
+            label: 'No (do not allow carry forward)',
+            value: 'not-allow',
+        },
+    ];
 
     const { loginUser } = useLoginUser();
     const [toastList, setToastList] = useState([]);
@@ -225,7 +251,7 @@ const ManageHolidaysAndLeave = () => {
         setShowHolidayCanvas(true); // Open the OffCanvas for editing
     };
 
-    
+
 
     /** ---------- LEAVE REPORT STATES ---------- **/
     const [leaveList, setLeaveList] = useState([]);
@@ -602,36 +628,134 @@ const ManageHolidaysAndLeave = () => {
                 footerButtonSubmitClass="modal_primary_btn w-100"
                 footerButtonCancelClass="modal_primary_border_btn w-100"
             >
-                <Col md={6}>
-                    <InputField
-                        label="Leave Type"
-                        name="leaveType"
-                        value={leaveForm.leaveType}
-                        handleChange={handleLeaveChange}
-                        error={leaveErrors.leaveType}
-                        required
-                    />
-                </Col>
-                <Col md={6}>
-                    <InputField
-                        label="Leave Count"
-                        type="text"
-                        name="leaveCount"
-                        value={leaveForm.leaveCount}
-                        handleChange={handleLeaveChange}
-                        error={leaveErrors.leaveCount}
-                        required
-                    />
-                </Col>
                 <Col md={12}>
-                    <InputField
-                        label="Description"
-                        name="description"
-                        value={leaveForm.description}
-                        handleChange={handleLeaveChange}
-                        error={leaveErrors.description}
-                        required
-                    />
+                    <Row>
+                        
+                        <Col md={6}>
+                            <InputField
+                                label="Leave Name"
+                                name="leaveName"
+                                value={leaveForm.leaveName}
+                                handleChange={handleLeaveChange}
+                                error={leaveErrors.leaveName}
+                                required
+                            />
+                        </Col>
+                        <Col md={12}>
+                            <InputField
+                                label="Description"
+                                name="description"
+                                value={leaveForm.description}
+                                handleChange={handleLeaveChange}
+                                error={leaveErrors.description}
+                                required
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <SelectInput
+                                label="Leave Category"
+                                name="leaveCategory"
+                                options={LeaveCategories}
+                                placeholder="Select an option"
+                                error={leaveErrors.leaveCategory}
+                                value={leaveForm.leaveCategory}
+                                handleChange={handleLeaveChange}
+                                required
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <SelectInput
+                                label="Gender Eligibility"
+                                name="genderEligibility"
+                                options={GenderOptions}
+                                placeholder="Select an option"
+                                error={leaveErrors.genderEligibility}
+                                value={leaveForm.genderEligibility}
+                                handleChange={handleLeaveChange}
+                                required
+                            />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={12} className="normalRadio">
+                            <RadioGroupField
+                                label="Monthly Accrual"
+                                name="monthlyAccrual"
+                                options={monthlyAccrual}
+                                value={leaveForm.monthlyAccrual}
+                                handleChange={handleLeaveChange}
+                                error={leaveErrors.monthlyAccrual}
+                                required
+                            />
+                        </Col>
+                        <Col md={12} className="normalRadio">
+                            <RadioGroupField
+                                label="Carry Forward Allowed"
+                                name="carryForwardAllowed"
+                                options={carryForwardAllowed}
+                                value={leaveForm.carryForwardAllowed}
+                                handleChange={(e) => {
+                                    handleLeaveChange(e);
+                                    // Reset max carry forward if "not-allow" is chosen
+                                    if (e.target.value === "not-allow") {
+                                        setLeaveForm((prev) => ({ ...prev, maxCarryForward: "" }));
+                                    }
+                                }}
+                                error={leaveErrors.carryForwardAllowed}
+                                required
+                            />
+                        </Col>
+                        {leaveForm.carryForwardAllowed === "allow" && (
+                            <Col md={6}>
+                                <InputField
+                                    label="Max Carry Forward"
+                                    name="maxCarryForward"
+                                    value={leaveForm.maxCarryForward}
+                                    handleChange={handleLeaveChange}
+                                    error={leaveErrors.maxCarryForward}
+                                    required
+                                />
+                            </Col>
+                        )}
+                        <Col md={6}>
+                            <CheckBoxGroup
+                                label="Allow HalfDay"
+                                name="notifications"
+                                options={[{ label: "Yes", value: true }]}
+                                value={leaveForm.allowHalfDay ? [true] : []}
+                                onChange={(newValues) =>
+                                    handleLeaveChange({
+                                        target: { name: "allowHalfDay", value: newValues.includes(true) },
+                                    })
+                                }
+                                error={leaveErrors.allowHalfDay}
+                            />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={6}>
+                            <InputField
+                                label="Valid From"
+                                name="validFrom"
+                                type="date"
+                                value={leaveForm.validFrom}
+                                handleChange={handleLeaveChange}
+                                error={leaveErrors.validFrom}
+                                required
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <InputField
+                                label="Valid To"
+                                name="validTo"
+                                type="date"
+                                value={leaveForm.validTo}
+                                handleChange={handleLeaveChange}
+                                error={leaveErrors.validTo}
+                                required
+                            />
+                        </Col>
+                    </Row>
                 </Col>
             </OffCanvas>
 

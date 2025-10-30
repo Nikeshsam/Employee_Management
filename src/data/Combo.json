@@ -155,6 +155,24 @@
     { "value": 2, "label": "No, General Holiday" }
   ],
 
+  "LeaveCategories": [
+    { "value": 1, "label": "Paid Leave" },
+    { "value": 2, "label": "Unpaid Leave" },
+    { "value": 3, "label": "Sick Leave" },
+    { "value": 4, "label": "Casual Leave" },
+    { "value": 5, "label": "Maternity Leave" },
+    { "value": 6, "label": "Paternity Leave" },
+    { "value": 7, "label": "Bereavement Leave" },
+    { "value": 8, "label": "Compensatory Off" }
+  ],
+
+    "GenderOptions": [
+    { "value": 1, "label": "Male" },
+    { "value": 2, "label": "Female" },
+    { "value": 3, "label": "Transgender" },
+    { "value": 4, "label": "Prefer not to say" }
+  ],
+
   "Gender": [
     { "value": 1, "label": "Male" },
     { "value": 2, "label": "Female" },

@@ -728,6 +728,7 @@ export const RadioGroupField = ({
         <Form.Group as={Row} className="mb-3 inlineForm" controlId={controlId}>
             <Form.Label column sm="4">
                 {label}
+                {required && <span className="text-danger"> *</span>}
             </Form.Label>
             <Col sm="8" className="position-relative">
                 {options.map((option, idx) => (
@@ -839,5 +840,48 @@ export const getComboLabel = (comboName, key) => {
     return item ? item.label : 'Nil';
 };
 
+export const CheckBoxGroup = ({
+    label = "",
+    name,
+    options = [],              // [{ label: 'Option 1', value: 'opt1', disabled: false }]
+    value = [],                // array of selected values
+    onChange,                  // function(newValues)
+    inline = false,
+    disabled = false,
+    required = false,
+    className = "",
+    error = "",
+}) => {
+    const handleChange = (optionValue) => {
+        const newValues = value.includes(optionValue)
+            ? value.filter((v) => v !== optionValue)
+            : [...value, optionValue];
+        onChange(newValues);
+    };
+
+    return (
+        <Form.Group className={`mb-3 ${className}`}>
+            {label && <Form.Label>{label} {required && <span className="text-danger"> *</span>}</Form.Label>}
+
+            {options.map((option, index) => (
+                <Form.Check
+                    key={`${name}-${index}`}
+                    type="checkbox"
+                    id={`${name}-${index}`}
+                    name={name}
+                    label={option.label}
+                    value={option.value}
+                    required={required}
+                    checked={value.includes(option.value)}
+                    disabled={disabled || option.disabled}
+                    inline={inline}
+                    onChange={() => handleChange(option.value)}
+                />
+            ))}
+
+            {error && <div className="text-danger mt-1">{error}</div>}
+        </Form.Group>
+    );
+};
 
 
