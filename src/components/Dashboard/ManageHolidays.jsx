@@ -257,9 +257,18 @@ const ManageHolidaysAndLeave = () => {
     const [leaveList, setLeaveList] = useState([]);
     const [leaveForm, setLeaveForm] = useState({
         // _id: "",
-        leaveType: "",
-        leaveCount: "",
+        leaveName: "",
+        leaveCategory: "",
         description: "",
+        genderEligibility: "",
+        monthlyAccrual: "",
+        carryForwardAllowed: "",
+        maxCarryForward: "",
+        carryForwardAllowed: "",
+        maxCarryForward:"",
+        allowHalfDay:"",
+        validFrom:"",
+        validTo:"",
     });
     const [leaveErrors, setLeaveErrors] = useState({});
     const [editingLeave, setEditingLeave] = useState(null);
@@ -292,9 +301,18 @@ const ManageHolidaysAndLeave = () => {
     const resetLeaveForm = () => {
         setLeaveForm({
             _id: "",
-            leaveType: "",
-            leaveCount: "",
+            leaveName: "",
+            leaveCategory: "",
             description: "",
+            genderEligibility: "",
+            monthlyAccrual: "",
+            carryForwardAllowed: "",
+            maxCarryForward: "",
+            carryForwardAllowed: "",
+            maxCarryForward:"",
+            allowHalfDay:"",
+            validFrom:"",
+            validTo:"",
         });
         setLeaveErrors({});
         setEditingLeave(null);
@@ -324,9 +342,18 @@ const ManageHolidaysAndLeave = () => {
 
         setLeaveForm({
             // _id: "",
-            leaveType: "",
-            leaveCount: "",
+            leaveName: "",
+            leaveCategory: "",
             description: "",
+            genderEligibility: "",
+            monthlyAccrual: "",
+            carryForwardAllowed: "",
+            maxCarryForward: "",
+            carryForwardAllowed: "",
+            maxCarryForward:"",
+            allowHalfDay:"",
+            validFrom:"",
+            validTo:"",
         });
         setEditingLeave(null);
         setShowLeaveCanvas(false);
@@ -348,7 +375,7 @@ const ManageHolidaysAndLeave = () => {
             if (leaveList.length === 0) {
                 setToastList((prev) => [
                     ...prev,
-                    { title: "Info", message: "No leave records to save.", type: "info" },
+                    { title: "Info", message: "No leave records to save.", type: "error" },
                 ]);
                 return;
             }
@@ -485,18 +512,28 @@ const ManageHolidaysAndLeave = () => {
                                                 showFooter={false}
                                                 onButtonClick={() => setShowLeaveCanvas(true)}
                                                 tableHeaders={[
-                                                    "Leave Type",
-                                                    "Leave Count",
-                                                    "Description",
-                                                    "Actions",
+                                                    "Leave Name",
+                                                    "Leave Category",
+                                                    "Gender Eligibility",
+                                                    "Monthly Accrual",
+                                                    "Carry Forward Allowed",
+                                                    "Allow HalfDay",
+                                                    "Valid From",
+                                                    "Valid To",
+                                                    "Action",
                                                 ]}
                                             >
                                                 {leaveList.length > 0 ? (
                                                     leaveList.map((l, i) => (
                                                         <tr key={i}>
-                                                            <td>{l.leaveType}</td>
-                                                            <td>{l.leaveCount}</td>
-                                                            <td>{l.description}</td>
+                                                            <td>{l.leaveName}</td>
+                                                            <td>{l.leaveCategory}</td>
+                                                            <td>{l.genderEligibility}</td>
+                                                            <td>{l.carryForwardAllowed}</td>
+                                                            <td>{l.maxCarryForward}</td>
+                                                            <td>{l.allowHalfDay}</td>
+                                                            <td>{l.validFrom}</td>
+                                                            <td>{l.validTo}</td>
                                                             <td className="table_action">
                                                                 <Button
                                                                     className="btn_action"
@@ -614,7 +651,10 @@ const ManageHolidaysAndLeave = () => {
             <OffCanvas
                 show={showLeaveCanvas}
                 placement="end"
-                onSubmit={handleLeaveSubmit}
+                onSubmit={(e) => {
+                    console.log("Leave OffCanvas submit triggered");
+                    handleLeaveSubmit(e);
+                }}
                 onHide={() => {
                     setShowLeaveCanvas(false);
                     resetLeaveForm();
@@ -629,8 +669,7 @@ const ManageHolidaysAndLeave = () => {
                 footerButtonCancelClass="modal_primary_border_btn w-100"
             >
                 <Col md={12}>
-                    <Row>
-                        
+                    <Row>                        
                         <Col md={6}>
                             <InputField
                                 label="Leave Name"

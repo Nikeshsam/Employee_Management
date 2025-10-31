@@ -520,16 +520,36 @@ export const HolidayListValidateField = (name, value) => {
 export const LeaveReportValidateField = (name, value) => {
     let error = '';
     switch (name) {
-        case 'leaveType':
-            if (!value.trim()) error = 'Leave Type is required';
-            break;
-        case 'leaveCount':
-            if (!value.trim()) error = 'Leave Count is required';
+        case 'leaveName':
+            if (!value.trim()) error = 'Leave Name is required';
             break;
         case 'description':
             if (!value.trim()) error = 'Description is required';
             break;
-
+        case 'leaveCategory':
+            if (!value.trim()) error = 'Leave Category is required';
+            break;
+        case 'genderEligibility':
+            if (!value.trim()) error = 'Gender Eligibility is required';
+            break;
+        case 'monthlyAccrual':
+            if (!value.trim()) error = 'Monthly Accrual is required';
+            break;
+        case 'carryForwardAllowed':
+            if (!value.trim()) error = 'Carry Forward Allowed is required';
+            break;
+        case 'maxCarryForward':
+            if (!value.trim()) error = 'Max Carry Forward is required';
+            break;
+        case 'allowHalfDay':
+            if (!value) error = 'Allow HalfDay is required';
+            break;
+        case 'validFrom':
+            if (!value) error = 'Valid From is required';
+            break;
+        case 'validTo':
+            if (!value) error = 'Valid To is required';
+            break;
         default:
             break;
     }
