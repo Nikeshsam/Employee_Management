@@ -359,15 +359,6 @@ const ManageHolidaysAndLeave = () => {
         setShowLeaveCanvas(false);
     };
 
-    const handleDeleteLeave = () => {
-        setLeaveList((prev) => prev.filter((_, i) => i !== deleteLeaveIndex));
-        setShowLeaveModal(false);
-        setToastList((prev) => [
-            ...prev,
-            { title: "Deleted", message: "Leave deleted", type: "success" },
-        ]);
-    };
-
     const handleLeaveSaveAll = async () => {
         try {
             setSubmitting(true);
@@ -407,10 +398,53 @@ const ManageHolidaysAndLeave = () => {
         }
     };
 
+    const handleDeleteLeave = () => {
+        setLeaveList((prev) => prev.filter((_, i) => i !== deleteLeaveIndex));
+        setShowLeaveModal(false);
+        setToastList((prev) => [
+            ...prev,
+            { title: "Deleted", message: "Leave deleted", type: "success" },
+        ]);
+    };
+
+    const fetchLeaves = async () => {
+        try {
+            const response = await getleave(loginUser.token); // <-- use your actual API here
+            if (!response || !response.data) {
+                console.log("No holiday data found");
+                return;
+            }
+            setHolidayList(response.data.holidays || []);
+        } catch (error) {
+            console.error("Error fetching holidays:", error);
+            setToastList((prev) => [
+                ...prev,
+                { title: "Error", message: "Failed to fetch holiday data.", type: "error" },
+            ]);
+        }
+    };
+
+    const handleLeaveEdit = (index) => {
+        const holiday = holidayList[index];
+        if (!holiday) return;
+
+        setHolidayForm({
+            _id: holiday._id || "",
+            holidayname: holiday.holidayname || "",
+            holidaydate: holiday.holidaydate || "",
+            holidayday: holiday.holidayday || "",
+            description: holiday.description || "",
+        });
+
+        setEditingHoliday(index);
+        setShowHolidayCanvas(true); // Open the OffCanvas for editing
+    };
+
+
     // ---------- FETCH HOLIDAY AND LEAVE DATA ----------
     useEffect(() => {
         fetchHolidays();
-        //fetchLeaves();
+        fetchLeaves();
     }, [loginUser.token]);
 
     // Fetch leaves from DB
@@ -537,11 +571,7 @@ const ManageHolidaysAndLeave = () => {
                                                             <td className="table_action">
                                                                 <Button
                                                                     className="btn_action"
-                                                                    onClick={() => {
-                                                                        setLeaveForm(l);
-                                                                        setEditingLeave(i);
-                                                                        setShowLeaveCanvas(true);
-                                                                    }}
+                                                                    onClick={() => handleLeaveEdit(i)}
                                                                 >
                                                                     <img src={Images.Edit} alt="edit" />
                                                                 </Button>
@@ -652,7 +682,7 @@ const ManageHolidaysAndLeave = () => {
                 show={showLeaveCanvas}
                 placement="end"
                 onSubmit={(e) => {
-                    console.log("Leave OffCanvas submit triggered");
+                    //   console.log("Leave OffCanvas submit triggered");
                     handleLeaveSubmit(e);
                 }}
                 onHide={() => {
