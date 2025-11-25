@@ -263,6 +263,8 @@ const Contact = () => {
                             value={formData.currentAddress.addressLine1}
                             handleChange={handleChange}
                             required
+                            textarea        // 🔥 this makes it a textarea
+                            rows={3}
                             disabled={!isEditMode}   //
                         />
                     </Col>
@@ -276,6 +278,8 @@ const Contact = () => {
                             value={formData.currentAddress.addressLine2}
                             handleChange={handleChange}
                             required
+                            textarea        // 🔥 this makes it a textarea
+                            rows={3}
                             disabled={!isEditMode}   //
                         />
                     </Col>
@@ -344,6 +348,8 @@ const Contact = () => {
                             value={formData.permanentAddress.addressLine1}
                             handleChange={handleChange}
                             required
+                            textarea        // 🔥 this makes it a textarea
+                            rows={3}
                             disabled={!isEditMode}   //
                         />
                     </Col>
@@ -357,6 +363,8 @@ const Contact = () => {
                             value={formData.permanentAddress.addressLine2}
                             handleChange={handleChange}
                             required
+                            textarea        // 🔥 this makes it a textarea
+                            rows={3}
                             disabled={!isEditMode}   //
                         />
                     </Col>

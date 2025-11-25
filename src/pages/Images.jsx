@@ -51,6 +51,13 @@ import ManageHoliday from '../assets/Images/manage_holiday.svg';
 import SearchEmployee from '../assets/Images/SearchEmployee.svg';
 import TimeLoader from '../assets/Images/time_loader.svg';
 
+import Refresh from '../assets/Images/refresh.svg';
+import Calendar from '../assets/Images/calendar.svg';
+
+import Compensatory from '../assets/Images/L-Compensatory.svg';
+import Paid from '../assets/Images/L-Paid.svg';
+import Paternity from '../assets/Images/L-Paternity.svg';
+import Sick from '../assets/Images/L-Sick.svg';
 
 
 
@@ -90,7 +97,13 @@ import TimeLoader from '../assets/Images/time_loader.svg';
     BirthdayCake,
     BirthdayCup,
     ManageHoliday,
-    TimeLoader
+    TimeLoader,
+    Refresh,
+    Calendar,
+    Compensatory,
+    Paid,
+    Paternity,
+    Sick
 }
 
 export default Images;

@@ -449,7 +449,7 @@ export const deleteLeave = async (id, token) => {
   );
 };
 
-export const getleave = (token) => {
+export const getLeave = (token) => {
   return axios.get(
     `${url}/holiday`,
     {

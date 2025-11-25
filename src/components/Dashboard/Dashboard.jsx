@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import Images from "../../pages/Images.jsx";
+import ComboDate from '../../data/Combo.json';
 import { OffCanvas, InputField, SelectInput, } from "../../pages/Props.jsx";
 
 // Bootstrap imports
@@ -10,8 +11,6 @@ import { Container, Card, Form, Row, Nav, Col, Tab, Tabs, Button, Table } from '
 
 // Bootstrap imports
 
-import Refresh from '../../assets/Images/refresh.svg';
-import Calendar from '../../assets/Images/calendar.svg';
 
 import TaskReminder from '../Common/Task_Reminder.jsx';
 import EmployeeStatistics from '../Common/EmployeeStatistics.jsx';
@@ -29,19 +28,42 @@ import KeyMetrics from '../Common/KeyMetrics.jsx';
 const Dashboard = () => {
   const { loginUser } = useLoginUser();
 
-  const [showLeaveCanvas, setShowLeaveCanvas] = useState(false);
-  const [leaveForm, setLeaveForm] = useState({
-    //_id: "",
-    employeeId: "",
-    leavetype: "",
-    leaveDate: "",
-    enddate: "",
-    description: "",
+  const [LeaveCategories] = useState(ComboDate.LeaveCategories);
+
+  const [applyLeaveCanvas, setApplyLeaveCanvas] = useState(false);
+  const [leaveApplyForm, setLeaveApplyForm] = useState({
+    _id: "",
+    fromDate: "",
+    toDate: "",
+    leaveCategory: "",
+    note: "",
   });
+
+  const [leaveErrors, setLeaveErrors] = useState({});
+  const [editingLeave, setEditingLeave] = useState(null);
+
+  const handleApplyLeaveChange = (e) => {
+    const { name, value } = e.target;
+    setHolidayForm((p) => ({ ...p, [name]: value }));
+    const error = HolidayListValidateField(name, value);
+    setHolidayErrors((prev) => ({ ...prev, [name]: error }));
+  };
 
   const handleLeaveSubmit = (e) => {
     e.preventDefault();
     if (!validateLeaveForm()) return;
+  };
+
+  const resetLeaveApplyForm = () => {
+    setLeaveApplyForm({
+      _id: "",
+      fromDate: "",
+      toDate: "",
+      leaveCategory: "",
+      note: "",
+    });
+    setLeaveErrors({});
+    setEditingLeave(null);
   };
 
   // console.log("👉 Logged user object:", loginUser.user);
@@ -83,7 +105,7 @@ const Dashboard = () => {
                 <Card.Header>
                   <h3>Upcoming Events</h3>
                   <div className="heading_elements">
-                    <button className='my_calendar' type='button'> <i><img src={Calendar} alt="" /></i> View Calendar</button>
+                    <button className='my_calendar' type='button'> <i><img src={Images.Calendar} alt="" /></i> View Calendar</button>
                   </div>
                 </Card.Header>
                 <Card.Body className=''>
@@ -95,7 +117,7 @@ const Dashboard = () => {
                   <h3>Attendance Summary</h3>
                   <div className="heading_elements">
                     <i className='square'>
-                      <img src={Refresh} alt="" />
+                      <img src={Images.Refresh} alt="" />
                     </i>
                   </div>
                 </Card.Header>
@@ -136,7 +158,7 @@ const Dashboard = () => {
                       <span>01:18:04 Hrs</span>
                     </div>
                     <div className='Employee_ActionBtn'>
-                      <button type='button'>Apply Leave</button>
+                      <button type='button' onClick={() => { resetLeaveApplyForm(); setApplyLeaveCanvas(true); }}>Apply Leave</button>
                       <button type='button'>Log Time</button>
                     </div>
                   </div>
@@ -151,7 +173,7 @@ const Dashboard = () => {
                   <h3>Attendance</h3>
                   <div className="heading_elements">
                     {/* <i className='square'>
-                      <img src={Refresh} alt="" />
+                      <img src={Images.Refresh} alt="" />
                     </i> */}
                   </div>
                 </Card.Header>
@@ -166,7 +188,7 @@ const Dashboard = () => {
                   <h3>Leave Report</h3>
                   <div className="heading_elements">
                     {/* <i className='square'>
-                      <img src={Refresh} alt="" />
+                      <img src={Images.Refresh} alt="" />
                     </i> */}
                   </div>
                 </Card.Header>
@@ -181,7 +203,7 @@ const Dashboard = () => {
                   <h3>Holiday List</h3>
                   <div className="heading_elements">
                     {/* <i className='square'>
-                      <img src={Refresh} alt="" />
+                      <img src={Images.Refresh} alt="" />
                     </i> */}
                   </div>
                 </Card.Header>
@@ -198,7 +220,7 @@ const Dashboard = () => {
                   <h3>Task & Reminders</h3>
                   <div className="heading_elements">
                     <i className='square'>
-                      <img src={Refresh} alt="" />
+                      <img src={Images.Refresh} alt="" />
                     </i>
                   </div>
                 </Card.Header>
@@ -213,7 +235,7 @@ const Dashboard = () => {
                   <h3>Birthday</h3>
                   <div className="heading_elements">
                     {/* <i className='square'>
-                      <img src={Refresh} alt="" />
+                      <img src={Images.Refresh} alt="" />
                     </i> */}
                   </div>
                 </Card.Header>
@@ -244,15 +266,15 @@ const Dashboard = () => {
 
       <>
         <OffCanvas
-          show={showLeaveCanvas}
+          show={applyLeaveCanvas}
           placement="end"
           onSubmit={handleLeaveSubmit}
           onHide={() => {
-            setShowLeaveCanvas(false);
-            resetHolidayForm();
+            setApplyLeaveCanvas(false);
+            resetLeaveApplyForm();
           }}
-          title={"Add Holiday"}
-          subtitle={"Add your Holiday List Here."}
+          title={"Apply Leave"}
+          subtitle={"Apply your Leave List Here."}
           className='PrimaryCanvasModal'
           name={"Add Holiday List"}
           footerButtonSubmit={"Add Holiday List"}
@@ -260,55 +282,108 @@ const Dashboard = () => {
           footerButtonSubmitClass="modal_primary_btn w-100"
           footerButtonCancelClass="modal_primary_border_btn w-100"
         >
+          <Col md={{ span: 10, offset: 1 }} className="mb-5">
+            <div className='LeaveBalanceCard'>
+              <div className="LeaveBalanceCardBody">
+                <div className="LeaveHeader">
+                  <h5>Balance as of</h5>
+                  <span><i></i>11/24/2025</span>
+                </div>
+                <div className='LeaveContent'>
+                  <Row>
+                    <Col md={6}>
+                      <div className="LeaveList">
+                        <div className="ListIcon">
+                          <img src={Images.Paid} alt="" />
+                        </div>
+                        <div className="ListData">
+                          <h4>Paid Leave</h4>
+                          <span>3.09 days available</span>
+                        </div>
+                      </div>
+                    </Col>
+                    <Col md={6}>
+                      <div className="LeaveList">
+                        <div className="ListIcon">
+                          <img src={Images.Sick} alt="" />
+                        </div>
+                        <div className="ListData">
+                          <h4>Sick/Casual Leave</h4>
+                          <span>2.09 days available</span>
+                        </div>
+                      </div>
+                    </Col>
+                    <Col md={6}>
+                      <div className="LeaveList">
+                        <div className="ListIcon">
+                          <img src={Images.Paternity} alt="" />
+                        </div>
+                        <div className="ListData">
+                          <h4>Paternity Leave</h4>
+                          <span>5 days available</span>
+                        </div>
+                      </div>
+                    </Col>
+                    <Col md={6}>
+                      <div className="LeaveList">
+                        <div className="ListIcon">
+                          <img src={Images.Compensatory} alt="" />
+                        </div>
+                        <div className="ListData">
+                          <h4>Compensatory Off</h4>
+                          <span>2.09 days available</span>
+                        </div>
+                      </div>
+                    </Col>
+                  </Row>
+                </div>
+              </div>
+            </div>
+          </Col>
           <Col md={6}>
             <InputField
-              label="Employee ID"
-              name="employeeId"
-              value={leaveForm.employeeId}
-              //handleChange={handleLeaveChange}
-              //error={leaveErrors.employeeId}
+              label="Form Date"
+              name="formDate"
+              type="date"
+              value={leaveApplyForm.fromDate}
+              handleChange={handleApplyLeaveChange}
+              //error={leaveErrors.fromDate}
               required
             />
           </Col>
           <Col md={6}>
+            <InputField
+              label="To Date"
+              name="toDate"
+              type="date"
+              value={leaveApplyForm.toDate}
+              handleChange={handleApplyLeaveChange}
+              //error={leaveErrors.toDate}
+              required
+            />
+
+          </Col>
+          <Col md={12}>
             <SelectInput
-              label="Leave Type"
-              name="leaveType"
-              //options={LeaveTypes}
+              label="Leave Category"
+              name="leaveCategory"
+              options={LeaveCategories}
               placeholder="Select an option"
-              //error={leaveErrors.leaveType}
-              value={leaveForm.leavetype}
-              //handleChange={handleLeaveChange}
-              required
-            />
-          </Col>
-          <Col md={6}>
-            <InputField
-              label="Date"
-              name="leaveDate"
-              value={leaveForm.leaveDate}
-              //handleChange={handleLeaveChange}
-              //error={leaveErrors.leaveDate}
+              value={leaveApplyForm.leaveCategory}
+              handleChange={handleApplyLeaveChange}
+              //error={leaveErrors.leaveCategory}
               required
             />
           </Col>
           <Col md={12}>
             <InputField
-              label="Email ID"
-              name="emailId"
-              value={leaveForm.emailId}
-              //handleChange={handleLeaveChange}
-              //error={leaveErrors.emailId}
-              required
-            />
-          </Col>
-          <Col md={12}>
-            <InputField
-              label="Reason for leave"
-              name="reasonForLeave"
-              value={leaveForm.reasonForLeave}
-              //handleChange={handleLeaveChange}
-              //error={leaveErrors.reasonForLeave}
+              label="Note"
+              name="note"
+              value={leaveApplyForm.note}
+              handleChange={handleApplyLeaveChange}
+              //error={leaveErrors.note}
+              textarea        // 🔥 this makes it a textarea
+              rows={4}
               required
             />
           </Col>

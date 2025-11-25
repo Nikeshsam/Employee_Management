@@ -636,7 +636,7 @@ const Educations = () => {
                         required
                     />
                 </Col>
-                <Col md={6} lg={6} xl={6} xxl={6}>
+                <Col md={12} lg={12} xl={12} xxl={12}>
                     <InputField
                         label="Course Description"
                         type="text"
@@ -646,6 +646,8 @@ const Educations = () => {
                         error={certificationErrors.additionalInfo}
                         value={certificationsFormData.additionalInfo}
                         handleChange={handleChange}
+                        textarea        // 🔥 this makes it a textarea
+                        rows={4}
                         required
                     />
                 </Col>

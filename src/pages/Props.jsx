@@ -18,8 +18,9 @@ export const CardForm = ({
     cardTitle = '',
     footerButtonSubmit = "Save",
     footerButtonSubmitClass = "",
-    footerButtonSubmitDisabled = false,   // 🔥 new prop
-    footerExtraButton = null,             // 🔥 new prop
+    footerButtonSubmitDisabled = false,
+    footerExtraButton = null,
+    showFooter = true,   // 🔥 NEW PROP FOR HIDE/SHOW FOOTER
 }) => {
     return (
         <Card className='secondary_card'>
@@ -31,24 +32,27 @@ export const CardForm = ({
                     </Row>
                 </Form>
             </Card.Body>
-            <Card.Footer className="d-flex justify-content-end">
-                {/* Submit button (Save / Update) */}
-                <Button 
-                    type="submit"
-                    onClick={onSubmit}
-                    className={footerButtonSubmitClass} 
-                    disabled={footerButtonSubmitDisabled}  // ✅ disable support
-                >
-                    {footerButtonSubmit}
-                </Button>
 
-                {/* Extra button (Edit, Cancel, etc.) */}
-                {footerExtraButton && footerExtraButton}
-            </Card.Footer>
+            {/* 🔥 Conditionally render footer */}
+            {showFooter && (
+                <Card.Footer className="d-flex justify-content-end">
+                    {/* Submit button */}
+                    <Button
+                        type="submit"
+                        onClick={onSubmit}
+                        className={footerButtonSubmitClass}
+                        disabled={footerButtonSubmitDisabled}
+                    >
+                        {footerButtonSubmit}
+                    </Button>
+
+                    {/* Extra button */}
+                    {footerExtraButton && footerExtraButton}
+                </Card.Footer>
+            )}
         </Card>
     );
 };
-
 
 // Component Card Tertiary.....
 
@@ -356,6 +360,8 @@ export const InputField = ({
     readOnly = false,
     controlId = '',
     className = 'mb-3',
+    textarea = false,   // 🔥 NEW PROP
+    rows = 3            // optional for textarea
 }) => {
     return (
         <Form.Group autoComplete="off" className={`position-relative ${className}`} controlId={controlId}>
@@ -366,7 +372,9 @@ export const InputField = ({
                 </Form.Label>
             )}
             <Form.Control
-                type={type}
+                as={textarea ? "textarea" : "input"}   // 🔥 switch input → textarea
+                rows={textarea ? rows : undefined}     // 🔥 apply rows only for textarea
+                type={textarea ? undefined : type}     // 🔥 prevent conflict
                 name={name}
                 placeholder={placeholder}
                 value={value || ""}   // ensure it's never undefined
@@ -376,46 +384,6 @@ export const InputField = ({
                 autoComplete="off"
                 disabled={disabled}
                 readOnly={readOnly}
-            />
-            {error && (
-                <Form.Control.Feedback type="invalid" className="error_msg">
-                    {error}
-                </Form.Control.Feedback>
-            )}
-        </Form.Group>
-    );
-};
-
-// Component InputField.....
-
-export const UploadInputField = ({
-    label = '',
-    name,
-    type = 'file',
-    handleChange,
-    error,
-    placeholder = '',
-    required = false,
-    controlId = '',
-    className = 'mb-3',
-}) => {
-    return (
-        <Form.Group autoComplete="off" className={`position-relative ${className}`} controlId={controlId}>
-            {label && (
-                <Form.Label>
-                    {label}
-                    {required && <span className="text-danger"> *</span>}
-                </Form.Label>
-            )}
-            <Form.Control
-                type={type}
-                name={name}
-                placeholder={placeholder}
-                onChange={handleChange}
-                required={required}
-                isInvalid={!!error}
-                autoComplete="off"
-                accept="*/*"
             />
             {error && (
                 <Form.Control.Feedback type="invalid" className="error_msg">
@@ -463,6 +431,46 @@ export const SelectInput = ({
                     </option>
                 ))}
             </Form.Select>
+            {error && (
+                <Form.Control.Feedback type="invalid" className="error_msg">
+                    {error}
+                </Form.Control.Feedback>
+            )}
+        </Form.Group>
+    );
+};
+
+// Component UploadInputField.....
+
+export const UploadInputField = ({
+    label = '',
+    name,
+    type = 'file',
+    handleChange,
+    error,
+    placeholder = '',
+    required = false,
+    controlId = '',
+    className = 'mb-3',
+}) => {
+    return (
+        <Form.Group autoComplete="off" className={`position-relative ${className}`} controlId={controlId}>
+            {label && (
+                <Form.Label>
+                    {label}
+                    {required && <span className="text-danger"> *</span>}
+                </Form.Label>
+            )}
+            <Form.Control
+                type={type}
+                name={name}
+                placeholder={placeholder}
+                onChange={handleChange}
+                required={required}
+                isInvalid={!!error}
+                autoComplete="off"
+                accept="*/*"
+            />
             {error && (
                 <Form.Control.Feedback type="invalid" className="error_msg">
                     {error}
@@ -802,6 +810,8 @@ export const OffCanvas = ({
     );
 };
 
+// Component CustomToast.....
+
 export const CustomToast = ({
     title,
     message,
@@ -832,6 +842,8 @@ export const CustomToast = ({
     );
 };
 
+// Component ComboLabel.....
+
 export const getComboLabel = (comboName, key) => {
     const comboArray = ComboDate[comboName];
     if (!comboArray) return 'Nil';
@@ -839,6 +851,8 @@ export const getComboLabel = (comboName, key) => {
     const item = comboArray.find(entry => entry.key === String(key));
     return item ? item.label : 'Nil';
 };
+
+// Component CheckBoxGroup.....
 
 export const CheckBoxGroup = ({
     label = "",

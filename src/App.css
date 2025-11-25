@@ -189,7 +189,7 @@ Form{width: 100%;}
 .secondary_card{border: 1px solid #E4E3E3; border-radius: 8px; background-color: #fff;}
 .secondary_card .card-body{height: calc(100vh - 352px); overflow: auto;}
 
-.manage_holiday .secondary_card .card-body{height: calc(100vh - 195px);}
+.manage_holiday .secondary_card .card-body{height: calc(100vh - 150px);}
 
 .secondary_card .card-footer{background-color: #ECECEC; border: none !important; display: flex; align-items: center; justify-content: flex-end;}
 
@@ -369,6 +369,8 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .form-control:focus{box-shadow: none !important; border: 1px solid #b498ff !important;}
 .form-select{color: #2e2e2e !important; font-size: 14px !important; font-weight: 500 !important; background-color: #fff !important; height: 40px !important; border: 1px solid #E5DEF7 !important; border-radius: 4px !important;}
 .form-select:focus{box-shadow: none !important; border: 1px solid #b498ff !important;}
+
+textarea.form-control{height: auto !important;}
 
 .form-control[disabled]{background-color: #e7e7e7 !important; cursor: not-allowed;}
 .form-select[disabled]{background-color: #e7e7e7 !important; cursor: not-allowed;}
@@ -770,4 +772,18 @@ input:-internal-autofill-selected{background-color: transparent;}
 
 .normalRadio .inlineForm .form-label{justify-content: flex-start; width: auto;}
 .normalRadio .inlineForm .position-relative{width: 100%; display: flex; gap: 15px;} 
+
+.LeaveBalanceCard{background-color: #FDFDFF; border: 1px solid #F1ECFF; border-radius: 10px; padding: 15px 15px 0 15px;}
+.LeaveBalanceCard .LeaveBalanceCardBody{display: flex; flex-direction: column; gap: 20px;}
+.LeaveBalanceCard .LeaveHeader{display: flex; align-items: center; align-items: center; gap: 15px;}
+.LeaveBalanceCard .LeaveHeader h5{margin: 0; font-size: 15px; font-weight: 500; color: #4F3591;}
+.LeaveBalanceCard .LeaveHeader span{display: flex; gap: 8px; align-items: center; font-size: 12px; font-weight: 500; color: #2B2A2D; padding: 7px 10px; border-radius: 4px; border: 1px solid #BEA5FF;}
+.LeaveBalanceCard .LeaveContent .LeaveList{display: flex; align-items: center; gap: 10px; margin-bottom: 20px;}
+.LeaveBalanceCard .LeaveContent .LeaveList .ListIcon{width: 40px; height: 40px; border-radius: 8px; background-color: #F6F4FF; display: flex; align-items: center; justify-content: center;}
+.LeaveBalanceCard .LeaveContent .LeaveList .ListIcon img{width: 22px;}
+.LeaveBalanceCard .LeaveContent .LeaveList .ListData{display: flex; align-items: flex-start; flex-direction: column; gap: 4px;}
+.LeaveBalanceCard .LeaveContent .LeaveList .ListData h4{font-size: 13px; color: #2B2A2D; font-weight: 500; margin: 0;}
+.LeaveBalanceCard .LeaveContent .LeaveList .ListData span{font-size: 10.5px; color: #898989; font-weight: 400;}
+
+
 

@@ -444,6 +444,8 @@ const Travel = () => {
             name="notes"
             error={VisaErrors.notes}
             value={VisaFormData.notes}
+            textarea        // 🔥 this makes it a textarea
+            rows={4}
             handleChange={handleVisaChange}
           />
         </Col>

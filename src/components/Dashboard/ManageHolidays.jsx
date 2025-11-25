@@ -1,3 +1,4 @@
+// ManageHolidaysAndLeave.jsx
 import React, { useEffect, useState } from "react";
 import {
     CardForm,
@@ -15,51 +16,44 @@ import Images from "../../pages/Images.jsx";
 import ComboDate from '../../data/Combo.json';
 import Loader from "../Common/Loader.jsx";
 import { HolidayListValidateField, LeaveReportValidateField } from "../Validations/Validate.jsx";
-import { createOrUpdateHoliday, deleteHoliday, getHolidays } from '../../api/index.js';
+import {
+    createOrUpdateHoliday,
+    deleteHoliday,
+    getHolidays,
+    // below three are assumed — change names if your API differs:
+    createOrUpdateLeave,
+    deleteLeave,
+    getLeave,
+} from '../../api/index.js';
 
 // Bootstrap imports
-
 import 'bootstrap/dist/css/bootstrap.css';
-import { Container, Card, Form, Row, Col, ToastContainer, Tab, Tabs, Button, Table } from 'react-bootstrap';
-
-// Bootstrap imports
+import { Container, Row, Col, ToastContainer, Tab, Tabs, Button } from 'react-bootstrap';
 
 const ManageHolidaysAndLeave = () => {
+    const { loginUser } = useLoginUser();
 
-    const [RestrictedHoliday, setRestrictedHoliday] = useState(ComboDate.RestrictedHoliday);
-    const [LeaveCategories, setLeaveCategories] = useState(ComboDate.LeaveCategories);
-    const [GenderOptions, setGenderOptions] = useState(ComboDate.GenderOptions);
+    const [RestrictedHoliday] = useState(ComboDate.RestrictedHoliday);
+    const [LeaveCategories] = useState(ComboDate.LeaveCategories);
+    const [GenderOptions] = useState(ComboDate.GenderOptions);
 
     const monthlyAccrual = [
-        {
-            label: 'Yes (accrue leave monthly)',
-            value: 'accrual',
-        },
-        {
-            label: 'No (do not accrue leave monthly)',
-            value: 'no-accrual',
-        },
+        { label: 'Yes (accrue leave monthly)', value: 'accrual' },
+        { label: 'No (do not accrue leave monthly)', value: 'no-accrual' },
     ];
 
     const carryForwardAllowed = [
-        {
-            label: 'Yes (allow carry forward)',
-            value: 'allow',
-        },
-        {
-            label: 'No (do not allow carry forward)',
-            value: 'not-allow',
-        },
+        { label: 'Yes (allow carry forward)', value: 'allow' },
+        { label: 'No (do not allow carry forward)', value: 'not-allow' },
     ];
 
-    const { loginUser } = useLoginUser();
     const [toastList, setToastList] = useState([]);
     const [submitting, setSubmitting] = useState(false);
 
     /** ---------- HOLIDAY STATES ---------- **/
     const [holidayList, setHolidayList] = useState([]);
     const [holidayForm, setHolidayForm] = useState({
-        //_id: "",
+        _id: "",
         holidayname: "",
         holidaydate: "",
         holidayday: "",
@@ -72,11 +66,6 @@ const ManageHolidaysAndLeave = () => {
     const [showHolidayModal, setShowHolidayModal] = useState(false);
     const [holidayToDelete, setHolidayToDelete] = useState(null);
     const [deleteHolidayIndex, setDeleteHolidayIndex] = useState(null);
-
-    const handleHolidayClearClick = () => {
-        setShowHolidayModal(false);
-        setHolidayToDelete(null); // If you’re using employeeToDelete state
-    };
 
     const validateHolidayForm = () => {
         const newErrors = {};
@@ -108,78 +97,42 @@ const ManageHolidaysAndLeave = () => {
         setEditingHoliday(null);
     };
 
-    const handleHolidaySubmit = (e) => {
+    // Save single holiday immediately (create or update)
+    const handleHolidaySubmit = async (e) => {
         e.preventDefault();
         if (!validateHolidayForm()) return;
 
-        const newHoliday = { ...holidayForm };
-        if (editingHoliday !== null) {
-            setHolidayList((prev) =>
-                prev.map((item, i) => (i === editingHoliday ? newHoliday : item))
-            );
-        } else {
-            setHolidayList((prev) => [...prev, newHoliday]);
-        }
-
-        setToastList((prev) => [
-            ...prev,
-            {
-                title: "Success",
-                message: editingHoliday !== null ? "Holiday updated" : "Holiday added",
-                type: "success",
-            },
-        ]);
-
-        setHolidayForm({
-            //_id: "",
-            holidayname: "",
-            holidaydate: "",
-            holidayday: "",
-            description: "",
-        });
-        setEditingHoliday(null);
-        setShowHolidayCanvas(false);
-    };
-
-    const handleHolidaySaveAll = async () => {
         try {
             setSubmitting(true);
 
-            if (holidayList.length === 0) {
-                setToastList((prev) => [
-                    ...prev,
-                    { title: "Info", message: "No holiday records to save.", type: "info" },
-                ]);
-                return;
-            }
+            // Ensure payload shape matches your backend
+            const payload = {
+                ...holidayForm,
+                restricted: holidayForm.restrictedHoliday === "true" || holidayForm.restrictedHoliday === true,
+            };
 
-            for (const h of holidayList) {
-                // validate fields before API call
-                if (!h.holidayname || !h.holidaydate) {
-                    setToastList((prev) => [
-                        ...prev,
-                        { title: "Error", message: "Holiday name and date are required.", type: "error" },
-                    ]);
-                    return;
-                }
-
-                await createOrUpdateHoliday(h, loginUser.token);
-            }
+            const resp = await createOrUpdateHoliday(payload, loginUser.token);
+            // Optionally you can use resp to update local state; for reliability re-fetch
+            await fetchHolidays();
 
             setToastList((prev) => [
                 ...prev,
-                { title: "Success", message: "All holidays saved successfully!", type: "success" },
+                {
+                    title: "Success",
+                    message: editingHoliday !== null ? "Holiday updated" : "Holiday added",
+                    type: "success",
+                },
             ]);
 
+            resetHolidayForm();
+            setShowHolidayCanvas(false);
         } catch (error) {
-            console.error("Error saving holidays:", error);
+            console.error("Error saving holiday:", error);
             setToastList((prev) => [
                 ...prev,
                 {
                     title: "Error",
-                    message:
-                        error?.response?.data?.message ||
-                        "Failed to save holidays. Please check the API request.",
+                    message: error?.response?.data?.message || "Failed to save holiday.",
                     type: "error",
                 },
             ]);
@@ -189,11 +142,16 @@ const ManageHolidaysAndLeave = () => {
     };
 
     const handleDeleteHoliday = async () => {
-        const holiday = holidayList[deleteHolidayIndex];
-        setHolidayList(prev => prev.filter((_, i) => i !== deleteHolidayIndex));
+        // Close modal first
+        setShowHolidayModal(false);
+
+        const idx = deleteHolidayIndex;
+        const holiday = holidayList[idx];
+        // Optimistic UI removal
+        setHolidayList(prev => prev.filter((_, i) => i !== idx));
         setDeleteHolidayIndex(null);
 
-        if (holiday._id) {
+        if (holiday && holiday._id) {
             try {
                 await deleteHoliday(holiday._id, loginUser.token);
                 setToastList(prev => [
@@ -214,15 +172,17 @@ const ManageHolidaysAndLeave = () => {
                         type: 'error',
                     },
                 ]);
+                // fallback: re-fetch to get correct state
+                fetchHolidays();
             }
         }
     };
 
     const fetchHolidays = async () => {
         try {
-            const response = await getHolidays(loginUser.token); // <-- use your actual API here
+            const response = await getHolidays(loginUser.token);
             if (!response || !response.data) {
-                console.log("No holiday data found");
+                setHolidayList([]);
                 return;
             }
             setHolidayList(response.data.holidays || []);
@@ -244,19 +204,18 @@ const ManageHolidaysAndLeave = () => {
             holidayname: holiday.holidayname || "",
             holidaydate: holiday.holidaydate || "",
             holidayday: holiday.holidayday || "",
+            restrictedHoliday: holiday.restricted ? "true" : "false",
             description: holiday.description || "",
         });
 
         setEditingHoliday(index);
-        setShowHolidayCanvas(true); // Open the OffCanvas for editing
+        setShowHolidayCanvas(true);
     };
 
-
-
-    /** ---------- LEAVE REPORT STATES ---------- **/
+    /** ---------- LEAVE STATES ---------- **/
     const [leaveList, setLeaveList] = useState([]);
     const [leaveForm, setLeaveForm] = useState({
-        // _id: "",
+        _id: "",
         leaveName: "",
         leaveCategory: "",
         description: "",
@@ -264,11 +223,9 @@ const ManageHolidaysAndLeave = () => {
         monthlyAccrual: "",
         carryForwardAllowed: "",
         maxCarryForward: "",
-        carryForwardAllowed: "",
-        maxCarryForward:"",
-        allowHalfDay:"",
-        validFrom:"",
-        validTo:"",
+        allowHalfDay: false,
+        validFrom: "",
+        validTo: "",
     });
     const [leaveErrors, setLeaveErrors] = useState({});
     const [editingLeave, setEditingLeave] = useState(null);
@@ -276,10 +233,6 @@ const ManageHolidaysAndLeave = () => {
     const [showLeaveModal, setShowLeaveModal] = useState(false);
     const [leaveToDelete, setLeaveToDelete] = useState(null);
     const [deleteLeaveIndex, setDeleteLeaveIndex] = useState(null);
-
-    /** ---------- TOAST ---------- **/
-    const handleToastClose = (index) =>
-        setToastList((prev) => prev.filter((_, i) => i !== index));
 
     const validateLeaveForm = () => {
         const newErrors = {};
@@ -290,11 +243,12 @@ const ManageHolidaysAndLeave = () => {
         setLeaveErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
-
+    
     const handleLeaveChange = (e) => {
-        const { name, value } = e.target;
-        setLeaveForm((p) => ({ ...p, [name]: value }));
-        const error = LeaveReportValidateField(name, value);
+        const { name, value, type, checked } = e.target || {};
+        const finalValue = type === "checkbox" ? checked : value;
+        setLeaveForm((p) => ({ ...p, [name]: finalValue }));
+        const error = LeaveReportValidateField(name, finalValue);
         setLeaveErrors((prev) => ({ ...prev, [name]: error }));
     };
 
@@ -308,162 +262,135 @@ const ManageHolidaysAndLeave = () => {
             monthlyAccrual: "",
             carryForwardAllowed: "",
             maxCarryForward: "",
-            carryForwardAllowed: "",
-            maxCarryForward:"",
-            allowHalfDay:"",
-            validFrom:"",
-            validTo:"",
+            allowHalfDay: false,
+            validFrom: "",
+            validTo: "",
         });
         setLeaveErrors({});
         setEditingLeave(null);
     };
 
-    const handleLeaveSubmit = (e) => {
+    // Save single leave immediately (create or update)
+    const handleLeaveSubmit = async (e) => {
         e.preventDefault();
         if (!validateLeaveForm()) return;
 
-        const newLeave = { ...leaveForm };
-        if (editingLeave !== null) {
-            setLeaveList((prev) =>
-                prev.map((item, i) => (i === editingLeave ? newLeave : item))
-            );
-        } else {
-            setLeaveList((prev) => [...prev, newLeave]);
-        }
-
-        setToastList((prev) => [
-            ...prev,
-            {
-                title: "Success",
-                message: editingLeave !== null ? "Leave updated" : "Leave added Successfully",
-                type: "success",
-            },
-        ]);
-
-        setLeaveForm({
-            // _id: "",
-            leaveName: "",
-            leaveCategory: "",
-            description: "",
-            genderEligibility: "",
-            monthlyAccrual: "",
-            carryForwardAllowed: "",
-            maxCarryForward: "",
-            carryForwardAllowed: "",
-            maxCarryForward:"",
-            allowHalfDay:"",
-            validFrom:"",
-            validTo:"",
-        });
-        setEditingLeave(null);
-        setShowLeaveCanvas(false);
-    };
-
-    const handleLeaveSaveAll = async () => {
         try {
             setSubmitting(true);
 
-            if (leaveList.length === 0) {
-                setToastList((prev) => [
-                    ...prev,
-                    { title: "Info", message: "No leave records to save.", type: "error" },
-                ]);
-                return;
-            }
-
-            const apiData = {
-                leaves: leaveList.map(l => ({
-                    //_id: l._id || "",
-                    leaveType: l.leaveType,
-                    leaveCount: l.leaveCount,
-                    description: l.description,
-                })),
+            const payload = {
+                ...leaveForm,
+                allowHalfDay: Boolean(leaveForm.allowHalfDay),
             };
 
-            await createOrUpdateHoliday(apiData, loginUser.token); // Replace with actual Leave API if available
+            // call leave API (assumed name)
+            await createOrUpdateLeave(payload, loginUser.token);
 
             setToastList((prev) => [
                 ...prev,
-                { title: "Success", message: "Leave report saved successfully!", type: "success" },
+                {
+                    title: "Success",
+                    message: editingLeave !== null ? "Leave updated" : "Leave added",
+                    type: "success",
+                },
             ]);
 
+            await fetchLeaves();
+
+            resetLeaveForm();
+            setShowLeaveCanvas(false);
         } catch (error) {
-            console.error("Error saving leaves:", error);
+            console.error("Error saving leave:", error);
             setToastList((prev) => [
                 ...prev,
-                { title: "Error", message: "Failed to save leave data.", type: "error" },
+                { title: "Error", message: error?.response?.data?.message || "Failed to save leave data.", type: "error" },
             ]);
         } finally {
             setSubmitting(false);
         }
     };
 
-    const handleDeleteLeave = () => {
-        setLeaveList((prev) => prev.filter((_, i) => i !== deleteLeaveIndex));
+    const handleDeleteLeave = async () => {
         setShowLeaveModal(false);
-        setToastList((prev) => [
-            ...prev,
-            { title: "Deleted", message: "Leave deleted", type: "success" },
-        ]);
+
+        const idx = deleteLeaveIndex;
+        const leave = leaveList[idx];
+        setLeaveList(prev => prev.filter((_, i) => i !== idx));
+        setDeleteLeaveIndex(null);
+
+        if (leave && leave._id) {
+            try {
+                await deleteLeave(leave._id, loginUser.token);
+                setToastList(prev => [
+                    ...prev,
+                    { title: "Deleted", message: "Leave deleted", type: "success" },
+                ]);
+            } catch (error) {
+                console.error("Error deleting leave:", error);
+                setToastList(prev => [
+                    ...prev,
+                    { title: "Error", message: "Failed to delete leave", type: "error" },
+                ]);
+                fetchLeaves();
+            }
+        } else {
+            // if local-only, just toast
+            setToastList(prev => [
+                ...prev,
+                { title: "Deleted", message: "Leave deleted", type: "success" },
+            ]);
+        }
     };
 
     const fetchLeaves = async () => {
         try {
-            const response = await getleave(loginUser.token); // <-- use your actual API here
+            const response = await getLeave(loginUser.token);
             if (!response || !response.data) {
-                console.log("No holiday data found");
+                setLeaveList([]);
                 return;
             }
-            setHolidayList(response.data.holidays || []);
+            setLeaveList(response.data.leaves || []);
         } catch (error) {
-            console.error("Error fetching holidays:", error);
+            console.error("Error fetching leaves:", error);
             setToastList((prev) => [
                 ...prev,
-                { title: "Error", message: "Failed to fetch holiday data.", type: "error" },
+                { title: "Error", message: "Failed to fetch leave data.", type: "error" },
             ]);
         }
     };
 
     const handleLeaveEdit = (index) => {
-        const holiday = holidayList[index];
-        if (!holiday) return;
+        const leave = leaveList[index];
+        if (!leave) return;
 
-        setHolidayForm({
-            _id: holiday._id || "",
-            holidayname: holiday.holidayname || "",
-            holidaydate: holiday.holidaydate || "",
-            holidayday: holiday.holidayday || "",
-            description: holiday.description || "",
+        setLeaveForm({
+            _id: leave._id || "",
+            leaveName: leave.leaveName || "",
+            leaveCategory: leave.leaveCategory || "",
+            description: leave.description || "",
+            genderEligibility: leave.genderEligibility || "",
+            monthlyAccrual: leave.monthlyAccrual || "",
+            carryForwardAllowed: leave.carryForwardAllowed || "",
+            maxCarryForward: leave.maxCarryForward || "",
+            allowHalfDay: Boolean(leave.allowHalfDay),
+            validFrom: leave.validFrom || "",
+            validTo: leave.validTo || "",
         });
 
-        setEditingHoliday(index);
-        setShowHolidayCanvas(true); // Open the OffCanvas for editing
+        setEditingLeave(index);
+        setShowLeaveCanvas(true);
     };
 
+    /** ---------- TOAST ---------- **/
+    const handleToastClose = (index) =>
+        setToastList((prev) => prev.filter((_, i) => i !== index));
 
-    // ---------- FETCH HOLIDAY AND LEAVE DATA ----------
+    // ---------- FETCH HOLIDAY AND LEAVE DATA ON MOUNT ----------
     useEffect(() => {
+        if (!loginUser?.token) return;
         fetchHolidays();
         fetchLeaves();
-    }, [loginUser.token]);
-
-    // Fetch leaves from DB
-    // const fetchLeaves = async () => {
-    //     try {
-    //         const response = await getLeaveDetails(loginUser.token); // <-- use your actual API here
-    //         if (!response || !response.data) {
-    //             console.log("No leave data found");
-    //             return;
-    //         }
-    //         setLeaveList(response.data.leaves || []);
-    //     } catch (error) {
-    //         console.error("Error fetching leaves:", error);
-    //         setToastList((prev) => [
-    //             ...prev,
-    //             { title: "Error", message: "Failed to fetch leave data.", type: "error" },
-    //         ]);
-    //     }
-    // };
+    }, [loginUser?.token]);
 
     /** ---------- MAIN RETURN ---------- **/
     return (
@@ -477,9 +404,10 @@ const ManageHolidaysAndLeave = () => {
                             <Tabs defaultActiveKey="holiday" transition={false} id="noanim-tab-example" className="Secondary_tab mb-3">
                                 <Tab eventKey="holiday" title="Holiday List">
                                     <CardForm
-                                        onSubmit={handleHolidaySaveAll}
-                                        footerButtonSubmit="Save Holiday"
-                                        footerButtonSubmitClass="primary_form_btn btn_h_35"
+                                        onSubmit={(e) => e.preventDefault()}
+                                        footerButtonSubmit=""
+                                        footerButtonSubmitClass=""
+                                        showFooter={false}   // 🔥 Footer hidden
                                     >
                                         <Col md={12} lg={12} xl={12} xxl={12}>
                                             <PrimaryGird
@@ -489,12 +417,15 @@ const ManageHolidaysAndLeave = () => {
                                                 showFilterButton={false}
                                                 showDeleteButton={false}
                                                 showFooter={false}
-                                                onButtonClick={() => setShowHolidayCanvas(true)}
+                                                onButtonClick={() => {
+                                                    resetHolidayForm();
+                                                    setShowHolidayCanvas(true);
+                                                }}
                                                 tableHeaders={["Name", "Date", "Day", "Restricted Holiday", "Description", "Actions"]}
                                             >
                                                 {holidayList.length > 0 ? (
                                                     holidayList.map((h, i) => (
-                                                        <tr key={i}>
+                                                        <tr key={h._id || i}>
                                                             <td>{h.holidayname}</td>
                                                             <td>{h.holidaydate}</td>
                                                             <td>{h.holidayday}</td>
@@ -521,7 +452,7 @@ const ManageHolidaysAndLeave = () => {
                                                     ))
                                                 ) : (
                                                     <tr>
-                                                        <td colSpan="5" className="text-center">
+                                                        <td colSpan="6" className="text-center">
                                                             No holidays added yet
                                                         </td>
                                                     </tr>
@@ -532,9 +463,10 @@ const ManageHolidaysAndLeave = () => {
                                 </Tab>
                                 <Tab eventKey="leave" title="Leave Report">
                                     <CardForm
-                                        onSubmit={handleLeaveSaveAll}
-                                        footerButtonSubmit="Save Leave"
-                                        footerButtonSubmitClass="primary_form_btn btn_h_35"
+                                        onSubmit={(e) => e.preventDefault()}
+                                        footerButtonSubmit=""
+                                        footerButtonSubmitClass=""
+                                        showFooter={false}   // 🔥 Footer hidden
                                     >
                                         <Col md={12} lg={12} xl={12} xxl={12}>
                                             <PrimaryGird
@@ -544,13 +476,17 @@ const ManageHolidaysAndLeave = () => {
                                                 showFilterButton={false}
                                                 showDeleteButton={false}
                                                 showFooter={false}
-                                                onButtonClick={() => setShowLeaveCanvas(true)}
+                                                onButtonClick={() => {
+                                                    resetLeaveForm();
+                                                    setShowLeaveCanvas(true);
+                                                }}
                                                 tableHeaders={[
                                                     "Leave Name",
                                                     "Leave Category",
                                                     "Gender Eligibility",
                                                     "Monthly Accrual",
                                                     "Carry Forward Allowed",
+                                                    "Max Carry Forward",
                                                     "Allow HalfDay",
                                                     "Valid From",
                                                     "Valid To",
@@ -559,13 +495,14 @@ const ManageHolidaysAndLeave = () => {
                                             >
                                                 {leaveList.length > 0 ? (
                                                     leaveList.map((l, i) => (
-                                                        <tr key={i}>
+                                                        <tr key={l._id || i}>
                                                             <td>{l.leaveName}</td>
                                                             <td>{l.leaveCategory}</td>
                                                             <td>{l.genderEligibility}</td>
+                                                            <td>{l.monthlyAccrual}</td>
                                                             <td>{l.carryForwardAllowed}</td>
                                                             <td>{l.maxCarryForward}</td>
-                                                            <td>{l.allowHalfDay}</td>
+                                                            <td>{l.allowHalfDay ? "Yes" : "No"}</td>
                                                             <td>{l.validFrom}</td>
                                                             <td>{l.validTo}</td>
                                                             <td className="table_action">
@@ -578,6 +515,7 @@ const ManageHolidaysAndLeave = () => {
                                                                 <Button
                                                                     className="btn_action"
                                                                     onClick={() => {
+                                                                        setLeaveToDelete(l);
                                                                         setDeleteLeaveIndex(i);
                                                                         setShowLeaveModal(true);
                                                                     }}
@@ -589,7 +527,7 @@ const ManageHolidaysAndLeave = () => {
                                                     ))
                                                 ) : (
                                                     <tr>
-                                                        <td colSpan="6" className="text-center">
+                                                        <td colSpan="10" className="text-center">
                                                             No leave report data
                                                         </td>
                                                     </tr>
@@ -673,6 +611,8 @@ const ManageHolidaysAndLeave = () => {
                         handleChange={handleHolidayChange}
                         error={holidayErrors.description}
                         required
+                        textarea        // 🔥 this makes it a textarea
+                        rows={3}
                     />
                 </Col>
             </OffCanvas>
@@ -681,10 +621,7 @@ const ManageHolidaysAndLeave = () => {
             <OffCanvas
                 show={showLeaveCanvas}
                 placement="end"
-                onSubmit={(e) => {
-                    //   console.log("Leave OffCanvas submit triggered");
-                    handleLeaveSubmit(e);
-                }}
+                onSubmit={handleLeaveSubmit}
                 onHide={() => {
                     setShowLeaveCanvas(false);
                     resetLeaveForm();
@@ -699,7 +636,7 @@ const ManageHolidaysAndLeave = () => {
                 footerButtonCancelClass="modal_primary_border_btn w-100"
             >
                 <Col md={12}>
-                    <Row>                        
+                    <Row>
                         <Col md={6}>
                             <InputField
                                 label="Leave Name"
@@ -718,6 +655,8 @@ const ManageHolidaysAndLeave = () => {
                                 handleChange={handleLeaveChange}
                                 error={leaveErrors.description}
                                 required
+                                textarea        // 🔥 this makes it a textarea
+                                rows={3}
                             />
                         </Col>
                         <Col md={6}>
@@ -765,7 +704,6 @@ const ManageHolidaysAndLeave = () => {
                                 value={leaveForm.carryForwardAllowed}
                                 handleChange={(e) => {
                                     handleLeaveChange(e);
-                                    // Reset max carry forward if "not-allow" is chosen
                                     if (e.target.value === "not-allow") {
                                         setLeaveForm((prev) => ({ ...prev, maxCarryForward: "" }));
                                     }
@@ -789,13 +727,11 @@ const ManageHolidaysAndLeave = () => {
                         <Col md={6}>
                             <CheckBoxGroup
                                 label="Allow HalfDay"
-                                name="notifications"
+                                name="allowHalfDay"
                                 options={[{ label: "Yes", value: true }]}
                                 value={leaveForm.allowHalfDay ? [true] : []}
                                 onChange={(newValues) =>
-                                    handleLeaveChange({
-                                        target: { name: "allowHalfDay", value: newValues.includes(true) },
-                                    })
+                                    setLeaveForm((prev) => ({ ...prev, allowHalfDay: newValues.includes(true) }))
                                 }
                                 error={leaveErrors.allowHalfDay}
                             />
@@ -831,7 +767,10 @@ const ManageHolidaysAndLeave = () => {
             {/* ---------- Delete Confirmation ---------- */}
             <CustomModalConfirmDialog
                 show={showHolidayModal}
-                onHide={handleHolidayClearClick}
+                onHide={() => {
+                    setShowHolidayModal(false);
+                    setHolidayToDelete(null);
+                }}
                 title="Delete Holiday"
                 size="md"
                 subtitle='This action cannot be undone.'
@@ -859,6 +798,7 @@ const ManageHolidaysAndLeave = () => {
                 footerButtonSubmitClass="modal_danger_btn"
                 footerButtonCancelClass="modal_primary_border_btn"
             />
+
             <CustomModalConfirmDialog
                 show={showLeaveModal}
                 onHide={() => setShowLeaveModal(false)}
