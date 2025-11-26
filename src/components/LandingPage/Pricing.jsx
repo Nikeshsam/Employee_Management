@@ -23,7 +23,7 @@ const Pricing = () => {
                 { key: 3, Description: 'Limited cloud storage for task-related data' },
                 { key: 4, Description: 'Limited collaboration option' },
             ],
-            buttonStyle: 'primary_btn_rounded_bordered',
+            buttonStyle: 'primary_btn_rounded',
             Icon: Images.PriceArrow,
         },
         {
@@ -51,7 +51,7 @@ const Pricing = () => {
                 { key: 2, Description: '24/7 priority customer support and dedicated customer success manager' },
                 { key: 3, Description: 'Robust security and compliance measures to protect sensitive HR data' },
             ],
-            buttonStyle: 'primary_btn_rounded_bordered',
+            buttonStyle: 'primary_btn_rounded',
             Icon: Images.PriceArrow,
         }
     ])
@@ -80,7 +80,15 @@ const Pricing = () => {
                             </ul>
                             <button className={`btn btn-icon ${PricingTables.buttonStyle}`}>
                                 Get started
-                                <i><Image src={PricingTables.Icon} /></i>
+                                {/* <i><Image src={PricingTables.Icon} /></i> */}
+                                <div class="btn-hvr-setting-violet">
+                                    <ul class="btn-hvr-setting-inner-violet">
+                                        <li class="btn-hvr-effect-violet"></li>
+                                        <li class="btn-hvr-effect-violet"></li>
+                                        <li class="btn-hvr-effect-violet"></li>
+                                        <li class="btn-hvr-effect-violet"></li>
+                                    </ul>
+                                </div>
                             </button>
                         </div>
                     </Col>

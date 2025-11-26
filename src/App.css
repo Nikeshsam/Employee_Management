@@ -76,17 +76,18 @@ Form{width: 100%;}
 
 .primary_btn{background-color: #6D36FA !important; font-size: 16px !important; font-weight: 700 !important; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 4px;}
 
-.primary_btn_rounded{background-color: #6D36FA !important; border: 1px solid transparent; font-size: 16px !important; font-weight: 500 !important; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 100px; padding: 4px 30px; display: flex; align-items: center; justify-content: center; color: #fff;}
-.primary_btn_rounded:hover{background-color: #fff !important; border: 1px solid #6D36FA; color: #6D36FA;}
+.primary_btn_rounded{background-color: transparent !important; border: 1px solid #6D36FA; font-size: 16px !important; font-weight: 500 !important; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 100px; padding: 4px 30px; display: flex; align-items: center; justify-content: center; color: #6D36FA; position: relative; -webkit-appearance: initial; transition: all .5s ease !important; overflow: hidden;  position: sticky; z-index: 2;}
 
-.primary_btn_rounded_bordered{background-color: #fff !important; border: 1px solid #6D36FA; color: #6D36FA; font-size: 16px !important; font-weight: 500 !important; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 100px; padding: 4px 30px; display: flex; align-items: center; justify-content: center;}
-.primary_btn_rounded_bordered:hover{background-color: #6D36FA !important; border: 1px solid #6D36FA; color: #fff;}
+.primary_btn_rounded:hover{color: #fff; border-color: #6D36FA; background: transparent !important;}
+
+.primary_btn_white_bordered{background-color: transparent !important; border: 1px solid #fff; color: #fff; font-size: 16px !important; font-weight: 500 !important; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 100px; padding: 4px 30px; display: flex; align-items: center; justify-content: center; position: relative; -webkit-appearance: initial; transition: all .5s ease !important; overflow: hidden;  position: sticky; z-index: 2;}
+.primary_btn_white_bordered:hover{background: transparent !important; border: 1px solid #6D36FA; color: #fff;}
 
 .primary_form_btn{background-color: #6D36FA !important; border: none !important; font-size: 14px !important; font-weight: 600 !important; font-family: "Inter", sans-serif !important; border-radius: 4px; padding: 7px 20px; display: flex; align-items: center; justify-content: center;}
 
 .secondary_btn{background-color: #FFA917 !important; font-size: 16px; font-weight: 700; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 4px; display: flex; align-items: center; border: none;}
-.secondary_btn_rounded{background-color: #ffffff !important; border: 1px solid #FFA917; font-size: 16px !important; font-weight: 500 !important; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 100px; padding: 4px 30px; display: flex; align-items: center; color: #FFA917; justify-content: center;}
-.secondary_btn_rounded:hover{background-color: #FFA917 !important; border: 1px solid #FFA917;}
+.secondary_btn_rounded{background-color: #ffffff !important; border: 1px solid #FFA917; font-size: 16px !important; font-weight: 500 !important; font-family: "Inter", sans-serif !important; height: 45px; border-radius: 100px; padding: 4px 30px; display: flex; align-items: center; color: #FFA917; justify-content: center; position: relative; -webkit-appearance: initial; transition: all .5s ease !important; overflow: hidden;  position: sticky; z-index: 2;}
+.secondary_btn_rounded:hover{color: #fff; border-color: #FFA917; background: transparent !important;}
 .secondary_form_btn{background-color: #6D36FA !important; border: none !important; font-size: 14px !important; font-weight: 600 !important; font-family: "Inter", sans-serif !important; border-radius: 4px; padding: 7px 20px; display: flex; align-items: center; justify-content: center;}
 
 .form_elements{
@@ -333,6 +334,28 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .addEmployee_table tbody tr td .status.Onboarding::before{background-color: #E89CFE;}
 
 
+.primary_btn_rounded:hover .btn-hvr-effect-violet,
+.primary_btn_white_bordered:hover .btn-hvr-effect-violet{transform: translateZ(0) scale(1.7) !important;}
+
+.btn-hvr-setting-violet{z-index: -1; position: absolute; left: 0; top: 0; width: 100%; height: 100%; border-radius: 50px;}
+.btn-hvr-setting-inner-violet {position: relative; display: block; height: 100%; list-style: none; padding: 0; margin: 0;}
+.btn-hvr-effect-violet {position: absolute; top: -5px; width: 25%; height: 100%; border-radius: 100%; transform: translate3d(0, 150%, 0) scale(1.7); transition: transform 0.45s !important; background: #6D36FA; border-color: #6D36FA;}
+.btn-hvr-effect-violet:nth-child(1) {left: 0; transition-delay: 0s !important;}
+.btn-hvr-effect-violet:nth-child(2) {left: 30%; transition-delay: 0.08s !important;}
+.btn-hvr-effect-violet:nth-child(3) {left: 60%; transition-delay: 0.16s !important;}
+.btn-hvr-effect-violet:nth-child(4) {left: 90%; transition-delay: 0.24s !important;}
+
+
+.secondary_btn_rounded:hover .btn-hvr-effect-orange{transform: translateZ(0) scale(1.7) !important;}
+
+.btn-hvr-setting-orange{z-index: -1; position: absolute; left: 0; top: 0; width: 100%; height: 100%; border-radius: 50px;}
+.btn-hvr-setting-inner-orange {position: relative; display: block; height: 100%; list-style: none; padding: 0; margin: 0;}
+.btn-hvr-effect-orange {position: absolute; top: -5px; width: 25%; height: 100%; border-radius: 100%; transform: translate3d(0, 150%, 0) scale(1.7); transition: transform 0.45s !important; background: #FFA917; border-color: #FFA917;}
+.btn-hvr-effect-orange:nth-child(1) {left: 0; transition-delay: 0s !important;}
+.btn-hvr-effect-orange:nth-child(2) {left: 30%; transition-delay: 0.08s !important;}
+.btn-hvr-effect-orange:nth-child(3) {left: 60%; transition-delay: 0.16s !important;}
+.btn-hvr-effect-orange:nth-child(4) {left: 90%; transition-delay: 0.24s !important;}
+
 
 .Primary_tab .nav-item .nav-link{border: none !important; background-color: transparent; font-size: 14px; font-weight: 500; color: #757479; }
 .Primary_tab .nav-item:first-child .nav-link{padding-left: 0 !important;}
@@ -420,8 +443,10 @@ textarea.form-control{height: auto !important;}
 .table_footer .active {background-color: #ffb435; border-radius: 3px;}
 .MainHeader{display: flex; align-items: center; justify-content: space-between; padding: 10px 15px;} 
 .MainHeader .HR_Brand img{width: 60px;}
-.MainHeader .HR_Menu{display: flex; gap: 40px; align-items: center;}
-.MainHeader .HR_Menu .menu_parallax{font-size: 15px; font-weight: 500; color: #353535; text-decoration: none; cursor: pointer;}
+.MainHeader .HR_Menu{display: flex; gap: 32px; align-items: center; height: 100%;}
+.MainHeader .HR_Menu .menu_parallax{font-size: 15px; font-weight: 500; color: #353535; text-decoration: none; cursor: pointer; height: 100%; display: flex; align-items: center; position: relative; padding: 0 8px; justify-content: center;}
+.MainHeader .HR_Menu .menu_parallax:hover::after{content: ''; position: absolute; width: 100%; height: 2px; background-color: #ffa917; bottom: -11px;}
+.MainHeader .HR_Menu .menu_parallax.active::after{content: ''; position: absolute; width: 100%; height: 2px; background-color: #ffa917; bottom: -11px;}
 .MainHeader .HR_Action{display: flex; align-items: center; gap: 10px;}
 .MainHeader .HR_Action .HR_Action_btn{border: none; border-radius: 100px; padding: 8px 25px; background-color: #6D36FA; color: #fff; font-size: 14px; font-weight: 500;}
 

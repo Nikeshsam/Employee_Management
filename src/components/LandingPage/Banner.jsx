@@ -136,8 +136,28 @@ const Banner = ({ modalShow, setModalShow }) => {
           <h2>Revolutionize Your HR Management with Cloud-Based Solutions</h2>
           <p>The best HR software for SMB companies and startup to manage employee, payroll assistance, time off, attendance tracking with single software</p>
           <Stack direction="horizontal" gap={3}>
-            <Button className='primary_btn_rounded' onClick={() => setModalShow(true)}>Get started</Button>
-            <Button className='secondary_btn_rounded'>How it works</Button>
+            <Button className='primary_btn_rounded' onClick={() => setModalShow(true)}>
+              Get started
+              <div class="btn-hvr-setting-violet">
+                <ul class="btn-hvr-setting-inner-violet">
+                  <li class="btn-hvr-effect-violet"></li>
+                  <li class="btn-hvr-effect-violet"></li>
+                  <li class="btn-hvr-effect-violet"></li>
+                  <li class="btn-hvr-effect-violet"></li>
+                </ul>
+              </div>
+            </Button>
+            <Button className='secondary_btn_rounded'>
+              How it works
+              <div class="btn-hvr-setting-orange">
+                <ul class="btn-hvr-setting-inner-orange">
+                  <li class="btn-hvr-effect-orange"></li>
+                  <li class="btn-hvr-effect-orange"></li>
+                  <li class="btn-hvr-effect-orange"></li>
+                  <li class="btn-hvr-effect-orange"></li>
+                </ul>
+              </div>
+            </Button>
           </Stack>
         </div>
       </Col>
