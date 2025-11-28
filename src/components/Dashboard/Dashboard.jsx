@@ -42,17 +42,64 @@ const Dashboard = () => {
   const [leaveErrors, setLeaveErrors] = useState({});
   const [editingLeave, setEditingLeave] = useState(null);
 
-  const handleApplyLeaveChange = (e) => {
-    const { name, value } = e.target;
-    setHolidayForm((p) => ({ ...p, [name]: value }));
-    const error = HolidayListValidateField(name, value);
-    setHolidayErrors((prev) => ({ ...prev, [name]: error }));
+  //--------------------------------
+  // FIELD VALIDATION
+  //--------------------------------
+  const validateLeaveField = (name, value) => {
+    if (!value) return "This field is required.";
+    return "";
   };
 
+
+  //--------------------------------
+  // HANDLE CHANGE
+  //--------------------------------
+  const handleApplyLeaveChange = (e) => {
+    const { name, value } = e.target;
+
+    setLeaveApplyForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    const error = validateLeaveField(name, value);
+
+    setLeaveErrors((prev) => ({
+      ...prev,
+      [name]: error,
+    }));
+  };
+
+  //--------------------------------
+  // FULL FORM VALIDATION
+  //--------------------------------
+  const validateLeaveForm = () => {
+    const newErrors = {};
+
+    Object.keys(leaveApplyForm).forEach((key) => {
+      const err = validateLeaveField(key, leaveApplyForm[key]);
+      if (err) newErrors[key] = err;
+    });
+
+    setLeaveErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
+  //--------------------------------
+  // SUBMIT FORM
+  //--------------------------------
   const handleLeaveSubmit = (e) => {
     e.preventDefault();
     if (!validateLeaveForm()) return;
+
+    console.log("Leave submitted:", leaveApplyForm);
+
+    // Close and Reset
+    setApplyLeaveCanvas(false);
+    resetLeaveApplyForm();
   };
+
 
   const resetLeaveApplyForm = () => {
     setLeaveApplyForm({
@@ -287,7 +334,7 @@ const Dashboard = () => {
               <div className="LeaveBalanceCardBody">
                 <div className="LeaveHeader">
                   <h5>Balance as of</h5>
-                  <span><i></i>11/24/2025</span>
+                  <span><i><img src={Images.LeaveCalendar} alt="" /></i>11/24/2025</span>
                 </div>
                 <div className='LeaveContent'>
                   <Row>
@@ -347,7 +394,7 @@ const Dashboard = () => {
               type="date"
               value={leaveApplyForm.fromDate}
               handleChange={handleApplyLeaveChange}
-              //error={leaveErrors.fromDate}
+              error={leaveErrors.fromDate}
               required
             />
           </Col>
@@ -358,7 +405,7 @@ const Dashboard = () => {
               type="date"
               value={leaveApplyForm.toDate}
               handleChange={handleApplyLeaveChange}
-              //error={leaveErrors.toDate}
+              error={leaveErrors.toDate}
               required
             />
 
@@ -371,7 +418,7 @@ const Dashboard = () => {
               placeholder="Select an option"
               value={leaveApplyForm.leaveCategory}
               handleChange={handleApplyLeaveChange}
-              //error={leaveErrors.leaveCategory}
+              error={leaveErrors.leaveCategory}
               required
             />
           </Col>
@@ -381,7 +428,7 @@ const Dashboard = () => {
               name="note"
               value={leaveApplyForm.note}
               handleChange={handleApplyLeaveChange}
-              //error={leaveErrors.note}
+              error={leaveErrors.note}
               textarea        // 🔥 this makes it a textarea
               rows={4}
               required

@@ -59,6 +59,8 @@ import Paid from '../assets/Images/L-Paid.svg';
 import Paternity from '../assets/Images/L-Paternity.svg';
 import Sick from '../assets/Images/L-Sick.svg';
 
+import LeaveCalendar from '../assets/Images/leave_calendar.svg';
+
 
 
 
@@ -103,7 +105,8 @@ import Sick from '../assets/Images/L-Sick.svg';
     Compensatory,
     Paid,
     Paternity,
-    Sick
+    Sick,
+    LeaveCalendar
 }
 
 export default Images;

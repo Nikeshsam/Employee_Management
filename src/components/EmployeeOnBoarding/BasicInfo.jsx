@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CardForm, CustomToast, PrimaryGird, InputField, SelectInput } from '../../pages/Props.jsx';
 import { basicValidateField } from '../Validations/Validate.jsx';
@@ -7,6 +7,7 @@ import { createOrUpdateEmployeeBasicDetails, getEmployeeBasicDetails, getLoggedE
 import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import ComboDate from '../../data/Combo.json';
 import Loader from '../Common/Loader.jsx';
+import Cropper from "react-easy-crop";
 
 // Bootstrap imports
 
@@ -18,11 +19,18 @@ import { first } from 'lodash';
 
 // import Props from 'Props.jsx';
 
-const BasicInfo = ({employeeProfile}) => {
+const BasicInfo = ({ employeeProfile }) => {
 
     const [Nationality, setNationality] = useState(ComboDate.Nationality);
     const [Gender, setGender] = useState(ComboDate.Gender);
     const [MaritalStatus, setMaritalStatus] = useState(ComboDate.MaritalStatus);
+
+    const [profileImage, setProfileImage] = useState(null);
+    const [imageSrc, setImageSrc] = useState(null);
+    const [crop, setCrop] = useState({ x: 0, y: 0 });
+    const [zoom, setZoom] = useState(1);
+    const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+    const [showCropper, setShowCropper] = useState(false);
 
     const { loginUser } = useLoginUser();
     const navigate = useNavigate();
@@ -55,54 +63,6 @@ const BasicInfo = ({employeeProfile}) => {
     const [isEditMode, setIsEditMode] = useState(true); // 👉 by default editable if no data
     const [hasData, setHasData] = useState(false); // 👉 flag to check if data exists
 
-    // Fetch existing employee details
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const res = await getEmployeeBasicDetails(loginUser.token);
-    //             if (res.data && res.data.data) {
-    //                 // Employee has data -> fill form + disable edit
-    //                 setFormData({
-    //                     firstName: res.data.data.firstName || '',
-    //                     lastName: res.data.data.lastName || '',
-    //                     dateOfBirth: res.data.data.dateOfBirth
-    //                         ? res.data.data.dateOfBirth.split('T')[0]
-    //                         : '',
-    //                     age: res.data.data.age || '',
-    //                     nationality: res.data.data.nationality || '',
-    //                     gender: res.data.data.gender || '',
-    //                     maritalStatus: res.data.data.maritalStatus || '',
-    //                     dateOfMarriage: res.data.data.dateOfMarriage
-    //                         ? res.data.data.dateOfMarriage.split('T')[0]
-    //                         : '',
-    //                 });
-    //                 setHasData(true);
-    //                 setIsEditMode(false);
-    //             } else {
-    //                 // No data yet -> keep form empty & editable
-    //                 setHasData(false);
-    //                 setIsEditMode(true);
-    //             }
-    //         } catch (err) {
-    //             //console.error("Error fetching employee details:", err);
-
-    //             // Only show toast for real network/server errors
-    //             if (err.response?.status !== 404) {
-    //                 setToastList(prev => [
-    //                     ...prev,
-    //                     {
-    //                         title: "Error",
-    //                         message: "Failed to fetch employee details",
-    //                         type: "error"
-    //                     }
-    //                 ]);
-    //             }
-    //         }
-    //     };
-
-    //     fetchData();
-    // }, [loginUser.token]);
-
     // Use Effect
 
     useEffect(() => {
@@ -111,7 +71,7 @@ const BasicInfo = ({employeeProfile}) => {
                 const empRes = await getLoggedEmployee(loginUser.token);
                 //console.log(empRes);
                 const { firstName, lastName } = empRes.data.data || {};
-                setFormData(prev => ({  ...prev, firstName: firstName || '', lastName: lastName || '' }));
+                setFormData(prev => ({ ...prev, firstName: firstName || '', lastName: lastName || '' }));
 
                 const res = await getEmployeeBasicDetails(loginUser.token);
                 const emp = res.data?.data || {};
@@ -166,49 +126,6 @@ const BasicInfo = ({employeeProfile}) => {
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
-
-    //  Handle Submit
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     if (!validateForm()) return;
-
-    //     setSubmitting(true);
-
-    //     try {
-    //         // ✅ Create or Update
-    //         await createOrUpdateEmployeeBasicDetails(formData, loginUser.token);
-
-    //         setToastList((prev) => [
-    //             ...prev,
-    //             { title: "Success", message: "Basic details saved successfully!", type: "success" },
-    //         ]);
-
-    //         // ✅ Re-fetch updated data
-    //         const updatedData = await getEmployeeBasicDetails(loginUser.token);
-    //         if (updatedData.data && updatedData.data.data) {
-    //             setFormData({
-    //                 ...updatedData.data.data,
-    //                 dateOfBirth: updatedData.data.data.dateOfBirth
-    //                     ? new Date(updatedData.data.data.dateOfBirth).toISOString().split("T")[0]
-    //                     : "",
-    //                 dateOfMarriage: updatedData.data.data.dateOfMarriage
-    //                     ? new Date(updatedData.data.data.dateOfMarriage).toISOString().split("T")[0]
-    //                     : "",
-    //             });
-
-    //             setHasData(true);
-    //             setIsEditMode(false);
-    //         }
-    //     } catch (error) {
-    //         console.error("Error saving data:", error);
-    //         setToastList((prev) => [
-    //             ...prev,
-    //             { title: "Error", message: "Failed to save basic details. Please try again.", type: "error" },
-    //         ]);
-    //     } finally {
-    //         setSubmitting(false);
-    //     }
-    // };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -298,6 +215,56 @@ const BasicInfo = ({employeeProfile}) => {
         const error = basicValidateField(name, value);
         setErrors((prevErrors) => ({ ...prevErrors, [name]: error }));
     };
+
+    const handleImageUpload = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            setImageSrc(reader.result);
+            setShowCropper(true);
+        };
+        reader.readAsDataURL(file);
+    };
+
+    const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
+        setCroppedAreaPixels(croppedAreaPixels);
+    }, []);
+
+    const getCroppedImage = async () => {
+        const croppedImage = await cropImage(imageSrc, croppedAreaPixels);
+        setProfileImage(croppedImage);
+        setShowCropper(false);
+    };
+
+    // Utility: Convert cropped area to final image
+    function cropImage(imageSrc, pixelCrop) {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.src = imageSrc;
+            img.onload = () => {
+                const canvas = document.createElement("canvas");
+                canvas.width = pixelCrop.width;
+                canvas.height = pixelCrop.height;
+                const ctx = canvas.getContext("2d");
+
+                ctx.drawImage(
+                    img,
+                    pixelCrop.x,
+                    pixelCrop.y,
+                    pixelCrop.width,
+                    pixelCrop.height,
+                    0,
+                    0,
+                    pixelCrop.width,
+                    pixelCrop.height
+                );
+
+                resolve(canvas.toDataURL("image/jpeg"));
+            };
+        });
+    }
 
     return (
         <>
@@ -434,7 +401,53 @@ const BasicInfo = ({employeeProfile}) => {
                             )}
                         </Row>
                     </Col>
-                    <Col md={3} lg={3} xl={3} xxl={3}></Col>
+                    <Col md={3} lg={3} xl={3} xxl={3} className='d-flex justify-content-center'>
+                        <div className="userProfile">
+                            <img
+                                className="img-fluid"
+                                src={profileImage ||Images.UserName}
+                                alt="Profile"
+                                style={{ width: 120, height: 120, borderRadius: "50%", objectFit: "cover" }}
+                            />
+                            <Form.Control
+                                type="file"
+                                id="hiddenFileInput"
+                                style={{ display: "none" }}
+                                accept="image/*"
+                                onChange={handleImageUpload}
+                            />
+                            <button
+                                type="button"
+                                className="UploadButton btn btn-primary"
+                                onClick={() => document.getElementById("hiddenFileInput").click()}
+                            >
+                                Upload
+                            </button>
+                            <span>Supported only JPG, PNG, SVG</span>
+
+                            {showCropper && (
+                                <div className="cropperContainer">
+                                    <Cropper
+                                        image={imageSrc}
+                                        crop={crop}
+                                        zoom={zoom}
+                                        aspect={1}
+                                        onCropChange={setCrop}
+                                        onZoomChange={setZoom}
+                                        onCropComplete={onCropComplete}
+                                    />
+                                    <div className='Crop_btn_group'>
+                                        <button className="btn btn-success" onClick={getCroppedImage}>
+                                            Save Crop
+                                        </button>
+                                        <button className="btn btn-secondary" onClick={() => setShowCropper(false)}>
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </Col>
                 </CardForm>
             )}
             <ToastContainer position="top-end" className="p-3">
