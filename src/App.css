@@ -293,11 +293,29 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .primary_table tbody tr td .status.active::before{background-color: #10C076;}
 .primary_table tbody tr td .status.Onboarding::before{background-color: #E89CFE;}
 
-.userProfile{background-color: #F0F0F0; border-radius: 8px; width: 235px; height: 100%; display: flex;flex-direction: column; align-items: center; justify-content: center; gap: 10px;}
+/* .userProfile{background-color: #F0F0F0; border-radius: 8px; width: 235px; height: 100%; display: flex;flex-direction: column; align-items: center; justify-content: center; gap: 10px;}
 .profileImg{width: 95px; height: 95px; border-radius: 100%; overflow: hidden;}
 .userProfile button{border: 1px solid #FFA917; background-color: #fff; border-radius: 4px; height: 32px; padding: 5px 30px; font-size: 13px; font-weight: 500; color: #404040;}
 .userProfile button:hover{background-color: #FFA917; border: none;}
-.userProfile span{font-size: 12px; font-weight: 400; color: #6A6A6A; padding: 0 60px; width: 100%; text-align: center;}
+.userProfile span{font-size: 12px; font-weight: 400; color: #6A6A6A; padding: 0 60px; width: 100%; text-align: center;} */
+
+.UploadButton {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  position: absolute;
+  z-index: 9999;
+  right: 0;
+  bottom: 0;
+  width: 30px;
+  height: 30px;
+  background-color: #fff;
+  border-radius: 100px;
+}
+
+.UploadButton img{width: 15px;}
+
+.CropBtn{border: 1px solid #FFA917; background-color: #fff; border-radius: 4px; height: 32px; padding: 5px 30px; font-size: 13px; font-weight: 500; color: #404040;}
 
 .cropperContainer {
     position: fixed;
@@ -394,7 +412,7 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 
 .employee_profile_container{display: flex; align-items: center; justify-content: flex-start; gap: 50px;}
 .employee_profile_container .employee_profile_pic_content{display: flex; align-items: center; gap: 20px;}
-.employee_profile_container .employee_profile_pic_content .employee_profile_pic{border: 4px solid rgb(109 54 250 / 10%); border-radius: 50%; width: 90px; height: 90px; display: flex; align-items: center; justify-content: center; overflow: hidden;}
+.employee_profile_container .employee_profile_pic_content .employee_profile_pic{border: 4px solid rgb(109 54 250 / 10%); border-radius: 50%; width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; position: relative;}
 .employee_profile_container .employee_profile_pic_content .employee_profile_content{display: flex; flex-direction: column; gap: 4px;}
 .employee_profile_container .employee_profile_pic_content .employee_profile_content h5{display: flex; align-items: center; gap: 10px; margin: 0;}
 .employee_profile_container .employee_profile_pic_content .employee_profile_content h5 label{color: #353535; font-size: 20px; font-weight: 600; margin: 0;}
