@@ -899,3 +899,27 @@ export const CheckBoxGroup = ({
 };
 
 
+export const SecondaryGrid = ({
+    //title = '',
+    tableHeaders = [],
+    children,
+}) => {
+    return (
+        <div className="secondary_table">
+            {/* <h5 className="table_title">{title}</h5> */}
+
+            <div className="table_body">
+                <Table bordered responsive>
+                    <thead>
+                        <tr>
+                            {tableHeaders.map((header, idx) => (
+                                <th key={idx}>{header}</th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody>{children}</tbody>
+                </Table>
+            </div>
+        </div>
+    );
+};

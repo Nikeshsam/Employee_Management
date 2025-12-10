@@ -24,7 +24,13 @@ const Sidebar = ({ handleSidebarClick, activeTab }) => {
       label: "On Boarding",
       key: "On-Boarding",
       icon: Images.OnBoarding,
-      roles: ["user"], // both can see
+      roles: ["user"], // only user
+    },
+    {
+      label: "My Info",
+      key: "My Info",
+      icon: Images.MyInfo,
+      roles: ["user"], // only user
     },
     {
       label: "Company Profile",

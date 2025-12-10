@@ -14,6 +14,7 @@ import ManageHolidays from '../components/Dashboard/ManageHolidays.jsx';
 import { useLoginUser } from '../context/LoginUserContext.jsx';
 
 import CompleteProfile from '../components/Common/CompleteProfile.jsx';
+import UserInfo from '../components/Dashboard/UserInfo.jsx';
 
 
 const Home = () => {
@@ -49,6 +50,7 @@ const Home = () => {
                 <div className='content'>
                    {activeTab === 'Dashboard' ? <Dashboard /> : 
                     activeTab === 'On-Boarding' ? <OnBoarding /> : 
+                    activeTab === 'My Info' ? <UserInfo /> : 
                     activeTab === 'Manage Holidays' ? <ManageHolidays /> :
                     activeTab === 'Company Profile' ?(<CompanyProfile openCanvas={openCanvasFlag} />) : (<AddEmployee/>)}
                 </div>

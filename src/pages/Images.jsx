@@ -60,6 +60,16 @@ import Paternity from '../assets/Images/L-Paternity.svg';
 import Sick from '../assets/Images/L-Sick.svg';
 
 import LeaveCalendar from '../assets/Images/leave_calendar.svg';
+import MyInfo from '../assets/Images/my_info.svg';
+
+import ViewFamily from '../assets/Images/ViewFamily.svg';
+import ViewAcademic from '../assets/Images/ViewAcademic.svg';
+import ViewCertificate from '../assets/Images/ViewCertificate.svg';
+import ViewExperience from '../assets/Images/ViewExperience.svg';
+import ViewDependent from '../assets/Images/ViewDependent.svg';
+import ViewVaccinations from '../assets/Images/ViewVaccinations.svg';
+import ViewCoverage from '../assets/Images/ViewCoverage.svg';
+import ViewVisa from '../assets/Images/ViewVisa.svg';
 
 
 
@@ -106,7 +116,16 @@ import LeaveCalendar from '../assets/Images/leave_calendar.svg';
     Paid,
     Paternity,
     Sick,
-    LeaveCalendar
+    LeaveCalendar,
+    MyInfo,
+    ViewFamily,
+    ViewAcademic,
+    ViewCertificate,
+    ViewExperience,
+    ViewDependent,
+    ViewVaccinations,
+    ViewVisa,
+    ViewCoverage,
 }
 
 export default Images;

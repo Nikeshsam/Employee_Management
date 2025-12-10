@@ -188,7 +188,7 @@ Form{width: 100%;}
 
 
 .secondary_card{border: 1px solid #E4E3E3; border-radius: 8px; background-color: #fff;}
-.secondary_card .card-body{height: calc(100vh - 352px); overflow: auto; padding: 20px;}
+.secondary_card .card-body{height: calc(100vh - 360px); overflow: auto; padding: 20px;}
 
 .manage_holiday .secondary_card .card-body{height: calc(100vh - 150px);}
 
@@ -412,7 +412,7 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 
 .employee_profile_container{display: flex; align-items: center; justify-content: flex-start; gap: 50px;}
 .employee_profile_container .employee_profile_pic_content{display: flex; align-items: center; gap: 20px;}
-.employee_profile_container .employee_profile_pic_content .employee_profile_pic{border: 4px solid rgb(109 54 250 / 10%); border-radius: 50%; width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; position: relative;}
+.employee_profile_container .employee_profile_pic_content .employee_profile_pic{border: 4px solid rgb(109 54 250 / 10%); border-radius: 50%; width: 90px; height: 90px; display: flex; align-items: center; justify-content: center; position: relative;}
 .employee_profile_container .employee_profile_pic_content .employee_profile_content{display: flex; flex-direction: column; gap: 4px;}
 .employee_profile_container .employee_profile_pic_content .employee_profile_content h5{display: flex; align-items: center; gap: 10px; margin: 0;}
 .employee_profile_container .employee_profile_pic_content .employee_profile_content h5 label{color: #353535; font-size: 20px; font-weight: 600; margin: 0;}
@@ -858,5 +858,47 @@ input:-internal-autofill-selected{background-color: transparent;}
 .LeaveBalanceCard .LeaveContent .LeaveList .ListData h4{font-size: 13.5px; color: #2B2A2D; font-weight: 500; margin: 0;}
 .LeaveBalanceCard .LeaveContent .LeaveList .ListData span{font-size: 11px; color: #898989; font-weight: 500;}
 
+.infoContiner{background-color: #F2F2F1; display: flex; flex-direction: column; gap: 55px;}
+.infoContiner .infoHeader{background-color: #6D36FA; height: 175px; border-radius: 15px; display: flex;}
+.infoContiner .infoHeader .infoProfilePic{width: 260px; border-radius: 20px; position: relative;}
+.infoContiner .infoHeader .infoProfilePic .userProfile{width: 200px; height: 190px; position: absolute; border-radius: 20px; background-color: #fff; top: 20px; left: 20px;}
+.infoContiner .infoHeader .infoData{width: calc(100% - 260px); padding: 20px 20px 0 0; display: flex; flex-direction: column; justify-content: space-between;}
+.infoContiner .infoHeader .infoData .userName{display: flex; flex-direction: column; gap: 8px;}
+.infoContiner .infoHeader .infoData .userName h5{font-size: 36px; font-weight: 600; color: #fff; margin: 0; line-height: 36px;}
+.infoContiner .infoHeader .infoData .userName span{font-size: 16px; font-weight: 400; color: #fff; height: 20px;}
+.infoContiner .infoHeader .infoData .userFooter{padding: 12px 0; border-top: 1px solid #9166FF;}
+.infoContiner .infoHeader .infoData .userFooter ul{display: flex; gap: 10px;}
+.infoContiner .infoHeader .infoData .userFooter ul li{padding: 0 12px; border-right: 1px solid #9166FF; font-size: 14px; font-weight: 400; color: #fff;}
+.infoContiner .infoHeader .infoData .userFooter ul li:first-child{padding-left: 0 !important; font-weight: 700;}
+
+.infoContiner .infoContent{display: flex;}
+.infoContiner .infoContent .infoLeft{display: flex;flex-direction: column; gap: 20px; width: 260px;}
+.infoContiner .infoContent .infoLeft .infoPersonal{padding: 0 20px; display: flex; flex-direction: column; gap: 15px;}
+.infoContiner .infoContent .infoLeft .infoPersonal h6{font-size: 16px; color: #676260; font-weight: 600; margin: 0; line-height: 20px;}
+.infoContiner .infoContent .infoLeft .infoPersonal ul{display: flex; flex-direction: column; gap: 15px; padding-bottom: 20px; border-bottom: 1px solid #ddd;}
+.infoContiner .infoContent .infoLeft .infoPersonal ul li span{font-size: 13px; color: #676260; font-weight: 500; line-height: 13px;}
+.infoContiner .infoContent .infoLeft .infoPersonal ul li span label{ color: #6D36FA;}
+
+.infoContiner .infoContent .infoRight{width: calc(100% - 260px); padding-right: 20px; display: flex; flex-direction: column; gap: 20px;   height: calc(100vh - 333px); overflow: auto; margin-bottom: 15px;}
+.infoContiner .infoContent .infoRight .InfoCard{background-color: #fff; border: none; border-radius: 15px; padding: 20px;}
+.infoContiner .infoContent .infoRight .InfoCard .card-header{background-color: transparent; padding: 0 0 10px 0; border: none;}
+.infoContiner .infoContent .infoRight .InfoCard .card-header h5{border-bottom: 1px solid #ECE4FF; padding: 0 0 10px 0; margin: 0; font-size: 18px; font-weight: 600; color: #FFA917;}
+.infoContiner .infoContent .infoRight .InfoCard .card-body .cardGrp{padding: 20px 0; border-bottom:1px solid #E9E7F1;}
+.infoContiner .infoContent .infoRight .InfoCard .card-body h4{font-size: 15px; font-weight: 600; color: #2C2B30; margin: 0;}
+.infoContiner .infoContent .infoRight .InfoCard .card-body address{font-size: 13px; font-weight: 500; color: #48413F; margin: 0;}
 
 
+.secondary_table .table_body tr{border: none;}
+.secondary_table .table_body tr th{background-color: #F5F5FF;border: none; height: 40px; vertical-align: middle; font-size: 13px; font-weight: 600; color: #48413F; padding: 0 0.75rem;}
+.secondary_table .table_body tr th:first-child{border-radius: 10px 0px 0px 10px ;}
+.secondary_table .table_body tr th:last-child{border-radius: 0 10px 10px 0 ;}
+.secondary_table .table_body tr td{border: none; height: 40px; vertical-align: middle; font-size: 13px; font-weight: 500; color: #48413F; padding: 0 0.75rem;}
+
+
+.infoContiner .infoContent .infoRight .InfoCard .card-body .cardGrp .ReadOnlyCard{background-color: #F5F5FF; border-radius: 8px; padding: 12px; display: flex; justify-content: space-between;}
+.infoContiner .infoContent .infoRight .InfoCard .card-body .cardGrp .ReadOnlyCard .CustomCol{display: flex; gap: 10px;}
+.infoContiner .infoContent .infoRight .InfoCard .card-body .cardGrp .ReadOnlyCard .CustomCol i{width: 45px; height: 45px; border-radius: 100px; background-color: #fff; display: flex; align-items: center; justify-content: center;}
+.infoContiner .infoContent .infoRight .InfoCard .card-body .cardGrp .ReadOnlyCard .CustomCol .Content{display: flex; flex-direction: column; gap: 7px; justify-content: center;}
+.infoContiner .infoContent .infoRight .InfoCard .card-body .cardGrp .ReadOnlyCard .CustomCol .Content label{color: #706B6A; font-size: 10.5px; font-weight: 500; text-transform: uppercase; line-height: 12px;}
+.infoContiner .infoContent .infoRight .InfoCard .card-body .cardGrp .ReadOnlyCard .CustomCol .Content span{color: #354B56; font-size: 13px; font-weight: 600; line-height: 15px;}
+.infoContiner .infoContent .infoRight .InfoCard .card-body .cardGrp .subHeading{font-size: 15px; color: #343434; text-decoration: underline; margin-bottom: 5px;}
