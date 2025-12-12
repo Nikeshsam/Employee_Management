@@ -71,6 +71,19 @@ import ViewVaccinations from '../assets/Images/ViewVaccinations.svg';
 import ViewCoverage from '../assets/Images/ViewCoverage.svg';
 import ViewVisa from '../assets/Images/ViewVisa.svg';
 
+import PI_Calendar from '../assets/Images/PI_Calendar.svg';
+import PI_Clock from '../assets/Images/PI_Clock.svg';
+import PI_Location from '../assets/Images/PI_Location.svg';
+import PI_Mail from '../assets/Images/PI_Mail.svg';
+import PI_Mobile from '../assets/Images/PI_Mobile.svg';
+import PI_Office from '../assets/Images/PI_Office.svg';
+import PI_RD from '../assets/Images/PI_RD.svg';
+import PI_Setting from '../assets/Images/PI_Setting.svg';
+import PI_DOB from '../assets/Images/PI_DOB.svg';
+import PI_Gender from '../assets/Images/PI_Gender.svg';
+import PI_Flag from '../assets/Images/PI_Flag.svg';
+import PI_Married from '../assets/Images/PI_Married.svg';
+
 
 
 
@@ -126,6 +139,19 @@ import ViewVisa from '../assets/Images/ViewVisa.svg';
     ViewVaccinations,
     ViewVisa,
     ViewCoverage,
+    PI_Calendar,
+    PI_Clock,
+    PI_Location,
+    PI_Mail,
+    PI_Mobile,
+    PI_Office,
+    PI_RD,
+    PI_Setting,
+    PI_DOB,
+    PI_Gender,
+    PI_Flag,
+    PI_Married,
+    
 }
 
 export default Images;

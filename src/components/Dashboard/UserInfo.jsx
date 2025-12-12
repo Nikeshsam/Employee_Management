@@ -28,19 +28,19 @@ const UserInfo = () => {
                   <ul>
                     <li>EMPSH002</li>
                     <li>
-                      <i></i>
+                      <i><img src={Images.PI_DOB} alt="" /></i>
                       <span>23-07-1992 - 33</span>
                     </li>
                     <li>
-                      <i></i>
+                      <i><img src={Images.PI_Gender} alt="" /></i>
                       <span>Male</span>
                     </li>
                     <li>
-                      <i></i>
+                      <i><img src={Images.PI_Married} alt="" /></i>
                       <span>Married</span>
                     </li>
                     <li>
-                      <i></i>
+                      <i><img src={Images.PI_Flag} alt="" /></i>
                       <span>Indian</span>
                     </li>
                   </ul>
@@ -53,27 +53,31 @@ const UserInfo = () => {
                   <h6>Vitals</h6>
                   <ul>
                     <li>
-                      <i></i>
+                      <i><img src={Images.PI_Mobile} alt="" /></i>
                       <span>8056243765</span>
                     </li>
                     <li>
-                      <i></i>
+                      <i><img src={Images.PI_Mail} alt="" /></i>
                       <span>nikesh.designer@gmail.com</span>
                     </li>
                     <li>
-                      <i></i>
-                      <span>3:43 PM local time</span>
+                      <i><img src={Images.PI_Clock} alt="" /></i>
+                      <span>3:43 PM local time</span>
                     </li>
                     <li>
-                      <i></i>
+                      <i><img src={Images.PI_Location} alt="" /></i>
+                      <span>India</span>
+                    </li>
+                    <li>
+                      <i><img src={Images.PI_Setting} alt="" /></i>
                       <span>Senior Designer - <label htmlFor="">Full-Time</label></span>
                     </li>
                     <li>
-                      <i></i>
+                      <i><img src={Images.PI_RD} alt="" /></i>
                       <span>R&D</span>
                     </li>
                     <li>
-                      <i></i>
+                      <i><img src={Images.PI_Office} alt="" /></i>
                       <span>Captiv Techno Solutions (India) Private</span>
                     </li>
                   </ul>
@@ -82,7 +86,7 @@ const UserInfo = () => {
                   <h6>Hire Date</h6>
                   <ul>
                     <li>
-                      <i></i>
+                      <i><img src={Images.PI_Calendar} alt="" /></i>
                       <span>Sep 29, 2025 - <label htmlFor="">2m - 2d</label></span>
                     </li>
                   </ul>
@@ -91,8 +95,13 @@ const UserInfo = () => {
                   <h6>Manager</h6>
                   <ul>
                     <li>
-                      <i></i>
-                      <span>8056243765</span>
+                      <div className='Manager'>
+                        <i></i>
+                        <div className='ManagerName'>
+                          <span>Jason Chien</span>
+                          <label htmlFor="">Head of UX - TW</label>
+                        </div>
+                      </div>
                     </li>
                   </ul>
                 </div>
