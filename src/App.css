@@ -378,6 +378,8 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .addEmployee_table tbody tr td .status.active::before{background-color: #10C076;}
 .addEmployee_table tbody tr td .status.Onboarding::before{background-color: #E89CFE;}
 
+.commonScrollProps thead{position: sticky; top: 0; background-color: #343a40; color: white; z-index: 2;}
+.commonScrollProps .table_body .table-responsive{max-height: calc(100vh - 215px); overflow-y: auto;}
 
 .primary_btn_rounded:hover .btn-hvr-effect-violet,
 .primary_btn_white_bordered:hover .btn-hvr-effect-violet{transform: translateZ(0) scale(1.7) !important;}

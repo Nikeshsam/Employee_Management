@@ -174,7 +174,6 @@ export const getDependentDetails = (token) => {
   );
 };
 
-
 export const createOrUpdateEducationDetails = (educationDetails, token) => {
   return axios.post(
     `${url}/employeeDetails/education-details`, educationDetails,
@@ -427,9 +426,9 @@ export const getHolidays = (token) => {
   );
 };
 
-export const createOrUpdateLeave = (holidayForm, token) => {
+export const createOrUpdateLeave = (leaveForm, token) => {
   return axios.post(
-    `${url}/holiday`, holidayForm,
+    `${url}/leaveMaster`, leaveForm,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -440,7 +439,7 @@ export const createOrUpdateLeave = (holidayForm, token) => {
 
 export const deleteLeave = async (id, token) => {
   return await axios.delete(
-    `${url}/holiday/${id}`,
+    `${url}/leaveMaster/${id}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -451,7 +450,7 @@ export const deleteLeave = async (id, token) => {
 
 export const getLeave = (token) => {
   return axios.get(
-    `${url}/holiday`,
+    `${url}/leaveMaster`,
     {
       headers: {
         authorization: `Bearer ${token}`,

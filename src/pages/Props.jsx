@@ -107,7 +107,7 @@ export const PrimaryGird = ({
     tableHeaders = [],
 }) => {
     return (
-        <div className="primary_table mb-3">
+        <div className="primary_table mb-3 commonScrollProps">
             <div className="table_header">
                 <h5>{cardTitle}</h5>
                 <div className="heading_elements">

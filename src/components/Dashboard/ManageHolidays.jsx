@@ -68,6 +68,8 @@ const ManageHolidaysAndLeave = () => {
     const [deleteHolidayIndex, setDeleteHolidayIndex] = useState(null);
 
     const validateHolidayForm = () => {
+        if (!showHolidayCanvas) return true;   // ✅ IMPORTANT
+
         const newErrors = {};
         Object.keys(holidayForm).forEach((field) => {
             const error = HolidayListValidateField(field, holidayForm[field]);
@@ -219,7 +221,8 @@ const ManageHolidaysAndLeave = () => {
         leaveName: "",
         leaveCategory: "",
         description: "",
-        genderEligibility: "",
+        //genderEligibility: "",
+        leaveCount: "",
         monthlyAccrual: "",
         carryForwardAllowed: "",
         maxCarryForward: "",
@@ -235,22 +238,40 @@ const ManageHolidaysAndLeave = () => {
     const [deleteLeaveIndex, setDeleteLeaveIndex] = useState(null);
 
     const validateLeaveForm = () => {
-        const newErrors = {};
-        Object.keys(leaveForm).forEach((field) => {
-            const error = LeaveReportValidateField(field, leaveForm[field]);
-            if (error) newErrors[field] = error;
-        });
-        setLeaveErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
+    if (!showLeaveCanvas) return true;   // ✅ IMPORTANT
+
+    const newErrors = {};
+    Object.keys(leaveForm).forEach((field) => {
+        const error = LeaveReportValidateField(field, leaveForm[field]);
+        if (error) newErrors[field] = error;
+    });
+    setLeaveErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
     };
-    
+
     const handleLeaveChange = (e) => {
         const { name, value, type, checked } = e.target || {};
-        const finalValue = type === "checkbox" ? checked : value;
+        let finalValue = type === "checkbox" ? checked : value;
+
+        // ✅ Handle YEAR-only date inputs
+        if ((name === "validFrom" || name === "validTo") && value) {
+            const year = value.split("-")[0]; // from YYYY-MM-DD
+            finalValue = `${year}-01-01T00:00:00.000Z`;
+        }
+
         setLeaveForm((p) => ({ ...p, [name]: finalValue }));
+
         const error = LeaveReportValidateField(name, finalValue);
         setLeaveErrors((prev) => ({ ...prev, [name]: error }));
     };
+
+    const getLeaveCategoryLabel = (value) => {
+        const category = LeaveCategories.find(
+            (c) => String(c.value) === String(value)
+        );
+        return category ? category.label : value;
+    };
+
 
     const resetLeaveForm = () => {
         setLeaveForm({
@@ -258,7 +279,8 @@ const ManageHolidaysAndLeave = () => {
             leaveName: "",
             leaveCategory: "",
             description: "",
-            genderEligibility: "",
+            //genderEligibility: "",
+            leaveCount: "",
             monthlyAccrual: "",
             carryForwardAllowed: "",
             maxCarryForward: "",
@@ -345,15 +367,14 @@ const ManageHolidaysAndLeave = () => {
     const fetchLeaves = async () => {
         try {
             const response = await getLeave(loginUser.token);
-            if (!response || !response.data) {
-                setLeaveList([]);
-                return;
-            }
-            setLeaveList(response.data.leaves || []);
+
+            console.log("GET /leaveMaster response:", response.data);
+
+            // ✅ FIX: response.data IS the array
+            setLeaveList(response.data || []);
         } catch (error) {
             console.error("Error fetching leaves:", error);
             setToastList((prev) => [
-                ...prev,
                 { title: "Error", message: "Failed to fetch leave data.", type: "error" },
             ]);
         }
@@ -368,7 +389,12 @@ const ManageHolidaysAndLeave = () => {
             leaveName: leave.leaveName || "",
             leaveCategory: leave.leaveCategory || "",
             description: leave.description || "",
-            genderEligibility: leave.genderEligibility || "",
+            //genderEligibility: leave.genderEligibility || "",
+            leaveCount:
+                leave.leaveCount !== null &&
+                    leave.leaveCount !== undefined
+                    ? leave.leaveCount
+                    : "",
             monthlyAccrual: leave.monthlyAccrual || "",
             carryForwardAllowed: leave.carryForwardAllowed || "",
             maxCarryForward: leave.maxCarryForward || "",
@@ -380,6 +406,9 @@ const ManageHolidaysAndLeave = () => {
         setEditingLeave(index);
         setShowLeaveCanvas(true);
     };
+
+    const getYear = (date) =>
+    date ? new Date(date).getUTCFullYear() : "-";
 
     /** ---------- TOAST ---------- **/
     const handleToastClose = (index) =>
@@ -403,138 +432,142 @@ const ManageHolidaysAndLeave = () => {
                         <Col md={12} lg={12} xl={12} xxl={12}>
                             <Tabs defaultActiveKey="holiday" transition={false} id="noanim-tab-example" className="Secondary_tab mb-3">
                                 <Tab eventKey="holiday" title="Holiday List">
-                                    <CardForm
-                                        onSubmit={(e) => e.preventDefault()}
-                                        footerButtonSubmit=""
-                                        footerButtonSubmitClass=""
-                                        showFooter={false}   // 🔥 Footer hidden
+                                    <PrimaryGird
+                                        cardTitle="Manage Holidays"
+                                        buttonText="Add Holiday"
+                                        showAddButton={true}
+                                        showFilterButton={false}
+                                        showDeleteButton={false}
+                                        showFooter={false}
+                                        enableBodyScroll
+                                        tableBodyHeight={300}
+                                        onButtonClick={() => {
+                                            resetHolidayForm();
+                                            setLeaveErrors({});     // ✅ clear other tab errors
+                                            setShowHolidayCanvas(true);
+                                        }}
+                                        tableHeaders={["Name", "Date", "Day", "Restricted Holiday", "Description", "Actions"]}
                                     >
-                                        <Col md={12} lg={12} xl={12} xxl={12}>
-                                            <PrimaryGird
-                                                cardTitle="Manage Holidays"
-                                                buttonText="Add Holiday"
-                                                showAddButton={true}
-                                                showFilterButton={false}
-                                                showDeleteButton={false}
-                                                showFooter={false}
-                                                onButtonClick={() => {
-                                                    resetHolidayForm();
-                                                    setShowHolidayCanvas(true);
-                                                }}
-                                                tableHeaders={["Name", "Date", "Day", "Restricted Holiday", "Description", "Actions"]}
-                                            >
-                                                {holidayList.length > 0 ? (
-                                                    holidayList.map((h, i) => (
-                                                        <tr key={h._id || i}>
-                                                            <td>{h.holidayname}</td>
-                                                            <td>{h.holidaydate}</td>
-                                                            <td>{h.holidayday}</td>
-                                                            <td>{h.restricted ? "Yes" : "No"}</td>
-                                                            <td>{h.description}</td>
-                                                            <td className="table_action">
-                                                                <Button
-                                                                    className="btn_action"
-                                                                    onClick={() => handleHolidayEdit(i)}
-                                                                >
-                                                                    <img src={Images.Edit} alt="edit" />
-                                                                </Button>
-                                                                <Button className="btn_action"
-                                                                    onClick={() => {
-                                                                        setHolidayToDelete(h);
-                                                                        setDeleteHolidayIndex(i);
-                                                                        setShowHolidayModal(true);
-                                                                    }}
-                                                                >
-                                                                    <img src={Images.Delete} alt="delete" />
-                                                                </Button>
-                                                            </td>
-                                                        </tr>
-                                                    ))
-                                                ) : (
-                                                    <tr>
-                                                        <td colSpan="6" className="text-center">
-                                                            No holidays added yet
-                                                        </td>
-                                                    </tr>
-                                                )}
-                                            </PrimaryGird>
-                                        </Col>
-                                    </CardForm>
+                                        {holidayList.length > 0 ? (
+                                            holidayList.map((h, i) => (
+                                                <tr key={h._id || i}>
+                                                    <td>{h.holidayname}</td>
+                                                    <td>{h.holidaydate}</td>
+                                                    <td>{h.holidayday}</td>
+                                                    <td>{h.restricted ? "Yes" : "No"}</td>
+                                                    <td>{h.description}</td>
+                                                    <td className="table_action">
+                                                        <Button
+                                                            className="btn_action"
+                                                            onClick={() => handleHolidayEdit(i)}
+                                                        >
+                                                            <img src={Images.Edit} alt="edit" />
+                                                        </Button>
+                                                        <Button className="btn_action"
+                                                            onClick={() => {
+                                                                setHolidayToDelete(h);
+                                                                setDeleteHolidayIndex(i);
+                                                                setShowHolidayModal(true);
+                                                            }}
+                                                        >
+                                                            <img src={Images.Delete} alt="delete" />
+                                                        </Button>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        ) : (
+                                            <tr>
+                                                <td colSpan="6" className="text-center">
+                                                    No holidays added yet
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </PrimaryGird>
                                 </Tab>
                                 <Tab eventKey="leave" title="Leave Report">
-                                    <CardForm
-                                        onSubmit={(e) => e.preventDefault()}
-                                        footerButtonSubmit=""
-                                        footerButtonSubmitClass=""
-                                        showFooter={false}   // 🔥 Footer hidden
+                                    <PrimaryGird
+                                        cardTitle="Leave Report"
+                                        buttonText="Add Leave"
+                                        showAddButton={true}
+                                        showFilterButton={false}
+                                        showDeleteButton={false}
+                                        showFooter={false}
+                                        onButtonClick={() => {
+                                            resetLeaveForm();
+                                            setHolidayErrors({});   // ✅ clear other tab errors
+                                            setShowLeaveCanvas(true);
+                                        }}
+                                        tableHeaders={[
+                                            "Leave Name",
+                                            "Leave Category",
+                                            // "Gender Eligibility",
+                                            "Leave Count",
+                                            "Monthly Accrual",
+                                            "Carry Forward Allowed",
+                                            "Max Carry Forward",
+                                            "Allow HalfDay",
+                                            "Valid Year",
+                                            "Action",
+                                        ]}
                                     >
-                                        <Col md={12} lg={12} xl={12} xxl={12}>
-                                            <PrimaryGird
-                                                cardTitle="Leave Report"
-                                                buttonText="Add Leave"
-                                                showAddButton={true}
-                                                showFilterButton={false}
-                                                showDeleteButton={false}
-                                                showFooter={false}
-                                                onButtonClick={() => {
-                                                    resetLeaveForm();
-                                                    setShowLeaveCanvas(true);
-                                                }}
-                                                tableHeaders={[
-                                                    "Leave Name",
-                                                    "Leave Category",
-                                                    "Gender Eligibility",
-                                                    "Monthly Accrual",
-                                                    "Carry Forward Allowed",
-                                                    "Max Carry Forward",
-                                                    "Allow HalfDay",
-                                                    "Valid From",
-                                                    "Valid To",
-                                                    "Action",
-                                                ]}
-                                            >
-                                                {leaveList.length > 0 ? (
-                                                    leaveList.map((l, i) => (
-                                                        <tr key={l._id || i}>
-                                                            <td>{l.leaveName}</td>
-                                                            <td>{l.leaveCategory}</td>
-                                                            <td>{l.genderEligibility}</td>
-                                                            <td>{l.monthlyAccrual}</td>
-                                                            <td>{l.carryForwardAllowed}</td>
-                                                            <td>{l.maxCarryForward}</td>
-                                                            <td>{l.allowHalfDay ? "Yes" : "No"}</td>
-                                                            <td>{l.validFrom}</td>
-                                                            <td>{l.validTo}</td>
-                                                            <td className="table_action">
-                                                                <Button
-                                                                    className="btn_action"
-                                                                    onClick={() => handleLeaveEdit(i)}
-                                                                >
-                                                                    <img src={Images.Edit} alt="edit" />
-                                                                </Button>
-                                                                <Button
-                                                                    className="btn_action"
-                                                                    onClick={() => {
-                                                                        setLeaveToDelete(l);
-                                                                        setDeleteLeaveIndex(i);
-                                                                        setShowLeaveModal(true);
-                                                                    }}
-                                                                >
-                                                                    <img src={Images.Delete} alt="delete" />
-                                                                </Button>
-                                                            </td>
-                                                        </tr>
-                                                    ))
-                                                ) : (
-                                                    <tr>
-                                                        <td colSpan="10" className="text-center">
-                                                            No leave report data
-                                                        </td>
-                                                    </tr>
-                                                )}
-                                            </PrimaryGird>
-                                        </Col>
-                                    </CardForm>
+                                        {leaveList.length > 0 ? (
+                                            leaveList.map((l, i) => (
+                                                <tr key={l._id || i}>
+                                                    <td>{l.leaveName}</td>
+                                                    <td>{getLeaveCategoryLabel(l.leaveCategory)}</td>
+                                                    {/* <td>{l.genderEligibility}</td> */}
+                                                    <td>
+                                                        {l.leaveCount !== null &&
+                                                            l.leaveCount !== undefined &&
+                                                            l.leaveCount !== ""
+                                                            ? l.leaveCount
+                                                            : "-"}
+                                                    </td>
+                                                    <td>
+                                                        {l.monthlyAccrual === "accrual" ||
+                                                            l.monthlyAccrual === true ||
+                                                            l.monthlyAccrual === "true"
+                                                            ? "Yes"
+                                                            : "No"}
+                                                    </td>
+                                                    <td>
+                                                        {l.carryForwardAllowed === "allow" ||
+                                                            l.carryForwardAllowed === true ||
+                                                            l.carryForwardAllowed === "true"
+                                                            ? "Yes"
+                                                            : "No"}
+                                                    </td>
+                                                    <td>{l.maxCarryForward}</td>
+                                                    <td>{l.allowHalfDay ? "Yes" : "No"}</td>
+                                                    <td>{getYear(l.validFrom)}</td>
+                                                    <td className="table_action">
+                                                        <Button
+                                                            className="btn_action"
+                                                            onClick={() => handleLeaveEdit(i)}
+                                                        >
+                                                            <img src={Images.Edit} alt="edit" />
+                                                        </Button>
+                                                        <Button
+                                                            className="btn_action"
+                                                            onClick={() => {
+                                                                setLeaveToDelete(l);
+                                                                setDeleteLeaveIndex(i);
+                                                                setShowLeaveModal(true);
+                                                            }}
+                                                        >
+                                                            <img src={Images.Delete} alt="delete" />
+                                                        </Button>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        ) : (
+                                            <tr>
+                                                <td colSpan="10" className="text-center">
+                                                    No leave report data
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </PrimaryGird>
                                 </Tab>
                             </Tabs>
                         </Col>
@@ -671,7 +704,7 @@ const ManageHolidaysAndLeave = () => {
                                 required
                             />
                         </Col>
-                        <Col md={6}>
+                        {/* <Col md={6}>
                             <SelectInput
                                 label="Gender Eligibility"
                                 name="genderEligibility"
@@ -680,6 +713,17 @@ const ManageHolidaysAndLeave = () => {
                                 error={leaveErrors.genderEligibility}
                                 value={leaveForm.genderEligibility}
                                 handleChange={handleLeaveChange}
+                                required
+                            />
+                        </Col> */}
+                        <Col md={6}>
+                            <InputField
+                                label="Leave Count"
+                                name="leaveCount"
+                                type="number"
+                                value={leaveForm.leaveCount}
+                                handleChange={handleLeaveChange}
+                                error={leaveErrors.leaveCount}
                                 required
                             />
                         </Col>
@@ -740,26 +784,31 @@ const ManageHolidaysAndLeave = () => {
                     <Row>
                         <Col md={6}>
                             <InputField
-                                label="Valid From"
+                                label="Valid Year"
                                 name="validFrom"
                                 type="date"
-                                value={leaveForm.validFrom}
+                                value={
+                                    leaveForm.validFrom
+                                        ? new Date(leaveForm.validFrom).toISOString().split("T")[0]
+                                        : ""
+                                }
                                 handleChange={handleLeaveChange}
                                 error={leaveErrors.validFrom}
                                 required
+                                className="year-only-input"
                             />
                         </Col>
-                        <Col md={6}>
+                        {/* <Col md={6}>
                             <InputField
                                 label="Valid To"
                                 name="validTo"
-                                type="date"
+                                type="year"
                                 value={leaveForm.validTo}
                                 handleChange={handleLeaveChange}
                                 error={leaveErrors.validTo}
                                 required
                             />
-                        </Col>
+                        </Col> */}
                     </Row>
                 </Col>
             </OffCanvas>
@@ -801,13 +850,36 @@ const ManageHolidaysAndLeave = () => {
 
             <CustomModalConfirmDialog
                 show={showLeaveModal}
-                onHide={() => setShowLeaveModal(false)}
-                title="Delete Leave"
-                bodyContent={<p>Are you sure you want to delete this leave record?</p>}
+                onHide={() => {
+                    setShowLeaveModal(false);
+                    setLeaveToDelete(null);
+                }}
+                title="Delete Holiday"
+                size="md"
+                subtitle='This action cannot be undone.'
+                className='ConfirmDialogModal delete'
+                showSubmitButton={true}
+                showCancelButton={true}
+                bodyContent={
+                    <>
+                        <div className='ConfirmContainer'>
+                            <div className='ConfirmIcon'>
+                                <img src={Images.ConfirmDelete} alt="Delete" />
+                            </div>
+                            {leaveToDelete && (
+                                <div className='ConfirmContent'>
+                                    <h5>Delete Leave</h5>
+                                    <p>Are you sure you want to delete this Leave <span>{`${leaveToDelete.leaveName}`}</span>? This action cannot be undo.</p>
+                                </div>
+                            )}
+                        </div>
+                    </>
+                }
                 onSubmit={handleDeleteLeave}
                 footerButtonSubmit="Delete"
                 footerButtonCancel="Cancel"
                 footerButtonSubmitClass="modal_danger_btn"
+                footerButtonCancelClass="modal_primary_border_btn"
             />
 
             {/* ---------- Toasts ---------- */}

@@ -529,8 +529,11 @@ export const LeaveReportValidateField = (name, value) => {
         case 'leaveCategory':
             if (!value.trim()) error = 'Leave Category is required';
             break;
-        case 'genderEligibility':
-            if (!value.trim()) error = 'Gender Eligibility is required';
+        // case 'genderEligibility':
+        //     if (!value.trim()) error = 'Gender Eligibility is required';
+        //     break;
+        case 'leaveCount':
+            if (!value.trim()) error = 'Leave Count is required';
             break;
         case 'monthlyAccrual':
             if (!value.trim()) error = 'Monthly Accrual is required';
@@ -546,9 +549,6 @@ export const LeaveReportValidateField = (name, value) => {
             break;
         case 'validFrom':
             if (!value) error = 'Valid From is required';
-            break;
-        case 'validTo':
-            if (!value) error = 'Valid To is required';
             break;
         default:
             break;
