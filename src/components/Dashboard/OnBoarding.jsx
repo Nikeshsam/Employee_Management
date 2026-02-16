@@ -51,7 +51,7 @@ const EmployeeProfileCard = () => {
     <Container fluid>
       <Row>
         <Col md={12} lg={12} xl={12} xxl={12}>
-          <Card className='card_purple mb-4'>
+          <Card className='card_purple mb-3'>
             <Card.Body>
               <EmployeeProfileDetails employeeProfile={employeeProfile} loading={loading} setLoading={setLoading} />
             </Card.Body>
