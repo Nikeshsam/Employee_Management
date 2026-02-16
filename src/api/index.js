@@ -459,21 +459,21 @@ export const getLeave = (token) => {
   );
 };
 
-// export const getEmployeeDetails = (token) => axios.get(`${url}/employeeDetails`, {
-//   headers: {
-//     Authorization: `Bearer ${token}`,
-//   },
-// });
+export const getEmployeeDetails = (token) => axios.get(`${url}/employeeDetails/employeeDetails`, {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
 
-export const getEmployeeDetails = (employeeId) => {
-  const token = localStorage.getItem('token'); // or sessionStorage
+// export const getEmployeeDetails = (employeeId,token) => {
+//  // or sessionStorage
 
-  return axios.get(`/api/employees/${employeeId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-};
+//   return axios.get(`/api/employees/${employeeId}`, {
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//     },
+//   });
+// };
 
 
 // export const updatePost = (id,post)=> axios.patch(`${url}/${id}`,post);

@@ -27,47 +27,112 @@ const UserInfo = () => {
   );
 
   useEffect(() => {
+  const fetchEmployeeDetails = async () => {
+    try {
+      if (!loginUser) return;
 
-    //console.log("Employee API response:", res.data);
-    const fetchEmployeeDetails = async () => {
-      try {
-        setLoading(true);
+      setLoading(true);
 
-        const employeeId =
-          loginUser?.employeeId ||
-          loginUser?.user?.id ||   // ✅ THIS IS THE CORRECT ONE
-          loginUser?.employee?.id ||
-          loginUser?.id;
+      const employeeId =
+        loginUser?.employeeId ||
+        loginUser?.user?.id ||
+        loginUser?.employee?.id ||
+        loginUser?.id;
 
-        console.log("Resolved employeeId:", employeeId);
+      const token =
+        loginUser?.token ||
+        loginUser?.user?.token;
 
-        if (!employeeId) {
-          console.warn("Employee ID not found in loginUser");
-          setEmployee(null);
-          return;
-        }
+      console.log("Resolved employeeId:", employeeId);
+      console.log("Resolved token:", token);
 
-        const response = await getEmployeeDetails(employeeId);
-
-        // console.log("Employee API response:", response.data);
-        // console.log("FULL employee object:", response.data);
-        // console.log("Contact object:", response.data.contact);
-
-        setEmployee(response.data);
-
-      } catch (error) {
-        console.error("Failed to fetch employee details", error);
+      if (!employeeId || !token) {
+        console.warn("Employee ID or token missing");
         setEmployee(null);
-      } finally {
-        setLoading(false);
+        return;
       }
-    };
 
-    if (loginUser) {
-      fetchEmployeeDetails();
+      const response = await getEmployeeDetails(token);
+      const data = response.data;
+
+setEmployee({
+  basic: {
+    fullName: `${data.employeeBasicDetails?.firstName || ""} ${data.employeeBasicDetails?.lastName || ""}`,
+    designation: data.employee?.designation,
+    employeeCode: data.employee?.employeeId,
+    dob: data.employeeBasicDetails?.dateOfBirth,
+    age: data.employeeBasicDetails?.age,
+    gender: data.employeeBasicDetails?.gender,
+    maritalStatus: data.employeeBasicDetails?.maritalStatus,
+    nationality: data.employeeBasicDetails?.nationality,
+  },
+
+  job: {
+    designation: data.employee?.designation,
+    employmentType: data.employee?.employmentType,
+    department: data.employee?.department,
+    company: "Your Company",
+    hireDate: data.employee?.joiningDate,
+  },
+
+  manager: {}, // You don't have manager data yet
+
+  family: data.employeeDependentDetails || [],
+
+  academicQualifications: data.employeeEducationDetails || [],
+
+  certifications: data.employeeCertifications || [],
+
+  experience: data.employeeExperience || [],
+
+  coverageSummary: data.employeeBenefits || [],
+
+  dependentDetails: data.employeeDependentDetails || [],
+
+  vaccinations: data.employeeHealthRecord?.vaccinations || [],
+
+  visaDetails:
+    data.employeeTravelDetails?.[0]?.visaDetails || [],
+
+  contact: {
+    mobile: data.employeeContactDetails?.primaryMobileNo,
+    alternateMobile: data.employeeContactDetails?.secondaryMobileNo,
+    email: data.employeeContactDetails?.email,
+    currentAddress:
+      data.employeeContactDetails?.currentAddress?.addressLine1,
+    permanentAddress:
+      data.employeeContactDetails?.permanentAddress?.addressLine1,
+  },
+
+  emergency: [
+    {
+      relationName: data.employeeContactDetails?.relationName,
+      relationship: data.employeeContactDetails?.relationship,
+      phoneNumber: data.employeeContactDetails?.relationContactNo,
+      emailAddress: data.employeeContactDetails?.relationEmail,
+    },
+  ],
+
+  healthDetails: data.employeeHealthRecord
+    ? [data.employeeHealthRecord]
+    : [],
+
+  passportDetails:
+    data.employeeTravelDetails || [],
+});
+
+
+    } catch (error) {
+      console.error("Failed to fetch employee details", error);
+      setEmployee(null);
+    } finally {
+      setLoading(false);
     }
+  };
 
-  }, [loginUser]);
+  fetchEmployeeDetails();
+}, [loginUser]);
+
 
 
   if (loading) {
