@@ -12,35 +12,63 @@ const UserInfo = () => {
   const [employee, setEmployee] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const EmptyState = ({ message }) => (
+    <div className="ReadOnlyCard emptyState text-center mb-3">
+      <span className="text-muted">{message}</span>
+    </div>
+  );
+
+  const TableEmptyRow = ({ colSpan, message }) => (
+    <tr>
+      <td colSpan={colSpan} className="text-center text-muted py-3">
+        {message}
+      </td>
+    </tr>
+  );
+
   useEffect(() => {
+
+    //console.log("Employee API response:", res.data);
     const fetchEmployeeDetails = async () => {
       try {
-        //console.log('FULL loginUser OBJECT:', loginUser);
+        setLoading(true);
+
         const employeeId =
           loginUser?.employeeId ||
-          loginUser?.user?.name ||
+          loginUser?.user?.id ||   // ✅ THIS IS THE CORRECT ONE
           loginUser?.employee?.id ||
           loginUser?.id;
 
-        //console.log('RESOLVED Employee ID:', employeeId);
+        console.log("Resolved employeeId:", employeeId);
 
         if (!employeeId) {
-          setLoading(false);
+          console.warn("Employee ID not found in loginUser");
+          setEmployee(null);
           return;
         }
 
-        const res = await getEmployeeDetails(employeeId);
-        setEmployee(res.data);
+        const response = await getEmployeeDetails(employeeId);
+
+        // console.log("Employee API response:", response.data);
+        // console.log("FULL employee object:", response.data);
+        // console.log("Contact object:", response.data.contact);
+
+        setEmployee(response.data);
 
       } catch (error) {
-        console.error('Failed to fetch employee details', error);
+        console.error("Failed to fetch employee details", error);
+        setEmployee(null);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchEmployeeDetails();
+    if (loginUser) {
+      fetchEmployeeDetails();
+    }
+
   }, [loginUser]);
+
 
   if (loading) {
     return (
@@ -70,12 +98,24 @@ const UserInfo = () => {
     dependentDetails = [],
     vaccinations = [],
     visaDetails = [],
-
     contact = {},
-    emergencyContact = [],
+    emergency = [],
     healthDetails = [],
     passportDetails = [],
   } = employee;
+
+  /* ================= NORMALIZATION ================= */
+  const passport = Array.isArray(passportDetails)
+    ? passportDetails[0]
+    : passportDetails;
+
+  const emergencyContact = Array.isArray(emergency)
+    ? emergency[0]
+    : emergency;
+
+  const health = Array.isArray(healthDetails)
+    ? healthDetails[0]
+    : healthDetails;
 
   return (
     <Container fluid>
@@ -225,13 +265,7 @@ const UserInfo = () => {
                                 <td>{contact?.alternateMobile || "-"}</td>
                                 <td>{contact?.email || "-"}</td>
                               </tr>
-                            ) : (
-                              <tr>
-                                <td colSpan={4} className="text-center text-muted py-3">
-                                  No contact details available
-                                </td>
-                              </tr>
-                            )}
+                            ) : <TableEmptyRow colSpan={4} message="No contact details available" />}
                           </SecondaryGrid>
                         </Col>
                       </Row>
@@ -251,7 +285,7 @@ const UserInfo = () => {
                             {emergencyContact?.relationName ||
                               emergencyContact?.relationship ||
                               emergencyContact?.phoneNumber ||
-                              emergencyContact?.dateOfExpiry ? (
+                              emergencyContact?.emailAddress ? (
                               <tr>
                                 <td>{emergencyContact?.relationName || "-"}</td>
                                 <td>{emergencyContact?.relationship || "-"}</td>
@@ -259,11 +293,7 @@ const UserInfo = () => {
                                 <td>{emergencyContact?.emailAddress || "-"}</td>
                               </tr>
                             ) : (
-                              <tr>
-                                <td colSpan={4} className="text-center text-muted py-3">
-                                  No emergency contact details available
-                                </td>
-                              </tr>
+                              <TableEmptyRow colSpan={4} message="No emergency contact details available" />
                             )}
                           </SecondaryGrid>
                         </Col>
@@ -315,13 +345,7 @@ const UserInfo = () => {
                                 </div>
                               </div>
                             ))
-                          ) : (
-                            <div className="ReadOnlyCard emptyState text-center">
-                              <span className="text-muted">
-                                No family details available
-                              </span>
-                            </div>
-                          )}
+                          ) : <EmptyState message="No family details available" />}
                         </Col>
                       </Row>
                     </div>
@@ -372,13 +396,7 @@ const UserInfo = () => {
                                 </div>
                               </div>
                             ))
-                          ) : (
-                            <div className="ReadOnlyCard emptyState text-center mb-3">
-                              <span className="text-muted">
-                                No academic qualifications details available
-                              </span>
-                            </div>
-                          )}
+                          ) : <EmptyState message="No academic qualifications details available" />}
                         </Col>
                         <Col md={12} className='d-flex flex-column gap-2'>
                           <h6 className='subHeading'>Certifications</h6>
@@ -389,42 +407,36 @@ const UserInfo = () => {
                                   <i><img src={Images.ViewCertificate} alt="" /></i>
                                   <div className='Content'>
                                     <label htmlFor="">Name</label>
-                                    <span>{e.certiName}</span>
+                                    <span>{c.certiName || "-"}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
                                     <label htmlFor="">Issued By</label>
-                                    <span>{c.certiIssuedBy}</span>
+                                    <span>{c.certiIssuedBy || "-"}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
                                     <label htmlFor="">Issued Date</label>
-                                    <span>{e.university}</span>
+                                    <span>{c.university}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
                                     <label htmlFor="">Expiry Date</label>
-                                    <span>{c.year}</span>
+                                    <span>{c.year || "-"}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
                                     <label htmlFor="">Additional Info</label>
-                                    <span>{e.cgpa}</span>
+                                    <span>{c.cgpa}</span>
                                   </div>
                                 </div>
                               </div>
                             ))
-                          ) : (
-                            <div className="ReadOnlyCard emptyState text-center">
-                              <span className="text-muted">
-                                No certifications details available
-                              </span>
-                            </div>
-                          )}
+                          ) : <EmptyState message="No certifications details available" />}
                         </Col>
                       </Row>
                     </div>
@@ -474,13 +486,7 @@ const UserInfo = () => {
                                 </div>
                               </div>
                             ))
-                          ) : (
-                            <div className="ReadOnlyCard emptyState text-center mb-3">
-                              <span className="text-muted">
-                                No academic qualifications details available
-                              </span>
-                            </div>
-                          )}
+                          ) : <EmptyState message="No work experience details available" />}
                         </Col>
                       </Row>
                     </div>
@@ -531,13 +537,7 @@ const UserInfo = () => {
                                 </div>
                               </div>
                             ))
-                          ) : (
-                            <div className="ReadOnlyCard emptyState text-center mb-3">
-                              <span className="text-muted">
-                                No benefits details available
-                              </span>
-                            </div>
-                          )}
+                          ) : <EmptyState message="No benefits details available" />}
                         </Col>
                         <Col md={12} className='d-flex flex-column gap-2'>
                           <h6 className='subHeading'>Dependent Details</h6>
@@ -577,13 +577,7 @@ const UserInfo = () => {
                                 </div>
                               </div>
                             ))
-                          ) : (
-                            <div className="ReadOnlyCard emptyState text-center mb-3">
-                              <span className="text-muted">
-                                No dependent details available
-                              </span>
-                            </div>
-                          )}
+                          ) : <EmptyState message="No dependent details available" />}
                         </Col>
                       </Row>
                     </div>
@@ -606,22 +600,18 @@ const UserInfo = () => {
                               "Pre-Existing Illness",
                             ]}
                           >
-                            {healthDetails?.bloodGroup ||
-                              healthDetails?.bloodDonor ||
-                              healthDetails?.allergyIntolerance ||
-                              healthDetails?.preExistingIllness ? (
+                            {health?.bloodGroup ||
+                              health?.bloodDonor ||
+                              health?.allergyIntolerance ||
+                              health?.preExistingIllness ? (
                               <tr>
-                                <td>{healthDetails?.bloodGroup || "-"}</td>
-                                <td>{healthDetails?.bloodDonor || "-"}</td>
-                                <td>{healthDetails?.allergyIntolerance || "-"}</td>
-                                <td>{healthDetails?.preExistingIllness || "-"}</td>
+                                <td>{health?.bloodGroup || "-"}</td>
+                                <td>{health?.bloodDonor || "-"}</td>
+                                <td>{health?.allergyIntolerance || "-"}</td>
+                                <td>{health?.preExistingIllness || "-"}</td>
                               </tr>
                             ) : (
-                              <tr>
-                                <td colSpan={4} className="text-center text-muted py-3">
-                                  No Health details available
-                                </td>
-                              </tr>
+                              <TableEmptyRow colSpan={4} message="No health details available" />
                             )}
                           </SecondaryGrid>
                         </Col>
@@ -649,13 +639,7 @@ const UserInfo = () => {
                                 </div>
                               </div>
                             ))
-                          ) : (
-                            <div className="ReadOnlyCard emptyState text-center mb-3">
-                              <span className="text-muted">
-                                No vaccinations details available
-                              </span>
-                            </div>
-                          )}
+                          ) : <EmptyState message="No vaccinations details available" />}
                         </Col>
                       </Row>
                     </div>
@@ -670,7 +654,6 @@ const UserInfo = () => {
                       <Row>
                         <Col md={12} className="d-flex flex-column gap-2">
                           <h6 className="subHeading">Passport Details</h6>
-
                           <SecondaryGrid
                             tableHeaders={[
                               "Passport No",
@@ -679,28 +662,24 @@ const UserInfo = () => {
                               "Date of Expiry",
                             ]}
                           >
-                            {passportDetails?.passportNo ||
-                              passportDetails?.issuedBy ||
-                              passportDetails?.dateOfIssue ||
-                              passportDetails?.dateOfExpiry ? (
+                            {passport?.passportNo ||
+                              passport?.issuedBy ||
+                              passport?.dateOfIssue ||
+                              passport?.dateOfExpiry ? (
                               <tr>
-                                <td>{passportDetails?.passportNo || "-"}</td>
-                                <td>{passportDetails?.issuedBy || "-"}</td>
-                                <td>{passportDetails?.dateOfIssue || "-"}</td>
-                                <td>{passportDetails?.dateOfExpiry || "-"}</td>
+                                <td>{passport?.passportNo || "-"}</td>
+                                <td>{passport?.issuedBy || "-"}</td>
+                                <td>{passport?.dateOfIssue || "-"}</td>
+                                <td>{passport?.dateOfExpiry || "-"}</td>
                               </tr>
                             ) : (
-                              <tr>
-                                <td colSpan={4} className="text-center text-muted py-3">
-                                  No passport details available
-                                </td>
-                              </tr>
+                              <TableEmptyRow colSpan={4} message="No passport details available" />
                             )}
+
                           </SecondaryGrid>
                         </Col>
                       </Row>
                     </div>
-
                     <div className='cardGrp border-0 pb-0 pt-0'>
                       <Row>
                         <Col md={12} className='d-flex flex-column gap-2'>
@@ -741,13 +720,7 @@ const UserInfo = () => {
                                 </div>
                               </div>
                             ))
-                          ) : (
-                            <div className="ReadOnlyCard emptyState text-center mb-3">
-                              <span className="text-muted">
-                                No visa details available
-                              </span>
-                            </div>
-                          )}
+                          ) : <EmptyState message="No visa details available" />}
                         </Col>
                       </Row>
                     </div>
