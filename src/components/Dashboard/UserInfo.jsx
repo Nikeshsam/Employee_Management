@@ -65,7 +65,7 @@ const UserInfo = () => {
         const response = await getEmployeeDetails(token);
         const data = response.data;
 
-        console.log("employeeDependentDetails:", data.employeeDependentDetails);
+        //console.log("employeeDependentDetails:", data.employeeDependentDetails);
 
         setEmployee({
           basic: {
@@ -77,6 +77,7 @@ const UserInfo = () => {
             gender: data.employeeBasicDetails?.gender,
             maritalStatus: data.employeeBasicDetails?.maritalStatus,
             nationality: data.employeeBasicDetails?.nationality,
+            workLocation: data.employee?.workLocation,
           },
 
           job: {
@@ -89,12 +90,11 @@ const UserInfo = () => {
 
           manager: {}, // You don't have manager data yet
 
-          family: data.employeeDependentDetails || [],
+          family: data.employeeFamilyDetails || [],
           academicQualifications: data.employeeEducationDetails || [],
           certifications: data.employeeCertifications || [],
           experience: data.employeeExperience || [],
-          coverageSummary: data.employeeBenefits || [],
-          dependentDetails: data.employeeDependentDetails || [],
+          dependentDetails: data.employeeBenefits || [],
           vaccinations: data.employeeHealthRecord?.vaccinations || [],
           visaDetails: data.employeeTravelDetails?.[0]?.visaDetails || [],
 
@@ -161,7 +161,6 @@ const UserInfo = () => {
     academicQualifications = [],
     certifications = [],
     experience = [],
-    coverageSummary = [],
     dependentDetails = [],
     vaccinations = [],
     visaDetails = [],
@@ -253,7 +252,7 @@ const UserInfo = () => {
                     </li>
                     <li>
                       <i><img src={Images.PI_Location} alt="" /></i>
-                      <span>{contact.country}</span>
+                      <span>{basic.workLocation}</span>
                     </li>
                     <li>
                       <i><img src={Images.PI_Setting} alt="" /></i>

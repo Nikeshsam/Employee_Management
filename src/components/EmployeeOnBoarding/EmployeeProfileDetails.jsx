@@ -186,7 +186,7 @@ function EmployeeProfileCard({ employeeProfile, loading }) {
 
             <div className="employee_profile_details">
                 <label>Manager</label>
-                <span>{employeeProfile.manager || "Muthu Kumar"}</span>
+                <span>{employeeProfile.manager || '-'}</span>
             </div>
 
             <div className="employee_profile_details">
