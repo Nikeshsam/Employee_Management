@@ -5,6 +5,7 @@ import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import { SecondaryGrid } from "../../pages/Props.jsx";
 import Images from '../../pages/Images.jsx';
 import 'bootstrap/dist/css/bootstrap.css';
+import ComboDate from '../../data/Combo.json';
 
 const UserInfo = () => {
   const { loginUser } = useLoginUser();
@@ -26,112 +27,113 @@ const UserInfo = () => {
     </tr>
   );
 
-  useEffect(() => {
-  const fetchEmployeeDetails = async () => {
-    try {
-      if (!loginUser) return;
+  const BloodGroup = ComboDate.BloodGroup;
 
-      setLoading(true);
-
-      const employeeId =
-        loginUser?.employeeId ||
-        loginUser?.user?.id ||
-        loginUser?.employee?.id ||
-        loginUser?.id;
-
-      const token =
-        loginUser?.token ||
-        loginUser?.user?.token;
-
-      console.log("Resolved employeeId:", employeeId);
-      console.log("Resolved token:", token);
-
-      if (!employeeId || !token) {
-        console.warn("Employee ID or token missing");
-        setEmployee(null);
-        return;
-      }
-
-      const response = await getEmployeeDetails(token);
-      const data = response.data;
-
-setEmployee({
-  basic: {
-    fullName: `${data.employeeBasicDetails?.firstName || ""} ${data.employeeBasicDetails?.lastName || ""}`,
-    designation: data.employee?.designation,
-    employeeCode: data.employee?.employeeId,
-    dob: data.employeeBasicDetails?.dateOfBirth,
-    age: data.employeeBasicDetails?.age,
-    gender: data.employeeBasicDetails?.gender,
-    maritalStatus: data.employeeBasicDetails?.maritalStatus,
-    nationality: data.employeeBasicDetails?.nationality,
-  },
-
-  job: {
-    designation: data.employee?.designation,
-    employmentType: data.employee?.employmentType,
-    department: data.employee?.department,
-    company: "Your Company",
-    hireDate: data.employee?.joiningDate,
-  },
-
-  manager: {}, // You don't have manager data yet
-
-  family: data.employeeDependentDetails || [],
-
-  academicQualifications: data.employeeEducationDetails || [],
-
-  certifications: data.employeeCertifications || [],
-
-  experience: data.employeeExperience || [],
-
-  coverageSummary: data.employeeBenefits || [],
-
-  dependentDetails: data.employeeDependentDetails || [],
-
-  vaccinations: data.employeeHealthRecord?.vaccinations || [],
-
-  visaDetails:
-    data.employeeTravelDetails?.[0]?.visaDetails || [],
-
-  contact: {
-    mobile: data.employeeContactDetails?.primaryMobileNo,
-    alternateMobile: data.employeeContactDetails?.secondaryMobileNo,
-    email: data.employeeContactDetails?.email,
-    currentAddress:
-      data.employeeContactDetails?.currentAddress?.addressLine1,
-    permanentAddress:
-      data.employeeContactDetails?.permanentAddress?.addressLine1,
-  },
-
-  emergency: [
-    {
-      relationName: data.employeeContactDetails?.relationName,
-      relationship: data.employeeContactDetails?.relationship,
-      phoneNumber: data.employeeContactDetails?.relationContactNo,
-      emailAddress: data.employeeContactDetails?.relationEmail,
-    },
-  ],
-
-  healthDetails: data.employeeHealthRecord
-    ? [data.employeeHealthRecord]
-    : [],
-
-  passportDetails:
-    data.employeeTravelDetails || [],
-});
-
-
-    } catch (error) {
-      console.error("Failed to fetch employee details", error);
-      setEmployee(null);
-    } finally {
-      setLoading(false);
-    }
+  const getBloodGroupLabel = (value) => {
+    const match = BloodGroup.find(
+      (item) => item.value === value
+    );
+    return match ? match.label : "-";
   };
 
-  fetchEmployeeDetails();
-}, [loginUser]);
+  useEffect(() => {
+    const fetchEmployeeDetails = async () => {
+      try {
+        if (!loginUser) return;
+
+        setLoading(true);
+
+        const employeeId =
+          loginUser?.employeeId ||
+          loginUser?.user?.id ||
+          loginUser?.employee?.id ||
+          loginUser?.id;
+
+        const token =
+          loginUser?.token ||
+          loginUser?.user?.token;
+
+        console.log("Resolved employeeId:", employeeId);
+        console.log("Resolved token:", token);
+
+        if (!employeeId || !token) {
+          console.warn("Employee ID or token missing");
+          setEmployee(null);
+          return;
+        }
+
+        const response = await getEmployeeDetails(token);
+        const data = response.data;
+
+        console.log("employeeDependentDetails:", data.employeeDependentDetails);
+
+        setEmployee({
+          basic: {
+            fullName: `${data.employeeBasicDetails?.firstName || ""} ${data.employeeBasicDetails?.lastName || ""}`,
+            designation: data.employee?.designation,
+            employeeCode: data.employee?.employeeId,
+            dob: data.employeeBasicDetails?.dateOfBirth,
+            age: data.employeeBasicDetails?.age,
+            gender: data.employeeBasicDetails?.gender,
+            maritalStatus: data.employeeBasicDetails?.maritalStatus,
+            nationality: data.employeeBasicDetails?.nationality,
+          },
+
+          job: {
+            designation: data.employee?.designation,
+            employmentType: data.employee?.employmentType,
+            department: data.employee?.department,
+            company: "Your Company",
+            hireDate: data.employee?.joiningDate,
+          },
+
+          manager: {}, // You don't have manager data yet
+
+          family: data.employeeDependentDetails || [],
+          academicQualifications: data.employeeEducationDetails || [],
+          certifications: data.employeeCertifications || [],
+          experience: data.employeeExperience || [],
+          coverageSummary: data.employeeBenefits || [],
+          dependentDetails: data.employeeDependentDetails || [],
+          vaccinations: data.employeeHealthRecord?.vaccinations || [],
+          visaDetails: data.employeeTravelDetails?.[0]?.visaDetails || [],
+
+          contact: {
+            mobile: data.employeeContactDetails?.primaryMobileNo,
+            alternateMobile: data.employeeContactDetails?.secondaryMobileNo,
+            email: data.employeeContactDetails?.email,
+            currentAddress: data.employeeContactDetails?.currentAddress?.addressLine1,
+            permanentAddress: data.employeeContactDetails?.permanentAddress?.addressLine1,
+          },
+
+          emergency: [
+            {
+              relationName: data.employeeContactDetails?.relationName,
+              relationship: data.employeeContactDetails?.relationship,
+              phoneNumber: data.employeeContactDetails?.relationContactNo,
+              emailAddress: data.employeeContactDetails?.relationEmail,
+            },
+          ],
+
+          healthDetails: data.employeeHealthRecord
+            ? [data.employeeHealthRecord]
+            : [],
+
+          passportDetails:
+            data.employeeTravelDetails || [],
+        });
+
+
+      } catch (error) {
+        console.error("Failed to fetch employee details", error);
+        setEmployee(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEmployeeDetails();
+  }, [loginUser]);
 
 
 
@@ -169,6 +171,11 @@ setEmployee({
     passportDetails = [],
   } = employee;
 
+  const formatDate = (date) => {
+    if (!date) return "";
+    return date.split("T")[0].split("-").reverse().join("-");
+  };
+
   /* ================= NORMALIZATION ================= */
   const passport = Array.isArray(passportDetails)
     ? passportDetails[0]
@@ -205,7 +212,7 @@ setEmployee({
                     <li>{basic.employeeCode}</li>
                     <li>
                       <i><img src={Images.PI_DOB} alt="" /></i>
-                      <span>{basic.dob} - {basic.age}</span>
+                      <span>{formatDate(basic.dob)} - <b>{basic.age}</b></span>
                     </li>
                     <li>
                       <i><img src={Images.PI_Gender} alt="" /></i>
@@ -271,7 +278,7 @@ setEmployee({
                   <ul>
                     <li>
                       <i><img src={Images.PI_Calendar} alt="" /></i>
-                      <span>{job.hireDate}</span>
+                      <span>{formatDate(job.hireDate)}</span>
                     </li>
                   </ul>
                 </div>
@@ -380,32 +387,38 @@ setEmployee({
                                 <div className='CustomCol col-2'>
                                   <i><img src={Images.ViewFamily} alt="" /></i>
                                   <div className='Content'>
-                                    <label htmlFor="">Degree</label>
+                                    <label htmlFor="">NAME</label>
                                     <span>{f.name || '-'}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
-                                    <label htmlFor="">Major</label>
+                                    <label htmlFor="">RELATIONSHIP</label>
                                     <span>{f.relationship || '-'}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
-                                    <label htmlFor="">Major</label>
-                                    <span>{f.dob || '-'}</span>
+                                    <label htmlFor="">DATE OF BIRTH</label>
+                                    <span>{formatDate(f.dateOfBirth) || '-'}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
-                                    <label htmlFor="">Major</label>
+                                    <label htmlFor="">EDUCATION</label>
                                     <span>{f.education || '-'}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
-                                    <label htmlFor="">Major</label>
+                                    <label htmlFor="">OCCUPATION</label>
                                     <span>{f.occupation || '-'}</span>
+                                  </div>
+                                </div>
+                                <div className='CustomCol col-2'>
+                                  <div className='Content'>
+                                    <label htmlFor="">DEPENDENT IN BENEFITS</label>
+                                    <span>{f.dependentBenefit ? "Yes" : "No" || '-'}</span>
                                   </div>
                                 </div>
                               </div>
@@ -432,31 +445,31 @@ setEmployee({
                                   <i><img src={Images.ViewAcademic} alt="" /></i>
                                   <div className='Content'>
                                     <label htmlFor="">Degree</label>
-                                    <span>{a.degree}</span>
+                                    <span>{a.degree || "-"}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
                                     <label htmlFor="">Major</label>
-                                    <span>{a.major}</span>
+                                    <span>{a.major || "-"}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
                                     <label htmlFor="">University</label>
-                                    <span>{a.university}</span>
+                                    <span>{a.university || "-"}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
                                     <label htmlFor="">Year</label>
-                                    <span>{a.year}</span>
+                                    <span>{formatDate(a.year) || "-"}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
-                                    <label htmlFor="">Year</label>
-                                    <span>{a.cgpa}</span>
+                                    <label htmlFor="">CGPA</label>
+                                    <span>{a.percentage || "-"}</span>
                                   </div>
                                 </div>
                               </div>
@@ -468,35 +481,35 @@ setEmployee({
                           {certifications.length > 0 ? (
                             certifications.map((c, i) => (
                               <div className="ReadOnlyCard mb-3" key={i}>
-                                <div className='CustomCol col-2'>
+                                <div className='CustomCol col-3'>
                                   <i><img src={Images.ViewCertificate} alt="" /></i>
                                   <div className='Content'>
                                     <label htmlFor="">Name</label>
-                                    <span>{c.certiName || "-"}</span>
+                                    <span>{c.name || "-"}</span>
                                   </div>
                                 </div>
-                                <div className='CustomCol col-2'>
+                                <div className='CustomCol col-3'>
                                   <div className='Content'>
                                     <label htmlFor="">Issued By</label>
-                                    <span>{c.certiIssuedBy || "-"}</span>
+                                    <span>{c.issuedBy || "-"}</span>
                                   </div>
                                 </div>
-                                <div className='CustomCol col-2'>
+                                <div className='CustomCol col-3'>
                                   <div className='Content'>
                                     <label htmlFor="">Issued Date</label>
-                                    <span>{c.university}</span>
+                                    <span>{formatDate(c.issuedDate) || "-"}</span>
                                   </div>
                                 </div>
-                                <div className='CustomCol col-2'>
+                                {/* <div className='CustomCol col-2'>
                                   <div className='Content'>
                                     <label htmlFor="">Expiry Date</label>
-                                    <span>{c.year || "-"}</span>
+                                    <span>{c.year?.split("T")[0] || "-"}</span>
                                   </div>
-                                </div>
-                                <div className='CustomCol col-2'>
+                                </div> */}
+                                <div className='CustomCol col-3'>
                                   <div className='Content'>
                                     <label htmlFor="">Additional Info</label>
-                                    <span>{c.cgpa}</span>
+                                    <span>{c.additionalInfo}</span>
                                   </div>
                                 </div>
                               </div>
@@ -518,35 +531,35 @@ setEmployee({
                           {experience.length > 0 ? (
                             experience.map((e, i) => (
                               <div className="ReadOnlyCard mb-2" key={i}>
-                                <div className='CustomCol col-2'>
+                                <div className='CustomCol col-4'>
                                   <i><img src={Images.ViewCertificate} alt="" /></i>
                                   <div className='Content'>
                                     <label htmlFor="">Organization</label>
-                                    <span>{e.organization}</span>
+                                    <span>{e.organization || '-'}</span>
                                   </div>
                                 </div>
-                                <div className='CustomCol col-2'>
+                                <div className='CustomCol col-1'>
                                   <div className='Content'>
                                     <label htmlFor="">Location</label>
-                                    <span>{e.location}</span>
+                                    <span>{e.location || '-'}</span>
                                   </div>
                                 </div>
-                                <div className='CustomCol col-2'>
+                                <div className='CustomCol col-3'>
                                   <div className='Content'>
                                     <label htmlFor="">Job Title</label>
-                                    <span>{e.jobTitle}</span>
+                                    <span>{e.jobTitle || '-'}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
                                     <label htmlFor="">Start Date</label>
-                                    <span>{e.startDate}</span>
+                                    <span>{formatDate(e.startDate) || '-'}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
                                     <label htmlFor="">End Date</label>
-                                    <span>{e.endDate}</span>
+                                    <span>{formatDate(e.endDate) || '-'}</span>
                                   </div>
                                 </div>
                               </div>
@@ -564,7 +577,7 @@ setEmployee({
                   <CardBody className='p-0'>
                     <div className='cardGrp border-0 pb-0 pt-1'>
                       <Row>
-                        <Col md={12} className='d-flex flex-column gap-2'>
+                        {/* <Col md={12} className='d-flex flex-column gap-2'>
                           <h6 className='subHeading'>Coverage Summary</h6>
                           {coverageSummary.length > 0 ? (
                             coverageSummary.map((c, i) => (
@@ -573,37 +586,37 @@ setEmployee({
                                   <i><img src={Images.ViewCoverage} alt="" /></i>
                                   <div className='Content'>
                                     <label htmlFor="">benefit</label>
-                                    <span>{c.csBenefit}</span>
+                                    <span>{c.name}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
                                     <label htmlFor="">Effective</label>
-                                    <span>{c.csEffective}</span>
+                                    <span>{c.relationship}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
                                     <label htmlFor="">Coverage</label>
-                                    <span>{c.csCoverage}</span>
+                                    <span>{c.gender}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
                                     <label htmlFor="">Frequency</label>
-                                    <span>{c.csFrequency}</span>
+                                    <span>{c.idNumber}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
                                     <label htmlFor="">Status</label>
-                                    <span>{c.csStatus}</span>
+                                    <span>{c.DoB}</span>
                                   </div>
                                 </div>
                               </div>
                             ))
                           ) : <EmptyState message="No benefits details available" />}
-                        </Col>
+                        </Col> */}
                         <Col md={12} className='d-flex flex-column gap-2'>
                           <h6 className='subHeading'>Dependent Details</h6>
                           {dependentDetails.length > 0 ? (
@@ -613,31 +626,31 @@ setEmployee({
                                   <i><img src={Images.ViewDependent} alt="" /></i>
                                   <div className='Content'>
                                     <label htmlFor="">name</label>
-                                    <span>{d.csBenefit}</span>
+                                    <span>{d.name || '-'}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
                                     <label htmlFor="">relationship</label>
-                                    <span>{d.csEffective}</span>
+                                    <span>{d.relationship || '-'}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
                                     <label htmlFor="">gender</label>
-                                    <span>{d.csCoverage}</span>
+                                    <span>{d.gender || '-'}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
                                     <label htmlFor="">id number</label>
-                                    <span>{d.csFrequency}</span>
+                                    <span>{d.idNumber || '-'}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
                                     <label htmlFor="">date of birth</label>
-                                    <span>{d.csStatus}</span>
+                                    <span>{d.DoB || '-'}</span>
                                   </div>
                                 </div>
                               </div>
@@ -666,14 +679,14 @@ setEmployee({
                             ]}
                           >
                             {health?.bloodGroup ||
-                              health?.bloodDonor ||
-                              health?.allergyIntolerance ||
-                              health?.preExistingIllness ? (
+                              health?.isBloodDonor ||
+                              health?.allergies ||
+                              health?.preExistingIllnesses ? (
                               <tr>
-                                <td>{health?.bloodGroup || "-"}</td>
-                                <td>{health?.bloodDonor || "-"}</td>
-                                <td>{health?.allergyIntolerance || "-"}</td>
-                                <td>{health?.preExistingIllness || "-"}</td>
+                                <td>{getBloodGroupLabel(health?.bloodGroup)}</td>
+                                <td>{health?.isBloodDonor || "-"}</td>
+                                <td>{health?.allergies || "-"}</td>
+                                <td>{health?.preExistingIllnesses || "-"}</td>
                               </tr>
                             ) : (
                               <TableEmptyRow colSpan={4} message="No health details available" />
@@ -693,13 +706,13 @@ setEmployee({
                                   <i><img src={Images.ViewVaccinations} alt="" /></i>
                                   <div className='Content'>
                                     <label htmlFor="">Vaccination Name</label>
-                                    <span>{v.vaccinationName}</span>
+                                    <span>{v.vaccinationName || "-"}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
                                     <label htmlFor="">Date of Dose</label>
-                                    <span>{v.vcDateOfDose}</span>
+                                    <span>{formatDate(v.vcDateOfDose) || "-"}</span>
                                   </div>
                                 </div>
                               </div>
@@ -734,8 +747,8 @@ setEmployee({
                               <tr>
                                 <td>{passport?.passportNo || "-"}</td>
                                 <td>{passport?.issuedBy || "-"}</td>
-                                <td>{passport?.dateOfIssue || "-"}</td>
-                                <td>{passport?.dateOfExpiry || "-"}</td>
+                                <td>{formatDate(passport?.dateOfIssue) || "-"}</td>
+                                <td>{formatDate(passport?.dateOfExpiry) || "-"}</td>
                               </tr>
                             ) : (
                               <TableEmptyRow colSpan={4} message="No passport details available" />
@@ -762,19 +775,19 @@ setEmployee({
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
                                     <label htmlFor="">Issued Date</label>
-                                    <span>{v.issuedDate}</span>
+                                    <span>{formatDate(v.issuedDate) || "-"}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
                                     <label htmlFor="">Place of Issue</label>
-                                    <span>{v.placeOfIssue}</span>
+                                    <span>{v.placeOfIssue || "-"}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
                                     <label htmlFor="">Expiry Date</label>
-                                    <span>{v.expiryDate}</span>
+                                    <span>{formatDate(v.expiryDate) || "-"}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
