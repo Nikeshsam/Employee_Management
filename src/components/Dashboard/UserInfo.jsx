@@ -31,7 +31,7 @@ const UserInfo = () => {
 
   const getBloodGroupLabel = (value) => {
     const match = BloodGroup.find(
-      (item) => item.value === value
+      (item) => item.value == value
     );
     return match ? match.label : "-";
   };
@@ -683,7 +683,7 @@ const UserInfo = () => {
                               health?.preExistingIllnesses ? (
                               <tr>
                                 <td>{getBloodGroupLabel(health?.bloodGroup)}</td>
-                                <td>{health?.isBloodDonor || "-"}</td>
+                                <td>{health?.isBloodDonor ? "Yes" : "No"}</td>
                                 <td>{health?.allergies || "-"}</td>
                                 <td>{health?.preExistingIllnesses || "-"}</td>
                               </tr>
