@@ -31,7 +31,7 @@ const UserInfo = () => {
 
   const getBloodGroupLabel = (value) => {
     const match = BloodGroup.find(
-      (item) => item.value === value
+      (item) => item.value == value
     );
     return match ? match.label : "-";
   };
@@ -649,7 +649,7 @@ const UserInfo = () => {
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
                                     <label htmlFor="">date of birth</label>
-                                    <span>{d.DoB || '-'}</span>
+                                    <span>{formatDate(d.DoB) || '-'}</span>
                                   </div>
                                 </div>
                               </div>
@@ -683,7 +683,7 @@ const UserInfo = () => {
                               health?.preExistingIllnesses ? (
                               <tr>
                                 <td>{getBloodGroupLabel(health?.bloodGroup)}</td>
-                                <td>{health?.isBloodDonor || "-"}</td>
+                                <td>{health?.isBloodDonor? "Yes" : "No" || "-"}</td>
                                 <td>{health?.allergies || "-"}</td>
                                 <td>{health?.preExistingIllnesses || "-"}</td>
                               </tr>
@@ -711,7 +711,7 @@ const UserInfo = () => {
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
                                     <label htmlFor="">Date of Dose</label>
-                                    <span>{formatDate(v.vcDateOfDose) || "-"}</span>
+                                    <span>{formatDate(v.dateofDose) || "-"}</span>
                                   </div>
                                 </div>
                               </div>
@@ -741,13 +741,13 @@ const UserInfo = () => {
                           >
                             {passport?.passportNo ||
                               passport?.issuedBy ||
-                              passport?.dateOfIssue ||
-                              passport?.dateOfExpiry ? (
+                              passport?.issuedDate ||
+                              passport?.expiryDate ? (
                               <tr>
                                 <td>{passport?.passportNo || "-"}</td>
                                 <td>{passport?.issuedBy || "-"}</td>
-                                <td>{formatDate(passport?.dateOfIssue) || "-"}</td>
-                                <td>{formatDate(passport?.dateOfExpiry) || "-"}</td>
+                                <td>{formatDate(passport?.issueDate) || "-"}</td>
+                                <td>{formatDate(passport?.expiryDate) || "-"}</td>
                               </tr>
                             ) : (
                               <TableEmptyRow colSpan={4} message="No passport details available" />
