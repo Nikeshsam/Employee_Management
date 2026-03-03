@@ -27,10 +27,21 @@ const UserInfo = () => {
     </tr>
   );
 
+  // ComboData Code //
+
   const BloodGroup = ComboDate.BloodGroup;
 
   const getBloodGroupLabel = (value) => {
     const match = BloodGroup.find(
+      (item) => item.value == value
+    );
+    return match ? match.label : "-";
+  };
+
+  const Designation = ComboDate.Designation;
+
+  const getDesignationLabel = (value) => {
+    const match = Designation.find(
       (item) => item.value == value
     );
     return match ? match.label : "-";
@@ -203,7 +214,7 @@ const UserInfo = () => {
               <div className="infoData">
                 <div className="userName">
                   <h5>{basic.fullName}</h5>
-                  <span>{basic.designation}</span>
+                  <span>{getDesignationLabel(basic.designation)}</span>
                 </div>
 
                 <div className="userFooter">
