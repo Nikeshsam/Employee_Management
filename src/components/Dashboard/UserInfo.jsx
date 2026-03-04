@@ -47,6 +47,33 @@ const UserInfo = () => {
     return match ? match.label : "-";
   };
 
+  const Gender = ComboDate.GenderOptions;
+
+  const getGenderLabel = (value) => {
+    const match = Gender.find(
+      (item) => item.value == value
+    );
+    return match ? match.label : "-";
+  };
+
+  const Nationality = ComboDate.Nationality;
+
+  const getNationalityLabel = (value) => {
+    const match = Nationality.find(
+      (item) => item.value == value
+    );
+    return match ? match.label : "-";
+  };
+
+  const Department = ComboDate.Department;
+
+  const getDepartmentLabel = (value) => {
+    const match = Department.find(
+      (item) => item.value == value
+    );
+    return match ? match.label : "-";
+  };
+
   useEffect(() => {
     const fetchEmployeeDetails = async () => {
       try {
@@ -76,6 +103,8 @@ const UserInfo = () => {
         const response = await getEmployeeDetails(token);
         const data = response.data;
 
+        //console.log(organizationName)
+
         //console.log("employeeDependentDetails:", data.employeeDependentDetails);
 
         setEmployee({
@@ -95,7 +124,7 @@ const UserInfo = () => {
             designation: data.employee?.designation,
             employmentType: data.employee?.employmentType,
             department: data.employee?.department,
-            company: "Your Company",
+            company: data.companyProfileStatus?.organizationName,
             hireDate: data.employee?.joiningDate,
           },
 
@@ -186,6 +215,46 @@ const UserInfo = () => {
     return date.split("T")[0].split("-").reverse().join("-");
   };
 
+  const calculateExperience = (date) => {
+    if (!date) return "";
+
+    const startDate = new Date(date);
+    const today = new Date();
+
+    let years = today.getFullYear() - startDate.getFullYear();
+    let months = today.getMonth() - startDate.getMonth();
+    let days = today.getDate() - startDate.getDate();
+
+    // Adjust days if negative
+    if (days < 0) {
+      months--;
+      const previousMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+      days += previousMonth.getDate();
+    }
+
+    // Adjust months if negative
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+
+    let result = [];
+
+    if (years > 0) {
+      result.push(`${years} year${years > 1 ? "s" : ""}`);
+    }
+
+    if (months > 0) {
+      result.push(`${months} month${months > 1 ? "s" : ""}`);
+    }
+
+    if (days > 0) {
+      result.push(`${days} day${days > 1 ? "s" : ""}`);
+    }
+
+    return result.join(" ");
+  };
+
   /* ================= NORMALIZATION ================= */
   const passport = Array.isArray(passportDetails)
     ? passportDetails[0]
@@ -226,7 +295,7 @@ const UserInfo = () => {
                     </li>
                     <li>
                       <i><img src={Images.PI_Gender} alt="" /></i>
-                      <span>{basic.gender}</span>
+                      <span>{getGenderLabel(basic.gender)}</span>
                     </li>
                     <li>
                       <i><img src={Images.PI_Married} alt="" /></i>
@@ -234,7 +303,7 @@ const UserInfo = () => {
                     </li>
                     <li>
                       <i><img src={Images.PI_Flag} alt="" /></i>
-                      <span>{basic.nationality}</span>
+                      <span>{getNationalityLabel(basic.nationality)}</span>
                     </li>
                   </ul>
                 </div>
@@ -267,14 +336,14 @@ const UserInfo = () => {
                     </li>
                     <li>
                       <i><img src={Images.PI_Setting} alt="" /></i>
-                      <span>
-                        {job.designation}
-                        <label> {job.employmentType}</label>
+                      <span class="align-items-center d-flex gap-2">
+                        {getDesignationLabel(job.designation)} 
+                        <label>- {job.employmentType}</label>
                       </span>
                     </li>
                     <li>
                       <i><img src={Images.PI_RD} alt="" /></i>
-                      <span>{job.department}</span>
+                      <span>{getDepartmentLabel(job.department)}</span>
                     </li>
                     <li>
                       <i><img src={Images.PI_Office} alt="" /></i>
@@ -288,7 +357,9 @@ const UserInfo = () => {
                   <ul>
                     <li>
                       <i><img src={Images.PI_Calendar} alt="" /></i>
-                      <span>{formatDate(job.hireDate)}</span>
+                      <span>{formatDate(job.hireDate)} 
+                        <label htmlFor=""> - {calculateExperience(job.hireDate)}</label>
+                      </span>
                     </li>
                   </ul>
                 </div>
