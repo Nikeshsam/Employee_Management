@@ -29,50 +29,20 @@ const UserInfo = () => {
 
   // ComboData Code //
 
+  const Designation = ComboDate.Designation;
+  const Gender = ComboDate.GenderOptions;
+  const Nationality = ComboDate.Nationality;
+  const Department = ComboDate.Department;
   const BloodGroup = ComboDate.BloodGroup;
 
-  const getBloodGroupLabel = (value) => {
-    const match = BloodGroup.find(
-      (item) => item.value == value
-    );
-    return match ? match.label : "-";
+
+  // Generic label finder
+
+  const getLabelFromCombo = (options, value) => {
+    const match = options?.find(item => String(item.value) === String(value));
+    return match?.label ?? "-";
   };
 
-  const Designation = ComboDate.Designation;
-
-  const getDesignationLabel = (value) => {
-    const match = Designation.find(
-      (item) => item.value == value
-    );
-    return match ? match.label : "-";
-  };
-
-  const Gender = ComboDate.GenderOptions;
-
-  const getGenderLabel = (value) => {
-    const match = Gender.find(
-      (item) => item.value == value
-    );
-    return match ? match.label : "-";
-  };
-
-  const Nationality = ComboDate.Nationality;
-
-  const getNationalityLabel = (value) => {
-    const match = Nationality.find(
-      (item) => item.value == value
-    );
-    return match ? match.label : "-";
-  };
-
-  const Department = ComboDate.Department;
-
-  const getDepartmentLabel = (value) => {
-    const match = Department.find(
-      (item) => item.value == value
-    );
-    return match ? match.label : "-";
-  };
 
   useEffect(() => {
     const fetchEmployeeDetails = async () => {
@@ -125,6 +95,7 @@ const UserInfo = () => {
             employmentType: data.employee?.employmentType,
             department: data.employee?.department,
             company: data.companyProfileStatus?.organizationName,
+            timeZone: data.companyProfileStatus?.timeZone,
             hireDate: data.employee?.joiningDate,
           },
 
@@ -174,8 +145,6 @@ const UserInfo = () => {
 
     fetchEmployeeDetails();
   }, [loginUser]);
-
-
 
   if (loading) {
     return (
@@ -283,7 +252,7 @@ const UserInfo = () => {
               <div className="infoData">
                 <div className="userName">
                   <h5>{basic.fullName}</h5>
-                  <span>{getDesignationLabel(basic.designation)}</span>
+                  <span>{getLabelFromCombo(Designation, basic.designation)}</span>
                 </div>
 
                 <div className="userFooter">
@@ -295,7 +264,7 @@ const UserInfo = () => {
                     </li>
                     <li>
                       <i><img src={Images.PI_Gender} alt="" /></i>
-                      <span>{getGenderLabel(basic.gender)}</span>
+                      <span>{getLabelFromCombo(Gender, basic.gender)}</span>
                     </li>
                     <li>
                       <i><img src={Images.PI_Married} alt="" /></i>
@@ -303,7 +272,7 @@ const UserInfo = () => {
                     </li>
                     <li>
                       <i><img src={Images.PI_Flag} alt="" /></i>
-                      <span>{getNationalityLabel(basic.nationality)}</span>
+                      <span>{getLabelFromCombo(Nationality, basic.nationality)}</span>
                     </li>
                   </ul>
                 </div>
@@ -328,7 +297,7 @@ const UserInfo = () => {
                     </li>
                     <li>
                       <i><img src={Images.PI_Clock} alt="" /></i>
-                      <span>{contact.timeZone}</span>
+                      <span>{job.timeZone}</span>
                     </li>
                     <li>
                       <i><img src={Images.PI_Location} alt="" /></i>
@@ -337,13 +306,13 @@ const UserInfo = () => {
                     <li>
                       <i><img src={Images.PI_Setting} alt="" /></i>
                       <span class="align-items-center d-flex gap-2">
-                        {getDesignationLabel(job.designation)} 
+                        {getLabelFromCombo(Designation, basic.designation)} 
                         <label>- {job.employmentType}</label>
                       </span>
                     </li>
                     <li>
                       <i><img src={Images.PI_RD} alt="" /></i>
-                      <span>{getDepartmentLabel(job.department)}</span>
+                      <span>{getLabelFromCombo(Department, job.department)}</span>
                     </li>
                     <li>
                       <i><img src={Images.PI_Office} alt="" /></i>
@@ -764,7 +733,7 @@ const UserInfo = () => {
                               health?.allergies ||
                               health?.preExistingIllnesses ? (
                               <tr>
-                                <td>{getBloodGroupLabel(health?.bloodGroup)}</td>
+                                <td>{getLabelFromCombo(BloodGroup, health.bloodGroup)}</td>
                                 <td>{health?.isBloodDonor? "Yes" : "No" || "-"}</td>
                                 <td>{health?.allergies || "-"}</td>
                                 <td>{health?.preExistingIllnesses || "-"}</td>
