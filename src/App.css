@@ -11,6 +11,7 @@ label{font-family: "Inter", sans-serif !important;}
 .color-3{color: #F97373 !important;}
 .color-4{color: #359724 !important;}
 .color-5{color: #7F2180 !important;}
+.color-6{color: #8A5DFF !important;}
 
 .modal-backdrop{--bs-backdrop-opacity: 0.7;}
 
@@ -795,7 +796,7 @@ input:-internal-autofill-selected{background-color: transparent;}
 .infoContiner .infoContent .infoLeft .infoPersonal ul{display: flex; flex-direction: column; gap: 15px; padding-bottom: 20px; border-bottom: 1px solid #ddd;}
 .infoContiner .infoContent .infoLeft .infoPersonal ul li{display: flex; align-items: center; gap: 10px;}
 .infoContiner .infoContent .infoLeft .infoPersonal ul li span{font-size: 13px; color: #676260; font-weight: 500; line-height: 13px;}
-.infoContiner .infoContent .infoLeft .infoPersonal ul li span label{ color: #6D36FA;}
+.infoContiner .infoContent .infoLeft .infoPersonal ul li label{ color: #6D36FA; font-size: 13px; line-height: 13px;}
 
 .infoContiner .infoContent .infoLeft .infoPersonal ul li .Manager{display: flex; align-items: center; gap: 10px;}
 .infoContiner .infoContent .infoLeft .infoPersonal ul li .Manager i{display: flex; align-items: center;width: 35px; height: 35px; border-radius: 6px; background-color: #0EA31D;}

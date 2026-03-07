@@ -629,6 +629,19 @@ const AddEmployee = () => {
                 </Col>
                 <Col md={6} lg={6} xl={6} xxl={6}>
                     <InputField
+                        label="Reporting"
+                        type="text"
+                        placeholder="Manager"
+                        controlId="manager"
+                        name="manager"
+                        error={errors.manager}
+                        value={formData.manager}
+                        handleChange={handleChange}
+                        //required
+                    />
+                </Col>
+                <Col md={6} lg={6} xl={6} xxl={6}>
+                    <InputField
                         label="Joining Date"
                         type="date"
                         placeholder="Enter Joining Date"

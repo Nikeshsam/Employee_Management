@@ -78,6 +78,11 @@ function EmployeeProfileCard({ employeeProfile, loading }) {
         setShowCropper(false);
     };
 
+    const formatDate = (date) => {
+        if (!date) return "";
+        return date.split("T")[0].split("-").reverse().join("-");
+    };
+
     // -----------------------
     // LABEL HELPERS
     // -----------------------
@@ -176,7 +181,7 @@ function EmployeeProfileCard({ employeeProfile, loading }) {
 
             <div className="employee_profile_details">
                 <label>Joining Date</label>
-                <span>{employeeProfile.joiningDate || "03-07-2025"}</span>
+                <span>{formatDate(employeeProfile.joiningDate) || "-"}</span>
             </div>
 
             <div className="employee_profile_details">

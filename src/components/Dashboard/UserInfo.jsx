@@ -61,8 +61,8 @@ const UserInfo = () => {
           loginUser?.token ||
           loginUser?.user?.token;
 
-        console.log("Resolved employeeId:", employeeId);
-        console.log("Resolved token:", token);
+        //console.log("Resolved employeeId:", employeeId);
+        //console.log("Resolved token:", token);
 
         if (!employeeId || !token) {
           console.warn("Employee ID or token missing");
@@ -297,7 +297,15 @@ const UserInfo = () => {
                     </li>
                     <li>
                       <i><img src={Images.PI_Clock} alt="" /></i>
-                      <span>{job.timeZone}</span>
+                      <span>
+                        {new Date().toLocaleTimeString("en-US", {
+                          timeZone: "Asia/Kolkata",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          //second: "2-digit",
+                        })}
+                        {""} local Time
+                      </span>
                     </li>
                     <li>
                       <i><img src={Images.PI_Location} alt="" /></i>
@@ -306,9 +314,9 @@ const UserInfo = () => {
                     <li>
                       <i><img src={Images.PI_Setting} alt="" /></i>
                       <span class="align-items-center d-flex gap-2">
-                        {getLabelFromCombo(Designation, basic.designation)} 
-                        <label>- {job.employmentType}</label>
+                        {getLabelFromCombo(Designation, basic.designation)}
                       </span>
+                      <label>{job.employmentType}</label>
                     </li>
                     <li>
                       <i><img src={Images.PI_RD} alt="" /></i>
@@ -326,9 +334,8 @@ const UserInfo = () => {
                   <ul>
                     <li>
                       <i><img src={Images.PI_Calendar} alt="" /></i>
-                      <span>{formatDate(job.hireDate)} 
-                        <label htmlFor=""> - {calculateExperience(job.hireDate)}</label>
-                      </span>
+                      <span>{formatDate(job.hireDate)}{""}</span>
+                      <label htmlFor="">{calculateExperience(job.hireDate)}</label>
                     </li>
                   </ul>
                 </div>
@@ -438,7 +445,7 @@ const UserInfo = () => {
                                   <i><img src={Images.ViewFamily} alt="" /></i>
                                   <div className='Content'>
                                     <label htmlFor="">NAME</label>
-                                    <span>{f.name || '-'}</span>
+                                    <span className='color-1'>{f.name || '-'}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
@@ -450,7 +457,7 @@ const UserInfo = () => {
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
                                     <label htmlFor="">DATE OF BIRTH</label>
-                                    <span>{formatDate(f.dateOfBirth) || '-'}</span>
+                                    <span className='color-6'>{formatDate(f.dateOfBirth) || '-'}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
@@ -495,7 +502,7 @@ const UserInfo = () => {
                                   <i><img src={Images.ViewAcademic} alt="" /></i>
                                   <div className='Content'>
                                     <label htmlFor="">Degree</label>
-                                    <span>{a.degree || "-"}</span>
+                                    <span className='color-1'>{a.degree || "-"}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
@@ -507,7 +514,7 @@ const UserInfo = () => {
                                 <div className='CustomCol col-2'>
                                   <div className='Content'>
                                     <label htmlFor="">University</label>
-                                    <span>{a.university || "-"}</span>
+                                    <span className='color-6'>{a.university || "-"}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
@@ -535,7 +542,7 @@ const UserInfo = () => {
                                   <i><img src={Images.ViewCertificate} alt="" /></i>
                                   <div className='Content'>
                                     <label htmlFor="">Name</label>
-                                    <span>{c.name || "-"}</span>
+                                    <span className='color-1'>{c.name || "-"}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-3'>
@@ -585,7 +592,7 @@ const UserInfo = () => {
                                   <i><img src={Images.ViewCertificate} alt="" /></i>
                                   <div className='Content'>
                                     <label htmlFor="">Organization</label>
-                                    <span>{e.organization || '-'}</span>
+                                    <span className='color-1'>{e.organization || '-'}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-1'>
@@ -597,7 +604,7 @@ const UserInfo = () => {
                                 <div className='CustomCol col-3'>
                                   <div className='Content'>
                                     <label htmlFor="">Job Title</label>
-                                    <span>{e.jobTitle || '-'}</span>
+                                    <span className='color-6'>{e.jobTitle || '-'}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
@@ -676,7 +683,7 @@ const UserInfo = () => {
                                   <i><img src={Images.ViewDependent} alt="" /></i>
                                   <div className='Content'>
                                     <label htmlFor="">name</label>
-                                    <span>{d.name || '-'}</span>
+                                    <span className='color-1'>{d.name || '-'}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
@@ -756,7 +763,7 @@ const UserInfo = () => {
                                   <i><img src={Images.ViewVaccinations} alt="" /></i>
                                   <div className='Content'>
                                     <label htmlFor="">Vaccination Name</label>
-                                    <span>{v.vaccinationName || "-"}</span>
+                                    <span className='color-1'>{v.vaccinationName || "-"}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
@@ -819,7 +826,7 @@ const UserInfo = () => {
                                   <i><img src={Images.ViewVisa} alt="" /></i>
                                   <div className='Content'>
                                     <label htmlFor="">Visa Number</label>
-                                    <span>{v.visaNumber}</span>
+                                    <span className='color-1'>{v.visaNumber}</span>
                                   </div>
                                 </div>
                                 <div className='CustomCol col-2'>
