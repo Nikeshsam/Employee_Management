@@ -246,7 +246,13 @@ const UserInfo = () => {
             {/* ================= HEADER ================= */}
             <div className="infoHeader">
               <div className="infoProfilePic">
-                <div className="userProfile"></div>
+                <div className="userProfile">
+                  <img
+                    src={Images.User_1200}
+                    alt="Profile"
+                    className="img-fluid rounded-circle"
+                  />
+                </div>
               </div>
 
               <div className="infoData">
@@ -260,7 +266,7 @@ const UserInfo = () => {
                     <li>{basic.employeeCode}</li>
                     <li>
                       <i><img src={Images.PI_DOB} alt="" /></i>
-                      <span>{formatDate(basic.dob)} - <b>{basic.age}</b></span>
+                      <span>{formatDate(basic.dob)} - <b className='color-7'>{basic.age}</b></span>
                     </li>
                     <li>
                       <i><img src={Images.PI_Gender} alt="" /></i>

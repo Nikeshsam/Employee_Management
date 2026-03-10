@@ -12,6 +12,7 @@ label{font-family: "Inter", sans-serif !important;}
 .color-4{color: #359724 !important;}
 .color-5{color: #7F2180 !important;}
 .color-6{color: #8A5DFF !important;}
+.color-7{color: #FFAB55 !important;}
 
 .modal-backdrop{--bs-backdrop-opacity: 0.7;}
 
@@ -784,7 +785,7 @@ input:-internal-autofill-selected{background-color: transparent;}
 .infoContiner .infoHeader .infoData .userName h5{font-size: 36px; font-weight: 600; color: #fff; margin: 0; line-height: 36px;}
 .infoContiner .infoHeader .infoData .userName span{font-size: 16px; font-weight: 400; color: #fff; height: 20px;}
 .infoContiner .infoHeader .infoData .userFooter{padding: 12px 0; border-top: 1px solid #9166FF;}
-.infoContiner .infoHeader .infoData .userFooter ul{display: flex; gap: 10px;}
+.infoContiner .infoHeader .infoData .userFooter ul{display: flex;}
 .infoContiner .infoHeader .infoData .userFooter ul li{padding: 0 12px; border-right: 1px solid #9166FF; font-size: 14px; font-weight: 400; color: #fff; display: flex; align-items: center; gap: 7px;}
 .infoContiner .infoHeader .infoData .userFooter ul li i{display: flex;}
 .infoContiner .infoHeader .infoData .userFooter ul li:first-child{padding-left: 0 !important; font-weight: 700;}

@@ -83,6 +83,7 @@ import PI_DOB from '../assets/Images/PI_DOB.svg';
 import PI_Gender from '../assets/Images/PI_Gender.svg';
 import PI_Flag from '../assets/Images/PI_Flag.svg';
 import PI_Married from '../assets/Images/PI_Married.svg';
+import User_1200 from '../assets/Images/avatar_1200.png';
 
 
 
@@ -151,6 +152,7 @@ import PI_Married from '../assets/Images/PI_Married.svg';
     PI_Gender,
     PI_Flag,
     PI_Married,
+    User_1200
     
 }
 

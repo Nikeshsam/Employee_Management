@@ -99,6 +99,7 @@ const AddEmployee = () => {
         phoneNumber: '',
         designation: '',
         department: '',
+        manager: '', // ✅ add this
         joiningDate: '',
         employmentType: '',
         workLocation: '',
@@ -111,16 +112,71 @@ const AddEmployee = () => {
     const [filteredDesignations, setFilteredDesignations] = useState([]);
 
     const handleDepartmentChange = (e) => {
-        const selectedDeptValue = e.target.value; // department value (like "1")
+        const selectedDeptValue = e.target.value;
 
-        setFormData({ ...formData, department: selectedDeptValue, designation: "" });
+        setFormData(prev => ({
+            ...prev,
+            department: selectedDeptValue,
+            designation: "",
+            manager: "" // reset manager
+        }));
 
-        // Use `value` instead of `key`
         const allowedDesignations = Designation.filter(d =>
             departmentDesignationMap[selectedDeptValue]?.includes(d.value)
         );
 
         setFilteredDesignations(allowedDesignations);
+    };
+
+    const managersByDepartment = useMemo(() => {
+        const managers = {};
+
+        employeeData.forEach(emp => {
+            const designationLabel = getDesignationLabel(emp.designation);
+
+            if (designationLabel && designationLabel.toLowerCase().includes("manager")) {
+                if (!managers[emp.department]) {
+                    managers[emp.department] = [];
+                }
+
+                managers[emp.department].push({
+                    label: `${emp.firstName} ${emp.lastName}`,
+                    value: `${emp.firstName} ${emp.lastName}`
+                });
+            }
+        });
+
+        return managers;
+    }, [employeeData]);
+
+    const handleDesignationChange = (e) => {
+        const selectedDesignation = e.target.value;
+
+        const designationLabel = getDesignationLabel(selectedDesignation);
+
+        let managerName = "";
+
+        // If designation is Manager
+        if (designationLabel && designationLabel.toLowerCase().includes("manager")) {
+            managerName = "Jason Chain";
+        }
+        else {
+            const deptManagers = managersByDepartment[formData.department];
+
+            if (deptManagers && deptManagers.length > 0) {
+                managerName = deptManagers[0].label;
+            }
+        }
+
+        console.log("Department:", formData.department);
+        console.log("Managers:", managersByDepartment);
+        console.log("Selected Designation:", designationLabel);
+
+        setFormData(prev => ({
+            ...prev,
+            designation: selectedDesignation,
+            manager: managerName
+        }));
     };
 
 
@@ -616,7 +672,7 @@ const AddEmployee = () => {
                     />
                 </Col>
                 <Col md={6} lg={6} xl={6} xxl={6}>
-                    <SelectInput
+                    {/* <SelectInput
                         label="Designation"
                         name="designation"
                         options={filteredDesignations.length > 0 ? filteredDesignations : Designation}
@@ -625,10 +681,20 @@ const AddEmployee = () => {
                         value={formData.designation}
                         handleChange={handleChange}
                         required
+                    /> */}
+                    <SelectInput
+                        label="Designation"
+                        name="designation"
+                        options={filteredDesignations.length > 0 ? filteredDesignations : Designation}
+                        placeholder="Choose Designation"
+                        error={errors.designation}
+                        value={formData.designation}
+                        handleChange={handleDesignationChange}
+                        required
                     />
                 </Col>
                 <Col md={6} lg={6} xl={6} xxl={6}>
-                    <InputField
+                    {/* <InputField
                         label="Reporting"
                         type="text"
                         placeholder="Manager"
@@ -636,7 +702,19 @@ const AddEmployee = () => {
                         name="manager"
                         error={errors.manager}
                         value={formData.manager}
-                        handleChange={handleChange}
+                        handleChange={handleDesignationChange}
+                        //handleChange={handleChange}
+                        //required
+                    /> */}
+                    <InputField
+                        label="Reporting Manager"
+                        type="text"
+                        placeholder="Manager"
+                        controlId="manager"
+                        name="manager"
+                        error={errors.manager}
+                        value={formData.manager}
+                        readOnly
                         //required
                     />
                 </Col>
