@@ -158,7 +158,7 @@ const AddEmployee = () => {
 
         // If designation is Manager
         if (designationLabel && designationLabel.toLowerCase().includes("manager")) {
-            managerName = "Jason Chain";
+            managerName = "Jason Chien";
         }
         else {
             const deptManagers = managersByDepartment[formData.department];
@@ -275,6 +275,7 @@ const AddEmployee = () => {
                     phoneNumber: '',
                     designation: '',
                     department: '',
+                    manager: '', // ✅ add this
                     joiningDate: '',
                     employmentType: '',
                     workLocation: '',
@@ -294,6 +295,23 @@ const AddEmployee = () => {
     };
 
     const handleEditEmployee = (emp) => {
+
+        const designationLabel = getDesignationLabel(emp.designation);
+
+        let managerName = "";
+
+        // If designation is Manager
+        if (designationLabel?.toLowerCase().includes("manager")) {
+            managerName = "Jason";
+        }
+        else {
+            const deptManagers = managersByDepartment[emp.department];
+
+            if (deptManagers && deptManagers.length > 0) {
+                managerName = deptManagers[0].label;
+            }
+        }
+
         setIsEditMode(true);
         setEditingEmployeeId(emp._id);
         setFormData({
@@ -305,6 +323,7 @@ const AddEmployee = () => {
             phoneNumber: emp.phoneNumber || '',
             designation: emp.designation || '',
             department: emp.department || '',
+            manager: emp.manager || '', // ✅ add this
             joiningDate: emp.joiningDate ? emp.joiningDate.split('T')[0] : '',
             employmentType: emp.employmentType || '',
             workLocation: emp.workLocation || '',
@@ -337,6 +356,7 @@ const AddEmployee = () => {
             phoneNumber: '',
             designation: '',
             department: '',
+            manager: '', // ✅ add this
             joiningDate: '',
             employmentType: '',
             workLocation: '',
@@ -524,13 +544,13 @@ const AddEmployee = () => {
                             showFooter={true}
                             buttonClassName='secondary_btn btn_h_35 fs_13 fw_500'
                             buttonClassIcon='icon_btn'
-                            tableHeaders={[<Form.Check className='CustomCheck' />, 'Employee ID', 'Employee Name', 'Department', 'Job Title', 'JoiningDate', 'Employment Type', 'Status', 'Work Location', 'Actions']}
+                            tableHeaders={[<Form.Check className='CustomCheck' />, 'Emp ID', 'Emp Name', 'Department', 'Job Title','Manager', 'JoiningDate', 'Emp Type', 'Status', 'Work Location', 'Actions']}
                         >
                         {submitting ? <Loader /> : (
                             (
                                 employeeData.map((emp, idx) => (
                                     <tr key={idx}>
-                                        <td><Form.Check className='CustomCheck' /></td>
+                                        <td style={{ padding: "18px 5px 18px 15px" }}><Form.Check className='CustomCheck' /></td>
                                         <td><a href="#">{emp.employeeId}</a></td>
                                         <td>
                                             <div className='employeeGroup'>
@@ -545,6 +565,7 @@ const AddEmployee = () => {
                                         </td>
                                         <td>{getDepartmentLabel(emp.department)}</td>
                                         <td>{getDesignationLabel(emp.designation)}</td>
+                                        <td>{getDesignationLabel(emp.manager)}</td>
                                         <td>{new Date(emp.joiningDate).toLocaleDateString()}</td>
                                         <td>{emp.employmentType}</td>
                                         <td>
@@ -554,7 +575,7 @@ const AddEmployee = () => {
                                         </td>
                                         <td>{emp.workLocation}</td>
                                         <td className='table_action'>
-                                            <Button className="btn_action"><img src={Images.View} alt="" /></Button>
+                                            {/* <Button className="btn_action"><img src={Images.View} alt="" /></Button> */}
                                             <Button className="btn_action" onClick={() => handleEditEmployee(emp)}><img src={Images.Edit} alt="" /></Button>
                                             <Button className="btn_action" onClick={() => { setEmployeeToDelete(emp); setModalShow(true); }}><img src={Images.Delete} alt="" /></Button>
                                         </td>
