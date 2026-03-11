@@ -31,6 +31,8 @@ const AddEmployee = () => {
     const [isEditMode, setIsEditMode] = useState(false);
     const [editingEmployeeId, setEditingEmployeeId] = useState(null);
 
+    const [selectedEmployee, setSelectedEmployee] = useState(null);
+
     const { loginUser } = useLoginUser();
 
     const [employeeData, setEmployeeData] = useState([]);
@@ -40,6 +42,7 @@ const AddEmployee = () => {
     const [employeeToDelete, setEmployeeToDelete] = useState(null);
 
     const [showAddEmployeeCanvas, setShowAddEmployeeCanvas] = useState(false);
+    const [showEmployeeInfoCanvas, setShowEmployeeInfoCanvas] = useState(false);
     // const handleShowAddEmployeeCanvas = () => setShowAddEmployeeCanvas(true);
     //const handleCloseAddEmployeeCanvas = () => setShowAddEmployeeCanvas(false);
 
@@ -345,6 +348,15 @@ const AddEmployee = () => {
         // }
     };
 
+    const handleShowEmployeeInfoCanvas = (emp) => {
+        setSelectedEmployee(emp);
+        setShowEmployeeInfoCanvas(true);
+    };
+
+    const handleCloseEmployeeInfoCanvas = () => {
+        setShowEmployeeInfoCanvas(false);
+    };
+
     const handleCloseAddEmployeeCanvas = () => {
         setShowAddEmployeeCanvas(false);
         setFormData({
@@ -551,7 +563,11 @@ const AddEmployee = () => {
                                 employeeData.map((emp, idx) => (
                                     <tr key={idx}>
                                         <td style={{ padding: "18px 5px 18px 15px" }}><Form.Check className='CustomCheck' /></td>
-                                        <td><a href="#">{emp.employeeId}</a></td>
+                                        <td>
+                                            <a href="#" onClick={(e) => { e.preventDefault(); handleShowEmployeeInfoCanvas(emp); }}>
+                                                {emp.employeeId}
+                                            </a>
+                                        </td>
                                         <td>
                                             <div className='employeeGroup'>
                                                 <div className="employeeGroupImg">
@@ -614,20 +630,6 @@ const AddEmployee = () => {
                         required
                     />
                 </Col>
-                {/* <Col md={6} lg={6} xl={6} xxl={6}>
-                    <InputField
-                        label="Emp ID"
-                        type="text"
-                        placeholder="Employee ID"
-                        controlId="employeeId"
-                        name="employeeId"
-                        error={errors.employeeId}
-                        value={formData.employeeId}
-                        handleChange={handleChange}
-                        required
-                        readOnly // prevents manual editing
-                    />
-                </Col> */}
                 <Col md={6} lg={6} xl={6} xxl={6}>
                     <InputField
                         label="First Name"
@@ -789,6 +791,32 @@ const AddEmployee = () => {
                         required
                     />
                 </Col>
+            </OffCanvas>
+
+            <OffCanvas
+                show={showEmployeeInfoCanvas}
+                placement="end"
+                onSubmit={handleSubmit}
+                onHide={handleCloseEmployeeInfoCanvas}
+                title={
+                    selectedEmployee ? (
+                        <div className='EmployeeInfoHeader'>
+                            <h4 className="mb-0">
+                                {selectedEmployee.firstName} {selectedEmployee.lastName}
+                            </h4>
+                            <span className="emp_id">
+                                {selectedEmployee.employeeId}
+                            </span>
+                        </div>
+                    ) : (
+                        "Employee Info"
+                    )
+                }
+                subtitle={selectedEmployee ? selectedEmployee.email : ""}
+                className='PrimaryCanvasModal'
+                showFooter={false}
+            >
+
             </OffCanvas>
 
             <ToastContainer position="top-end" className="p-3">

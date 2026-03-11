@@ -779,6 +779,7 @@ export const OffCanvas = ({
     footerButtonCancel = "Cancel",
     footerButtonSubmitClass = "",
     footerButtonCancelClass = "",
+    showFooter = true,   // ✅ new prop
 }) => {
     return (
         <>
@@ -801,10 +802,16 @@ export const OffCanvas = ({
                         {children}
                     </Row>
                 </Offcanvas.Body>
-                <div className='offcanvas-footer'>
-                    <Button className={footerButtonCancelClass} onClick={onHide}>{footerButtonCancel}</Button>
-                    <Button className={footerButtonSubmitClass} onClick={onSubmit}>{footerButtonSubmit}</Button>
-                </div>
+                {showFooter && (   // ✅ conditional render
+                    <div className='offcanvas-footer'>
+                        <Button className={footerButtonCancelClass} onClick={onHide}>
+                            {footerButtonCancel}
+                        </Button>
+                        <Button className={footerButtonSubmitClass} onClick={onSubmit}>
+                            {footerButtonSubmit}
+                        </Button>
+                    </div>
+                )}
             </Offcanvas>
         </>
     );
