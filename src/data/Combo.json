@@ -140,6 +140,24 @@
     { "value": "Hyderabad", "label": "Hyderabad" }
   ],
 
+    "ProbationPeriod": [
+    { "value": "3 Months", "label": "3 Months" },
+    { "value": "6 Months", "label": "6 Months" },
+    { "value": "1 Year", "label": "1 Year" }
+  ],
+
+    "PayFrequency": [
+    { "value": "Monthly", "label": "Monthly" },
+    { "value": "Weekly", "label": "Weekly" },
+    { "value": "Days", "label": "Days" }
+  ],
+
+  "TotalExperince": [
+    { "value": "Monthly", "label": "Monthly" },
+    { "value": "Weekly", "label": "Weekly" },
+    { "value": "Days", "label": "Days" }
+  ],
+
   "Nationality": [
     { "value": 1, "label": "Indian" },
     { "value": 2, "label": "Australian" },

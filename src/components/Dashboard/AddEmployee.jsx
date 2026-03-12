@@ -68,6 +68,9 @@ const AddEmployee = () => {
     const [EmploymentType, setEmploymentType] = useState(ComboDate.EmploymentType)
     const [EmployeeType, setEmployeeType] = useState(ComboDate.EmployeeType)
     const [WorkLocation, setWorkLocation] = useState(ComboDate.WorkLocation)
+    const [ProbationPeriod, setProbationPeriod] = useState(ComboDate.ProbationPeriod)
+    const [TotalExperince, setTotalExperince] = useState(ComboDate.TotalExperince)
+    const [PayFrequency, setPayFrequency] = useState(ComboDate.PayFrequency)
     const [Designation, setDesignation] = useState(ComboDate.Designation)
     const [Department, setDepartment] = useState(ComboDate.Department)
 
@@ -194,14 +197,14 @@ const AddEmployee = () => {
 
     const getStatusClass = (status) => {
         switch (status?.toLowerCase()) {
-            case 'Pending':
+            case 'pending':
                 return 'badge-pending';
-            case 'inprogress':
-                return 'badge-inprogress';
-            case 'completed':
-                return 'badge-completed';
+            case 'inactive':
+                return 'badge-inactive';
+            case 'active':
+                return 'badge-active';
             default:
-                return 'badge-default';
+                return '';
         }
     };
 
@@ -556,7 +559,7 @@ const AddEmployee = () => {
                             showFooter={true}
                             buttonClassName='secondary_btn btn_h_35 fs_13 fw_500'
                             buttonClassIcon='icon_btn'
-                            tableHeaders={[<Form.Check className='CustomCheck' />, 'Emp ID', 'Emp Name', 'Department', 'Job Title','Manager', 'JoiningDate', 'Emp Type', 'Status', 'Work Location', 'Actions']}
+                            tableHeaders={[<Form.Check className='CustomCheck' />, 'Emp ID', 'Emp Name', 'Department', 'Job Title','Manager', 'Joining Date', 'Emp Type', 'Status', 'Location', 'Actions']}
                         >
                         {submitting ? <Loader /> : (
                             (
@@ -789,6 +792,55 @@ const AddEmployee = () => {
                         value={formData.offerletter}
                         handleChange={handleChange}
                         required
+                    />
+                </Col>
+                <Col md={6} lg={6} xl={6} xxl={6}>
+                    <SelectInput
+                        label="Probation Period"
+                        name="probationPeriod"
+                        options={ProbationPeriod}
+                        placeholder="Probation Period"
+                        //error={errors.probationPeriod}
+                        //value={formData.probationPeriod}
+                        handleChange={handleChange}
+                        //required
+                    />
+                </Col>
+                <Col md={6} lg={6} xl={6} xxl={6}>
+                    <InputField
+                        label="Package / CTC"
+                        type="text"
+                        placeholder="Package / CTC"
+                        controlId="packageCTC"
+                        name="packageCTC"
+                        //error={errors.packageCTC}
+                        //value={formData.packageCTC}
+                        handleChange={handleChange}
+                        //required
+                    />
+                </Col>
+                <Col md={6} lg={6} xl={6} xxl={6}>
+                    <SelectInput
+                        label="Pay Frequency"
+                        name="payFrequency"
+                        options={PayFrequency}
+                        placeholder="Pay Frequency"
+                        //error={errors.payFrequency}
+                        //value={formData.payFrequency}
+                        handleChange={handleChange}
+                        //required
+                    />
+                </Col>
+                <Col md={6} lg={6} xl={6} xxl={6}>
+                    <SelectInput
+                        label="Total Experince"
+                        name="totalExperince"
+                        options={TotalExperince}
+                        placeholder="Total Experince"
+                        //error={errors.totalExperince}
+                        //value={formData.totalExperince}
+                        handleChange={handleChange}
+                        //required
                     />
                 </Col>
             </OffCanvas>

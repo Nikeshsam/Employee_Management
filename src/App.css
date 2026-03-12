@@ -297,7 +297,10 @@ background: linear-gradient(90deg,rgba(62, 1, 220, 1) 0%, rgba(96, 39, 242, 1) 1
 .addEmployee_table tbody tr td.table_action{display: flex; min-height: 72px;}
 
 .addEmployee_table tbody tr td .badge{border: 1px solid #E0E0E0; background-color: #fff; padding: 5px 10px; border-radius: 100px; display: inline-flex; gap: 5px; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; color: #2B2B2B;}
-.addEmployee_table tbody tr td .badge i{background-color: #6D36FA; width: 5px; height: 5px; border-radius: 100px; }
+.addEmployee_table tbody tr td .badge i{background-color: #6D36FA; width: 8px; height: 8px; border-radius: 100px; }
+.addEmployee_table tbody tr td .badge.badge-pending i{background-color: #ffb435;}
+.addEmployee_table tbody tr td .badge.badge-inactive i{background-color: #4CBE87;}
+.addEmployee_table tbody tr td .badge.badge-active i{background-color: #DE3D50;}
 
 .addEmployee_table tbody tr td .status{display: inline-flex; align-items: center; font-size: 12px; font-weight: 600; color: #2B2B2B; padding: 4.5px 18px 5px 24px; border: 1px solid #E0E0E0 !important; background-color: #fff; border-radius: 100px; position: relative;}
 .addEmployee_table tbody tr td .status::before{content: ""; position: absolute; left: 9px; top: 50%; transform: translateY(-50%); width: 6px; height: 6px; border-radius: 100px; background-color: #6D36FA;}
