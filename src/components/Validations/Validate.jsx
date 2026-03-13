@@ -392,7 +392,19 @@ export const addEmployeeValidateField = (name, value) => {
             break;
         case 'workLocation':
             if (!value.trim()) error = 'Work Location is required';
-            break;                              
+            break;  
+        case 'probationPeriod':
+            if (!value.trim()) error = 'Probation Period is required';
+            break;
+        case 'packageCTC':
+            if (!value.trim()) error = 'Package / CTC is required';
+            break;
+        case 'payFrequency':
+            if (!value.trim()) error = 'Pay Frequency is required';
+            break;
+        case 'totalExperince':
+            if (!value.trim()) error = 'Total Experince is required';
+            break;                           
         default:
             break;
     }

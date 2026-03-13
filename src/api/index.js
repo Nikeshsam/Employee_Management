@@ -479,3 +479,14 @@ export const getEmployeeDetails = (token) => axios.get(`${url}/employeeDetails/e
 // export const updatePost = (id,post)=> axios.patch(`${url}/${id}`,post);
 // export const likePost = (id)=> axios.patch(`${url}/${id}`);
 // export const deletePost = (id)=> axios.patch(`${url}/${id}`);
+
+export const getManager = async (dept, token) => {
+  return await axios.get(
+    `${url}/employee/managers/${dept}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};

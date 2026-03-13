@@ -6,7 +6,7 @@ import Images from '../../pages/Images.jsx';
 import { CustomToast, EmployeeGird, InputField, SelectInput, CustomModalConfirmDialog, OffCanvas, UploadInputField } from '../../pages/Props.jsx';
 import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import { addEmployeeValidateField } from '../Validations/Validate.jsx';
-import { getEmployees, addEmployee, editEmployee, getEmployeeId } from '../../api/index.js';
+import { getEmployees, addEmployee, editEmployee, getEmployeeId, getManager } from '../../api/index.js';
 import { deleteEmployee } from '../../api/index.js';
 import { exportEmployeesExcel } from '../../api/index.js';
 import Loader from '../Common/Loader.jsx';
@@ -40,6 +40,8 @@ const AddEmployee = () => {
     const [searchTerm, setSearchTerm] = useState(''); // ✅ string
 
     const [employeeToDelete, setEmployeeToDelete] = useState(null);
+
+    const [managersByDepartment, setManagersByDepartment] = useState([]);
 
     const [showAddEmployeeCanvas, setShowAddEmployeeCanvas] = useState(false);
     const [showEmployeeInfoCanvas, setShowEmployeeInfoCanvas] = useState(false);
@@ -110,6 +112,10 @@ const AddEmployee = () => {
         employmentType: '',
         workLocation: '',
         offerletter: '',
+        probationPeriod: '',
+        packageCTC:'',
+        payFrequency:'',
+        totalExperince:'',
 
     });
 
@@ -134,26 +140,29 @@ const AddEmployee = () => {
         setFilteredDesignations(allowedDesignations);
     };
 
-    const managersByDepartment = useMemo(() => {
-        const managers = {};
+    useEffect(() => {
+        const fetchManagers = async () => {
 
-        employeeData.forEach(emp => {
-            const designationLabel = getDesignationLabel(emp.designation);
+            if (!formData.department) return;
 
-            if (designationLabel && designationLabel.toLowerCase().includes("manager")) {
-                if (!managers[emp.department]) {
-                    managers[emp.department] = [];
-                }
+            try {
+                const response = await getManager(formData.department, loginUser.token);
 
-                managers[emp.department].push({
+                const managers = response.data?.managers?.map(emp => ({
                     label: `${emp.firstName} ${emp.lastName}`,
-                    value: `${emp.firstName} ${emp.lastName}`
-                });
-            }
-        });
+                    value: emp.employeeId
+                })) || [];
 
-        return managers;
-    }, [employeeData]);
+                setManagersByDepartment(managers);
+
+            } catch (error) {
+                console.error("Failed to load managers:", error);
+            }
+        };
+
+        fetchManagers();
+
+    }, [formData.department]);
 
     const handleDesignationChange = (e) => {
         const selectedDesignation = e.target.value;
@@ -184,7 +193,6 @@ const AddEmployee = () => {
             manager: managerName
         }));
     };
-
 
     // Error useState
 
@@ -286,6 +294,10 @@ const AddEmployee = () => {
                     employmentType: '',
                     workLocation: '',
                     offerletter: '',
+                    probationPeriod: '',
+                    packageCTC: '',
+                    payFrequency: '',
+                    totalExperince: '',
                 });
 
                 setErrors({});
@@ -340,15 +352,6 @@ const AddEmployee = () => {
 
     const handleShowAddEmployeeCanvas = () => {
         setShowAddEmployeeCanvas(true);
-
-        // if (!isEditMode) {
-        //     // Reset form without employeeId
-        //     setFormData({
-        //         employeeId: "",
-        //         name: "",
-        //         // other fields reset here...
-        //     });
-        // }
     };
 
     const handleShowEmployeeInfoCanvas = (emp) => {
@@ -376,6 +379,10 @@ const AddEmployee = () => {
             employmentType: '',
             workLocation: '',
             offerletter: '',
+            probationPeriod: '',
+            packageCTC: '',
+            payFrequency: '',
+            totalExperince: '',
         });
         setErrors({});
         setIsEditMode(false);
@@ -698,16 +705,6 @@ const AddEmployee = () => {
                     />
                 </Col>
                 <Col md={6} lg={6} xl={6} xxl={6}>
-                    {/* <SelectInput
-                        label="Designation"
-                        name="designation"
-                        options={filteredDesignations.length > 0 ? filteredDesignations : Designation}
-                        placeholder="Choose Designation"
-                        error={errors.designation}
-                        value={formData.designation}
-                        handleChange={handleChange}
-                        required
-                    /> */}
                     <SelectInput
                         label="Designation"
                         name="designation"
@@ -720,28 +717,15 @@ const AddEmployee = () => {
                     />
                 </Col>
                 <Col md={6} lg={6} xl={6} xxl={6}>
-                    {/* <InputField
-                        label="Reporting"
-                        type="text"
-                        placeholder="Manager"
-                        controlId="manager"
-                        name="manager"
-                        error={errors.manager}
-                        value={formData.manager}
-                        handleChange={handleDesignationChange}
-                        //handleChange={handleChange}
-                        //required
-                    /> */}
-                    <InputField
+                    <SelectInput
                         label="Reporting Manager"
-                        type="text"
-                        placeholder="Manager"
-                        controlId="manager"
                         name="manager"
+                        options={managersByDepartment}
+                        placeholder="Select Manager"
                         error={errors.manager}
                         value={formData.manager}
-                        readOnly
-                        //required
+                        handleChange={handleChange}
+                        required
                     />
                 </Col>
                 <Col md={6} lg={6} xl={6} xxl={6}>
@@ -800,10 +784,10 @@ const AddEmployee = () => {
                         name="probationPeriod"
                         options={ProbationPeriod}
                         placeholder="Probation Period"
-                        //error={errors.probationPeriod}
-                        //value={formData.probationPeriod}
+                        error={errors.probationPeriod}
+                        value={formData.probationPeriod}
                         handleChange={handleChange}
-                        //required
+                        required
                     />
                 </Col>
                 <Col md={6} lg={6} xl={6} xxl={6}>
@@ -813,10 +797,10 @@ const AddEmployee = () => {
                         placeholder="Package / CTC"
                         controlId="packageCTC"
                         name="packageCTC"
-                        //error={errors.packageCTC}
-                        //value={formData.packageCTC}
+                        error={errors.packageCTC}
+                        value={formData.packageCTC}
                         handleChange={handleChange}
-                        //required
+                        required
                     />
                 </Col>
                 <Col md={6} lg={6} xl={6} xxl={6}>
@@ -825,22 +809,23 @@ const AddEmployee = () => {
                         name="payFrequency"
                         options={PayFrequency}
                         placeholder="Pay Frequency"
-                        //error={errors.payFrequency}
-                        //value={formData.payFrequency}
+                        error={errors.payFrequency}
+                        value={formData.payFrequency}
                         handleChange={handleChange}
-                        //required
+                        required
                     />
                 </Col>
                 <Col md={6} lg={6} xl={6} xxl={6}>
-                    <SelectInput
+                    <InputField
                         label="Total Experince"
-                        name="totalExperince"
-                        options={TotalExperince}
+                        type="text"
                         placeholder="Total Experince"
-                        //error={errors.totalExperince}
-                        //value={formData.totalExperince}
+                        controlId="totalExperince"
+                        name="totalExperince"
+                        error={errors.totalExperince}
+                        value={formData.totalExperince}
                         handleChange={handleChange}
-                        //required
+                        required
                     />
                 </Col>
             </OffCanvas>
