@@ -142,6 +142,7 @@ const AddEmployee = () => {
 
     useEffect(() => {
         const fetchManagers = async () => {
+            console.log("Submitting Data:", formData);
 
             if (!formData.department) return;
 
@@ -164,33 +165,54 @@ const AddEmployee = () => {
 
     }, [formData.department]);
 
+    // const handleDesignationChange = (e) => {
+    //     const selectedDesignation = e.target.value;
+
+    //     const designationLabel = getDesignationLabel(selectedDesignation);
+
+    //     let managerName = "";
+
+    //     // If designation is Manager
+    //     if (designationLabel && designationLabel.toLowerCase().includes("manager")) {
+    //         managerName = "Jason Chien";
+    //     }
+    //     else {
+    //         const deptManagers = managersByDepartment[formData.department];
+
+    //         if (deptManagers && deptManagers.length > 0) {
+    //             managerName = deptManagers[0].label;
+    //         }
+    //     }
+
+    //     console.log("Department:", formData.department);
+    //     console.log("Managers:", managersByDepartment);
+    //     console.log("Selected Designation:", designationLabel);
+
+    //     setFormData(prev => ({
+    //         ...prev,
+    //         designation: selectedDesignation,
+    //         manager: managerName
+    //     }));
+    // };
+
     const handleDesignationChange = (e) => {
         const selectedDesignation = e.target.value;
-
         const designationLabel = getDesignationLabel(selectedDesignation);
 
-        let managerName = "";
+        let managerId = "";
 
-        // If designation is Manager
         if (designationLabel && designationLabel.toLowerCase().includes("manager")) {
-            managerName = "Jason Chien";
-        }
-        else {
-            const deptManagers = managersByDepartment[formData.department];
-
-            if (deptManagers && deptManagers.length > 0) {
-                managerName = deptManagers[0].label;
+            managerId = null; // manager doesn't have manager
+        } else {
+            if (managersByDepartment.length > 0) {
+                managerId = managersByDepartment[0].value; // ✅ ObjectId
             }
         }
-
-        console.log("Department:", formData.department);
-        console.log("Managers:", managersByDepartment);
-        console.log("Selected Designation:", designationLabel);
 
         setFormData(prev => ({
             ...prev,
             designation: selectedDesignation,
-            manager: managerName
+            manager: managerId
         }));
     };
 
@@ -588,7 +610,8 @@ const AddEmployee = () => {
                                         </td>
                                         <td>{getDepartmentLabel(emp.department)}</td>
                                         <td>{getDesignationLabel(emp.designation)}</td>
-                                        <td>{getDesignationLabel(emp.manager)}</td>
+                                        {/* <td>{getDesignationLabel(emp.manager)}</td> */}
+                                        <td>{emp.manager?.firstName} {emp.manager?.lastName}</td>
                                         <td>{new Date(emp.joiningDate).toLocaleDateString()}</td>
                                         <td>{emp.employmentType}</td>
                                         <td>
@@ -714,15 +737,33 @@ const AddEmployee = () => {
                     />
                 </Col>
                 <Col md={6} lg={6} xl={6} xxl={6}>
-                    <SelectInput
+                    {/* <SelectInput
                         label="Reporting Manager"
                         name="manager"
                         options={managersByDepartment}
                         placeholder="Select Manager"
                         error={errors.manager}
                         value={formData.manager}
-                        handleChange={handleChange}
-                        required
+                        onChange={(value) =>
+                            setFormData({
+                                ...formData,
+                                manager: value._id   // send ObjectId
+                            })
+                        }
+                        //handleChange={handleChange}
+                        //required
+                    /> */}
+                    <SelectInput
+                        label="Reporting Manager"
+                        name="manager"
+                        options={managersByDepartment}
+                        value={formData.manager || null}
+                        onChange={(value) =>
+                            setFormData({
+                                ...formData,
+                                manager: value.value
+                            })
+                        }
                     />
                 </Col>
                 <Col md={6} lg={6} xl={6} xxl={6}>
