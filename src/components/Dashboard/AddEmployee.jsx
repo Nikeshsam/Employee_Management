@@ -150,7 +150,7 @@ const AddEmployee = () => {
 
                 const managers = response.data?.managers?.map(emp => ({
                     label: `${emp.firstName} ${emp.lastName}`,
-                    value: emp.employeeId
+                    value: emp._id
                 })) || [];
 
                 setManagersByDepartment(managers);
@@ -245,7 +245,6 @@ const AddEmployee = () => {
                     setEditingEmployeeId(null);
                 } else {
                     // ✅ Add Employee
-                    try {
                         // Get new Employee ID only when adding
                         const idResponse = await getEmployeeId(loginUser.token);
                         const newEmployeeId = idResponse.data.employeeId;
@@ -255,9 +254,7 @@ const AddEmployee = () => {
 
                         await addEmployee(payload, loginUser.token);
                         handleCloseAddEmployeeCanvas();
-                    } catch (error) {
-                        //toast.error("Failed to add employee");
-                    }
+                    
                 }
 
                 setToastList(prev => [
