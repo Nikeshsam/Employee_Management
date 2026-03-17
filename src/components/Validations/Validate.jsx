@@ -379,10 +379,14 @@ export const addEmployeeValidateField = (name, value) => {
             if (!value.trim()) error = 'Phone Number is required';
             break;
         case 'designation':
-            if (!value.trim()) error = 'Designation is required';
+            if (!value || String(value).trim() === '') {
+                error = 'Designation is required';
+            }
             break;
         case 'department':
-            if (!value.trim()) error = 'Department is required';
+            if (!value || String(value).trim() === '') {
+                error = 'Department is required';
+            }
             break;
         case 'joiningDate':
             if (!value.trim()) error = 'Joining Date is required';

@@ -73,7 +73,8 @@
     { "value": 4, "label": "Business Analyst" },
     { "value": 5, "label": "Human Resources (HR)" },
     { "value": 6, "label": "Sales & Marketing" },
-    { "value": 7, "label": "IT Support & DevOps" }
+    { "value": 7, "label": "IT Support & DevOps" },
+    { "value": 8, "label": "Executive" }
   ],
 
   "Designation": [
@@ -109,7 +110,8 @@
     { "value": 30, "label": "IT Support Lead"},
     { "value": 31, "label": "DevOps Engineer"},
     { "value": 32, "label": "Senior DevOps Engineer"},
-    { "value": 33, "label": "DevOps Lead"}
+    { "value": 33, "label": "DevOps Lead"},
+    { "value": 34, "label": "Company Head"}
   ],
 
   "DepartmentDesignationMap": {

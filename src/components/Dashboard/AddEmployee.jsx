@@ -94,6 +94,15 @@ const AddEmployee = () => {
         return desig ? desig.label : val;
     };
 
+    // Determine if this is the first employee
+    const isFirstEmployee = employeeData.length === 0;
+
+    // Get the existing company head (if any)
+    //const companyHead = employeeData.find(emp => emp.isTopLevel);
+
+    const companyHead = employeeData.find(emp =>
+        emp.isTopLevel === true || emp.designation === "Company Head"
+    );
 
     // FormData Validations
 
@@ -107,17 +116,33 @@ const AddEmployee = () => {
         phoneNumber: '',
         designation: '',
         department: '',
-        manager: '', // ✅ add this
+        manager: null, // No manager for Company Head
         joiningDate: '',
         employmentType: '',
         workLocation: '',
         offerletter: '',
         probationPeriod: '',
-        packageCTC:'',
-        payFrequency:'',
-        totalExperince:'',
+        packageCTC: '',
+        payFrequency: '',
+        totalExperince: '',
 
     });
+
+    // ------------------- Add this useEffect -------------------
+    useEffect(() => {
+        if (showAddEmployeeCanvas && isFirstEmployee) {
+
+            const executiveDept = Department.find(d => d.label === 'Executive')?.value;
+            const companyHeadDesig = Designation.find(d => d.label === 'Company Head')?.value;
+
+            setFormData(prev => ({
+                ...prev,
+                department: executiveDept,
+                designation: companyHeadDesig,
+                manager: null
+            }));
+        }
+    }, [showAddEmployeeCanvas, isFirstEmployee]);
 
     // Department && Designation Filter
 
@@ -195,18 +220,39 @@ const AddEmployee = () => {
     //     }));
     // };
 
+    // const handleDesignationChange = (e) => {
+    //     const selectedDesignation = e.target.value;
+    //     const designationLabel = getDesignationLabel(selectedDesignation);
+
+    //     let managerId = "";
+
+    //     if (designationLabel && designationLabel.toLowerCase().includes("manager")) {
+    //         managerId = null; // manager doesn't have manager
+    //     } else {
+    //         if (managersByDepartment.length > 0) {
+    //             managerId = managersByDepartment[0].value; // ✅ ObjectId
+    //         }
+    //     }
+
+    //     setFormData(prev => ({
+    //         ...prev,
+    //         designation: selectedDesignation,
+    //         manager: managerId
+    //     }));
+    // };
+
     const handleDesignationChange = (e) => {
         const selectedDesignation = e.target.value;
         const designationLabel = getDesignationLabel(selectedDesignation);
 
-        let managerId = "";
+        let managerId = null;
 
-        if (designationLabel && designationLabel.toLowerCase().includes("manager")) {
-            managerId = null; // manager doesn't have manager
+        if (isFirstEmployee) {
+            managerId = null;
+        } else if (designationLabel?.toLowerCase().includes("manager")) {
+            managerId = companyHead?._id || null;
         } else {
-            if (managersByDepartment.length > 0) {
-                managerId = managersByDepartment[0].value; // ✅ ObjectId
-            }
+            managerId = "";
         }
 
         setFormData(prev => ({
@@ -215,6 +261,9 @@ const AddEmployee = () => {
             manager: managerId
         }));
     };
+
+    console.log(employeeData);
+    console.log("Company Head:", companyHead);
 
     // Error useState
 
@@ -267,16 +316,23 @@ const AddEmployee = () => {
                     setEditingEmployeeId(null);
                 } else {
                     // ✅ Add Employee
-                        // Get new Employee ID only when adding
-                        const idResponse = await getEmployeeId(loginUser.token);
-                        const newEmployeeId = idResponse.data.employeeId;
+                    // Get new Employee ID only when adding
+                    const idResponse = await getEmployeeId(loginUser.token);
+                    const newEmployeeId = idResponse.data.employeeId;
 
-                        // Merge employeeId with form data
-                        const payload = { ...formData, employeeId: newEmployeeId };
+                    // Merge employeeId with form data
+                    //const payload = { ...formData, employeeId: newEmployeeId };
+                    const payload = {
+                        ...formData,
+                        employeeId: newEmployeeId,
+                        manager: isFirstEmployee ? null : formData.manager,
+                        isTopLevel: isFirstEmployee
+                    };
 
-                        await addEmployee(payload, loginUser.token);
-                        handleCloseAddEmployeeCanvas();
-                    
+                    //await addEmployee(payload, loginUser.token);
+                    await addEmployee(payload, loginUser.token);
+                    handleCloseAddEmployeeCanvas();
+
                 }
 
                 setToastList(prev => [
@@ -306,9 +362,9 @@ const AddEmployee = () => {
                     lastName: '',
                     email: '',
                     phoneNumber: '',
-                    designation: '',
-                    department: '',
-                    manager: '', // ✅ add this
+                    designation: isFirstEmployee ? 'Company Head' : '', // Auto for first employee
+                    department: isFirstEmployee ? 'Executive' : '',     // Auto for first employee
+                    manager: null, // No manager for Company Head
                     joiningDate: '',
                     employmentType: '',
                     workLocation: '',
@@ -342,8 +398,8 @@ const AddEmployee = () => {
             managerName = "Jason";
         }
         else {
-            const deptManagers = managersByDepartment[emp.department];
-
+            //const deptManagers = managersByDepartment[emp.department];
+            const deptManagers = managersByDepartment;
             if (deptManagers && deptManagers.length > 0) {
                 managerName = deptManagers[0].label;
             }
@@ -391,9 +447,9 @@ const AddEmployee = () => {
             lastName: '',
             email: '',
             phoneNumber: '',
-            designation: '',
-            department: '',
-            manager: '', // ✅ add this
+            designation: isFirstEmployee ? 'Company Head' : '', // Auto for first employee
+            department: isFirstEmployee ? 'Executive' : '',     // Auto for first employee
+            manager: null, // No manager for Company Head
             joiningDate: '',
             employmentType: '',
             workLocation: '',
@@ -585,50 +641,50 @@ const AddEmployee = () => {
                             showFooter={true}
                             buttonClassName='secondary_btn btn_h_35 fs_13 fw_500'
                             buttonClassIcon='icon_btn'
-                            tableHeaders={[<Form.Check className='CustomCheck' />, 'Emp ID', 'Emp Name', 'Department', 'Job Title','Manager', 'Joining Date', 'Emp Type', 'Status', 'Location', 'Actions']}
+                            tableHeaders={[<Form.Check className='CustomCheck' />, 'Emp ID', 'Emp Name', 'Department', 'Job Title', 'Manager', 'Joining Date', 'Emp Type', 'Status', 'Location', 'Actions']}
                         >
-                        {submitting ? <Loader /> : (
-                            (
-                                employeeData.map((emp, idx) => (
-                                    <tr key={idx}>
-                                        <td style={{ padding: "18px 5px 18px 15px" }}><Form.Check className='CustomCheck' /></td>
-                                        <td>
-                                            <a href="#" onClick={(e) => { e.preventDefault(); handleShowEmployeeInfoCanvas(emp); }}>
-                                                {emp.employeeId}
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <div className='employeeGroup'>
-                                                <div className="employeeGroupImg">
-                                                    <img src={Images.UserAvatar} alt="" />
+                            {submitting ? <Loader /> : (
+                                (
+                                    employeeData.map((emp, idx) => (
+                                        <tr key={idx}>
+                                            <td style={{ padding: "18px 5px 18px 15px" }}><Form.Check className='CustomCheck' /></td>
+                                            <td>
+                                                <a href="#" onClick={(e) => { e.preventDefault(); handleShowEmployeeInfoCanvas(emp); }}>
+                                                    {emp.employeeId}
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <div className='employeeGroup'>
+                                                    <div className="employeeGroupImg">
+                                                        <img src={Images.UserAvatar} alt="" />
+                                                    </div>
+                                                    <div className='employeeGroupContent'>
+                                                        <h5>{`${emp.firstName} ${emp.lastName}`}</h5>
+                                                        <p>{emp.email}</p>
+                                                    </div>
                                                 </div>
-                                                <div className='employeeGroupContent'>
-                                                    <h5>{`${emp.firstName} ${emp.lastName}`}</h5>
-                                                    <p>{emp.email}</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>{getDepartmentLabel(emp.department)}</td>
-                                        <td>{getDesignationLabel(emp.designation)}</td>
-                                        {/* <td>{getDesignationLabel(emp.manager)}</td> */}
-                                        <td>{emp.manager?.firstName} {emp.manager?.lastName}</td>
-                                        <td>{new Date(emp.joiningDate).toLocaleDateString()}</td>
-                                        <td>{emp.employmentType}</td>
-                                        <td>
-                                            <span className={`badge ${getStatusClass(emp.status)}`}>
-                                                <i></i> {emp.status}
-                                            </span>
-                                        </td>
-                                        <td>{emp.workLocation}</td>
-                                        <td className='table_action'>
-                                            {/* <Button className="btn_action"><img src={Images.View} alt="" /></Button> */}
-                                            <Button className="btn_action" onClick={() => handleEditEmployee(emp)}><img src={Images.Edit} alt="" /></Button>
-                                            <Button className="btn_action" onClick={() => { setEmployeeToDelete(emp); setModalShow(true); }}><img src={Images.Delete} alt="" /></Button>
-                                        </td>
-                                    </tr>
-                                ))
-                            )
-                        )}
+                                            </td>
+                                            <td>{getDepartmentLabel(emp.department)}</td>
+                                            <td>{getDesignationLabel(emp.designation)}</td>
+                                            {/* <td>{getDesignationLabel(emp.manager)}</td> */}
+                                            <td>{emp.manager?.firstName} {emp.manager?.lastName}</td>
+                                            <td>{new Date(emp.joiningDate).toLocaleDateString()}</td>
+                                            <td>{emp.employmentType}</td>
+                                            <td>
+                                                <span className={`badge ${getStatusClass(emp.status)}`}>
+                                                    <i></i> {emp.status}
+                                                </span>
+                                            </td>
+                                            <td>{emp.workLocation}</td>
+                                            <td className='table_action'>
+                                                {/* <Button className="btn_action"><img src={Images.View} alt="" /></Button> */}
+                                                <Button className="btn_action" onClick={() => handleEditEmployee(emp)}><img src={Images.Edit} alt="" /></Button>
+                                                <Button className="btn_action" onClick={() => { setEmployeeToDelete(emp); setModalShow(true); }}><img src={Images.Delete} alt="" /></Button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )
+                            )}
                         </EmployeeGird>
                     </Col>
                 </Row>
@@ -648,6 +704,14 @@ const AddEmployee = () => {
                 footerButtonSubmitClass="modal_primary_btn w-100"
                 footerButtonCancelClass="modal_primary_border_btn w-100"
             >
+                {/* ----------------- UX Label for First Employee ----------------- */}
+                {isFirstEmployee && (
+                    <Col md={12}>
+                        <p className="text-info" style={{ marginTop: '5px', fontSize: '0.9rem' }}>
+                            This employee will be automatically set as the <strong>Company Head</strong> and top of the hierarchy.
+                        </p>
+                    </Col>
+                )}
                 <Col md={6} lg={6} xl={6} xxl={6}>
                     <SelectInput
                         label="Employee Type"
@@ -722,6 +786,7 @@ const AddEmployee = () => {
                         value={formData.department}
                         handleChange={handleDepartmentChange}
                         required
+                        disabled={isFirstEmployee} // ✅ Disable for first employee
                     />
                 </Col>
                 <Col md={6} lg={6} xl={6} xxl={6}>
@@ -734,10 +799,11 @@ const AddEmployee = () => {
                         value={formData.designation}
                         handleChange={handleDesignationChange}
                         required
+                        disabled={isFirstEmployee} // ✅ Disable for first employee
                     />
                 </Col>
-                <Col md={6} lg={6} xl={6} xxl={6}>
-                    {/* <SelectInput
+                {/*<Col md={6} lg={6} xl={6} xxl={6}>
+                     <SelectInput
                         label="Reporting Manager"
                         name="manager"
                         options={managersByDepartment}
@@ -752,7 +818,7 @@ const AddEmployee = () => {
                         }
                         //handleChange={handleChange}
                         //required
-                    /> */}
+                    /> 
                     <SelectInput
                         label="Reporting Manager"
                         name="manager"
@@ -765,7 +831,45 @@ const AddEmployee = () => {
                             })
                         }
                     />
-                </Col>
+                </Col>*/}
+
+                {/* Reporting Manager */}
+
+                {!isFirstEmployee && (
+                    <>
+                        {/* If designation is Manager → show Company Head */}
+                        {getDesignationLabel(formData.designation)?.toLowerCase().includes("manager") ? (
+                            <Col md={6}>
+                                <InputField
+                                    label="Reporting Manager"
+                                    value={
+                                        companyHead
+                                            ? `${companyHead.firstName} ${companyHead.lastName}`
+                                            : "No Company Head Found"
+                                    }
+                                    disabled
+                                />
+                            </Col>
+                        ) : (
+                            /* Normal employee → show dropdown */
+                            <Col md={6}>
+                                <SelectInput
+                                    label="Reporting Manager"
+                                    name="manager"
+                                    options={managersByDepartment}
+                                    value={formData.manager || null}
+                                    onChange={(value) =>
+                                        setFormData({
+                                            ...formData,
+                                            manager: value?.value || ""
+                                        })
+                                    }
+                                />
+                            </Col>
+                        )}
+                    </>
+                )}
+
                 <Col md={6} lg={6} xl={6} xxl={6}>
                     <InputField
                         label="Joining Date"
@@ -906,7 +1010,7 @@ const AddEmployee = () => {
                     />
                 ))}
             </ToastContainer>
-            
+
             <CustomModalConfirmDialog
                 show={modalShow}
                 onHide={handleClearClick}
