@@ -18,7 +18,7 @@ import ComboDate from '../../data/Combo.json';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import { Container, Form, Row, Col, ToastContainer, Button } from 'react-bootstrap';
-import { use } from 'react';
+
 
 // Bootstrap imports
 
@@ -95,14 +95,14 @@ const AddEmployee = () => {
     };
 
     // Determine if this is the first employee
+    const [isManagerAvailable, setIsManagerAvailable] = useState(false);
     const isFirstEmployee = employeeData.length === 0;
-
     // Get the existing company head (if any)
     //const companyHead = employeeData.find(emp => emp.isTopLevel);
 
-    const companyHead = employeeData.find(emp =>
-        emp.isTopLevel === true || emp.designation === "Company Head"
-    );
+    // const companyHead = employeeData.find(emp =>
+    //     emp.isTopLevel === true || emp.designation === "Company Head"
+    // );
 
     // FormData Validations
 
@@ -172,7 +172,7 @@ const AddEmployee = () => {
             if (!formData.department) return;
 
             try {
-                const response = await getManager(formData.department, loginUser.token);
+                const response = await getManager(formData.department,formData.designation, loginUser.token);
 
                 const managers = response.data?.managers?.map(emp => ({
                     label: `${emp.firstName} ${emp.lastName}`,
@@ -180,15 +180,17 @@ const AddEmployee = () => {
                 })) || [];
 
                 setManagersByDepartment(managers);
+                setIsManagerAvailable(true);
 
             } catch (error) {
                 console.error("Failed to load managers:", error);
+                setIsManagerAvailable(false);
             }
         };
 
         fetchManagers();
 
-    }, [formData.department]);
+    }, [formData.department,formData.designation, loginUser.token]);
 
     // const handleDesignationChange = (e) => {
     //     const selectedDesignation = e.target.value;
@@ -245,25 +247,16 @@ const AddEmployee = () => {
         const selectedDesignation = e.target.value;
         const designationLabel = getDesignationLabel(selectedDesignation);
 
-        let managerId = null;
-
-        if (isFirstEmployee) {
-            managerId = null;
-        } else if (designationLabel?.toLowerCase().includes("manager")) {
-            managerId = companyHead?._id || null;
-        } else {
-            managerId = "";
-        }
-
+        
+        
         setFormData(prev => ({
             ...prev,
-            designation: selectedDesignation,
-            manager: managerId
+            designation: selectedDesignation
         }));
     };
 
     console.log(employeeData);
-    console.log("Company Head:", companyHead);
+    // console.log("Company Head:", companyHead);
 
     // Error useState
 
@@ -835,40 +828,31 @@ const AddEmployee = () => {
 
                 {/* Reporting Manager */}
 
-                {!isFirstEmployee && (
-                    <>
-                        {/* If designation is Manager → show Company Head */}
-                        {getDesignationLabel(formData.designation)?.toLowerCase().includes("manager") ? (
+                {!isManagerAvailable ? (
+                    
                             <Col md={6}>
                                 <InputField
                                     label="Reporting Manager"
-                                    value={
-                                        companyHead
-                                            ? `${companyHead.firstName} ${companyHead.lastName}`
-                                            : "No Company Head Found"
-                                    }
+                                    value={"Map Employee HigherUp in Hierarchy"} // You can replace this with actual manager name if you have that info
+                                    onChange={() => {}}
                                     disabled
                                 />
                             </Col>
-                        ) : (
+                         ): (
                             /* Normal employee → show dropdown */
                             <Col md={6}>
                                 <SelectInput
                                     label="Reporting Manager"
                                     name="manager"
                                     options={managersByDepartment}
-                                    value={formData.manager || null}
-                                    onChange={(value) =>
-                                        setFormData({
-                                            ...formData,
-                                            manager: value?.value || ""
-                                        })
-                                    }
-                                />
+                                    placeholder="Select Manager"
+                                    error={errors.manager}
+                                    value={formData.manager}
+                                    handleChange={handleChange}
+                                /> 
                             </Col>
                         )}
-                    </>
-                )}
+            
 
                 <Col md={6} lg={6} xl={6} xxl={6}>
                     <InputField
