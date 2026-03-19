@@ -107,7 +107,7 @@ const UserInfo = () => {
           },
 
           // ✅ FIXED MANAGER DATA
-          manager: managerDetails,
+          manager: data.employee.manager ,
 
           family: data.employeeFamilyDetails || [],
           academicQualifications: data.employeeEducationDetails || [],
@@ -359,8 +359,8 @@ const UserInfo = () => {
                       <div className='Manager'>
                         <i></i>
                         <div className='ManagerName'>
-                          <span>{manager.id ? manager.id : "Top Level"}</span>
-                          <label>{manager.designation || "-"}</label>
+                          <span>{manager ? manager.firstName + " " + manager.lastName : "Top Level"}</span>
+                          <label>{getLabelFromCombo(Designation,manager.designation) || "-"}</label>
                         </div>
                       </div>
                     </li>
