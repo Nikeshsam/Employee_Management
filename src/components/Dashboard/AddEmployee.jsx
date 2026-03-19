@@ -94,15 +94,19 @@ const AddEmployee = () => {
         return desig ? desig.label : val;
     };
 
+    const getManagerName = (managerId) => {
+        if (!managerId) return '-';
+
+        const manager = employeeData.find(emp => emp._id === managerId);
+
+        return manager
+            ? `${manager.firstName} ${manager.lastName}`
+            : '-';
+    };
+
     // Determine if this is the first employee
     const [isManagerAvailable, setIsManagerAvailable] = useState(false);
     const isFirstEmployee = employeeData.length === 0;
-    // Get the existing company head (if any)
-    //const companyHead = employeeData.find(emp => emp.isTopLevel);
-
-    // const companyHead = employeeData.find(emp =>
-    //     emp.isTopLevel === true || emp.designation === "Company Head"
-    // );
 
     // FormData Validations
 
@@ -192,63 +196,9 @@ const AddEmployee = () => {
 
     }, [formData.department,formData.designation, loginUser.token]);
 
-    // const handleDesignationChange = (e) => {
-    //     const selectedDesignation = e.target.value;
-
-    //     const designationLabel = getDesignationLabel(selectedDesignation);
-
-    //     let managerName = "";
-
-    //     // If designation is Manager
-    //     if (designationLabel && designationLabel.toLowerCase().includes("manager")) {
-    //         managerName = "Jason Chien";
-    //     }
-    //     else {
-    //         const deptManagers = managersByDepartment[formData.department];
-
-    //         if (deptManagers && deptManagers.length > 0) {
-    //             managerName = deptManagers[0].label;
-    //         }
-    //     }
-
-    //     console.log("Department:", formData.department);
-    //     console.log("Managers:", managersByDepartment);
-    //     console.log("Selected Designation:", designationLabel);
-
-    //     setFormData(prev => ({
-    //         ...prev,
-    //         designation: selectedDesignation,
-    //         manager: managerName
-    //     }));
-    // };
-
-    // const handleDesignationChange = (e) => {
-    //     const selectedDesignation = e.target.value;
-    //     const designationLabel = getDesignationLabel(selectedDesignation);
-
-    //     let managerId = "";
-
-    //     if (designationLabel && designationLabel.toLowerCase().includes("manager")) {
-    //         managerId = null; // manager doesn't have manager
-    //     } else {
-    //         if (managersByDepartment.length > 0) {
-    //             managerId = managersByDepartment[0].value; // ✅ ObjectId
-    //         }
-    //     }
-
-    //     setFormData(prev => ({
-    //         ...prev,
-    //         designation: selectedDesignation,
-    //         manager: managerId
-    //     }));
-    // };
-
     const handleDesignationChange = (e) => {
         const selectedDesignation = e.target.value;
         const designationLabel = getDesignationLabel(selectedDesignation);
-
-        
-        
         setFormData(prev => ({
             ...prev,
             designation: selectedDesignation
@@ -659,8 +609,12 @@ const AddEmployee = () => {
                                             </td>
                                             <td>{getDepartmentLabel(emp.department)}</td>
                                             <td>{getDesignationLabel(emp.designation)}</td>
-                                            {/* <td>{getDesignationLabel(emp.manager)}</td> */}
-                                            <td>{emp.manager?.firstName} {emp.manager?.lastName}</td>
+                                            {/* <td>{getManagerName(emp.manager)}</td> */}
+                                            <td>
+                                                {emp.manager
+                                                    ? getManagerName(emp.manager)
+                                                    : 'Self Managed'}
+                                            </td>
                                             <td>{new Date(emp.joiningDate).toLocaleDateString()}</td>
                                             <td>{emp.employmentType}</td>
                                             <td>

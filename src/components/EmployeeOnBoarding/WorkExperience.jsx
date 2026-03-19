@@ -130,6 +130,46 @@ const WorkExperience = () => {
     fetchExperienceDetial();
   }, [loginUser.token]);
 
+  useEffect(() => {
+    const { startDate, endDate } = formData;
+
+    if (startDate && endDate) {
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+
+      if (end >= start) {
+        let years = end.getFullYear() - start.getFullYear();
+        let months = end.getMonth() - start.getMonth();
+        let days = end.getDate() - start.getDate();
+
+        // Adjust if days negative
+        if (days < 0) {
+          months--;
+          days += new Date(end.getFullYear(), end.getMonth(), 0).getDate();
+        }
+
+        // Adjust if months negative
+        if (months < 0) {
+          years--;
+          months += 12;
+        }
+
+        const experience = `${years}y ${months}m ${days}d`;
+
+        setFormData((prev) => ({
+          ...prev,
+          experince: experience
+        }));
+      } else {
+        // Reset if invalid
+        setFormData((prev) => ({
+          ...prev,
+          experince: ""
+        }));
+      }
+    }
+  }, [formData.startDate, formData.endDate]);
+
   const fetchExperience = async () => {
     try {
       const response = await getEmployeeExperienceDetails(loginUser.token);
@@ -206,7 +246,6 @@ const WorkExperience = () => {
     setEditingIndex(index);
     setShowWorkExperienceCanvas(true);
   };
-
 
   const handleDeleteExperience = async () => {
     const member = workExperiences[indexToDelete];
@@ -376,6 +415,20 @@ const WorkExperience = () => {
             value={formData.endDate}
             handleChange={handleChange}
             required
+          />
+        </Col>
+        <Col md={6} lg={6} xl={6} xxl={6}>
+          <InputField
+            label="Experince"
+            type="text"
+            placeholder="Enter Experince"
+            controlId="experince"
+            name="experince"
+            error={errors.experince}
+            value={formData.experince}
+            handleChange={handleChange}
+            readOnly
+            //required
           />
         </Col>
       </OffCanvas>

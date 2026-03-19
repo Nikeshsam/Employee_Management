@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Card, Row, Col, CardHeader, CardBody } from 'react-bootstrap';
-import { getEmployeeDetails } from '../../api/index.js';
+import { getEmployeeDetails, getManager } from '../../api/index.js';
 import { useLoginUser } from '../../context/LoginUserContext.jsx';
 import { SecondaryGrid } from "../../pages/Props.jsx";
 import Images from '../../pages/Images.jsx';
@@ -61,22 +61,29 @@ const UserInfo = () => {
           loginUser?.token ||
           loginUser?.user?.token;
 
-        //console.log("Resolved employeeId:", employeeId);
-        //console.log("Resolved token:", token);
-
         if (!employeeId || !token) {
           console.warn("Employee ID or token missing");
           setEmployee(null);
           return;
         }
 
+        // ✅ 1. Get Employee Details
         const response = await getEmployeeDetails(token);
         const data = response.data;
 
-        //console.log(organizationName)
+        // ✅ 2. Get Manager Details
+        const managerId =
+          data.manager?.manager ||
+          data.manager?._id ||
+          data.manager ||
+          data.employee?.manager ||
+          null;
 
-        //console.log("employeeDependentDetails:", data.employeeDependentDetails);
+        const managerDetails = {
+          id: managerId || "-",
+        };
 
+        // ✅ 3. Set State
         setEmployee({
           basic: {
             fullName: `${data.employeeBasicDetails?.firstName || ""} ${data.employeeBasicDetails?.lastName || ""}`,
@@ -99,7 +106,8 @@ const UserInfo = () => {
             hireDate: data.employee?.joiningDate,
           },
 
-          manager: {}, // You don't have manager data yet
+          // ✅ FIXED MANAGER DATA
+          manager: managerDetails,
 
           family: data.employeeFamilyDetails || [],
           academicQualifications: data.employeeEducationDetails || [],
@@ -130,10 +138,8 @@ const UserInfo = () => {
             ? [data.employeeHealthRecord]
             : [],
 
-          passportDetails:
-            data.employeeTravelDetails || [],
+          passportDetails: data.employeeTravelDetails || [],
         });
-
 
       } catch (error) {
         console.error("Failed to fetch employee details", error);
@@ -353,8 +359,8 @@ const UserInfo = () => {
                       <div className='Manager'>
                         <i></i>
                         <div className='ManagerName'>
-                          <span>{manager.name}</span>
-                          <label htmlFor="">{manager.designation}</label>
+                          <span>{manager.id ? manager.id : "Top Level"}</span>
+                          <label>{manager.designation || "-"}</label>
                         </div>
                       </div>
                     </li>
